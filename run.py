@@ -4,7 +4,7 @@ import time
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 triton_soccer_ai_jar_path = dir_path + "/TritonSoccerAI/triton-soccer-ai/target/"
-triton_soccer_ai_py_path = dir_path + "/TritonSoccerAI/python"
+triton_soccer_ai_py_path = dir_path + "/TritonSoccerAI/triton-soccer-ai/src/main/python"
 triton_bot_path = dir_path + "/TritonBot/"
 triton_sim_path = dir_path + "/TritonSim/"
 
@@ -22,32 +22,32 @@ def run_cmd(cmd, path, mode="current"):
         subprocess.Popen(["gnome-terminal", "--tab", "--"] + cmd, cwd=path)
 
 triton_sim_py = [
-    "F.py"
+    "Sim_F.py"
 ]
 for py in triton_sim_py:
     run_cmd(["python", py], triton_sim_path, "tab")
     time.sleep(1)
 
 triton_bot_py = [
-    "E.py"
+    "Bot_E.py"
 ]
 for py in triton_bot_py:
     run_cmd(["python", py], triton_bot_path, "tab")
     time.sleep(1)
 
 triton_soccer_ai_jars = [
-    "A.jar",
-    "B0.jar", 
-    "B1.jar",
-    "B2.jar", 
-    "D.jar"
+    "AI_A.jar",
+    "AI_B0.jar", 
+    "AI_B1.jar",
+    "AI_B2.jar", 
+    "AI_D.jar"
 ]
 for jar in triton_soccer_ai_jars:
     run_cmd(["java", "-jar", jar], triton_soccer_ai_jar_path, "tab")
     time.sleep(1)
 
 triton_soccer_ai_py = [
-    "C.py"
+    "AI_C.py"
 ]
 for py in triton_soccer_ai_py:
     run_cmd(["python", py], triton_soccer_ai_py_path, "tab")

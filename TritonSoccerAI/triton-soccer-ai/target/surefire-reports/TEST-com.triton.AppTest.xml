@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.triton.AppTest" time="0.023" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.triton.AppTest" time="0.044" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.class.path" value="/home/duy/Desktop/Triton Robocup Soccer SSL/TritonSoccerAI/triton-soccer-ai/target/test-classes:/home/duy/Desktop/Triton Robocup Soccer SSL/TritonSoccerAI/triton-soccer-ai/target/classes:/home/duy/.m2/repository/junit/junit/4.11/junit-4.11.jar:/home/duy/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/duy/.m2/repository/com/rabbitmq/amqp-client/5.13.1/amqp-client-5.13.1.jar:/home/duy/.m2/repository/org/slf4j/slf4j-api/1.7.31/slf4j-api-1.7.31.jar:"/>
+    <property name="java.class.path" value="/home/duy/Desktop/RabbitMQ-Stuff/TritonSoccerAI/triton-soccer-ai/target/test-classes:/home/duy/Desktop/RabbitMQ-Stuff/TritonSoccerAI/triton-soccer-ai/target/classes:/home/duy/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/duy/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/duy/.m2/repository/com/rabbitmq/amqp-client/5.14.0/amqp-client-5.14.0.jar:/home/duy/.m2/repository/org/slf4j/slf4j-api/1.7.32/slf4j-api-1.7.32.jar:/home/duy/.m2/repository/com/google/protobuf/protobuf-java/3.6.1/protobuf-java-3.6.1.jar:"/>
     <property name="java.vm.vendor" value="Private Build"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="Unknown"/>
@@ -12,9 +12,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/home/duy/Desktop/Triton Robocup Soccer SSL/TritonSoccerAI/triton-soccer-ai/target/surefire/surefirebooter7624121568058410348.jar /home/duy/Desktop/Triton Robocup Soccer SSL/TritonSoccerAI/triton-soccer-ai/target/surefire 2021-11-14T23-50-18_445-jvmRun1 surefire6875106164876905137tmp surefire_07562855748408177999tmp"/>
+    <property name="sun.java.command" value="/home/duy/Desktop/RabbitMQ-Stuff/TritonSoccerAI/triton-soccer-ai/target/surefire/surefirebooter601187893784531319.jar /home/duy/Desktop/RabbitMQ-Stuff/TritonSoccerAI/triton-soccer-ai/target/surefire 2021-11-20T15-26-16_985-jvmRun1 surefire12527162004595361298tmp surefire_05348176045146732301tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="/home/duy/Desktop/Triton Robocup Soccer SSL/TritonSoccerAI/triton-soccer-ai/target/test-classes:/home/duy/Desktop/Triton Robocup Soccer SSL/TritonSoccerAI/triton-soccer-ai/target/classes:/home/duy/.m2/repository/junit/junit/4.11/junit-4.11.jar:/home/duy/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/duy/.m2/repository/com/rabbitmq/amqp-client/5.13.1/amqp-client-5.13.1.jar:/home/duy/.m2/repository/org/slf4j/slf4j-api/1.7.31/slf4j-api-1.7.31.jar:"/>
+    <property name="surefire.test.class.path" value="/home/duy/Desktop/RabbitMQ-Stuff/TritonSoccerAI/triton-soccer-ai/target/test-classes:/home/duy/Desktop/RabbitMQ-Stuff/TritonSoccerAI/triton-soccer-ai/target/classes:/home/duy/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/duy/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/duy/.m2/repository/com/rabbitmq/amqp-client/5.14.0/amqp-client-5.14.0.jar:/home/duy/.m2/repository/org/slf4j/slf4j-api/1.7.32/slf4j-api-1.7.32.jar:/home/duy/.m2/repository/com/google/protobuf/protobuf-java/3.6.1/protobuf-java-3.6.1.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/home/duy"/>
     <property name="user.language" value="en"/>
@@ -22,12 +22,12 @@
     <property name="java.version.date" value="2021-09-14"/>
     <property name="java.home" value="/usr/lib/jvm/java-17-openjdk-amd64"/>
     <property name="file.separator" value="/"/>
-    <property name="basedir" value="/home/duy/Desktop/Triton Robocup Soccer SSL/TritonSoccerAI/triton-soccer-ai"/>
+    <property name="basedir" value="/home/duy/Desktop/RabbitMQ-Stuff/TritonSoccerAI/triton-soccer-ai"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="/home/duy/Desktop/Triton Robocup Soccer SSL/TritonSoccerAI/triton-soccer-ai/target/surefire/surefirebooter7624121568058410348.jar"/>
+    <property name="surefire.real.class.path" value="/home/duy/Desktop/RabbitMQ-Stuff/TritonSoccerAI/triton-soccer-ai/target/surefire/surefirebooter601187893784531319.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17+35-Ubuntu-120.04"/>
     <property name="user.name" value="duy"/>
@@ -41,7 +41,7 @@
     <property name="java.io.tmpdir" value="/tmp"/>
     <property name="idea.version" value="2021.2.3"/>
     <property name="java.version" value="17"/>
-    <property name="user.dir" value="/home/duy/Desktop/Triton Robocup Soccer SSL/TritonSoccerAI/triton-soccer-ai"/>
+    <property name="user.dir" value="/home/duy/Desktop/RabbitMQ-Stuff/TritonSoccerAI/triton-soccer-ai"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="native.encoding" value="UTF-8"/>
@@ -52,5 +52,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="shouldAnswerWithTrue" classname="com.triton.AppTest" time="0.001"/>
+  <testcase name="shouldAnswerWithTrue" classname="com.triton.AppTest" time="0.002"/>
 </testsuite>

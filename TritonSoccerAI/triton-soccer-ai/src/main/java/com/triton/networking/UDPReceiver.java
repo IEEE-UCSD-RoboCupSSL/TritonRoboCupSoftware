@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.net.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class UDPReceiver<T> extends Thread {
+public class UDPReceiver extends Thread {
     private DatagramSocket socket;
     private byte[] buf = new byte[256];
 
-    private LinkedBlockingQueue<String> msgQueue;
+    private LinkedBlockingQueue<byte[]> msgQueue;
 
     public UDPReceiver(int port) throws SocketException, UnknownHostException {
         socket = new DatagramSocket(port);
-        msgQueue = new LinkedBlockingQueue<String>();
+        msgQueue = new LinkedBlockingQueue<byte[]>();
     }
 
     @Override
@@ -25,16 +25,15 @@ public class UDPReceiver<T> extends Thread {
                 e.printStackTrace();
             }
 
-            String msg = new String(packet.getData(), 0, packet.getLength());
             try {
-                msgQueue.put(msg);
+                msgQueue.put(packet.getData());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public String pollMsg() {
+    public byte[] pollBytes() {
         return msgQueue.poll();
     }
 }

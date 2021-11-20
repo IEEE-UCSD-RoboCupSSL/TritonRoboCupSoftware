@@ -4,20 +4,19 @@ import java.io.IOException;
 import java.net.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class UDPSender<T> extends Thread {
+public class UDPSender extends Thread {
     private DatagramSocket socket;
     private InetAddress address;
     private int port;
-    private byte[] buf;
 
-    private LinkedBlockingQueue<String> msgQueue;
+    private LinkedBlockingQueue<byte[]> msgQueue;
 
     public UDPSender(String ip, int port) throws SocketException, UnknownHostException {
         socket = new DatagramSocket();
         address = InetAddress.getByName(ip);
         this.port = port;
 
-        msgQueue = new LinkedBlockingQueue<String>();
+        msgQueue = new LinkedBlockingQueue<byte[]>();
     }
 
     public UDPSender(int port) throws SocketException, UnknownHostException {
@@ -27,12 +26,11 @@ public class UDPSender<T> extends Thread {
     @Override
     public void run() {
         while (true) {
-            String msg = msgQueue.poll();
-            if (msg == null)
+            byte[] outBytes = msgQueue.poll();
+            if (outBytes == null)
                 continue;
 
-            buf = msg.getBytes();
-            DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
+            DatagramPacket packet = new DatagramPacket(outBytes, outBytes.length, address, port);
             try {
                 socket.send(packet);
             } catch (IOException e) {
@@ -41,9 +39,9 @@ public class UDPSender<T> extends Thread {
         }
     }
 
-    public void putMsg(String msg) {
+    public void putBytes(byte[] outBytes) {
         try {
-            msgQueue.put(msg);
+            msgQueue.put(outBytes);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
