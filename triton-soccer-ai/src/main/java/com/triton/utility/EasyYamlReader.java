@@ -5,11 +5,10 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.InputStream;
 
-public class EasyYaml {
+public class EasyYamlReader {
     public static Object readYaml(String path, Class yamlClass) {
-        InputStream inputStream = EasyYaml.class.getClassLoader().getResourceAsStream(path);
+        InputStream inputStream = EasyYamlReader.class.getClassLoader().getResourceAsStream(path);
         Yaml yaml = new Yaml(new Constructor(yamlClass));
         return yaml.load(inputStream);
-
     }
 }

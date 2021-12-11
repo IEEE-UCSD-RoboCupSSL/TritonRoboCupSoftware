@@ -12,7 +12,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.publisher_consumer.Exchange.*;
 import static com.triton.config.ConfigPaths.NETWORK_CONFIG;
-import static com.triton.utility.EasyYaml.readYaml;
+import static com.triton.utility.EasyYamlReader.readYaml;
 
 public class CameraReceiver extends Module {
     public CameraReceiver() throws IOException, TimeoutException {
@@ -50,6 +50,10 @@ public class CameraReceiver extends Module {
         udpMulticastReceiver.start();
     }
 
+    /**
+     * Called when a packet is received. Parses the packet and publishes it to exchanges.
+     * @param packet the packet received
+     */
     public void processPacket(DatagramPacket packet) {
         try {
             MessagesRobocupSslWrapper.SSL_WrapperPacket sslWrapperPacket = parsePacket(packet);
@@ -59,6 +63,12 @@ public class CameraReceiver extends Module {
         }
     }
 
+    /**
+     * Parses a DatagramPacket into an SSL_WrapperPacket.
+     * @param packet the DatagramPacket to parse
+     * @return the prased SSL_WrapperPacket
+     * @throws IOException
+     */
     public MessagesRobocupSslWrapper.SSL_WrapperPacket parsePacket(DatagramPacket packet) throws IOException {
         ByteArrayInputStream stream = new ByteArrayInputStream(packet.getData(),
                 packet.getOffset(),
@@ -69,6 +79,11 @@ public class CameraReceiver extends Module {
         return sslWrapperPacket;
     }
 
+    /**
+     * Publishes an SSL_WrapperPacket to various echanges
+     * @param sslWrapperPacket the packet to send
+     * @throws IOException
+     */
     public void publishWrapperPacket(MessagesRobocupSslWrapper.SSL_WrapperPacket sslWrapperPacket) throws IOException {
         publish(SSL_WRAPPER_PACKAGE_EXCHANGE, sslWrapperPacket);
         publish(SSL_GEOMETRY_DATA_EXCHANGE, sslWrapperPacket.getGeometry());

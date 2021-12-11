@@ -14,20 +14,38 @@ public abstract class Module {
     private Channel channel;
 
     public Module() throws IOException, TimeoutException {
-        setupRabbitMQ();
-    }
-
-    protected void setupRabbitMQ() throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         Connection connection = factory.newConnection();
         setChannel(connection.createChannel());
+
+        declareExchanges();
     }
 
+    /**
+     * Override to declare exchanges.
+     * @throws IOException
+     * @throws TimeoutException
+     */
+    protected void declareExchanges() throws IOException, TimeoutException {
+    }
+
+    /**
+     * Declares an exchange to publish to
+     * @param exchange the exchange
+     * @throws IOException
+     */
     protected void declarePublish(Exchange exchange) throws IOException {
         getChannel().exchangeDeclare(exchange.getExchangeName(), "fanout");
     }
 
+    /**
+     * Declares an exchange to consume from. The messageConsumer function will be called when an message is received
+     * from the exchange.
+     * @param exchange the exchange to consume from
+     * @param messageConsumer a function that accepts an object
+     * @throws IOException
+     */
     protected void declareConsume(Exchange exchange, Consumer<Object> messageConsumer) throws IOException {
         String exchangeName = exchange.getExchangeName();
         getChannel().exchangeDeclare(exchangeName, "fanout");
@@ -49,6 +67,12 @@ public abstract class Module {
         getChannel().basicConsume(queueName, true, deliverCallback, cancelCallback);
     }
 
+    /**
+     * Publishes to an exchange
+     * @param exchange the exchange to publish to
+     * @param object the object to send
+     * @throws IOException
+     */
     protected void publish(Exchange exchange, Object object) throws IOException {
         getChannel().basicPublish(exchange.getExchangeName(), "", null, standardSerialize(object));
     }
