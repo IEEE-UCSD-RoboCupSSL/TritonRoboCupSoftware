@@ -1,6 +1,6 @@
 package com.triton.module;
 
-import com.triton.PublisherConsumer.Module;
+import com.triton.Module;
 import proto.vision.MessagesRobocupSslDetection;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class SSL_DetectionFrameProcessor extends Module {
     public void setupRabbitMQ() throws IOException, TimeoutException {
         super.setupRabbitMQ();
 
-        declareConsume(SSL_DETECTION_FRAME_EXCHANGE, this::consume_SSL_DetectionFrame, null);
+        declareConsume(SSL_DETECTION_FRAME_EXCHANGE, this::consume_SSL_DetectionFrame);
     }
 
     public void consume_SSL_DetectionFrame(Object object) {

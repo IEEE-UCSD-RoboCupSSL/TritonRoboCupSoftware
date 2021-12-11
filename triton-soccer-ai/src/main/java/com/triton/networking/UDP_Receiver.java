@@ -35,7 +35,7 @@ public class UDP_Receiver extends Thread {
         }
     }
 
-    public DatagramPacket pollBytes() {
+    public DatagramPacket pollPacket() {
         return msgQueue.poll();
     }
 }

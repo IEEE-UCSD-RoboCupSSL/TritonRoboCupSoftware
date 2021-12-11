@@ -24,12 +24,12 @@ def run_cmd(cmd, path, mode="current"):
 run_cmd(["./simulator-cli", "-g", "2020B", "--realism", "Realistic"], sim_path, "tab")
 time.sleep(1)
 
-# triton_bot_py = [
-#     "Bot_E.py"
-# ]
-# for py in triton_bot_py:
-#     run_cmd(["python", py], triton_bot_path, "tab")
-#     time.sleep(1)
+triton_bot_py = [
+    "triton_bot.py"
+]
+for py in triton_bot_py:
+    run_cmd(["python", py], triton_bot_path, "tab")
+    time.sleep(1)
 
 triton_soccer_ai_jars = [
     "CameraReceiver.jar",

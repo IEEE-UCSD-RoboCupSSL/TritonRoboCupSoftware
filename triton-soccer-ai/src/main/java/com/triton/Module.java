@@ -1,6 +1,7 @@
-package com.triton.PublisherConsumer;
+package com.triton;
 
 import com.rabbitmq.client.*;
+import com.triton.PublisherConsumer.Exchange;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -27,7 +28,7 @@ public abstract class Module {
         getChannel().exchangeDeclare(exchange.getExchangeName(), "fanout");
     }
 
-    protected void declareConsume(Exchange exchange, Consumer<Object> deliveryConsumer, Consumer<String> cancelConsumer) throws IOException {
+    protected void declareConsume(Exchange exchange, Consumer<Object> messageConsumer) throws IOException {
         String exchangeName = exchange.getExchangeName();
         getChannel().exchangeDeclare(exchangeName, "fanout");
         String queueName = getChannel().queueDeclare().getQueue();
@@ -36,13 +37,16 @@ public abstract class Module {
         DeliverCallback deliverCallback = (consumerTag, message) -> {
             try {
                 Object object = standardDeserialize(message.getBody());
-                deliveryConsumer.accept(object);
+                messageConsumer.accept(object);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         };
 
-        getChannel().basicConsume(queueName, true, deliverCallback, (CancelCallback) cancelConsumer);
+        CancelCallback cancelCallback = (consumerTag) -> {
+        };
+
+        getChannel().basicConsume(queueName, true, deliverCallback, cancelCallback);
     }
 
     protected void publish(Exchange exchange, Object object) throws IOException {

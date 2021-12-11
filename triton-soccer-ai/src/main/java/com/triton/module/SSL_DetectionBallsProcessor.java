@@ -1,6 +1,6 @@
 package com.triton.module;
 
-import com.triton.PublisherConsumer.Module;
+import com.triton.Module;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +27,7 @@ public class SSL_DetectionBallsProcessor extends Module {
     public void setupRabbitMQ() throws IOException, TimeoutException {
         super.setupRabbitMQ();
 
-        declareConsume(SSL_DETECTION_BALLS_EXCHANGE, this::consume_SSL_DetectionBalls, null);
+        declareConsume(SSL_DETECTION_BALLS_EXCHANGE, this::consume_SSL_DetectionBalls);
     }
 
     public void consume_SSL_DetectionBalls(Object object) {

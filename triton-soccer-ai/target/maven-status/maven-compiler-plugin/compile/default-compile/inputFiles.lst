@@ -4,7 +4,6 @@
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/vision/MessagesRobocupSslWrapperTracked.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/java/com/triton/utility/EasyYaml.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/vision/MessagesRobocupSslGeometry.java
-/home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/triton/TritonBotInput.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/simulation/SslSimulationRobotControl.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/vision/MessagesRobocupSslWrapper.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/java/com/triton/PublisherConsumer/Module.java
@@ -26,6 +25,7 @@
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/simulation/SslVisionDetection.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/simulation/SslGcCommon.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/vision/MessagesRobocupSslDetection.java
+/home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/triton/TritonBotCmdOuterClass.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/java/com/triton/module/SSL_WrapperPackageProcessor.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/simulation/SslSimulationControl.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/simulation/SslSimulationError.java

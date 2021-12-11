@@ -3,8 +3,8 @@
 
 package proto.triton;
 
-public final class TritonBotInput {
-  private TritonBotInput() {}
+public final class TritonBotCmdOuterClass {
+  private TritonBotCmdOuterClass() {}
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistryLite registry) {
   }
@@ -14,34 +14,35 @@ public final class TritonBotInput {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-  public interface ToTritonBotMsgOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ToTritonBotMsg)
+  public interface TritonBotCmdOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:TritonBotCmd)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string msg = 1;</code>
+     * <code>float x = 1;</code>
      */
-    java.lang.String getMsg();
+    float getX();
+
     /**
-     * <code>string msg = 1;</code>
+     * <code>float y = 2;</code>
      */
-    com.google.protobuf.ByteString
-        getMsgBytes();
+    float getY();
   }
   /**
-   * Protobuf type {@code ToTritonBotMsg}
+   * Protobuf type {@code TritonBotCmd}
    */
-  public  static final class ToTritonBotMsg extends
+  public  static final class TritonBotCmd extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:ToTritonBotMsg)
-      ToTritonBotMsgOrBuilder {
+      // @@protoc_insertion_point(message_implements:TritonBotCmd)
+      TritonBotCmdOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ToTritonBotMsg.newBuilder() to construct.
-    private ToTritonBotMsg(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use TritonBotCmd.newBuilder() to construct.
+    private TritonBotCmd(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ToTritonBotMsg() {
-      msg_ = "";
+    private TritonBotCmd() {
+      x_ = 0F;
+      y_ = 0F;
     }
 
     @java.lang.Override
@@ -49,7 +50,7 @@ public final class TritonBotInput {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ToTritonBotMsg(
+    private TritonBotCmd(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -68,10 +69,14 @@ public final class TritonBotInput {
             case 0:
               done = true;
               break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
+            case 13: {
 
-              msg_ = s;
+              x_ = input.readFloat();
+              break;
+            }
+            case 21: {
+
+              y_ = input.readFloat();
               break;
             }
             default: {
@@ -95,49 +100,33 @@ public final class TritonBotInput {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.triton.TritonBotInput.internal_static_ToTritonBotMsg_descriptor;
+      return proto.triton.TritonBotCmdOuterClass.internal_static_TritonBotCmd_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.triton.TritonBotInput.internal_static_ToTritonBotMsg_fieldAccessorTable
+      return proto.triton.TritonBotCmdOuterClass.internal_static_TritonBotCmd_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              proto.triton.TritonBotInput.ToTritonBotMsg.class, proto.triton.TritonBotInput.ToTritonBotMsg.Builder.class);
+              proto.triton.TritonBotCmdOuterClass.TritonBotCmd.class, proto.triton.TritonBotCmdOuterClass.TritonBotCmd.Builder.class);
     }
 
-    public static final int MSG_FIELD_NUMBER = 1;
-    private volatile java.lang.Object msg_;
+    public static final int X_FIELD_NUMBER = 1;
+    private float x_;
     /**
-     * <code>string msg = 1;</code>
+     * <code>float x = 1;</code>
      */
-    public java.lang.String getMsg() {
-      java.lang.Object ref = msg_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        msg_ = s;
-        return s;
-      }
+    public float getX() {
+      return x_;
     }
+
+    public static final int Y_FIELD_NUMBER = 2;
+    private float y_;
     /**
-     * <code>string msg = 1;</code>
+     * <code>float y = 2;</code>
      */
-    public com.google.protobuf.ByteString
-        getMsgBytes() {
-      java.lang.Object ref = msg_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        msg_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public float getY() {
+      return y_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -154,8 +143,11 @@ public final class TritonBotInput {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getMsgBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, msg_);
+      if (x_ != 0F) {
+        output.writeFloat(1, x_);
+      }
+      if (y_ != 0F) {
+        output.writeFloat(2, y_);
       }
       unknownFields.writeTo(output);
     }
@@ -166,8 +158,13 @@ public final class TritonBotInput {
       if (size != -1) return size;
 
       size = 0;
-      if (!getMsgBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, msg_);
+      if (x_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(1, x_);
+      }
+      if (y_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(2, y_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -179,14 +176,20 @@ public final class TritonBotInput {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof proto.triton.TritonBotInput.ToTritonBotMsg)) {
+      if (!(obj instanceof proto.triton.TritonBotCmdOuterClass.TritonBotCmd)) {
         return super.equals(obj);
       }
-      proto.triton.TritonBotInput.ToTritonBotMsg other = (proto.triton.TritonBotInput.ToTritonBotMsg) obj;
+      proto.triton.TritonBotCmdOuterClass.TritonBotCmd other = (proto.triton.TritonBotCmdOuterClass.TritonBotCmd) obj;
 
       boolean result = true;
-      result = result && getMsg()
-          .equals(other.getMsg());
+      result = result && (
+          java.lang.Float.floatToIntBits(getX())
+          == java.lang.Float.floatToIntBits(
+              other.getX()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getY())
+          == java.lang.Float.floatToIntBits(
+              other.getY()));
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -198,76 +201,80 @@ public final class TritonBotInput {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + MSG_FIELD_NUMBER;
-      hash = (53 * hash) + getMsg().hashCode();
+      hash = (37 * hash) + X_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getX());
+      hash = (37 * hash) + Y_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getY());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static proto.triton.TritonBotInput.ToTritonBotMsg parseFrom(
+    public static proto.triton.TritonBotCmdOuterClass.TritonBotCmd parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.triton.TritonBotInput.ToTritonBotMsg parseFrom(
+    public static proto.triton.TritonBotCmdOuterClass.TritonBotCmd parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.triton.TritonBotInput.ToTritonBotMsg parseFrom(
+    public static proto.triton.TritonBotCmdOuterClass.TritonBotCmd parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.triton.TritonBotInput.ToTritonBotMsg parseFrom(
+    public static proto.triton.TritonBotCmdOuterClass.TritonBotCmd parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.triton.TritonBotInput.ToTritonBotMsg parseFrom(byte[] data)
+    public static proto.triton.TritonBotCmdOuterClass.TritonBotCmd parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.triton.TritonBotInput.ToTritonBotMsg parseFrom(
+    public static proto.triton.TritonBotCmdOuterClass.TritonBotCmd parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.triton.TritonBotInput.ToTritonBotMsg parseFrom(java.io.InputStream input)
+    public static proto.triton.TritonBotCmdOuterClass.TritonBotCmd parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static proto.triton.TritonBotInput.ToTritonBotMsg parseFrom(
+    public static proto.triton.TritonBotCmdOuterClass.TritonBotCmd parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static proto.triton.TritonBotInput.ToTritonBotMsg parseDelimitedFrom(java.io.InputStream input)
+    public static proto.triton.TritonBotCmdOuterClass.TritonBotCmd parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static proto.triton.TritonBotInput.ToTritonBotMsg parseDelimitedFrom(
+    public static proto.triton.TritonBotCmdOuterClass.TritonBotCmd parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static proto.triton.TritonBotInput.ToTritonBotMsg parseFrom(
+    public static proto.triton.TritonBotCmdOuterClass.TritonBotCmd parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static proto.triton.TritonBotInput.ToTritonBotMsg parseFrom(
+    public static proto.triton.TritonBotCmdOuterClass.TritonBotCmd parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -280,7 +287,7 @@ public final class TritonBotInput {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(proto.triton.TritonBotInput.ToTritonBotMsg prototype) {
+    public static Builder newBuilder(proto.triton.TritonBotCmdOuterClass.TritonBotCmd prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -296,26 +303,26 @@ public final class TritonBotInput {
       return builder;
     }
     /**
-     * Protobuf type {@code ToTritonBotMsg}
+     * Protobuf type {@code TritonBotCmd}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:ToTritonBotMsg)
-        proto.triton.TritonBotInput.ToTritonBotMsgOrBuilder {
+        // @@protoc_insertion_point(builder_implements:TritonBotCmd)
+        proto.triton.TritonBotCmdOuterClass.TritonBotCmdOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return proto.triton.TritonBotInput.internal_static_ToTritonBotMsg_descriptor;
+        return proto.triton.TritonBotCmdOuterClass.internal_static_TritonBotCmd_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return proto.triton.TritonBotInput.internal_static_ToTritonBotMsg_fieldAccessorTable
+        return proto.triton.TritonBotCmdOuterClass.internal_static_TritonBotCmd_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                proto.triton.TritonBotInput.ToTritonBotMsg.class, proto.triton.TritonBotInput.ToTritonBotMsg.Builder.class);
+                proto.triton.TritonBotCmdOuterClass.TritonBotCmd.class, proto.triton.TritonBotCmdOuterClass.TritonBotCmd.Builder.class);
       }
 
-      // Construct using proto.triton.TritonBotInput.ToTritonBotMsg.newBuilder()
+      // Construct using proto.triton.TritonBotCmdOuterClass.TritonBotCmd.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -333,7 +340,9 @@ public final class TritonBotInput {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        msg_ = "";
+        x_ = 0F;
+
+        y_ = 0F;
 
         return this;
       }
@@ -341,17 +350,17 @@ public final class TritonBotInput {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return proto.triton.TritonBotInput.internal_static_ToTritonBotMsg_descriptor;
+        return proto.triton.TritonBotCmdOuterClass.internal_static_TritonBotCmd_descriptor;
       }
 
       @java.lang.Override
-      public proto.triton.TritonBotInput.ToTritonBotMsg getDefaultInstanceForType() {
-        return proto.triton.TritonBotInput.ToTritonBotMsg.getDefaultInstance();
+      public proto.triton.TritonBotCmdOuterClass.TritonBotCmd getDefaultInstanceForType() {
+        return proto.triton.TritonBotCmdOuterClass.TritonBotCmd.getDefaultInstance();
       }
 
       @java.lang.Override
-      public proto.triton.TritonBotInput.ToTritonBotMsg build() {
-        proto.triton.TritonBotInput.ToTritonBotMsg result = buildPartial();
+      public proto.triton.TritonBotCmdOuterClass.TritonBotCmd build() {
+        proto.triton.TritonBotCmdOuterClass.TritonBotCmd result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -359,9 +368,10 @@ public final class TritonBotInput {
       }
 
       @java.lang.Override
-      public proto.triton.TritonBotInput.ToTritonBotMsg buildPartial() {
-        proto.triton.TritonBotInput.ToTritonBotMsg result = new proto.triton.TritonBotInput.ToTritonBotMsg(this);
-        result.msg_ = msg_;
+      public proto.triton.TritonBotCmdOuterClass.TritonBotCmd buildPartial() {
+        proto.triton.TritonBotCmdOuterClass.TritonBotCmd result = new proto.triton.TritonBotCmdOuterClass.TritonBotCmd(this);
+        result.x_ = x_;
+        result.y_ = y_;
         onBuilt();
         return result;
       }
@@ -400,19 +410,21 @@ public final class TritonBotInput {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof proto.triton.TritonBotInput.ToTritonBotMsg) {
-          return mergeFrom((proto.triton.TritonBotInput.ToTritonBotMsg)other);
+        if (other instanceof proto.triton.TritonBotCmdOuterClass.TritonBotCmd) {
+          return mergeFrom((proto.triton.TritonBotCmdOuterClass.TritonBotCmd)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(proto.triton.TritonBotInput.ToTritonBotMsg other) {
-        if (other == proto.triton.TritonBotInput.ToTritonBotMsg.getDefaultInstance()) return this;
-        if (!other.getMsg().isEmpty()) {
-          msg_ = other.msg_;
-          onChanged();
+      public Builder mergeFrom(proto.triton.TritonBotCmdOuterClass.TritonBotCmd other) {
+        if (other == proto.triton.TritonBotCmdOuterClass.TritonBotCmd.getDefaultInstance()) return this;
+        if (other.getX() != 0F) {
+          setX(other.getX());
+        }
+        if (other.getY() != 0F) {
+          setY(other.getY());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -429,11 +441,11 @@ public final class TritonBotInput {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        proto.triton.TritonBotInput.ToTritonBotMsg parsedMessage = null;
+        proto.triton.TritonBotCmdOuterClass.TritonBotCmd parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (proto.triton.TritonBotInput.ToTritonBotMsg) e.getUnfinishedMessage();
+          parsedMessage = (proto.triton.TritonBotCmdOuterClass.TritonBotCmd) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -443,71 +455,54 @@ public final class TritonBotInput {
         return this;
       }
 
-      private java.lang.Object msg_ = "";
+      private float x_ ;
       /**
-       * <code>string msg = 1;</code>
+       * <code>float x = 1;</code>
        */
-      public java.lang.String getMsg() {
-        java.lang.Object ref = msg_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          msg_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public float getX() {
+        return x_;
       }
       /**
-       * <code>string msg = 1;</code>
+       * <code>float x = 1;</code>
        */
-      public com.google.protobuf.ByteString
-          getMsgBytes() {
-        java.lang.Object ref = msg_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          msg_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string msg = 1;</code>
-       */
-      public Builder setMsg(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        msg_ = value;
+      public Builder setX(float value) {
+        
+        x_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string msg = 1;</code>
+       * <code>float x = 1;</code>
        */
-      public Builder clearMsg() {
+      public Builder clearX() {
         
-        msg_ = getDefaultInstance().getMsg();
+        x_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float y_ ;
+      /**
+       * <code>float y = 2;</code>
+       */
+      public float getY() {
+        return y_;
+      }
+      /**
+       * <code>float y = 2;</code>
+       */
+      public Builder setY(float value) {
+        
+        y_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string msg = 1;</code>
+       * <code>float y = 2;</code>
        */
-      public Builder setMsgBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public Builder clearY() {
         
-        msg_ = value;
+        y_ = 0F;
         onChanged();
         return this;
       }
@@ -524,51 +519,51 @@ public final class TritonBotInput {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:ToTritonBotMsg)
+      // @@protoc_insertion_point(builder_scope:TritonBotCmd)
     }
 
-    // @@protoc_insertion_point(class_scope:ToTritonBotMsg)
-    private static final proto.triton.TritonBotInput.ToTritonBotMsg DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:TritonBotCmd)
+    private static final proto.triton.TritonBotCmdOuterClass.TritonBotCmd DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new proto.triton.TritonBotInput.ToTritonBotMsg();
+      DEFAULT_INSTANCE = new proto.triton.TritonBotCmdOuterClass.TritonBotCmd();
     }
 
-    public static proto.triton.TritonBotInput.ToTritonBotMsg getDefaultInstance() {
+    public static proto.triton.TritonBotCmdOuterClass.TritonBotCmd getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ToTritonBotMsg>
-        PARSER = new com.google.protobuf.AbstractParser<ToTritonBotMsg>() {
+    private static final com.google.protobuf.Parser<TritonBotCmd>
+        PARSER = new com.google.protobuf.AbstractParser<TritonBotCmd>() {
       @java.lang.Override
-      public ToTritonBotMsg parsePartialFrom(
+      public TritonBotCmd parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ToTritonBotMsg(input, extensionRegistry);
+        return new TritonBotCmd(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ToTritonBotMsg> parser() {
+    public static com.google.protobuf.Parser<TritonBotCmd> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ToTritonBotMsg> getParserForType() {
+    public com.google.protobuf.Parser<TritonBotCmd> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public proto.triton.TritonBotInput.ToTritonBotMsg getDefaultInstanceForType() {
+    public proto.triton.TritonBotCmdOuterClass.TritonBotCmd getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_ToTritonBotMsg_descriptor;
+    internal_static_TritonBotCmd_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_ToTritonBotMsg_fieldAccessorTable;
+      internal_static_TritonBotCmd_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -578,8 +573,9 @@ public final class TritonBotInput {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\026triton_bot_input.proto\"\035\n\016ToTritonBotM" +
-      "sg\022\013\n\003msg\030\001 \001(\tB\016\n\014proto.tritonb\006proto3"
+      "\n\024triton_bot_cmd.proto\"$\n\014TritonBotCmd\022\t" +
+      "\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002B\016\n\014proto.tritonb\006pr" +
+      "oto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -593,12 +589,12 @@ public final class TritonBotInput {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_ToTritonBotMsg_descriptor =
+    internal_static_TritonBotCmd_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_ToTritonBotMsg_fieldAccessorTable = new
+    internal_static_TritonBotCmd_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_ToTritonBotMsg_descriptor,
-        new java.lang.String[] { "Msg", });
+        internal_static_TritonBotCmd_descriptor,
+        new java.lang.String[] { "X", "Y", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

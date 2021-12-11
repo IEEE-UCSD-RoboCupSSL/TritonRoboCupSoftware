@@ -1,6 +1,6 @@
 package com.triton.module;
 
-import com.triton.PublisherConsumer.Module;
+import com.triton.Module;
 import proto.vision.MessagesRobocupSslDetection;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class SSL_DetectionRobotsBlueProcessor extends Module {
     public void setupRabbitMQ() throws IOException, TimeoutException {
         super.setupRabbitMQ();
 
-        declareConsume(SSL_DETECTION_ROBOTS_BLUE_EXCHANGE, this::consume_SSL_DetectionRobotsBlue, null);
+        declareConsume(SSL_DETECTION_ROBOTS_BLUE_EXCHANGE, this::consume_SSL_DetectionRobotsBlue);
     }
 
     public void consume_SSL_DetectionRobotsBlue(Object object) {

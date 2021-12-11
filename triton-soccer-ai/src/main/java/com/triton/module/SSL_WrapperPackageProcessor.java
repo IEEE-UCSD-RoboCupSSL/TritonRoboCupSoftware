@@ -1,6 +1,6 @@
 package com.triton.module;
 
-import com.triton.PublisherConsumer.Module;
+import com.triton.Module;
 import proto.vision.MessagesRobocupSslWrapper;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class SSL_WrapperPackageProcessor extends Module {
     public void setupRabbitMQ() throws IOException, TimeoutException {
         super.setupRabbitMQ();
 
-        declareConsume(SSL_WRAPPER_PACKAGE_EXCHANGE, this::consume_SSL_WrapperPacket, null);
+        declareConsume(SSL_WRAPPER_PACKAGE_EXCHANGE, this::consume_SSL_WrapperPacket);
     }
 
     public void consume_SSL_WrapperPacket(Object object) {

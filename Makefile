@@ -1,8 +1,9 @@
 apt_java_packages = openjdk-17-jdk
 apt_python_packages = python3 python3-pip build-essential libssl-dev libffi-dev python3-dev
+apt_sim_packages = cmake protobuf-compiler libprotobuf-dev qtbase5-dev libqt5opengl5-dev g++ libusb-1.0-0-dev libsdl2-dev libqt5svg5-dev
 
 # Install Everything
-install: install-java install-python install-maven install-rabbitmq install-gazebo install-python-venv
+install: install-java install-python install-maven install-rabbitmq install-sim install-python-venv
 
 # Install Java
 install-java:
@@ -42,13 +43,12 @@ install-gazebo:
 	curl -sSL http://get.gazebosim.org | sh
 	sudo apt install libgazebo11-dev
 
+install-sim:
+	sudo apt install -y ${apt_sim_packages}
+	cmake -S "framework" -B "framework/build"
+	make -C "framework/build"
+
 # Install modules to current Python Virtual Environment
 install-python-modules:
 	python -m pip install pika
 	python -m pip install protobuf
-
-# Clone necessary repositories from GitHub
-clone:
-	git clone https://github.com/robotics-erlangen/framework
-	git clone https://github.com/RoboCup-SSL/ssl-simulation-protocol
-	git clone https://github.com/RoboCup-SSL/ssl-vision

@@ -1,6 +1,6 @@
 package com.triton.module;
 
-import com.triton.PublisherConsumer.Module;
+import com.triton.Module;
 import com.triton.config.NetworkConfig;
 import com.triton.networking.UDP_MulticastReceiver;
 import proto.vision.MessagesRobocupSslWrapper;

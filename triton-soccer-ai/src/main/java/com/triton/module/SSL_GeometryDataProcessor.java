@@ -1,6 +1,6 @@
 package com.triton.module;
 
-import com.triton.PublisherConsumer.Module;
+import com.triton.Module;
 import proto.vision.MessagesRobocupSslGeometry;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class SSL_GeometryDataProcessor extends Module {
     public void setupRabbitMQ() throws IOException, TimeoutException {
         super.setupRabbitMQ();
 
-        declareConsume(SSL_GEOMETRY_DATA_EXCHANGE, this::consume_SSL_GeometryData, null);
+        declareConsume(SSL_GEOMETRY_DATA_EXCHANGE, this::consume_SSL_GeometryData);
     }
 
     public void consume_SSL_GeometryData(Object object) {
