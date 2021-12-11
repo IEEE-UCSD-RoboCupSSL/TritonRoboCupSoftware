@@ -1,4 +1,4 @@
-package com.triton.PublisherConsumer;
+package com.triton.publisher_consumer;
 
 public enum Exchange {
     SSL_WRAPPER_PACKAGE_EXCHANGE("SSL_WrapperPacket"),

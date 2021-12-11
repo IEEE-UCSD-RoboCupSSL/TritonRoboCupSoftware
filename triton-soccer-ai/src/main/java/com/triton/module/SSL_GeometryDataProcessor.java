@@ -6,7 +6,7 @@ import proto.vision.MessagesRobocupSslGeometry;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.PublisherConsumer.Exchange.SSL_GEOMETRY_DATA_EXCHANGE;
+import static com.triton.publisher_consumer.Exchange.SSL_GEOMETRY_DATA_EXCHANGE;
 
 public class SSL_GeometryDataProcessor extends Module {
 

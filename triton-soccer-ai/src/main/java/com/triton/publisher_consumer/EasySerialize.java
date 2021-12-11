@@ -1,4 +1,4 @@
-package com.triton.PublisherConsumer;
+package com.triton.publisher_consumer;
 
 import java.io.*;
 

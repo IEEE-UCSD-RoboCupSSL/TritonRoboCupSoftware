@@ -6,7 +6,7 @@ import proto.vision.MessagesRobocupSslDetection;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.PublisherConsumer.Exchange.SSL_DETECTION_FRAME_EXCHANGE;
+import static com.triton.publisher_consumer.Exchange.SSL_DETECTION_FRAME_EXCHANGE;
 
 public class SSL_DetectionFrameProcessor extends Module {
 

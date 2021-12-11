@@ -1,14 +1,14 @@
 package com.triton;
 
 import com.rabbitmq.client.*;
-import com.triton.PublisherConsumer.Exchange;
+import com.triton.publisher_consumer.Exchange;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 
-import static com.triton.PublisherConsumer.EasySerialize.standardDeserialize;
-import static com.triton.PublisherConsumer.EasySerialize.standardSerialize;
+import static com.triton.publisher_consumer.EasySerialize.standardDeserialize;
+import static com.triton.publisher_consumer.EasySerialize.standardSerialize;
 
 public abstract class Module {
     private Channel channel;

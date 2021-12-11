@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.PublisherConsumer.Exchange.*;
+import static com.triton.publisher_consumer.Exchange.*;
 import static com.triton.config.ConfigPaths.NETWORK_CONFIG;
 import static com.triton.utility.EasyYaml.readYaml;
 

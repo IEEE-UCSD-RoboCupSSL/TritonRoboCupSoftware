@@ -6,7 +6,7 @@ import proto.vision.MessagesRobocupSslWrapper;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.PublisherConsumer.Exchange.SSL_WRAPPER_PACKAGE_EXCHANGE;
+import static com.triton.publisher_consumer.Exchange.SSL_WRAPPER_PACKAGE_EXCHANGE;
 
 public class SSL_WrapperPackageProcessor extends Module {
 

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.PublisherConsumer.Exchange.SSL_DETECTION_BALLS_EXCHANGE;
+import static com.triton.publisher_consumer.Exchange.SSL_DETECTION_BALLS_EXCHANGE;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 
 public class SSL_DetectionBallsProcessor extends Module {
