@@ -1,15 +1,13 @@
 package com.triton.module;
 
 import com.triton.PublisherConsumer.Module;
-import proto.vision.MessagesRobocupSslDetection;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.PublisherConsumer.Exchange.SSL_DETECTION_BALLS_EXCHANGE;
-import static com.triton.PublisherConsumer.Exchange.SSL_DETECTION_FRAME_EXCHANGE;
-import static proto.vision.MessagesRobocupSslDetection.*;
+import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 
 public class SSL_DetectionBallsProcessor extends Module {
 

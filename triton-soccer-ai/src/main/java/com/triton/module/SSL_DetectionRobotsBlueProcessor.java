@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.PublisherConsumer.Exchange.SSL_DETECTION_ROBOTS_BLUE_EXCHANGE;
-import static com.triton.PublisherConsumer.Exchange.SSL_DETECTION_ROBOTS_YELLOW_EXCHANGE;
 
 public class SSL_DetectionRobotsBlueProcessor extends Module {
 
