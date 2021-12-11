@@ -1,0 +1,6 @@
+syntax = "proto3";
+option java_package = "proto.triton";
+
+message ToTritonBotMsg {
+    string msg = 1;
+}

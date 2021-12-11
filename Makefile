@@ -40,8 +40,15 @@ install-rabbitmq:
 # Install Gazebo
 install-gazebo:
 	curl -sSL http://get.gazebosim.org | sh
+	sudo apt install libgazebo11-dev
 
 # Install modules to current Python Virtual Environment
 install-python-modules:
 	python -m pip install pika
 	python -m pip install protobuf
+
+# Clone necessary repositories from GitHub
+clone:
+	git clone https://github.com/robotics-erlangen/framework
+	git clone https://github.com/RoboCup-SSL/ssl-simulation-protocol
+	git clone https://github.com/RoboCup-SSL/ssl-vision

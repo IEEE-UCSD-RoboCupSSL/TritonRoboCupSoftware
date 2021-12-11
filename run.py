@@ -3,10 +3,10 @@ import os
 import time
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-triton_soccer_ai_jar_path = dir_path + "/TritonSoccerAI/triton-soccer-ai/target/"
-triton_soccer_ai_py_path = dir_path + "/TritonSoccerAI/triton-soccer-ai/src/main/python"
-triton_bot_path = dir_path + "/TritonBot/"
-triton_sim_path = dir_path + "/TritonSim/"
+triton_soccer_ai_jar_path = dir_path + "/triton-soccer-ai/target/"
+triton_soccer_ai_py_path = dir_path + "/triton-soccer-ai/src/main/python"
+triton_bot_path = dir_path + "/triton-bot/"
+sim_path = dir_path + "/framework/build/bin"
 
 def run_cmd(cmd, path, mode="current"):
     # annoying lengthy path is removed from the print out
@@ -21,34 +21,32 @@ def run_cmd(cmd, path, mode="current"):
         print(">>> running " + prt_cmd_str + " in a new terminal tab")
         subprocess.Popen(["gnome-terminal", "--tab", "--"] + cmd, cwd=path)
 
-triton_sim_py = [
-    "Sim_F.py"
-]
-for py in triton_sim_py:
-    run_cmd(["python", py], triton_sim_path, "tab")
-    time.sleep(1)
+run_cmd(["./simulator-cli", "-g", "2020B", "--realism", "Realistic"], sim_path, "tab")
+time.sleep(1)
 
-triton_bot_py = [
-    "Bot_E.py"
-]
-for py in triton_bot_py:
-    run_cmd(["python", py], triton_bot_path, "tab")
-    time.sleep(1)
+# triton_bot_py = [
+#     "Bot_E.py"
+# ]
+# for py in triton_bot_py:
+#     run_cmd(["python", py], triton_bot_path, "tab")
+#     time.sleep(1)
 
 triton_soccer_ai_jars = [
-    "AI_A.jar",
-    "AI_B0.jar", 
-    "AI_B1.jar",
-    "AI_B2.jar", 
-    "AI_D.jar"
+    "CameraReceiver.jar",
+    "SSL_WrapperPackageProcessor.jar", 
+    "SSL_GeometryDataProcessor.jar",
+    "SSL_DetectionFrameProcessor.jar", 
+    "SSL_DetectionBallsProcessor.jar",
+    "SSL_DetectionRobotsYellowProcessor.jar",
+    "SSL_DetectionRobotsBlueProcessor.jar"
 ]
 for jar in triton_soccer_ai_jars:
     run_cmd(["java", "-jar", jar], triton_soccer_ai_jar_path, "tab")
     time.sleep(1)
 
-triton_soccer_ai_py = [
-    "AI_C.py"
-]
-for py in triton_soccer_ai_py:
-    run_cmd(["python", py], triton_soccer_ai_py_path, "tab")
-    time.sleep(1)
+# triton_soccer_ai_py = [
+#     "AI_C.py"
+# ]
+# for py in triton_soccer_ai_py:
+#     run_cmd(["python", py], triton_soccer_ai_py_path, "tab")
+#     time.sleep(1)

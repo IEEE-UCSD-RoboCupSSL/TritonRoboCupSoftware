@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-package proto;
-
-message ToTritonSimMsg {
-    string msg = 1;
-}
