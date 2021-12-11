@@ -23,8 +23,8 @@ public class SSL_WrapperPackageProcessor extends Module {
     }
 
     @Override
-    public void setupRabbitMQ() throws IOException, TimeoutException {
-        super.setupRabbitMQ();
+    public void declareExchanges() throws IOException, TimeoutException {
+        super.declareExchanges();
 
         declareConsume(SSL_WRAPPER_PACKAGE_EXCHANGE, this::consume_SSL_WrapperPacket);
     }

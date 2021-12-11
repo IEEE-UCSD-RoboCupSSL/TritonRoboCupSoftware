@@ -29,8 +29,8 @@ public class CameraReceiver extends Module {
     }
 
     @Override
-    public void setupRabbitMQ() throws IOException, TimeoutException {
-        super.setupRabbitMQ();
+    public void declareExchanges() throws IOException, TimeoutException {
+        super.declareExchanges();
 
         declarePublish(SSL_WRAPPER_PACKAGE_EXCHANGE);
         declarePublish(SSL_GEOMETRY_DATA_EXCHANGE);

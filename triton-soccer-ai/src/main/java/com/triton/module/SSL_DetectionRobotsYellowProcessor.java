@@ -24,8 +24,8 @@ public class SSL_DetectionRobotsYellowProcessor extends Module {
     }
 
     @Override
-    public void setupRabbitMQ() throws IOException, TimeoutException {
-        super.setupRabbitMQ();
+    public void declareExchanges() throws IOException, TimeoutException {
+        super.declareExchanges();
 
         declareConsume(SSL_DETECTION_ROBOTS_YELLOW_EXCHANGE, this::consume_SSL_DetectionRobotsYellow);
     }

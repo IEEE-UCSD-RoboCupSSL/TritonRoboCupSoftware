@@ -23,8 +23,8 @@ public class SSL_DetectionFrameProcessor extends Module {
     }
 
     @Override
-    public void setupRabbitMQ() throws IOException, TimeoutException {
-        super.setupRabbitMQ();
+    public void declareExchanges() throws IOException, TimeoutException {
+        super.declareExchanges();
 
         declareConsume(SSL_DETECTION_FRAME_EXCHANGE, this::consume_SSL_DetectionFrame);
     }
