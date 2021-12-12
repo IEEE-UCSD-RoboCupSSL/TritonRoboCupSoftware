@@ -1,7 +1,7 @@
 package com.triton.module;
 
 import com.triton.Module;
-import proto.vision.MessagesRobocupSslDetection;
+import proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -25,12 +25,11 @@ public class VisionDetectionFrameProcessor extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-
         declareConsume(SSL_DETECTION_FRAME_EXCHANGE, this::consume_SSL_DetectionFrame);
     }
 
     private void consume_SSL_DetectionFrame(Object object) {
-        MessagesRobocupSslDetection.SSL_DetectionFrame sslDetectionFrame = (MessagesRobocupSslDetection.SSL_DetectionFrame) object;
+        SSL_DetectionFrame sslDetectionFrame = (SSL_DetectionFrame) object;
         System.out.println(sslDetectionFrame);
     }
 }

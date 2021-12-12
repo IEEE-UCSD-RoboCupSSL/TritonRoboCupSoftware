@@ -1,12 +1,12 @@
 package com.triton.module;
 
 import com.triton.Module;
-import proto.vision.MessagesRobocupSslGeometry;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.publisher_consumer.Exchange.SSL_GEOMETRY_DATA_EXCHANGE;
+import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryData;
 
 public class VisionGeometryDataProcessor extends Module {
 
@@ -25,12 +25,11 @@ public class VisionGeometryDataProcessor extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-
         declareConsume(SSL_GEOMETRY_DATA_EXCHANGE, this::consume_SSL_GeometryData);
     }
 
     private void consume_SSL_GeometryData(Object object) {
-        MessagesRobocupSslGeometry.SSL_GeometryData sslGeometryData = (MessagesRobocupSslGeometry.SSL_GeometryData) object;
+        SSL_GeometryData sslGeometryData = (SSL_GeometryData) object;
         System.out.println(sslGeometryData);
     }
 }

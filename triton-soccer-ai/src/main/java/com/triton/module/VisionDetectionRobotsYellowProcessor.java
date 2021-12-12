@@ -1,13 +1,13 @@
 package com.triton.module;
 
 import com.triton.Module;
-import proto.vision.MessagesRobocupSslDetection;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.publisher_consumer.Exchange.SSL_DETECTION_ROBOTS_YELLOW_EXCHANGE;
+import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 
 public class VisionDetectionRobotsYellowProcessor extends Module {
 
@@ -26,13 +26,12 @@ public class VisionDetectionRobotsYellowProcessor extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-
         declareConsume(SSL_DETECTION_ROBOTS_YELLOW_EXCHANGE, this::consume_SSL_DetectionRobotsYellow);
     }
 
     private void consume_SSL_DetectionRobotsYellow(Object object) {
-        List<MessagesRobocupSslDetection.SSL_DetectionRobot> sslDetectionRobotsYellow = (List<MessagesRobocupSslDetection.SSL_DetectionRobot>) object;
-        for (MessagesRobocupSslDetection.SSL_DetectionRobot sslDetectionRobotYellow : sslDetectionRobotsYellow) {
+        List<SSL_DetectionRobot> sslDetectionRobotsYellow = (List<SSL_DetectionRobot>) object;
+        for (SSL_DetectionRobot sslDetectionRobotYellow : sslDetectionRobotsYellow) {
             System.out.println(sslDetectionRobotYellow);
         }
     }

@@ -26,7 +26,6 @@ public class VisionDetectionBallsProcessor extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-
         declareConsume(SSL_DETECTION_BALLS_EXCHANGE, this::consume_SSL_DetectionBalls);
     }
 

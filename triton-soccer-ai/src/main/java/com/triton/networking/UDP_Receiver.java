@@ -8,8 +8,10 @@ import java.net.UnknownHostException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class UDP_Receiver extends Thread {
+    private static final int PACKET_BUFFER_SIZE = 9999;
+
     private final DatagramSocket socket;
-    private final byte[] buf = new byte[256];
+    private final byte[] buf = new byte[PACKET_BUFFER_SIZE];
     private final LinkedBlockingQueue<DatagramPacket> msgQueue;
 
     public UDP_Receiver(int port) throws SocketException, UnknownHostException {

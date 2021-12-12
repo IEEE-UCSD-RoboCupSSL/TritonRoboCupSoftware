@@ -54,6 +54,7 @@ proto/simulation/SslSimulationSynchronous$1.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryCameraCalibration$Builder.class
 proto/simulation/SslSimulationControl$SimulatorResponse$Builder.class
 com/triton/module/CameraReceiver.class
+com/triton/module/Display.class
 proto/simulation/SslVisionGeometry$SSL_FieldLineSegment$Builder.class
 proto/simulation/SslVisionGeometry$SSL_GeometryFieldSize$1.class
 proto/vision/MessagesRobocupSslDetection$1.class

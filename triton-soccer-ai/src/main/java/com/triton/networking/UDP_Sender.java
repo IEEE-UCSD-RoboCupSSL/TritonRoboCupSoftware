@@ -5,6 +5,8 @@ import java.net.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class UDP_Sender extends Thread {
+    private static final String DEFAULT_IP = "localhost";
+
     private final DatagramSocket socket;
     private final InetAddress address;
     private final int port;
@@ -19,7 +21,7 @@ public class UDP_Sender extends Thread {
     }
 
     public UDP_Sender(int port) throws SocketException, UnknownHostException {
-        this("localhost", port);
+        this(DEFAULT_IP, port);
     }
 
     @Override
