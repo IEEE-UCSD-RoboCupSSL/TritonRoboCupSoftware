@@ -8,15 +8,15 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.publisher_consumer.Exchange.SSL_DETECTION_FRAME_EXCHANGE;
 
-public class SSL_DetectionFrameProcessor extends Module {
+public class VisionDetectionFrameProcessor extends Module {
 
-    public SSL_DetectionFrameProcessor() throws IOException, TimeoutException {
+    public VisionDetectionFrameProcessor() throws IOException, TimeoutException {
         super();
     }
 
     public static void main(String[] args) {
         try {
-            new SSL_DetectionFrameProcessor();
+            new VisionDetectionFrameProcessor();
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }

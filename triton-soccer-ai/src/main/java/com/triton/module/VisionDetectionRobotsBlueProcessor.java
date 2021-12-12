@@ -9,15 +9,15 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.publisher_consumer.Exchange.SSL_DETECTION_ROBOTS_BLUE_EXCHANGE;
 
-public class SSL_DetectionRobotsBlueProcessor extends Module {
+public class VisionDetectionRobotsBlueProcessor extends Module {
 
-    public SSL_DetectionRobotsBlueProcessor() throws IOException, TimeoutException {
+    public VisionDetectionRobotsBlueProcessor() throws IOException, TimeoutException {
         super();
     }
 
     public static void main(String[] args) {
         try {
-            new SSL_DetectionRobotsBlueProcessor();
+            new VisionDetectionRobotsBlueProcessor();
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }

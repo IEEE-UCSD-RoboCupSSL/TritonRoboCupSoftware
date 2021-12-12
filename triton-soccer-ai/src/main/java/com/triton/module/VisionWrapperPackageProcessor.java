@@ -8,15 +8,15 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.publisher_consumer.Exchange.SSL_WRAPPER_PACKAGE_EXCHANGE;
 
-public class SSL_WrapperPackageProcessor extends Module {
+public class VisionWrapperPackageProcessor extends Module {
 
-    public SSL_WrapperPackageProcessor() throws IOException, TimeoutException {
+    public VisionWrapperPackageProcessor() throws IOException, TimeoutException {
         super();
     }
 
     public static void main(String[] args) {
         try {
-            new SSL_WrapperPackageProcessor();
+            new VisionWrapperPackageProcessor();
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }

@@ -8,15 +8,15 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.publisher_consumer.Exchange.SSL_GEOMETRY_DATA_EXCHANGE;
 
-public class SSL_GeometryDataProcessor extends Module {
+public class VisionGeometryDataProcessor extends Module {
 
-    public SSL_GeometryDataProcessor() throws IOException, TimeoutException {
+    public VisionGeometryDataProcessor() throws IOException, TimeoutException {
         super();
     }
 
     public static void main(String[] args) {
         try {
-            new SSL_GeometryDataProcessor();
+            new VisionGeometryDataProcessor();
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }

@@ -128,9 +128,9 @@
             </configuration>
           </execution>
 
-          <!-- SSL_WrapperPackageProcessor -->
+          <!-- VisionWrapperPackageProcessor -->
           <execution>
-            <id>ssl-wrapper-package-processor</id>
+            <id>vision-wrapper-package-processor</id>
             <phase>package</phase>
             <goals>
               <goal>single</goal>
@@ -138,20 +138,20 @@
             <configuration>
               <archive>
                 <manifest>
-                  <mainClass>com.triton.module.SSL_WrapperPackageProcessor</mainClass>
+                  <mainClass>com.triton.module.VisionWrapperPackageProcessor</mainClass>
                 </manifest>
               </archive>
               <descriptorRefs>
                 <descriptorRef>jar-with-dependencies</descriptorRef>
               </descriptorRefs>
-              <finalName>SSL_WrapperPackageProcessor</finalName>
+              <finalName>VisionWrapperPackageProcessor</finalName>
               <appendAssemblyId>false</appendAssemblyId>
             </configuration>
           </execution>
 
-          <!-- SSL_GeometryDataProcessor -->
+          <!-- VisionGeometryDataProcessor -->
           <execution>
-            <id>ssl-geometry-data-processor</id>
+            <id>vision-geometry-data-processor</id>
             <phase>package</phase>
             <goals>
               <goal>single</goal>
@@ -159,20 +159,20 @@
             <configuration>
               <archive>
                 <manifest>
-                  <mainClass>com.triton.module.SSL_GeometryDataProcessor</mainClass>
+                  <mainClass>com.triton.module.VisionGeometryDataProcessor</mainClass>
                 </manifest>
               </archive>
               <descriptorRefs>
                 <descriptorRef>jar-with-dependencies</descriptorRef>
               </descriptorRefs>
-              <finalName>SSL_GeometryDataProcessor</finalName>
+              <finalName>VisionGeometryDataProcessor</finalName>
               <appendAssemblyId>false</appendAssemblyId>
             </configuration>
           </execution>
 
-          <!-- SSL_DetectionFrameProcessor -->
+          <!-- VisionDetectionFrameProcessor -->
           <execution>
-            <id>ssl-detection-frame-processor</id>
+            <id>vision-detection-frame-processor</id>
             <phase>package</phase>
             <goals>
               <goal>single</goal>
@@ -180,20 +180,20 @@
             <configuration>
               <archive>
                 <manifest>
-                  <mainClass>com.triton.module.SSL_DetectionFrameProcessor</mainClass>
+                  <mainClass>com.triton.module.VisionDetectionFrameProcessor</mainClass>
                 </manifest>
               </archive>
               <descriptorRefs>
                 <descriptorRef>jar-with-dependencies</descriptorRef>
               </descriptorRefs>
-              <finalName>SSL_DetectionFrameProcessor</finalName>
+              <finalName>VisionDetectionFrameProcessor</finalName>
               <appendAssemblyId>false</appendAssemblyId>
             </configuration>
           </execution>
 
-          <!-- SSL_DetectionBallsProcessor -->
+          <!-- VisionDetectionBallsProcessor -->
           <execution>
-            <id>ssl-detection-balls-processor</id>
+            <id>vision-detection-balls-processor</id>
             <phase>package</phase>
             <goals>
               <goal>single</goal>
@@ -201,20 +201,20 @@
             <configuration>
               <archive>
                 <manifest>
-                  <mainClass>com.triton.module.SSL_DetectionBallsProcessor</mainClass>
+                  <mainClass>com.triton.module.VisionDetectionBallsProcessor</mainClass>
                 </manifest>
               </archive>
               <descriptorRefs>
                 <descriptorRef>jar-with-dependencies</descriptorRef>
               </descriptorRefs>
-              <finalName>SSL_DetectionBallsProcessor</finalName>
+              <finalName>VisionDetectionBallsProcessor</finalName>
               <appendAssemblyId>false</appendAssemblyId>
             </configuration>
           </execution>
 
-          <!-- SSL_DetectionRobotsYellowProcessor -->
+          <!-- VisionDetectionRobotsYellowProcessor -->
           <execution>
-            <id>ssl-detection-robots-yellow-processor</id>
+            <id>vision-detection-robots-yellow-processor</id>
             <phase>package</phase>
             <goals>
               <goal>single</goal>
@@ -222,20 +222,20 @@
             <configuration>
               <archive>
                 <manifest>
-                  <mainClass>com.triton.module.SSL_DetectionRobotsYellowProcessor</mainClass>
+                  <mainClass>com.triton.module.VisionDetectionRobotsYellowProcessor</mainClass>
                 </manifest>
               </archive>
               <descriptorRefs>
                 <descriptorRef>jar-with-dependencies</descriptorRef>
               </descriptorRefs>
-              <finalName>SSL_DetectionRobotsYellowProcessor</finalName>
+              <finalName>VisionDetectionRobotsYellowProcessor</finalName>
               <appendAssemblyId>false</appendAssemblyId>
             </configuration>
           </execution>
 
-          <!-- SSL_DetectionRobotsBlueProcessor -->
+          <!-- VisionDetectionRobotsBlueProcessor -->
           <execution>
-            <id>ssl-detection-robots-blue-processor</id>
+            <id>vision-detection-robots-blue-processor</id>
             <phase>package</phase>
             <goals>
               <goal>single</goal>
@@ -243,13 +243,13 @@
             <configuration>
               <archive>
                 <manifest>
-                  <mainClass>com.triton.module.SSL_DetectionRobotsBlueProcessor</mainClass>
+                  <mainClass>com.triton.module.VisionDetectionRobotsBlueProcessor</mainClass>
                 </manifest>
               </archive>
               <descriptorRefs>
                 <descriptorRef>jar-with-dependencies</descriptorRef>
               </descriptorRefs>
-              <finalName>SSL_DetectionRobotsBlueProcessor</finalName>
+              <finalName>VisionDetectionRobotsBlueProcessor</finalName>
               <appendAssemblyId>false</appendAssemblyId>
             </configuration>
           </execution>

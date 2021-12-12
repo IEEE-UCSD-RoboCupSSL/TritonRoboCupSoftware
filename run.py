@@ -33,12 +33,12 @@ for py in triton_bot_py:
 
 triton_soccer_ai_jars = [
     "CameraReceiver.jar",
-    "SSL_WrapperPackageProcessor.jar", 
-    "SSL_GeometryDataProcessor.jar",
-    "SSL_DetectionFrameProcessor.jar", 
-    "SSL_DetectionBallsProcessor.jar",
-    "SSL_DetectionRobotsYellowProcessor.jar",
-    "SSL_DetectionRobotsBlueProcessor.jar"
+    "VisionWrapperPackageProcessor.jar", 
+    "VisionGeometryDataProcessor.jar",
+    "VisionDetectionFrameProcessor.jar", 
+    "VisionDetectionBallsProcessor.jar",
+    "VisionDetectionRobotsYellowProcessor.jar",
+    "VisionDetectionRobotsBlueProcessor.jar"
 ]
 for jar in triton_soccer_ai_jars:
     run_cmd(["java", "-jar", jar], triton_soccer_ai_jar_path, "tab")

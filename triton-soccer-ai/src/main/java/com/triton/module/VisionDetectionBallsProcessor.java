@@ -9,15 +9,15 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.publisher_consumer.Exchange.SSL_DETECTION_BALLS_EXCHANGE;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 
-public class SSL_DetectionBallsProcessor extends Module {
+public class VisionDetectionBallsProcessor extends Module {
 
-    public SSL_DetectionBallsProcessor() throws IOException, TimeoutException {
+    public VisionDetectionBallsProcessor() throws IOException, TimeoutException {
         super();
     }
 
     public static void main(String[] args) {
         try {
-            new SSL_DetectionBallsProcessor();
+            new VisionDetectionBallsProcessor();
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }
