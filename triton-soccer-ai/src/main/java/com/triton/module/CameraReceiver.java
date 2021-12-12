@@ -12,7 +12,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.publisher_consumer.Exchange.*;
 import static com.triton.config.ConfigPaths.NETWORK_CONFIG;
-import static com.triton.utility.EasyYamlReader.readYaml;
+import static com.triton.config.EasyYamlReader.readYaml;
 
 public class CameraReceiver extends Module {
     public CameraReceiver() throws IOException, TimeoutException {

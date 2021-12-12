@@ -1,4 +1,4 @@
-package com.triton.utility;
+package com.triton.config;
 
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
