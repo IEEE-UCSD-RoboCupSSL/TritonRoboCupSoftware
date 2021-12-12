@@ -24,13 +24,13 @@ public class SSL_DetectionBallsProcessor extends Module {
     }
 
     @Override
-    public void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
 
         declareConsume(SSL_DETECTION_BALLS_EXCHANGE, this::consume_SSL_DetectionBalls);
     }
 
-    public void consume_SSL_DetectionBalls(Object object) {
+    private void consume_SSL_DetectionBalls(Object object) {
         List<SSL_DetectionBall> sslDetectionBalls = (List<SSL_DetectionBall>) object;
         for (SSL_DetectionBall sslDetectionBall : sslDetectionBalls) {
             System.out.println(sslDetectionBall);

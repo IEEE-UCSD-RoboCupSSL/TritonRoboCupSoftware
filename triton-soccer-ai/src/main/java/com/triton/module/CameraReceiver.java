@@ -29,7 +29,7 @@ public class CameraReceiver extends Module {
     }
 
     @Override
-    public void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
 
         declarePublish(SSL_WRAPPER_PACKAGE_EXCHANGE);
@@ -40,7 +40,11 @@ public class CameraReceiver extends Module {
         declarePublish(SSL_DETECTION_ROBOTS_BLUE_EXCHANGE);
     }
 
-    public void setupNetworking() throws IOException {
+    /**
+     * Setup the udp multicast receiver
+     * @throws IOException
+     */
+    private void setupNetworking() throws IOException {
         NetworkConfig networkConfig = (NetworkConfig) readYaml(NETWORK_CONFIG.getConfigPath(), NetworkConfig.class);
 
         // Setup a multicast receiver
@@ -54,7 +58,7 @@ public class CameraReceiver extends Module {
      * Called when a packet is received. Parses the packet and publishes it to exchanges.
      * @param packet the packet received
      */
-    public void processPacket(DatagramPacket packet) {
+    private void processPacket(DatagramPacket packet) {
         try {
             MessagesRobocupSslWrapper.SSL_WrapperPacket sslWrapperPacket = parsePacket(packet);
             publishWrapperPacket(sslWrapperPacket);
@@ -69,7 +73,7 @@ public class CameraReceiver extends Module {
      * @return the prased SSL_WrapperPacket
      * @throws IOException
      */
-    public MessagesRobocupSslWrapper.SSL_WrapperPacket parsePacket(DatagramPacket packet) throws IOException {
+    private MessagesRobocupSslWrapper.SSL_WrapperPacket parsePacket(DatagramPacket packet) throws IOException {
         ByteArrayInputStream stream = new ByteArrayInputStream(packet.getData(),
                 packet.getOffset(),
                 packet.getLength());
@@ -84,7 +88,7 @@ public class CameraReceiver extends Module {
      * @param sslWrapperPacket the packet to send
      * @throws IOException
      */
-    public void publishWrapperPacket(MessagesRobocupSslWrapper.SSL_WrapperPacket sslWrapperPacket) throws IOException {
+    private void publishWrapperPacket(MessagesRobocupSslWrapper.SSL_WrapperPacket sslWrapperPacket) throws IOException {
         publish(SSL_WRAPPER_PACKAGE_EXCHANGE, sslWrapperPacket);
         publish(SSL_GEOMETRY_DATA_EXCHANGE, sslWrapperPacket.getGeometry());
         publish(SSL_DETECTION_FRAME_EXCHANGE, sslWrapperPacket.getDetection());

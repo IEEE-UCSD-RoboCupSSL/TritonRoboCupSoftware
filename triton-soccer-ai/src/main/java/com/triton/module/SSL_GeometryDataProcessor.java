@@ -23,13 +23,13 @@ public class SSL_GeometryDataProcessor extends Module {
     }
 
     @Override
-    public void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
 
         declareConsume(SSL_GEOMETRY_DATA_EXCHANGE, this::consume_SSL_GeometryData);
     }
 
-    public void consume_SSL_GeometryData(Object object) {
+    private void consume_SSL_GeometryData(Object object) {
         MessagesRobocupSslGeometry.SSL_GeometryData sslGeometryData = (MessagesRobocupSslGeometry.SSL_GeometryData) object;
         System.out.println(sslGeometryData);
     }

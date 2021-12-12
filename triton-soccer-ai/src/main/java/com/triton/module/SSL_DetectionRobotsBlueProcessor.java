@@ -24,13 +24,13 @@ public class SSL_DetectionRobotsBlueProcessor extends Module {
     }
 
     @Override
-    public void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
 
         declareConsume(SSL_DETECTION_ROBOTS_BLUE_EXCHANGE, this::consume_SSL_DetectionRobotsBlue);
     }
 
-    public void consume_SSL_DetectionRobotsBlue(Object object) {
+    private void consume_SSL_DetectionRobotsBlue(Object object) {
         List<MessagesRobocupSslDetection.SSL_DetectionRobot> sslDetectionRobotsBlue = (List<MessagesRobocupSslDetection.SSL_DetectionRobot>) object;
         for (MessagesRobocupSslDetection.SSL_DetectionRobot sslDetectionRobotBlue : sslDetectionRobotsBlue) {
             System.out.println(sslDetectionRobotBlue);

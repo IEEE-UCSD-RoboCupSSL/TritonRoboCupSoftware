@@ -23,13 +23,13 @@ public class SSL_WrapperPackageProcessor extends Module {
     }
 
     @Override
-    public void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
 
         declareConsume(SSL_WRAPPER_PACKAGE_EXCHANGE, this::consume_SSL_WrapperPacket);
     }
 
-    public void consume_SSL_WrapperPacket(Object object) {
+    private void consume_SSL_WrapperPacket(Object object) {
         MessagesRobocupSslWrapper.SSL_WrapperPacket sslWrapperPacket = (MessagesRobocupSslWrapper.SSL_WrapperPacket) object;
         System.out.println(sslWrapperPacket);
     }

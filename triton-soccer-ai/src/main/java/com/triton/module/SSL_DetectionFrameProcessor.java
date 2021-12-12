@@ -23,13 +23,13 @@ public class SSL_DetectionFrameProcessor extends Module {
     }
 
     @Override
-    public void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
 
         declareConsume(SSL_DETECTION_FRAME_EXCHANGE, this::consume_SSL_DetectionFrame);
     }
 
-    public void consume_SSL_DetectionFrame(Object object) {
+    private void consume_SSL_DetectionFrame(Object object) {
         MessagesRobocupSslDetection.SSL_DetectionFrame sslDetectionFrame = (MessagesRobocupSslDetection.SSL_DetectionFrame) object;
         System.out.println(sslDetectionFrame);
     }
