@@ -13,6 +13,7 @@ public class VisionDetectionBallsProcessor extends Module {
 
     public VisionDetectionBallsProcessor() throws IOException, TimeoutException {
         super();
+        declareExchanges();
     }
 
     public static void main(String[] args) {

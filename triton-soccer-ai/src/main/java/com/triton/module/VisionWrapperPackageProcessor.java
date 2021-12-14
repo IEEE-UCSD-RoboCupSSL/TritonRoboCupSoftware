@@ -12,6 +12,7 @@ public class VisionWrapperPackageProcessor extends Module {
 
     public VisionWrapperPackageProcessor() throws IOException, TimeoutException {
         super();
+        declareExchanges();
     }
 
     public static void main(String[] args) {

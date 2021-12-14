@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.triton.AppTest" time="0.036" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.triton.AppTest" time="0.038" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
-    <property name="sun.java.command" value="/home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/target/surefire/surefirebooter2972598504557493797.jar /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/target/surefire 2021-12-11T19-46-01_938-jvmRun1 surefire17824708443553790265tmp surefire_08351736826582263140tmp"/>
+    <property name="sun.java.command" value="/home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/target/surefire/surefirebooter6206430436380044720.jar /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/target/surefire 2021-12-13T16-01-17_982-jvmRun1 surefire6955313601897810027tmp surefire_08376193303799419889tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/target/test-classes:/home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/target/classes:/home/duy/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/duy/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/duy/.m2/repository/com/rabbitmq/amqp-client/5.14.0/amqp-client-5.14.0.jar:/home/duy/.m2/repository/org/slf4j/slf4j-api/1.7.32/slf4j-api-1.7.32.jar:/home/duy/.m2/repository/com/google/protobuf/protobuf-java/3.6.1/protobuf-java-3.6.1.jar:/home/duy/.m2/repository/org/yaml/snakeyaml/1.29/snakeyaml-1.29.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -27,7 +27,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="/home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/target/surefire/surefirebooter2972598504557493797.jar"/>
+    <property name="surefire.real.class.path" value="/home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/target/surefire/surefirebooter6206430436380044720.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.1+12-Ubuntu-120.04"/>
     <property name="user.name" value="duy"/>

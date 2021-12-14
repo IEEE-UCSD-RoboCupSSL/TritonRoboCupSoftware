@@ -12,6 +12,7 @@ public class VisionGeometryDataProcessor extends Module {
 
     public VisionGeometryDataProcessor() throws IOException, TimeoutException {
         super();
+        declareExchanges();
     }
 
     public static void main(String[] args) {

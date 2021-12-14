@@ -18,6 +18,7 @@ public class CameraReceiver extends Module {
     public CameraReceiver() throws IOException, TimeoutException {
         super();
         setupNetworking();
+        declareExchanges();
     }
 
     public static void main(String[] args) {

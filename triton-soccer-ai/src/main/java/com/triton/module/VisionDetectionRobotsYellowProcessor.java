@@ -13,6 +13,7 @@ public class VisionDetectionRobotsYellowProcessor extends Module {
 
     public VisionDetectionRobotsYellowProcessor() throws IOException, TimeoutException {
         super();
+        declareExchanges();
     }
 
     public static void main(String[] args) {
