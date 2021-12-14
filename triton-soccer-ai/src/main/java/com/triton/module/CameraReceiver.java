@@ -9,12 +9,14 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.config.ConfigPaths.NETWORK_CONFIG;
+import static com.triton.config.Config.NETWORK_CONFIG;
 import static com.triton.config.EasyYamlReader.readYaml;
 import static com.triton.publisher_consumer.Exchange.*;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class CameraReceiver extends Module {
+    private NetworkConfig networkConfig;
+
     public CameraReceiver() throws IOException, TimeoutException {
         super();
         setupNetworking();
@@ -27,6 +29,12 @@ public class CameraReceiver extends Module {
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void loadConfig() throws IOException {
+        super.loadConfig();
+        networkConfig = (NetworkConfig) readYaml(NETWORK_CONFIG);
     }
 
     @Override
@@ -46,8 +54,6 @@ public class CameraReceiver extends Module {
      * @throws IOException
      */
     private void setupNetworking() throws IOException {
-        NetworkConfig networkConfig = (NetworkConfig) readYaml(NETWORK_CONFIG.getConfigPath(), NetworkConfig.class);
-
         // Setup a multicast receiver
         UDP_MulticastReceiver udpMulticastReceiver = new UDP_MulticastReceiver(networkConfig.getCameraInputPort(),
                 networkConfig.getCameraInputMulticastAddress(),

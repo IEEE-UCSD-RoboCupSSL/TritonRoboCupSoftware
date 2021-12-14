@@ -24,6 +24,11 @@ public abstract class Module {
         factory.setHost(CONNECTION_FACTORY_HOST);
         Connection connection = factory.newConnection();
         setChannel(connection.createChannel());
+
+        loadConfig();
+    }
+
+    protected void loadConfig() throws IOException {
     }
 
     /**

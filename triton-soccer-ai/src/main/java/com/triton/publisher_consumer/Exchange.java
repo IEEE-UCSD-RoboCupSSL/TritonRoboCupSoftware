@@ -6,7 +6,8 @@ public enum Exchange {
     SSL_DETECTION_FRAME_EXCHANGE("SSL_DetectionFrame"),
     SSL_DETECTION_BALLS_EXCHANGE("SSL_DetectionBall"),
     SSL_DETECTION_ROBOTS_YELLOW_EXCHANGE("SSL_DetectionRobot Yellow"),
-    SSL_DETECTION_ROBOTS_BLUE_EXCHANGE("SSL_DetectionRobot Blue");
+    SSL_DETECTION_ROBOTS_BLUE_EXCHANGE("SSL_DetectionRobot Blue"),
+    ;
 
     private final String exchangeName;
 
