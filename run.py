@@ -32,14 +32,15 @@ for py in triton_bot_py:
     time.sleep(1)
 
 triton_soccer_ai_jar_modules = [
-    "CameraReceiver.jar",
+    # "CameraReceiver.jar",
     # "VisionWrapperPackageProcessor.jar",
     # "VisionGeometryDataProcessor.jar",
     # "VisionDetectionFrameProcessor.jar", 
     # "VisionDetectionBallsProcessor.jar",
     # "VisionDetectionRobotsYellowProcessor.jar",
     # "VisionDetectionRobotsBlueProcessor.jar",
-    "Display.jar"
+    # "Display.jar"
+    "TritonSoccerAI.jar"
 ]
 for jar in triton_soccer_ai_jar_modules:
     run_cmd(["java", "-jar", jar], triton_soccer_ai_jar_path, "tab")

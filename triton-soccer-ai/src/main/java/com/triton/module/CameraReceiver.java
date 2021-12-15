@@ -1,6 +1,5 @@
 package com.triton.module;
 
-import com.triton.Module;
 import com.triton.config.NetworkConfig;
 import com.triton.networking.UDP_MulticastReceiver;
 
@@ -23,14 +22,6 @@ public class CameraReceiver extends Module {
         declareExchanges();
     }
 
-    public static void main(String[] args) {
-        try {
-            new CameraReceiver();
-        } catch (IOException | TimeoutException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     protected void loadConfig() throws IOException {
         super.loadConfig();
@@ -40,12 +31,12 @@ public class CameraReceiver extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declarePublish(SSL_WRAPPER_PACKAGE_EXCHANGE);
-        declarePublish(SSL_GEOMETRY_DATA_EXCHANGE);
-        declarePublish(SSL_DETECTION_FRAME_EXCHANGE);
-        declarePublish(SSL_DETECTION_BALLS_EXCHANGE);
-        declarePublish(SSL_DETECTION_ROBOTS_YELLOW_EXCHANGE);
-        declarePublish(SSL_DETECTION_ROBOTS_BLUE_EXCHANGE);
+        declarePublish(RAW_WRAPPER_PACKAGE);
+        declarePublish(RAW_GEOMETRY);
+        declarePublish(RAW_DETECTION);
+        declarePublish(RAW_BALLS);
+        declarePublish(RAW_ROBOTS_YELLOW);
+        declarePublish(RAW_ROBOTS_BLUE);
     }
 
     /**
@@ -99,11 +90,11 @@ public class CameraReceiver extends Module {
      * @throws IOException
      */
     private void publishWrapperPacket(SSL_WrapperPacket sslWrapperPacket) throws IOException {
-        publish(SSL_WRAPPER_PACKAGE_EXCHANGE, sslWrapperPacket);
-        publish(SSL_GEOMETRY_DATA_EXCHANGE, sslWrapperPacket.getGeometry());
-        publish(SSL_DETECTION_FRAME_EXCHANGE, sslWrapperPacket.getDetection());
-        publish(SSL_DETECTION_BALLS_EXCHANGE, sslWrapperPacket.getDetection().getBallsList());
-        publish(SSL_DETECTION_ROBOTS_YELLOW_EXCHANGE, sslWrapperPacket.getDetection().getRobotsYellowList());
-        publish(SSL_DETECTION_ROBOTS_BLUE_EXCHANGE, sslWrapperPacket.getDetection().getRobotsBlueList());
+        publish(RAW_WRAPPER_PACKAGE, sslWrapperPacket);
+        publish(RAW_GEOMETRY, sslWrapperPacket.getGeometry());
+        publish(RAW_DETECTION, sslWrapperPacket.getDetection());
+        publish(RAW_BALLS, sslWrapperPacket.getDetection().getBallsList());
+        publish(RAW_ROBOTS_YELLOW, sslWrapperPacket.getDetection().getRobotsYellowList());
+        publish(RAW_ROBOTS_BLUE, sslWrapperPacket.getDetection().getRobotsBlueList());
     }
 }

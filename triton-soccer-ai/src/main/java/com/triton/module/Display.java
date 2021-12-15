@@ -1,6 +1,5 @@
 package com.triton.module;
 
-import com.triton.Module;
 import com.triton.config.DisplayConfig;
 import com.triton.config.ObjectConfig;
 import proto.vision.MessagesRobocupSslDetection;
@@ -21,13 +20,86 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.config.Config.DISPLAY_CONFIG;
 import static com.triton.config.Config.OBJECT_CONFIG;
 import static com.triton.config.EasyYamlReader.readYaml;
-import static com.triton.publisher_consumer.Exchange.*;
+import static com.triton.publisher_consumer.Exchange.RAW_DETECTION;
+import static com.triton.publisher_consumer.Exchange.RAW_GEOMETRY;
 import static java.awt.BorderLayout.*;
 import static java.awt.Color.*;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryData;
 
 public class Display extends Module {
+    private static final String MAIN_FRAME_TITLE = "Triton Display";
+    private ObjectConfig objectConfig;
+    private DisplayConfig displayConfig;
+    private JFrame frame;
+    private JPanel northPanel;
+    private JPanel southPanel;
+    private JPanel eastPanel;
+    private JPanel westPanel;
+    private FieldPanel fieldPanel;
+
+    public Display() throws IOException, TimeoutException {
+        super();
+        prepareGUI();
+        declareExchanges();
+    }
+
+    @Override
+    protected void loadConfig() throws IOException {
+        super.loadConfig();
+        objectConfig = (ObjectConfig) readYaml(OBJECT_CONFIG);
+        displayConfig = (DisplayConfig) readYaml(DISPLAY_CONFIG);
+    }
+
+    private void prepareGUI() {
+        frame = new JFrame(MAIN_FRAME_TITLE);
+        frame.setSize(400, 400);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+        northPanel = new JPanel();
+        northPanel.setBackground(YELLOW);
+
+        southPanel = new JPanel();
+        southPanel.setBackground(MAGENTA);
+
+        eastPanel = new JPanel();
+        eastPanel.setBackground(BLUE);
+
+        westPanel = new JPanel();
+        westPanel.setBackground(RED);
+
+        fieldPanel = new FieldPanel();
+        fieldPanel.setLayout(new BorderLayout());
+        fieldPanel.setBackground(BLACK);
+
+        frame.add(northPanel, NORTH);
+        frame.add(southPanel, SOUTH);
+        frame.add(eastPanel, EAST);
+        frame.add(westPanel, WEST);
+        frame.add(fieldPanel, CENTER);
+        frame.setVisible(true);
+    }
+
+    @Override
+    protected void declareExchanges() throws IOException, TimeoutException {
+        super.declareExchanges();
+        declareConsume(RAW_GEOMETRY, this::consumeRawGeometryData);
+        declareConsume(RAW_DETECTION, this::consumeRawDetectionFrame);
+    }
+
+    private void consumeRawGeometryData(Object object) {
+        if (object == null) return;
+        fieldPanel.setSslGeometryData((SSL_GeometryData) object);
+        frame.repaint();
+    }
+
+    private void consumeRawDetectionFrame(Object object) {
+        if (object == null) return;
+        fieldPanel.setSslDetectionFrame((SSL_DetectionFrame) object);
+        frame.repaint();
+    }
+
     private class FieldPanel extends JPanel {
         private SSL_GeometryData sslGeometryData;
         private SSL_DetectionFrame sslDetectionFrame;
@@ -90,7 +162,7 @@ public class Display extends Module {
 
             if (sslDetectionFrame == null) return;
 
-            for (SSL_DetectionBall sslDetectionBall: sslDetectionFrame.getBallsList()) {
+            for (SSL_DetectionBall sslDetectionBall : sslDetectionFrame.getBallsList()) {
                 float x = sslDetectionBall.getX();
                 float y = sslDetectionBall.getY();
                 float radius = objectConfig.getBallRadius();
@@ -104,7 +176,7 @@ public class Display extends Module {
                         360);
             }
 
-            for (MessagesRobocupSslDetection.SSL_DetectionRobot sslDetectionRobotYellow: sslDetectionFrame.getRobotsYellowList()) {
+            for (MessagesRobocupSslDetection.SSL_DetectionRobot sslDetectionRobotYellow : sslDetectionFrame.getRobotsYellowList()) {
                 float x = sslDetectionRobotYellow.getX();
                 float y = sslDetectionRobotYellow.getY();
                 float radius = objectConfig.getYellowRobotRadius();
@@ -127,7 +199,7 @@ public class Display extends Module {
             }
 
             graphics2D.setColor(BLUE);
-            for (SSL_DetectionRobot sslDetectionRobotBlue: sslDetectionFrame.getRobotsBlueList()) {
+            for (SSL_DetectionRobot sslDetectionRobotBlue : sslDetectionFrame.getRobotsBlueList()) {
                 float x = sslDetectionRobotBlue.getX();
                 float y = sslDetectionRobotBlue.getY();
                 float radius = objectConfig.getBlueRobotRadius();
@@ -157,88 +229,5 @@ public class Display extends Module {
         public void setSslDetectionFrame(SSL_DetectionFrame sslDetectionFrame) {
             this.sslDetectionFrame = sslDetectionFrame;
         }
-    }
-
-    private static final String MAIN_FRAME_TITLE = "Triton Display";
-
-    private JFrame frame;
-
-    private JPanel northPanel;
-    private JPanel southPanel;
-    private JPanel eastPanel;
-    private JPanel westPanel;
-    private FieldPanel fieldPanel;
-
-    private ObjectConfig objectConfig;
-    private DisplayConfig displayConfig;
-
-    public Display() throws IOException, TimeoutException {
-        super();
-        prepareGUI();
-        declareExchanges();
-    }
-
-    public static void main(String[] args) {
-        try {
-            new Display();
-        } catch (IOException | TimeoutException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void loadConfig() throws IOException {
-        super.loadConfig();
-        objectConfig = (ObjectConfig) readYaml(OBJECT_CONFIG);
-        displayConfig = (DisplayConfig) readYaml(DISPLAY_CONFIG);
-    }
-
-    private void prepareGUI() {
-        frame = new JFrame(MAIN_FRAME_TITLE);
-        frame.setSize(400, 400);
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-
-        northPanel = new JPanel();
-        northPanel.setBackground(YELLOW);
-
-        southPanel = new JPanel();
-        southPanel.setBackground(MAGENTA);
-
-        eastPanel = new JPanel();
-        eastPanel.setBackground(BLUE);
-
-        westPanel = new JPanel();
-        westPanel.setBackground(RED);
-
-        fieldPanel = new FieldPanel();
-        fieldPanel.setLayout(new BorderLayout());
-        fieldPanel.setBackground(BLACK);
-
-        frame.add(northPanel, NORTH);
-        frame.add(southPanel, SOUTH);
-        frame.add(eastPanel, EAST);
-        frame.add(westPanel, WEST);
-        frame.add(fieldPanel, CENTER);
-        frame.setVisible(true);
-    }
-
-    @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
-        declareConsume(SSL_GEOMETRY_DATA_EXCHANGE, this::consume_SSL_GeometryData);
-        declareConsume(SSL_DETECTION_FRAME_EXCHANGE, this::consume_SSL_DetectionFrame);
-    }
-
-    private void consume_SSL_GeometryData(Object object) {
-        if (object == null) return;
-        fieldPanel.setSslGeometryData((SSL_GeometryData) object);
-        frame.repaint();
-    }
-
-    private void consume_SSL_DetectionFrame(Object object) {
-        if (object == null) return;
-        fieldPanel.setSslDetectionFrame((SSL_DetectionFrame) object);
-        frame.repaint();
     }
 }

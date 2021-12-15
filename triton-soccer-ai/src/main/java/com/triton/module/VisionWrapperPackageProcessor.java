@@ -1,11 +1,9 @@
 package com.triton.module;
 
-import com.triton.Module;
-
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.publisher_consumer.Exchange.SSL_WRAPPER_PACKAGE_EXCHANGE;
+import static com.triton.publisher_consumer.Exchange.RAW_WRAPPER_PACKAGE;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class VisionWrapperPackageProcessor extends Module {
@@ -15,18 +13,10 @@ public class VisionWrapperPackageProcessor extends Module {
         declareExchanges();
     }
 
-    public static void main(String[] args) {
-        try {
-            new VisionWrapperPackageProcessor();
-        } catch (IOException | TimeoutException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(SSL_WRAPPER_PACKAGE_EXCHANGE, this::consume_SSL_WrapperPacket);
+        declareConsume(RAW_WRAPPER_PACKAGE, this::consume_SSL_WrapperPacket);
     }
 
     private void consume_SSL_WrapperPacket(Object object) {

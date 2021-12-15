@@ -1,4 +1,4 @@
-package com.triton;
+package com.triton.module;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 import static com.triton.publisher_consumer.EasySerialize.standardDeserialize;
 import static com.triton.publisher_consumer.EasySerialize.standardSerialize;
 
-public abstract class Module {
+public abstract class Module extends Thread {
     private static final String CONNECTION_FACTORY_HOST = "localhost";
     private static final String EXCHANGE_MODE_FANOUT = "fanout";
 
