@@ -1,9 +1,13 @@
 apt_java_packages = openjdk-17-jdk
-apt_python_packages = python3 python3-pip build-essential libssl-dev libffi-dev python3-dev
+apt_python_packages = python3 python3-pip python3-venv build-essential libssl-dev libffi-dev python3-dev
 apt_sim_packages = cmake protobuf-compiler libprotobuf-dev qtbase5-dev libqt5opengl5-dev g++ libusb-1.0-0-dev libsdl2-dev libqt5svg5-dev
 
 # Install Everything
-install: install-java install-python install-maven install-rabbitmq install-sim install-python-venv
+install: update install-java install-python install-maven install-rabbitmq install-sim install-python-modules compile
+
+
+update:
+	git submodule update --init --remote framework ssl-vision ssl-simulation-protocol
 
 # Install Java
 install-java:
@@ -15,7 +19,16 @@ install-python:
 
 # Install Maven
 install-maven:
-	sudo apt install maven
+	wget https://dlcdn.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz -P /tmp
+	sudo tar xf /tmp/apache-maven-*.tar.gz -C /opt
+	sudo ln -sf /opt/apache-maven-3.8.4 /opt/maven
+	sudo touch /etc/profile.d/maven.sh
+	echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" | sudo tee /etc/profile.d/maven.sh
+	echo "export M2_HOME=/opt/maven" | sudo tee -a /etc/profile.d/maven.sh
+	echo "export MAVEN_HOME=/opt/maven" | sudo tee -a /etc/profile.d/maven.sh
+	echo "export PATH=${M2_HOME}/bin:${PATH}" | sudo tee -a /etc/profile.d/maven.sh
+	sudo chmod +x /etc/profile.d/maven.sh
+	. /etc/profile.d/maven.sh
 
 # Install RabbitMQ
 install-rabbitmq:
@@ -50,5 +63,13 @@ install-sim:
 
 # Install modules to current Python Virtual Environment
 install-python-modules:
-	python -m pip install pika
-	python -m pip install protobuf
+	python3 -m venv env
+	( \
+	. env/bin/activate; \
+	python3 -m pip install pika; \
+	python3 -m pip install protobuf; \
+	deactivate \
+	)
+	
+compile:
+	cd triton-soccer-ai; mvn clean compile package
