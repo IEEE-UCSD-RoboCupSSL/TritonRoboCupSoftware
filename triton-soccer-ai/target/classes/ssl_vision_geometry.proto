@@ -58,7 +58,7 @@ message SSL_GeometryFieldSize {
 }
 
 message SSL_GeometryCameraCalibration {
-  required uint32 camera_id     = 1;
+  required uint32 camera_id = 1;
   required float focal_length = 2;
   required float principal_point_x = 3;
   required float principal_point_y = 4;
