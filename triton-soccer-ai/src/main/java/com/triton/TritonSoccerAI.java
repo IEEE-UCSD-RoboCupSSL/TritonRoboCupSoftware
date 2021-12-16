@@ -2,6 +2,7 @@ package com.triton;
 
 import com.triton.module.CameraReceiver;
 import com.triton.module.Display;
+import com.triton.module.PerspectiveConverter;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -13,6 +14,7 @@ public class TritonSoccerAI {
         TritonSoccerAI.team = team;
 
         new CameraReceiver();
+        new PerspectiveConverter();
         new Display();
     }
 

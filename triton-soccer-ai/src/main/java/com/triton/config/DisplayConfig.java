@@ -1,22 +1,22 @@
 package com.triton.config;
 
 public class DisplayConfig {
-    private String robotIdFontName;
-    private int robotIdFontSize;
+    private String botIdFontName;
+    private int botIdFontSize;
 
-    public String getRobotIdFontName() {
-        return robotIdFontName;
+    public String getBotIdFontName() {
+        return botIdFontName;
     }
 
-    public void setRobotIdFontName(String robotIdFontName) {
-        this.robotIdFontName = robotIdFontName;
+    public void setBotIdFontName(String botIdFontName) {
+        this.botIdFontName = botIdFontName;
     }
 
-    public int getRobotIdFontSize() {
-        return robotIdFontSize;
+    public int getBotIdFontSize() {
+        return botIdFontSize;
     }
 
-    public void setRobotIdFontSize(int robotIdFontSize) {
-        this.robotIdFontSize = robotIdFontSize;
+    public void setBotIdFontSize(int botIdFontSize) {
+        this.botIdFontSize = botIdFontSize;
     }
 }

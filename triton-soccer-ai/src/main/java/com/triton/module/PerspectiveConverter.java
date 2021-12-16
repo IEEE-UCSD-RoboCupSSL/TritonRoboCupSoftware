@@ -17,98 +17,174 @@ import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 public class PerspectiveConverter extends Module {
 
     public PerspectiveConverter() throws IOException, TimeoutException {
-        declareConsume(RAW_WRAPPER_PACKAGE, this::consumeRawWrapperPacket);
-        declarePublish(PERSPECTIVE_FIELD);
-        declarePublish(PERSPECTIVE_BALLS);
-        declarePublish(PERSPECTIVE_ROBOTS_ALLY);
-        declarePublish(PERSPECTIVE_ROBOTS_FOE);
+        super();
+        declareExchanges();
     }
 
-    private void consumeRawWrapperPacket(Object o) {
-        SSL_WrapperPacket wrapperPacket = (SSL_WrapperPacket) o;
-        SSL_GeometryData geometryData = wrapperPacket.getGeometry();
-        SSL_DetectionFrame detectionFrame = wrapperPacket.getDetection();
-        List<SSL_DetectionBall> balls = detectionFrame.getBallsList();
-        List<SSL_DetectionRobot> robotsYellow = detectionFrame.getRobotsYellowList();
-        List<SSL_DetectionRobot> robotsBlue = detectionFrame.getRobotsBlueList();
+    @Override
+    protected void declareExchanges() throws IOException, TimeoutException {
+        super.declareExchanges();
+        declareConsume(RAW_WRAPPER_PACKAGE, this::consumeRawWrapperPacket);
+        declarePublish(BIASED_FIELD);
+        declarePublish(BIASED_BALLS);
+        declarePublish(BIASED_ALLIES);
+        declarePublish(BIASED_FOES);
+    }
 
-        SSL_GeometryFieldSize field = geometryData.getField();
-        try {
-            publish(PERSPECTIVE_FIELD, convertField(field));
-            publish(PERSPECTIVE_BALLS, convertBalls(balls));
-            publish(PERSPECTIVE_ROBOTS_ALLY, convertAllies(robotsYellow, robotsBlue));
-            publish(PERSPECTIVE_ROBOTS_FOE, convertFoe(robotsYellow, robotsBlue));
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void consumeRawWrapperPacket(Object object) {
+        if (object == null) return;
+        SSL_WrapperPacket wrapperPacket = (SSL_WrapperPacket) object;
+
+        if (wrapperPacket.hasGeometry() && wrapperPacket.getGeometry().hasField()) {
+            try {
+                publish(BIASED_FIELD, convertField(wrapperPacket.getGeometry().getField()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (wrapperPacket.hasDetection()) {
+            try {
+                SSL_DetectionFrame detection = wrapperPacket.getDetection();
+                publish(BIASED_BALLS, convertBalls(detection.getBallsList()));
+
+                List<SSL_DetectionRobot> yellows = detection.getRobotsYellowList();
+                List<SSL_DetectionRobot> blues = detection.getRobotsBlueList();
+                List<List<SSL_DetectionRobot>> biasedBots = convertRobots(yellows, blues);
+                publish(BIASED_ALLIES, biasedBots.get(0));
+                publish(BIASED_FOES, biasedBots.get(1));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private SSL_GeometryFieldSize convertField(SSL_GeometryFieldSize field) {
-        SSL_GeometryFieldSize.Builder perspectiveField = SSL_GeometryFieldSize.newBuilder();
-        perspectiveField.setFieldLength(field.getFieldLength());
-        perspectiveField.setFieldWidth(field.getFieldWidth());
-        perspectiveField.setGoalWidth(field.getGoalWidth());
-        perspectiveField.setGoalDepth(field.getGoalDepth());
-        perspectiveField.setBoundaryWidth(field.getBoundaryWidth());
+        SSL_GeometryFieldSize.Builder biasedField = SSL_GeometryFieldSize.newBuilder();
+        biasedField.setFieldLength(field.getFieldLength());
+        biasedField.setFieldWidth(field.getFieldWidth());
+        biasedField.setGoalWidth(field.getGoalWidth());
+        biasedField.setGoalDepth(field.getGoalDepth());
+        biasedField.setBoundaryWidth(field.getBoundaryWidth());
 
         for (SSL_FieldLineSegment line : field.getFieldLinesList()) {
-            SSL_FieldLineSegment.Builder perspectiveLine = SSL_FieldLineSegment.newBuilder();
+            SSL_FieldLineSegment.Builder biasedLine = SSL_FieldLineSegment.newBuilder();
 
-            perspectiveLine.setName(line.getName());
-            perspectiveLine.setP1(convertVector(line.getP1()));
-            perspectiveLine.setP2(convertVector(line.getP2()));
-            perspectiveLine.setThickness(line.getThickness());
-            perspectiveLine.setType(line.getType());
+            biasedLine.setName(line.getName());
+            biasedLine.setP1(biasVec(line.getP1()));
+            biasedLine.setP2(biasVec(line.getP2()));
+            biasedLine.setThickness(line.getThickness());
+            biasedLine.setType(line.getType());
 
-            perspectiveField.addFieldLines(perspectiveLine);
+            biasedField.addFieldLines(biasedLine);
         }
 
-        return perspectiveField.build();
+        return biasedField.build();
     }
 
     private List<SSL_DetectionBall> convertBalls(List<SSL_DetectionBall> balls) {
-        List<SSL_DetectionBall> perspectiveBalls = new ArrayList<SSL_DetectionBall>();
+        List<SSL_DetectionBall> biasedBalls = new ArrayList<>();
         for (SSL_DetectionBall ball : balls) {
-            SSL_DetectionBall.Builder perspectiveBall = SSL_DetectionBall.newBuilder();
-            perspectiveBall.setConfidence(ball.getConfidence());
-            perspectiveBall.setArea(ball.getArea());
+            SSL_DetectionBall.Builder biasedBall = SSL_DetectionBall.newBuilder();
+            biasedBall.setConfidence(ball.getConfidence());
+            biasedBall.setArea(ball.getArea());
 
-            Vector2f.Builder ballVector = Vector2f.newBuilder();
-            ballVector.setX(ball.getX());
-            ballVector.setY(ball.getY());
-            Vector2f perspectiveVector = convertVector(ballVector.build());
-            perspectiveBall.setX(perspectiveVector.getX());
-            perspectiveBall.setY(perspectiveVector.getY());
-            perspectiveBall.setZ(ball.getZ());
-            perspectiveBall.setPixelX(ball.getPixelX());
-            perspectiveBall.setPixelY(ball.getPixelY());
+            Vector2f biasedVec = biasVec(ball.getX(), ball.getY());
+            biasedBall.setX(biasedVec.getX());
+            biasedBall.setY(biasedVec.getY());
+            biasedBall.setZ(ball.getZ());
 
-            perspectiveBalls.add(perspectiveBall.build());
+            biasedBall.setPixelX(ball.getPixelX());
+            biasedBall.setPixelY(ball.getPixelY());
+
+            biasedBalls.add(biasedBall.build());
         }
 
-        return perspectiveBalls;
+        return biasedBalls;
     }
 
-    private List<SSL_DetectionRobot> convertAllies(List<SSL_DetectionRobot> robotsYellow, List<SSL_DetectionRobot> robotsBlue) {
-        return null;
-    }
+    private List<List<SSL_DetectionRobot>> convertRobots(List<SSL_DetectionRobot> yellows, List<SSL_DetectionRobot> blues) {
+        List<List<SSL_DetectionRobot>> biasedBots = new ArrayList<>();
+        List<SSL_DetectionRobot> biasedAllies = new ArrayList<>();
+        List<SSL_DetectionRobot> biasedFoes = new ArrayList<>();
 
-    private List<SSL_DetectionRobot> convertFoe(List<SSL_DetectionRobot> robotsYellow, List<SSL_DetectionRobot> robotsBlue) {
-        return null;
-    }
-
-    private Vector2f convertVector(Vector2f vector) {
-        Vector2f.Builder perspectiveVector = Vector2f.newBuilder();
+        List<SSL_DetectionRobot> allies;
+        List<SSL_DetectionRobot> foes;
         switch (TritonSoccerAI.getTeam()) {
             case YELLOW -> {
-                perspectiveVector.setX(-vector.getY());
-                perspectiveVector.setY(vector.getX());
+                allies = yellows;
+                foes = blues;
             }
             case BLUE -> {
-                perspectiveVector.setX(vector.getY());
-                perspectiveVector.setY(-vector.getX());
+                allies = blues;
+                foes = yellows;
             }
+            default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
         }
-        return perspectiveVector.build();
+
+        for (SSL_DetectionRobot ally : allies) {
+            SSL_DetectionRobot biasedAlly = convertRobot(ally);
+            biasedAllies.add(biasedAlly);
+        }
+
+        for (SSL_DetectionRobot foe : foes) {
+            SSL_DetectionRobot biasedFoe = convertRobot(foe);
+            biasedFoes.add(biasedFoe);
+        }
+
+        biasedBots.add(biasedAllies);
+        biasedBots.add(biasedFoes);
+        return biasedBots;
+    }
+
+    private static SSL_DetectionRobot convertRobot(SSL_DetectionRobot bot) {
+        SSL_DetectionRobot.Builder biasedBot = SSL_DetectionRobot.newBuilder();
+        biasedBot.setConfidence(bot.getConfidence());
+        biasedBot.setRobotId(bot.getRobotId());
+
+        Vector2f biasedVec = biasVec(bot.getX(), bot.getY());
+        biasedBot.setX(biasedVec.getX());
+        biasedBot.setY(biasedVec.getY());
+
+        biasedBot.setOrientation(convertOrient(bot.getOrientation()));
+        biasedBot.setPixelX(bot.getPixelX());
+        biasedBot.setPixelY(bot.getPixelY());
+        biasedBot.setHeight(bot.getHeight());
+        return biasedBot.build();
+    }
+
+    private static Vector2f biasVec(float x, float y) {
+        Vector2f.Builder vec = Vector2f.newBuilder();
+        vec.setX(x);
+        vec.setY(y);
+        return biasVec(vec.build());
+    }
+
+    private static Vector2f biasVec(Vector2f vec) {
+        Vector2f.Builder biasedVec = Vector2f.newBuilder();
+        switch (TritonSoccerAI.getTeam()) {
+            case YELLOW -> {
+                biasedVec.setX(-vec.getY());
+                biasedVec.setY(vec.getX());
+            }
+            case BLUE -> {
+                biasedVec.setX(vec.getY());
+                biasedVec.setY(-vec.getX());
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
+        }
+        return biasedVec.build();
+    }
+
+    private static float convertOrient(float orient) {
+        switch (TritonSoccerAI.getTeam()) {
+            case YELLOW -> {
+                return (float) ((orient + (Math.PI / 2)) % (2 * Math.PI));
+            }
+            case BLUE -> {
+                return (float) ((orient - (Math.PI / 2)) % (2 * Math.PI));
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
+        }
     }
 }

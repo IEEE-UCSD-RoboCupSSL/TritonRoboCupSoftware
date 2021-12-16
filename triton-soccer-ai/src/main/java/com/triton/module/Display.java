@@ -1,10 +1,9 @@
 package com.triton.module;
 
+import com.triton.TritonSoccerAI;
 import com.triton.config.DisplayConfig;
 import com.triton.config.ObjectConfig;
-import proto.vision.MessagesRobocupSslDetection;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
-import proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldCircularArc;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldLineSegment;
@@ -15,17 +14,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.Config.DISPLAY_CONFIG;
 import static com.triton.config.Config.OBJECT_CONFIG;
 import static com.triton.config.EasyYamlReader.readYaml;
-import static com.triton.publisher_consumer.Exchange.RAW_DETECTION;
-import static com.triton.publisher_consumer.Exchange.RAW_GEOMETRY;
+import static com.triton.publisher_consumer.Exchange.*;
 import static java.awt.BorderLayout.*;
 import static java.awt.Color.*;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryData;
 
 public class Display extends Module {
     private static final String MAIN_FRAME_TITLE = "Triton Display";
@@ -84,25 +83,41 @@ public class Display extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(RAW_GEOMETRY, this::consumeRawGeometryData);
-        declareConsume(RAW_DETECTION, this::consumeRawDetectionFrame);
+        declareConsume(BIASED_FIELD, this::consumePerspectiveField);
+        declareConsume(BIASED_BALLS, this::consumePerspectiveBalls);
+        declareConsume(BIASED_ALLIES, this::consumePerspectiveAllies);
+        declareConsume(BIASED_FOES, this::consumePerspectiveFoes);
     }
 
-    private void consumeRawGeometryData(Object object) {
+    private void consumePerspectiveField(Object object) {
         if (object == null) return;
-        fieldPanel.setSslGeometryData((SSL_GeometryData) object);
+        fieldPanel.setField((SSL_GeometryFieldSize) object);
         frame.repaint();
     }
 
-    private void consumeRawDetectionFrame(Object object) {
+    private void consumePerspectiveBalls(Object object) {
         if (object == null) return;
-        fieldPanel.setSslDetectionFrame((SSL_DetectionFrame) object);
+        fieldPanel.setBalls((ArrayList<SSL_DetectionBall>) object);
+        frame.repaint();
+    }
+
+    private void consumePerspectiveAllies(Object object) {
+        if (object == null) return;
+        fieldPanel.setAllies((ArrayList<SSL_DetectionRobot>) object);
+        frame.repaint();
+    }
+
+    private void consumePerspectiveFoes(Object object) {
+        if (object == null) return;
+        fieldPanel.setFoes((ArrayList<SSL_DetectionRobot>) object);
         frame.repaint();
     }
 
     private class FieldPanel extends JPanel {
-        private SSL_GeometryData sslGeometryData;
-        private SSL_DetectionFrame sslDetectionFrame;
+        private SSL_GeometryFieldSize field;
+        private List<SSL_DetectionBall> balls;
+        private List<SSL_DetectionRobot> allies;
+        private List<SSL_DetectionRobot> foes;
 
         @Override
         protected void paintComponent(Graphics g) {
@@ -110,31 +125,42 @@ public class Display extends Module {
 
             Graphics2D graphics2D = (Graphics2D) g;
 
-            if (sslGeometryData != null) {
-                try {
-                    paintField(graphics2D);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            try {
+                paintField(graphics2D);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
         private void paintField(Graphics2D graphics2D) throws IOException {
-            SSL_GeometryFieldSize sslGeometryFieldSize = sslGeometryData.getField();
-            int totalFieldLength = sslGeometryFieldSize.getFieldLength() + sslGeometryFieldSize.getGoalDepth() * 2;
-            int fieldWidth = sslGeometryFieldSize.getFieldWidth();
+            if (field == null) return;
 
-            float xScale = (float) getWidth() / totalFieldLength;
-            float yScale = (float) getHeight() / fieldWidth;
+            transformGraphics(graphics2D, field);
+            paintGeometry(graphics2D, field);
+            paintBalls(graphics2D, balls);
+            paintBots(graphics2D, allies, foes);
+        }
+
+        private void transformGraphics(Graphics2D graphics2D, SSL_GeometryFieldSize field) {
+            int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2;
+            int fieldWidth = field.getFieldWidth();
+
+            float xScale = (float) getWidth() / fieldWidth;
+            float yScale = (float) getHeight() / totalFieldLength;
             float scale = Math.min(xScale, yScale);
 
             graphics2D.scale(scale, -scale);
-            graphics2D.translate(totalFieldLength / 2, -fieldWidth / 2);
+            graphics2D.translate(fieldWidth / 2, -totalFieldLength / 2);
+        }
+
+        private void paintGeometry(Graphics2D graphics2D, SSL_GeometryFieldSize field) {
+            int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2;
+            int fieldWidth = field.getFieldWidth();
 
             graphics2D.setColor(DARK_GRAY);
-            graphics2D.fillRect(-totalFieldLength / 2, -fieldWidth / 2, totalFieldLength, fieldWidth);
+            graphics2D.fillRect(-fieldWidth / 2, -totalFieldLength / 2, fieldWidth, totalFieldLength);
 
-            for (SSL_FieldLineSegment sslFieldLineSegment : sslGeometryFieldSize.getFieldLinesList()) {
+            for (SSL_FieldLineSegment sslFieldLineSegment : field.getFieldLinesList()) {
                 Vector2f p1 = sslFieldLineSegment.getP1();
                 Vector2f p2 = sslFieldLineSegment.getP2();
 
@@ -145,7 +171,7 @@ public class Display extends Module {
                         (int) p2.getY());
             }
 
-            for (SSL_FieldCircularArc sslFieldCircularArc : sslGeometryFieldSize.getFieldArcsList()) {
+            for (SSL_FieldCircularArc sslFieldCircularArc : field.getFieldArcsList()) {
                 Vector2f center = sslFieldCircularArc.getCenter();
                 float radius = sslFieldCircularArc.getRadius();
                 float a1 = sslFieldCircularArc.getA1();
@@ -159,75 +185,105 @@ public class Display extends Module {
                         (int) Math.toDegrees(a1),
                         (int) Math.toDegrees(a2));
             }
+        }
 
-            if (sslDetectionFrame == null) return;
+        private void paintBalls(Graphics2D graphics2D, List<SSL_DetectionBall> balls) {
+            if (balls != null) {
+                for (SSL_DetectionBall sslDetectionBall : balls) {
+                    float x = sslDetectionBall.getX();
+                    float y = sslDetectionBall.getY();
+                    float radius = objectConfig.getBallRadius();
 
-            for (SSL_DetectionBall sslDetectionBall : sslDetectionFrame.getBallsList()) {
-                float x = sslDetectionBall.getX();
-                float y = sslDetectionBall.getY();
-                float radius = objectConfig.getBallRadius();
+                    graphics2D.setColor(MAGENTA);
+                    graphics2D.fillArc((int) (x - radius / 2),
+                            (int) (y - radius / 2),
+                            (int) radius,
+                            (int) radius,
+                            0,
+                            360);
 
-                graphics2D.setColor(GREEN);
-                graphics2D.fillArc((int) (x - radius / 2),
-                        (int) (y - radius / 2),
-                        (int) radius,
-                        (int) radius,
-                        0,
-                        360);
-            }
-
-            for (MessagesRobocupSslDetection.SSL_DetectionRobot sslDetectionRobotYellow : sslDetectionFrame.getRobotsYellowList()) {
-                float x = sslDetectionRobotYellow.getX();
-                float y = sslDetectionRobotYellow.getY();
-                float radius = objectConfig.getYellowRobotRadius();
-
-                graphics2D.setColor(YELLOW);
-                graphics2D.fillArc((int) (x - radius / 2),
-                        (int) (y - radius / 2),
-                        (int) radius,
-                        (int) radius,
-                        0,
-                        360);
-
-                graphics2D.setColor(RED);
-                setFont(new Font(displayConfig.getRobotIdFontName(), Font.BOLD, displayConfig.getRobotIdFontSize()));
-                AffineTransform orgi = graphics2D.getTransform();
-                graphics2D.translate(x, y);
-                graphics2D.scale(1, -1);
-                graphics2D.drawString(String.valueOf(sslDetectionRobotYellow.getRobotId()), 0, 0);
-                graphics2D.setTransform(orgi);
-            }
-
-            graphics2D.setColor(BLUE);
-            for (SSL_DetectionRobot sslDetectionRobotBlue : sslDetectionFrame.getRobotsBlueList()) {
-                float x = sslDetectionRobotBlue.getX();
-                float y = sslDetectionRobotBlue.getY();
-                float radius = objectConfig.getBlueRobotRadius();
-
-                graphics2D.setColor(BLUE);
-                graphics2D.fillArc((int) (x - radius / 2),
-                        (int) (y - radius / 2),
-                        (int) radius,
-                        (int) radius,
-                        0,
-                        360);
-
-                graphics2D.setColor(CYAN);
-                setFont(new Font(displayConfig.getRobotIdFontName(), Font.BOLD, displayConfig.getRobotIdFontSize()));
-                AffineTransform orgi = graphics2D.getTransform();
-                graphics2D.translate(x, y);
-                graphics2D.scale(1, -1);
-                graphics2D.drawString(String.valueOf(sslDetectionRobotBlue.getRobotId()), 0, 0);
-                graphics2D.setTransform(orgi);
+                    graphics2D.setColor(BLACK);
+                    graphics2D.drawArc((int) (x - radius / 2),
+                            (int) (y - radius / 2),
+                            (int) radius,
+                            (int) radius,
+                            0,
+                            360);
+                }
             }
         }
 
-        public void setSslGeometryData(SSL_GeometryData sslGeometryData) {
-            this.sslGeometryData = sslGeometryData;
+        private void paintBots(Graphics2D graphics2D, List<SSL_DetectionRobot> allies, List<SSL_DetectionRobot> foes) {
+            if (allies != null) {
+                for (SSL_DetectionRobot ally : allies) {
+
+                    Color fillColor;
+                    switch (TritonSoccerAI.getTeam()) {
+                        case YELLOW -> fillColor = ORANGE;
+                        case BLUE -> fillColor = BLUE;
+                        default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
+                    }
+                    paintBot(graphics2D, ally, fillColor, GREEN);
+                }
+            }
+
+            if (foes != null) {
+                for (SSL_DetectionRobot foe : foes) {
+                    Color fillColor;
+                    switch (TritonSoccerAI.getTeam()) {
+                        case YELLOW -> fillColor = BLUE;
+                        case BLUE -> fillColor = ORANGE;
+                        default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
+                    }
+                    paintBot(graphics2D, foe, fillColor, RED);
+                }
+            }
         }
 
-        public void setSslDetectionFrame(SSL_DetectionFrame sslDetectionFrame) {
-            this.sslDetectionFrame = sslDetectionFrame;
+        private void paintBot(Graphics2D graphics2D, SSL_DetectionRobot bot, Color fillColor, Color outlineColor) {
+            float x = bot.getX();
+            float y = bot.getY();
+            float radius = objectConfig.getYellowBotRadius();
+
+            graphics2D.setColor(fillColor);
+            graphics2D.fillArc((int) (x - radius / 2),
+                    (int) (y - radius / 2),
+                    (int) radius,
+                    (int) radius,
+                    0,
+                    360);
+
+            graphics2D.setColor(outlineColor);
+            graphics2D.drawArc((int) (x - radius / 2),
+                    (int) (y - radius / 2),
+                    (int) radius,
+                    (int) radius,
+                    0,
+                    360);
+
+            graphics2D.setColor(WHITE);
+            setFont(new Font(displayConfig.getBotIdFontName(), Font.BOLD, displayConfig.getBotIdFontSize()));
+            AffineTransform orgi = graphics2D.getTransform();
+            graphics2D.translate(x, y);
+            graphics2D.scale(1, -1);
+            graphics2D.drawString(String.valueOf(bot.getRobotId()), 0, 0);
+            graphics2D.setTransform(orgi);
+        }
+
+        public void setField(SSL_GeometryFieldSize field) {
+            this.field = field;
+        }
+
+        public void setBalls(ArrayList<SSL_DetectionBall> balls) {
+            this.balls = balls;
+        }
+
+        public void setAllies(ArrayList<SSL_DetectionRobot> allies) {
+            this.allies = allies;
+        }
+
+        public void setFoes(ArrayList<SSL_DetectionRobot> foes) {
+            this.foes = foes;
         }
     }
 }

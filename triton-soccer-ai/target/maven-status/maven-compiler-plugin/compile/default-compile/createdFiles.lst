@@ -15,6 +15,7 @@ proto/vision/MessagesRobocupSslDetectionTracked$Capability.class
 com/triton/networking/UDP_Sender.class
 proto/simulation/SslSimulationRobotFeedback$RobotFeedback$Builder.class
 proto/vision/MessagesRobocupSslDetectionTracked$Capability$1.class
+com/triton/module/Display$1.class
 proto/vision/MessagesRobocupSslGeometry$Vector2f$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedBall$Builder.class
 proto/simulation/SslSimulationRobotControl$RobotCommand$Builder.class

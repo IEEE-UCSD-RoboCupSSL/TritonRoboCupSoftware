@@ -32,11 +32,6 @@ public class CameraReceiver extends Module {
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declarePublish(RAW_WRAPPER_PACKAGE);
-        declarePublish(RAW_GEOMETRY);
-        declarePublish(RAW_DETECTION);
-        declarePublish(RAW_BALLS);
-        declarePublish(RAW_ROBOTS_YELLOW);
-        declarePublish(RAW_ROBOTS_BLUE);
     }
 
     /**
@@ -46,10 +41,10 @@ public class CameraReceiver extends Module {
      */
     private void setupNetworking() throws IOException {
         // Setup a multicast receiver
-        UDP_MulticastReceiver udpMulticastReceiver = new UDP_MulticastReceiver(networkConfig.getCameraInputPort(),
+        UDP_MulticastReceiver receiver = new UDP_MulticastReceiver(networkConfig.getCameraInputPort(),
                 networkConfig.getCameraInputMulticastAddress(),
                 this::processPacket);
-        udpMulticastReceiver.start();
+        receiver.start();
     }
 
     /**
@@ -59,8 +54,8 @@ public class CameraReceiver extends Module {
      */
     private void processPacket(DatagramPacket packet) {
         try {
-            SSL_WrapperPacket sslWrapperPacket = parsePacket(packet);
-            publishWrapperPacket(sslWrapperPacket);
+            SSL_WrapperPacket wrapperPacket = parsePacket(packet);
+            publishWrapperPacket(wrapperPacket);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,24 +72,19 @@ public class CameraReceiver extends Module {
         ByteArrayInputStream stream = new ByteArrayInputStream(packet.getData(),
                 packet.getOffset(),
                 packet.getLength());
-        SSL_WrapperPacket sslWrapperPacket =
+        SSL_WrapperPacket wrapperPacket =
                 SSL_WrapperPacket.parseFrom(stream);
         stream.close();
-        return sslWrapperPacket;
+        return wrapperPacket;
     }
 
     /**
      * Publishes an SSL_WrapperPacket to various echanges
      *
-     * @param sslWrapperPacket the packet to send
+     * @param wrapperPacket the packet to send
      * @throws IOException
      */
-    private void publishWrapperPacket(SSL_WrapperPacket sslWrapperPacket) throws IOException {
-        publish(RAW_WRAPPER_PACKAGE, sslWrapperPacket);
-        publish(RAW_GEOMETRY, sslWrapperPacket.getGeometry());
-        publish(RAW_DETECTION, sslWrapperPacket.getDetection());
-        publish(RAW_BALLS, sslWrapperPacket.getDetection().getBallsList());
-        publish(RAW_ROBOTS_YELLOW, sslWrapperPacket.getDetection().getRobotsYellowList());
-        publish(RAW_ROBOTS_BLUE, sslWrapperPacket.getDetection().getRobotsBlueList());
+    private void publishWrapperPacket(SSL_WrapperPacket wrapperPacket) throws IOException {
+        publish(RAW_WRAPPER_PACKAGE, wrapperPacket);
     }
 }

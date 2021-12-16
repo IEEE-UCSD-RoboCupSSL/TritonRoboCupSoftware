@@ -47,7 +47,7 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     protected void declarePublish(Exchange exchange) throws IOException {
-        getChannel().exchangeDeclare(exchange.getExchangeName(), EXCHANGE_MODE_FANOUT);
+        getChannel().exchangeDeclare(exchange.name(), EXCHANGE_MODE_FANOUT);
     }
 
     /**
@@ -59,7 +59,7 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     protected void declareConsume(Exchange exchange, Consumer<Object> messageConsumer) throws IOException {
-        String exchangeName = exchange.getExchangeName();
+        String exchangeName = exchange.name();
         getChannel().exchangeDeclare(exchangeName, EXCHANGE_MODE_FANOUT);
         String queueName = getChannel().queueDeclare().getQueue();
         getChannel().queueBind(queueName, exchangeName, "");
@@ -68,7 +68,7 @@ public abstract class Module extends Thread {
             try {
                 Object object = standardDeserialize(message.getBody());
                 messageConsumer.accept(object);
-            } catch (ClassNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         };
@@ -85,7 +85,7 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     protected void publish(Exchange exchange, Object object) throws IOException {
-        getChannel().basicPublish(exchange.getExchangeName(), "", null, standardSerialize(object));
+        getChannel().basicPublish(exchange.name(), "", null, standardSerialize(object));
     }
 
     public Channel getChannel() {

@@ -2,8 +2,8 @@ package com.triton.config;
 
 public class ObjectConfig {
     private float ballRadius;
-    private float blueRobotRadius;
-    private float yellowRobotRadius;
+    private float blueBotRadius;
+    private float yellowBotRadius;
 
     public float getBallRadius() {
         return ballRadius;
@@ -13,19 +13,19 @@ public class ObjectConfig {
         this.ballRadius = ballRadius;
     }
 
-    public float getBlueRobotRadius() {
-        return blueRobotRadius;
+    public float getBlueBotRadius() {
+        return blueBotRadius;
     }
 
-    public void setBlueRobotRadius(float blueRobotRadius) {
-        this.blueRobotRadius = blueRobotRadius;
+    public void setBlueBotRadius(float blueBotRadius) {
+        this.blueBotRadius = blueBotRadius;
     }
 
-    public float getYellowRobotRadius() {
-        return yellowRobotRadius;
+    public float getYellowBotRadius() {
+        return yellowBotRadius;
     }
 
-    public void setYellowRobotRadius(float yellowRobotRadius) {
-        this.yellowRobotRadius = yellowRobotRadius;
+    public void setYellowBotRadius(float yellowBotRadius) {
+        this.yellowBotRadius = yellowBotRadius;
     }
 }
