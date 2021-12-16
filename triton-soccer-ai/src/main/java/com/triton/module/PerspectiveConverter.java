@@ -21,6 +21,57 @@ public class PerspectiveConverter extends Module {
         declareExchanges();
     }
 
+    private static SSL_DetectionRobot convertRobot(SSL_DetectionRobot bot) {
+        SSL_DetectionRobot.Builder biasedBot = SSL_DetectionRobot.newBuilder();
+        biasedBot.setConfidence(bot.getConfidence());
+        biasedBot.setRobotId(bot.getRobotId());
+
+        Vector2f biasedVec = biasVec(bot.getX(), bot.getY());
+        biasedBot.setX(biasedVec.getX());
+        biasedBot.setY(biasedVec.getY());
+
+        biasedBot.setOrientation(convertOrient(bot.getOrientation()));
+        biasedBot.setPixelX(bot.getPixelX());
+        biasedBot.setPixelY(bot.getPixelY());
+        biasedBot.setHeight(bot.getHeight());
+        return biasedBot.build();
+    }
+
+    private static Vector2f biasVec(float x, float y) {
+        Vector2f.Builder vec = Vector2f.newBuilder();
+        vec.setX(x);
+        vec.setY(y);
+        return biasVec(vec.build());
+    }
+
+    private static Vector2f biasVec(Vector2f vec) {
+        Vector2f.Builder biasedVec = Vector2f.newBuilder();
+        switch (TritonSoccerAI.getTeam()) {
+            case YELLOW -> {
+                biasedVec.setX(-vec.getY());
+                biasedVec.setY(vec.getX());
+            }
+            case BLUE -> {
+                biasedVec.setX(vec.getY());
+                biasedVec.setY(-vec.getX());
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
+        }
+        return biasedVec.build();
+    }
+
+    private static float convertOrient(float orient) {
+        switch (TritonSoccerAI.getTeam()) {
+            case YELLOW -> {
+                return (float) ((orient + (Math.PI / 2)) % (2 * Math.PI));
+            }
+            case BLUE -> {
+                return (float) ((orient - (Math.PI / 2)) % (2 * Math.PI));
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
+        }
+    }
+
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
@@ -135,56 +186,5 @@ public class PerspectiveConverter extends Module {
         biasedBots.add(biasedAllies);
         biasedBots.add(biasedFoes);
         return biasedBots;
-    }
-
-    private static SSL_DetectionRobot convertRobot(SSL_DetectionRobot bot) {
-        SSL_DetectionRobot.Builder biasedBot = SSL_DetectionRobot.newBuilder();
-        biasedBot.setConfidence(bot.getConfidence());
-        biasedBot.setRobotId(bot.getRobotId());
-
-        Vector2f biasedVec = biasVec(bot.getX(), bot.getY());
-        biasedBot.setX(biasedVec.getX());
-        biasedBot.setY(biasedVec.getY());
-
-        biasedBot.setOrientation(convertOrient(bot.getOrientation()));
-        biasedBot.setPixelX(bot.getPixelX());
-        biasedBot.setPixelY(bot.getPixelY());
-        biasedBot.setHeight(bot.getHeight());
-        return biasedBot.build();
-    }
-
-    private static Vector2f biasVec(float x, float y) {
-        Vector2f.Builder vec = Vector2f.newBuilder();
-        vec.setX(x);
-        vec.setY(y);
-        return biasVec(vec.build());
-    }
-
-    private static Vector2f biasVec(Vector2f vec) {
-        Vector2f.Builder biasedVec = Vector2f.newBuilder();
-        switch (TritonSoccerAI.getTeam()) {
-            case YELLOW -> {
-                biasedVec.setX(-vec.getY());
-                biasedVec.setY(vec.getX());
-            }
-            case BLUE -> {
-                biasedVec.setX(vec.getY());
-                biasedVec.setY(-vec.getX());
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
-        }
-        return biasedVec.build();
-    }
-
-    private static float convertOrient(float orient) {
-        switch (TritonSoccerAI.getTeam()) {
-            case YELLOW -> {
-                return (float) ((orient + (Math.PI / 2)) % (2 * Math.PI));
-            }
-            case BLUE -> {
-                return (float) ((orient - (Math.PI / 2)) % (2 * Math.PI));
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
-        }
     }
 }

@@ -10,7 +10,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.Config.NETWORK_CONFIG;
 import static com.triton.config.EasyYamlReader.readYaml;
-import static com.triton.publisher_consumer.Exchange.*;
+import static com.triton.publisher_consumer.Exchange.RAW_WRAPPER_PACKAGE;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class CameraReceiver extends Module {

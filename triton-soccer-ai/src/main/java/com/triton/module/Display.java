@@ -24,8 +24,6 @@ import static com.triton.config.EasyYamlReader.readYaml;
 import static com.triton.publisher_consumer.Exchange.*;
 import static java.awt.BorderLayout.*;
 import static java.awt.Color.*;
-import static java.awt.Component.CENTER_ALIGNMENT;
-import static javax.swing.BoxLayout.*;
 import static javax.swing.BoxLayout.Y_AXIS;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -56,7 +54,7 @@ public class Display extends Module {
 
     private void prepareGUI() {
         frame = new JFrame(MAIN_FRAME_TITLE);
-        frame.setSize(400, 400);
+        frame.setSize(800, 600);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
@@ -124,7 +122,7 @@ public class Display extends Module {
     }
 
     private class FieldPanel extends JPanel {
-        private static final int FIELD_BUFFER_THICKNESS = 300;
+        private static final int FIELD_BUFFER_THICKNESS = 500;
 
         private SSL_GeometryFieldSize field;
         private List<SSL_DetectionBall> balls;
