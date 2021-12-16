@@ -97,27 +97,27 @@ public class Display extends Module {
         declareConsume(BIASED_FOES, this::consumePerspectiveFoes);
     }
 
-    private void consumePerspectiveField(Object object) {
-        if (object == null) return;
-        fieldPanel.setField((SSL_GeometryFieldSize) object);
+    private void consumePerspectiveField(Object o) {
+        if (o == null) return;
+        fieldPanel.setField((SSL_GeometryFieldSize) o);
         frame.repaint();
     }
 
-    private void consumePerspectiveBalls(Object object) {
-        if (object == null) return;
-        fieldPanel.setBalls((ArrayList<SSL_DetectionBall>) object);
+    private void consumePerspectiveBalls(Object o) {
+        if (o == null) return;
+        fieldPanel.setBalls((ArrayList<SSL_DetectionBall>) o);
         frame.repaint();
     }
 
-    private void consumePerspectiveAllies(Object object) {
-        if (object == null) return;
-        fieldPanel.setAllies((ArrayList<SSL_DetectionRobot>) object);
+    private void consumePerspectiveAllies(Object o) {
+        if (o == null) return;
+        fieldPanel.setAllies((ArrayList<SSL_DetectionRobot>) o);
         frame.repaint();
     }
 
-    private void consumePerspectiveFoes(Object object) {
-        if (object == null) return;
-        fieldPanel.setFoes((ArrayList<SSL_DetectionRobot>) object);
+    private void consumePerspectiveFoes(Object o) {
+        if (o == null) return;
+        fieldPanel.setFoes((ArrayList<SSL_DetectionRobot>) o);
         frame.repaint();
     }
 

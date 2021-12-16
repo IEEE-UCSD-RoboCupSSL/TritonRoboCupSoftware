@@ -82,9 +82,9 @@ public class PerspectiveConverter extends Module {
         declarePublish(BIASED_FOES);
     }
 
-    private void consumeRawWrapperPacket(Object object) {
-        if (object == null) return;
-        SSL_WrapperPacket wrapperPacket = (SSL_WrapperPacket) object;
+    private void consumeRawWrapperPacket(Object o) {
+        if (o == null) return;
+        SSL_WrapperPacket wrapperPacket = (SSL_WrapperPacket) o;
 
         if (wrapperPacket.hasGeometry() && wrapperPacket.getGeometry().hasField()) {
             try {

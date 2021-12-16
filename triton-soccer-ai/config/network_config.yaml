@@ -1,2 +1,11 @@
-cameraInputPort: 10020
-cameraInputMulticastAddress: "224.5.23.2"
+cameraOutputAddress: "224.5.23.2"
+cameraOutputPort: 10020
+
+simulationControlAddress: "224.5.23.2"
+simulationControlPort: 10300
+
+simulationRobotControlBlueAddress: "224.5.23.2"
+simulationRobotControlBluePort: 10301
+
+simulationRobotControlYellowAddress: "224.5.23.2"
+simulationRobotControlYellowPort: 10302

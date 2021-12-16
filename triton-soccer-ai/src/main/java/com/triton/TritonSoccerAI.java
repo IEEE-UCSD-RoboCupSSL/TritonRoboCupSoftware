@@ -1,8 +1,6 @@
 package com.triton;
 
-import com.triton.module.CameraReceiver;
-import com.triton.module.Display;
-import com.triton.module.PerspectiveConverter;
+import com.triton.module.*;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -10,12 +8,17 @@ import java.util.concurrent.TimeoutException;
 public class TritonSoccerAI {
     private static Team team;
 
-    public TritonSoccerAI(Team team) throws IOException, TimeoutException {
-        TritonSoccerAI.team = team;
+    public TritonSoccerAI() throws IOException, TimeoutException {
+        // input
+        new VisionReceiver().start();
 
-        new CameraReceiver();
-        new PerspectiveConverter();
-        new Display();
+        // processing
+        new PerspectiveConverter().start();
+        new SimulatorCommandCreator().start();
+
+        // output
+        new SimulatorCommandSender().start();
+        new Display().start();
     }
 
     public static void main(String[] args) {
@@ -31,7 +34,8 @@ public class TritonSoccerAI {
             throw new IllegalStateException();
 
         try {
-            new TritonSoccerAI(team);
+            TritonSoccerAI.setTeam(team);
+            new TritonSoccerAI();
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }
@@ -39,5 +43,9 @@ public class TritonSoccerAI {
 
     public static Team getTeam() {
         return team;
+    }
+
+    public static void setTeam(Team team) {
+        TritonSoccerAI.team = team;
     }
 }

@@ -4,17 +4,17 @@ import java.io.IOException;
 import java.net.*;
 import java.util.function.Consumer;
 
-public class UDP_MulticastReceiver extends Thread {
+public class UDP_MulticastClient extends Thread {
     private static final String NETWORK_INTERFACE = "bge0";
     private static final int PACKET_BUFFER_SIZE = 9999;
 
     private final MulticastSocket socket;
     private final byte[] buf = new byte[PACKET_BUFFER_SIZE];
-    Consumer<DatagramPacket> consumer;
+    private final Consumer<DatagramPacket> consumer;
 
-    public UDP_MulticastReceiver(int port, String multicastAddressName, Consumer<DatagramPacket> consumer) throws IOException {
+    public UDP_MulticastClient(String address, int port, Consumer<DatagramPacket> consumer) throws IOException {
         socket = new MulticastSocket(port);
-        InetAddress multicastAddress = InetAddress.getByName(multicastAddressName);
+        InetAddress multicastAddress = InetAddress.getByName(address);
         InetSocketAddress group = new InetSocketAddress(multicastAddress, port);
         NetworkInterface networkInterface = NetworkInterface.getByName(NETWORK_INTERFACE);
         socket.joinGroup(group, networkInterface);
