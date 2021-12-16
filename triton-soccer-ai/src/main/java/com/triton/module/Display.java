@@ -24,6 +24,9 @@ import static com.triton.config.EasyYamlReader.readYaml;
 import static com.triton.publisher_consumer.Exchange.*;
 import static java.awt.BorderLayout.*;
 import static java.awt.Color.*;
+import static java.awt.Component.CENTER_ALIGNMENT;
+import static javax.swing.BoxLayout.*;
+import static javax.swing.BoxLayout.Y_AXIS;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class Display extends Module {
@@ -35,6 +38,7 @@ public class Display extends Module {
     private JPanel southPanel;
     private JPanel eastPanel;
     private JPanel westPanel;
+    private JPanel centerPanel;
     private FieldPanel fieldPanel;
 
     public Display() throws IOException, TimeoutException {
@@ -68,15 +72,21 @@ public class Display extends Module {
         westPanel = new JPanel();
         westPanel.setBackground(RED);
 
+        centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, Y_AXIS));
+        centerPanel.setBackground(BLACK);
+
         fieldPanel = new FieldPanel();
-        fieldPanel.setLayout(new BorderLayout());
-        fieldPanel.setBackground(BLACK);
+        fieldPanel.setBackground(WHITE);
+        centerPanel.add(Box.createVerticalGlue());
+        centerPanel.add(fieldPanel, CENTER);
+        centerPanel.add(Box.createVerticalGlue());
 
         frame.add(northPanel, NORTH);
         frame.add(southPanel, SOUTH);
         frame.add(eastPanel, EAST);
         frame.add(westPanel, WEST);
-        frame.add(fieldPanel, CENTER);
+        frame.add(centerPanel, CENTER);
         frame.setVisible(true);
     }
 
@@ -114,6 +124,8 @@ public class Display extends Module {
     }
 
     private class FieldPanel extends JPanel {
+        private static final int FIELD_BUFFER_THICKNESS = 300;
+
         private SSL_GeometryFieldSize field;
         private List<SSL_DetectionBall> balls;
         private List<SSL_DetectionRobot> allies;
@@ -142,23 +154,28 @@ public class Display extends Module {
         }
 
         private void transformGraphics(Graphics2D graphics2D, SSL_GeometryFieldSize field) {
-            int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2;
-            int fieldWidth = field.getFieldWidth();
+            int totalFieldWidth = field.getFieldWidth() + 2 * FIELD_BUFFER_THICKNESS;
+            int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2 + 2 * FIELD_BUFFER_THICKNESS;
 
-            float xScale = (float) getWidth() / fieldWidth;
-            float yScale = (float) getHeight() / totalFieldLength;
-            float scale = Math.min(xScale, yScale);
+            float xScale = (float) getParent().getWidth() / totalFieldWidth;
+            float yScale = (float) getParent().getHeight() / totalFieldLength;
+            float minScale = Math.min(xScale, yScale);
 
-            graphics2D.scale(scale, -scale);
-            graphics2D.translate(fieldWidth / 2, -totalFieldLength / 2);
+            Dimension dimension = new Dimension((int) (totalFieldWidth * minScale), (int) (totalFieldLength * minScale));
+            setMinimumSize(dimension);
+            setMaximumSize(dimension);
+            setPreferredSize(dimension);
+
+            graphics2D.scale(minScale, -minScale);
+            graphics2D.translate(totalFieldWidth / 2, -totalFieldLength / 2);
         }
 
         private void paintGeometry(Graphics2D graphics2D, SSL_GeometryFieldSize field) {
-            int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2;
-            int fieldWidth = field.getFieldWidth();
+            int totalFieldWidth = field.getFieldWidth() + 2 * FIELD_BUFFER_THICKNESS;
+            int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2 + 2 * FIELD_BUFFER_THICKNESS;
 
             graphics2D.setColor(DARK_GRAY);
-            graphics2D.fillRect(-fieldWidth / 2, -totalFieldLength / 2, fieldWidth, totalFieldLength);
+            graphics2D.fillRect(-totalFieldWidth / 2, -totalFieldLength / 2, totalFieldWidth, totalFieldLength);
 
             for (SSL_FieldLineSegment sslFieldLineSegment : field.getFieldLinesList()) {
                 Vector2f p1 = sslFieldLineSegment.getP1();
