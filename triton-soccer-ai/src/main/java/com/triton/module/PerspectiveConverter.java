@@ -4,6 +4,7 @@ import com.triton.TritonSoccerAI;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -66,7 +67,26 @@ public class PerspectiveConverter extends Module {
     }
 
     private List<SSL_DetectionBall> convertBalls(List<SSL_DetectionBall> balls) {
-        return null;
+        List<SSL_DetectionBall> perspectiveBalls = new ArrayList<SSL_DetectionBall>();
+        for (SSL_DetectionBall ball : balls) {
+            SSL_DetectionBall.Builder perspectiveBall = SSL_DetectionBall.newBuilder();
+            perspectiveBall.setConfidence(ball.getConfidence());
+            perspectiveBall.setArea(ball.getArea());
+
+            Vector2f.Builder ballVector = Vector2f.newBuilder();
+            ballVector.setX(ball.getX());
+            ballVector.setY(ball.getY());
+            Vector2f perspectiveVector = convertVector(ballVector.build());
+            perspectiveBall.setX(perspectiveVector.getX());
+            perspectiveBall.setY(perspectiveVector.getY());
+            perspectiveBall.setZ(ball.getZ());
+            perspectiveBall.setPixelX(ball.getPixelX());
+            perspectiveBall.setPixelY(ball.getPixelY());
+
+            perspectiveBalls.add(perspectiveBall.build());
+        }
+
+        return perspectiveBalls;
     }
 
     private List<SSL_DetectionRobot> convertAllies(List<SSL_DetectionRobot> robotsYellow, List<SSL_DetectionRobot> robotsBlue) {

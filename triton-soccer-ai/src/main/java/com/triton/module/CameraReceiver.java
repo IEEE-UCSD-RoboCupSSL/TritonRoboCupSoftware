@@ -32,11 +32,6 @@ public class CameraReceiver extends Module {
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declarePublish(RAW_WRAPPER_PACKAGE);
-        declarePublish(RAW_GEOMETRY);
-        declarePublish(RAW_DETECTION);
-        declarePublish(RAW_BALLS);
-        declarePublish(RAW_ROBOTS_YELLOW);
-        declarePublish(RAW_ROBOTS_BLUE);
     }
 
     /**
