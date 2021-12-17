@@ -37,9 +37,6 @@ public class SimulatorCommandCreator extends Module {
             teleportBot.setX(0);
             teleportBot.setY(0);
             teleportBot.setOrientation(0);
-            teleportBot.setVX(0);
-            teleportBot.setVY(0);
-            teleportBot.setVAngular(0);
             control.addTeleportRobot(teleportBot);
             command.setControl(control);
 
