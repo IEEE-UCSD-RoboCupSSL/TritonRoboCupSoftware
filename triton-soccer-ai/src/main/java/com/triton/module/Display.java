@@ -122,8 +122,6 @@ public class Display extends Module {
     }
 
     private class FieldPanel extends JPanel {
-        private static final int FIELD_BUFFER_THICKNESS = 500;
-
         private SSL_GeometryFieldSize field;
         private List<SSL_DetectionBall> balls;
         private List<SSL_DetectionRobot> allies;
@@ -152,8 +150,8 @@ public class Display extends Module {
         }
 
         private void transformGraphics(Graphics2D graphics2D, SSL_GeometryFieldSize field) {
-            int totalFieldWidth = field.getFieldWidth() + 2 * FIELD_BUFFER_THICKNESS;
-            int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2 + 2 * FIELD_BUFFER_THICKNESS;
+            int totalFieldWidth = field.getFieldWidth() + 2 * field.getBoundaryWidth();
+            int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2 + 2 * field.getBoundaryWidth();
 
             float xScale = (float) getParent().getWidth() / totalFieldWidth;
             float yScale = (float) getParent().getHeight() / totalFieldLength;
@@ -169,8 +167,8 @@ public class Display extends Module {
         }
 
         private void paintGeometry(Graphics2D graphics2D, SSL_GeometryFieldSize field) {
-            int totalFieldWidth = field.getFieldWidth() + 2 * FIELD_BUFFER_THICKNESS;
-            int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2 + 2 * FIELD_BUFFER_THICKNESS;
+            int totalFieldWidth = field.getFieldWidth() + 2 * field.getBoundaryWidth();
+            int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2 + 2 * field.getBoundaryWidth();
 
             graphics2D.setColor(DARK_GRAY);
             graphics2D.fillRect(-totalFieldWidth / 2, -totalFieldLength / 2, totalFieldWidth, totalFieldLength);
