@@ -1,7 +1,0 @@
-syntax = "proto3";
-option java_package = "proto.triton";
-
-message TritonBotCmd {
-  float   x = 1;
-  float   y = 2;
-}
