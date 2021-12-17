@@ -14,10 +14,12 @@ public class TritonSoccerAI {
 
         // processing
         new PerspectiveConverter().start();
-        new SimulatorCommandCreator().start();
+//        new SimulatorCommandCreator().start();
+        new RobotControlCreator().start();
 
         // output
         new SimulatorCommandSender().start();
+        new RobotControlSender().start();
         new Display().start();
     }
 

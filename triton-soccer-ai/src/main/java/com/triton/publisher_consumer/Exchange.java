@@ -7,4 +7,5 @@ public enum Exchange {
     BIASED_ALLIES,
     BIASED_FOES,
     SIMULATOR_COMMAND,
+    ROBOT_CONTROL,
 }
