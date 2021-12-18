@@ -1,18 +1,9 @@
 package com.triton.module;
 
-import proto.simulation.SslSimulationControl.TeleportRobot;
-import proto.simulation.SslSimulationRobotControl;
-
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.publisher_consumer.Exchange.ROBOT_CONTROL;
-import static com.triton.publisher_consumer.Exchange.SIMULATOR_COMMAND;
-import static proto.simulation.SslGcCommon.RobotId;
-import static proto.simulation.SslGcCommon.Team;
-import static proto.simulation.SslSimulationConfig.SimulatorConfig;
-import static proto.simulation.SslSimulationControl.SimulatorCommand;
-import static proto.simulation.SslSimulationControl.SimulatorControl;
 import static proto.simulation.SslSimulationRobotControl.*;
 
 public class RobotControlCreator extends Module {
