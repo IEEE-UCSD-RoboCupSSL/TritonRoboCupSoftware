@@ -2,6 +2,7 @@ package com.triton.module;
 
 import com.triton.config.NetworkConfig;
 import com.triton.networking.UDP_Client;
+import com.triton.publisher_consumer.Module;
 import proto.simulation.SslSimulationControl.SimulatorResponse;
 
 import java.io.ByteArrayInputStream;

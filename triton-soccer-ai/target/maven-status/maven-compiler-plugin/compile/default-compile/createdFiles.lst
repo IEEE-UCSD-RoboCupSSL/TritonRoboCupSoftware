@@ -70,7 +70,6 @@ com/triton/module/RobotControlSender$1.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldLineSegment$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedBall.class
 proto/simulation/SslVisionGeometry$SSL_GeometryCameraCalibration$1.class
-proto/triton/TritonBotCmdOuterClass.class
 proto/simulation/SslVisionGeometry$1.class
 proto/simulation/SslSimulationConfig$RobotWheelAngles$Builder.class
 proto/simulation/SslVisionGeometry$SSL_GeometryData.class
@@ -144,7 +143,6 @@ proto/vision/MessagesRobocupSslGeometry$Vector2fOrBuilder.class
 proto/simulation/SslSimulationRobotFeedback$RobotControlResponseOrBuilder.class
 proto/simulation/SslSimulationConfig.class
 proto/simulation/SslSimulationConfig$RealismConfig$1.class
-proto/triton/TritonBotCmdOuterClass$TritonBotCmd$1.class
 proto/simulation/SslSimulationRobotFeedback$RobotFeedback$1.class
 proto/simulation/SslSimulationError$SimulatorError$Builder.class
 proto/simulation/SslSimulationRobotControl$RobotControl$1.class
@@ -165,10 +163,8 @@ proto/simulation/SslSimulationSynchronous$SimulationSyncRequest.class
 proto/simulation/SslSimulationControl$SimulatorControl$1.class
 proto/vision/MessagesRobocupSslRefboxLog$Log_Frame$1.class
 proto/simulation/SslVisionGeometry$SSL_GeometryData$1.class
-proto/triton/TritonBotCmdOuterClass$TritonBotCmd$Builder.class
 proto/simulation/SslGcCommon$1.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryData$Builder.class
-proto/triton/TritonBotCmdOuterClass$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedBallOrBuilder.class
 proto/simulation/SslSimulationControl$SimulatorResponseOrBuilder.class
 proto/simulation/SslVisionGeometry$SSL_BallModelStraightTwoPhase$Builder.class
@@ -258,7 +254,6 @@ proto/simulation/SslSimulationControl$SimulatorCommand$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$Vector3.class
 proto/simulation/SslGcCommon$RobotId$Builder.class
 proto/simulation/SslSimulationControl$TeleportBall$Builder.class
-proto/triton/TritonBotCmdOuterClass$TritonBotCmd.class
 proto/simulation/SslSimulationControl$SimulatorResponse$1.class
 com/triton/publisher_consumer/EasySerialize.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrameOrBuilder.class
@@ -283,7 +278,6 @@ proto/vision/MessagesRobocupSslDetection$SSL_DetectionBall.class
 com/triton/config/EasyYamlReader.class
 proto/vision/MessagesRobocupSslDetectionTracked$RobotIdOrBuilder.class
 proto/simulation/SslSimulationRobotFeedback$RobotControlResponse.class
-proto/triton/TritonBotCmdOuterClass$TritonBotCmdOrBuilder.class
 proto/simulation/SslVisionGeometry$SSL_FieldLineSegment$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$Vector2.class
 proto/simulation/SslVisionDetection$1.class

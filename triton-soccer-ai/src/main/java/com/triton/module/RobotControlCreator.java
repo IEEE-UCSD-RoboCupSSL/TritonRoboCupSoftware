@@ -1,5 +1,7 @@
 package com.triton.module;
 
+import com.triton.publisher_consumer.Module;
+
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 

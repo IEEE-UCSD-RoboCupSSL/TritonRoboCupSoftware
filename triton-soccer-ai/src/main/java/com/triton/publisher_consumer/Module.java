@@ -1,10 +1,9 @@
-package com.triton.module;
+package com.triton.publisher_consumer;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
-import com.triton.publisher_consumer.Exchange;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;

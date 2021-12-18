@@ -3,6 +3,7 @@ package com.triton.module;
 import com.triton.TritonSoccerAI;
 import com.triton.config.DisplayConfig;
 import com.triton.config.ObjectConfig;
+import com.triton.publisher_consumer.Module;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldCircularArc;

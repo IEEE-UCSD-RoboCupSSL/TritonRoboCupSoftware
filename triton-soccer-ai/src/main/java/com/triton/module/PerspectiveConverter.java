@@ -1,6 +1,7 @@
 package com.triton.module;
 
 import com.triton.TritonSoccerAI;
+import com.triton.publisher_consumer.Module;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
 
 import java.io.IOException;

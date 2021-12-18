@@ -1,5 +1,6 @@
 package com.triton.module;
 
+import com.triton.publisher_consumer.Module;
 import proto.simulation.SslSimulationControl.TeleportRobot;
 
 import java.io.IOException;
