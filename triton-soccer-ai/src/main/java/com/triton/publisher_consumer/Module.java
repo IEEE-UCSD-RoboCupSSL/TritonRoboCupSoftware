@@ -19,12 +19,15 @@ public abstract class Module extends Thread {
     private Channel channel;
 
     public Module() throws IOException, TimeoutException {
+        setupChannel();
+        loadConfig();
+    }
+
+    private void setupChannel() throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(CONNECTION_FACTORY_HOST);
         Connection connection = factory.newConnection();
         channel = connection.createChannel();
-
-        loadConfig();
     }
 
     protected void loadConfig() throws IOException {
