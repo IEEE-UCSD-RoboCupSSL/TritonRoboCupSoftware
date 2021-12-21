@@ -14,7 +14,7 @@ import static com.triton.publisher_consumer.EasySerialize.standardSerialize;
 
 public abstract class Module extends Thread {
     private static final String CONNECTION_FACTORY_HOST = "localhost";
-    private static final String EXCHANGE_MODE = "fanout";
+    private static final String EXCHANGE_TYPE = "fanout";
 
     private Channel channel;
 
@@ -54,7 +54,7 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     protected void declarePublish(Exchange exchange) throws IOException {
-        channel.exchangeDeclare(exchange.name(), EXCHANGE_MODE);
+        channel.exchangeDeclare(exchange.name(), EXCHANGE_TYPE);
     }
 
     /**
@@ -67,7 +67,7 @@ public abstract class Module extends Thread {
      */
     protected void declareConsume(Exchange exchange, Consumer<Object> messageConsumer) throws IOException {
         String exchangeName = exchange.name();
-        channel.exchangeDeclare(exchangeName, EXCHANGE_MODE);
+        channel.exchangeDeclare(exchangeName, EXCHANGE_TYPE);
         String queueName = channel.queueDeclare().getQueue();
         channel.queueBind(queueName, exchangeName, "");
 
