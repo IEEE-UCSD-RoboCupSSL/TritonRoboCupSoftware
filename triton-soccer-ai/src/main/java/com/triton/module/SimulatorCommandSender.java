@@ -43,10 +43,10 @@ public class SimulatorCommandSender extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(SIMULATOR_COMMAND, this::consumeSimulatorCommand);
+        declareConsume(SIMULATOR_COMMAND, this::callbackSimulatorCommand);
     }
 
-    private void consumeSimulatorCommand(String s, Delivery delivery) {
+    private void callbackSimulatorCommand(String s, Delivery delivery) {
         SimulatorCommand command = null;
         try {
             command = (SimulatorCommand) standardDeserialize(delivery.getBody());

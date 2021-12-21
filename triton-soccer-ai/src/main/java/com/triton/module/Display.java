@@ -98,13 +98,13 @@ public class Display extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(BIASED_FIELD, this::consumePerspectiveField);
-        declareConsume(BIASED_BALLS, this::consumePerspectiveBalls);
-        declareConsume(BIASED_ALLIES, this::consumePerspectiveAllies);
-        declareConsume(BIASED_FOES, this::consumePerspectiveFoes);
+        declareConsume(BIASED_FIELD, this::callbackPerspectiveField);
+        declareConsume(BIASED_BALLS, this::callbackPerspectiveBalls);
+        declareConsume(BIASED_ALLIES, this::callbackPerspectiveAllies);
+        declareConsume(BIASED_FOES, this::callbackPerspectiveFoes);
     }
 
-    private void consumePerspectiveField(String s, Delivery delivery) {
+    private void callbackPerspectiveField(String s, Delivery delivery) {
         SSL_GeometryFieldSize field = null;
         try {
             field = (SSL_GeometryFieldSize) standardDeserialize(delivery.getBody());
@@ -117,7 +117,7 @@ public class Display extends Module {
         frame.repaint();
     }
 
-    private void consumePerspectiveBalls(String s, Delivery delivery) {
+    private void callbackPerspectiveBalls(String s, Delivery delivery) {
         ArrayList<SSL_DetectionBall> balls = null;
         try {
             balls = (ArrayList<SSL_DetectionBall>) standardDeserialize(delivery.getBody());
@@ -130,7 +130,7 @@ public class Display extends Module {
         frame.repaint();
     }
 
-    private void consumePerspectiveAllies(String s, Delivery delivery) {
+    private void callbackPerspectiveAllies(String s, Delivery delivery) {
         ArrayList<SSL_DetectionRobot> allies = null;
         try {
             allies = (ArrayList<SSL_DetectionRobot>) standardDeserialize(delivery.getBody());
@@ -143,7 +143,7 @@ public class Display extends Module {
         frame.repaint();
     }
 
-    private void consumePerspectiveFoes(String s, Delivery delivery) {
+    private void callbackPerspectiveFoes(String s, Delivery delivery) {
         ArrayList<SSL_DetectionRobot> foes = null;
         try {
             foes = (ArrayList<SSL_DetectionRobot>) standardDeserialize(delivery.getBody());

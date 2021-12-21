@@ -57,10 +57,10 @@ public class RobotControlSender extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(ROBOT_CONTROL, this::consumeRobotControl);
+        declareConsume(ROBOT_CONTROL, this::callbackRobotControl);
     }
 
-    private void consumeRobotControl(String s, Delivery delivery) {
+    private void callbackRobotControl(String s, Delivery delivery) {
         RobotControl robotControl = null;
         try {
             robotControl = (RobotControl) standardDeserialize(delivery.getBody());

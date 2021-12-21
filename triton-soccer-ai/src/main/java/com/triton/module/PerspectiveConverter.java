@@ -78,14 +78,14 @@ public class PerspectiveConverter extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(RAW_WRAPPER_PACKAGE, this::consumeRawWrapperPacket);
+        declareConsume(RAW_WRAPPER_PACKAGE, this::callbackRawWrapperPacket);
         declarePublish(BIASED_FIELD);
         declarePublish(BIASED_BALLS);
         declarePublish(BIASED_ALLIES);
         declarePublish(BIASED_FOES);
     }
 
-    private void consumeRawWrapperPacket(String s, Delivery delivery) {
+    private void callbackRawWrapperPacket(String s, Delivery delivery) {
         SSL_WrapperPacket wrapperPacket = null;
         try {
             wrapperPacket = (SSL_WrapperPacket) standardDeserialize(delivery.getBody());
