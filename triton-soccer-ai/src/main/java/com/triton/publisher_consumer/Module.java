@@ -22,7 +22,7 @@ public abstract class Module extends Thread {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(CONNECTION_FACTORY_HOST);
         Connection connection = factory.newConnection();
-        setChannel(connection.createChannel());
+        channel = connection.createChannel();
 
         loadConfig();
     }
@@ -46,7 +46,7 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     protected void declarePublish(Exchange exchange) throws IOException {
-        getChannel().exchangeDeclare(exchange.name(), EXCHANGE_MODE);
+        channel.exchangeDeclare(exchange.name(), EXCHANGE_MODE);
     }
 
     /**
@@ -59,9 +59,9 @@ public abstract class Module extends Thread {
      */
     protected void declareConsume(Exchange exchange, Consumer<Object> messageConsumer) throws IOException {
         String exchangeName = exchange.name();
-        getChannel().exchangeDeclare(exchangeName, EXCHANGE_MODE);
-        String queueName = getChannel().queueDeclare().getQueue();
-        getChannel().queueBind(queueName, exchangeName, "");
+        channel.exchangeDeclare(exchangeName, EXCHANGE_MODE);
+        String queueName = channel.queueDeclare().getQueue();
+        channel.queueBind(queueName, exchangeName, "");
 
         DeliverCallback deliverCallback = (consumerTag, message) -> {
             try {
@@ -72,7 +72,7 @@ public abstract class Module extends Thread {
             }
         };
 
-        getChannel().basicConsume(queueName, true, deliverCallback, consumerTag -> {
+        channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {
         });
     }
 
@@ -84,14 +84,5 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     protected void publish(Exchange exchange, Object object) throws IOException {
-        getChannel().basicPublish(exchange.name(), "", null, standardSerialize(object));
-    }
-
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
-    }
-}
+        channel.basicPublish(exchange.name(), "", null, standardSerialize(object));
+    }}
