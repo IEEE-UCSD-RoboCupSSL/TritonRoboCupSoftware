@@ -79,8 +79,7 @@ public abstract class Module extends Thread {
             }
         };
 
-        channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {
-        });
+        channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {});
     }
 
     /**
