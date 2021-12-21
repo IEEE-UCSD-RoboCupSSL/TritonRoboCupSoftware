@@ -1,12 +1,14 @@
 import pickle
-import exchange
+import threading
+import pika
 
 
-class Module:
+class Module(threading.Thread):
     CONNECTION_FACTORY_HOST = 'localhost'
     EXCHANGE_TYPE = 'fanout'
 
     def __init__(self):
+        super().__init__()
         self.setup_channel()
         self.load_config()
         self.prepare()
@@ -23,14 +25,14 @@ class Module:
     def prepare(self):
         return
 
-    def declare_exchanges(self, exchange):
+    def declare_exchanges(self):
         return
 
     def declare_publish(self, exchange):
         self.channel.exchange_declare(
             exchange=exchange.name, exchange_type=self.EXCHANGE_TYPE)
 
-    def declare_consume(self, exchange, consumer):
+    def declare_consume(self, exchange, callback):
         self.channel.exchange_declare(
             exchange=exchange.name, exchange_type=self.EXCHANGE_TYPE)
 
@@ -39,7 +41,7 @@ class Module:
         self.channel.queue_bind(exchange=exchange.name, queue=queue_name)
 
         self.channel.basic_consume(
-            queue=queue_name, on_message_callback=consumer, auto_ack=True)
+            queue=queue_name, on_message_callback=callback, auto_ack=True)
         self.channel.start_consuming()
 
     def publish(self, exchange, object):
