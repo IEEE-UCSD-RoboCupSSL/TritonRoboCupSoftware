@@ -66,10 +66,9 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     protected void declareConsume(Exchange exchange, Consumer<Object> messageConsumer) throws IOException {
-        String exchangeName = exchange.name();
-        channel.exchangeDeclare(exchangeName, EXCHANGE_TYPE);
+        channel.exchangeDeclare(exchange.name(), EXCHANGE_TYPE);
         String queueName = channel.queueDeclare().getQueue();
-        channel.queueBind(queueName, exchangeName, "");
+        channel.queueBind(queueName, exchange.name(), "");
 
         DeliverCallback deliverCallback = (consumerTag, message) -> {
             try {
