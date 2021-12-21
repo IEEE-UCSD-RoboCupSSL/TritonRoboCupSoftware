@@ -68,6 +68,7 @@ install-python-modules:
 	. env/bin/activate; \
 	python3 -m pip install pika; \
 	python3 -m pip install protobuf; \
+	python3 -m pip install pyyaml; \
 	deactivate \
 	)
 	

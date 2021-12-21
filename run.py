@@ -31,7 +31,7 @@ for py in triton_bot_py:
     run_cmd(["python", py], triton_bot_path, "tab")
     time.sleep(1)
 
-run_cmd(["java", "-jar", "TritonSoccerAI.jar", "blue"], triton_soccer_ai_jar_path, "tab")
+run_cmd(["java", "-jar", "TritonSoccerAI.jar", "yellow"], triton_soccer_ai_jar_path, "tab")
 time.sleep(1)
 
 triton_soccer_ai_py_modules = [
