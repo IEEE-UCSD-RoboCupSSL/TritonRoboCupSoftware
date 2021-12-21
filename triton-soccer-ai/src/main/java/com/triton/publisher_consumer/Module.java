@@ -21,6 +21,8 @@ public abstract class Module extends Thread {
     public Module() throws IOException, TimeoutException {
         setupChannel();
         loadConfig();
+        prepare();
+        declareExchanges();
     }
 
     private void setupChannel() throws IOException, TimeoutException {
@@ -31,6 +33,9 @@ public abstract class Module extends Thread {
     }
 
     protected void loadConfig() throws IOException {
+    }
+
+    protected void prepare() {
     }
 
     /**
