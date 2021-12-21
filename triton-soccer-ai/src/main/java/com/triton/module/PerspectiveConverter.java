@@ -1,5 +1,6 @@
 package com.triton.module;
 
+import com.rabbitmq.client.Delivery;
 import com.triton.TritonSoccerAI;
 import com.triton.publisher_consumer.Module;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
+import static com.triton.publisher_consumer.EasySerialize.standardDeserialize;
 import static com.triton.publisher_consumer.Exchange.*;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
@@ -83,9 +85,15 @@ public class PerspectiveConverter extends Module {
         declarePublish(BIASED_FOES);
     }
 
-    private void consumeRawWrapperPacket(Object o) {
-        if (o == null) return;
-        SSL_WrapperPacket wrapperPacket = (SSL_WrapperPacket) o;
+    private void consumeRawWrapperPacket(String s, Delivery delivery) {
+        SSL_WrapperPacket wrapperPacket = null;
+        try {
+            wrapperPacket = (SSL_WrapperPacket) standardDeserialize(delivery.getBody());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (wrapperPacket == null) return;
 
         if (wrapperPacket.hasGeometry() && wrapperPacket.getGeometry().hasField()) {
             try {

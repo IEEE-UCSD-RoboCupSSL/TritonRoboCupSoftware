@@ -1,17 +1,21 @@
 package com.triton.module;
 
+import com.rabbitmq.client.Delivery;
 import com.triton.config.NetworkConfig;
 import com.triton.networking.UDP_Client;
 import com.triton.publisher_consumer.Module;
 import proto.simulation.SslSimulationControl.SimulatorResponse;
+import proto.vision.MessagesRobocupSslDetection;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.Config.NETWORK_CONFIG;
 import static com.triton.config.EasyYamlReader.readYaml;
+import static com.triton.publisher_consumer.EasySerialize.standardDeserialize;
 import static com.triton.publisher_consumer.Exchange.SIMULATOR_COMMAND;
 import static proto.simulation.SslSimulationControl.SimulatorCommand;
 
@@ -44,9 +48,15 @@ public class SimulatorCommandSender extends Module {
         declareConsume(SIMULATOR_COMMAND, this::consumeSimulatorCommand);
     }
 
-    private void consumeSimulatorCommand(Object o) {
-        if (o == null) return;
-        SimulatorCommand command = (SimulatorCommand) o;
+    private void consumeSimulatorCommand(String s, Delivery delivery) {
+        SimulatorCommand command = null;
+        try {
+            command = (SimulatorCommand) standardDeserialize(delivery.getBody());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (command == null) return;
         client.send(command.toByteArray());
     }
 

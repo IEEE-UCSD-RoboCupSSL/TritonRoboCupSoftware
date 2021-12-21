@@ -61,25 +61,15 @@ public abstract class Module extends Thread {
      * Declares an exchange to consume from. The messageConsumer function will be called when an message is received
      * from the exchange.
      *
-     * @param exchange        the exchange to consume from
-     * @param messageConsumer a function that accepts an object
+     * @param exchange the exchange to consume from
+     * @param callback the function to call once a message is received
      * @throws IOException
      */
-    protected void declareConsume(Exchange exchange, Consumer<Object> messageConsumer) throws IOException {
+    protected void declareConsume(Exchange exchange, DeliverCallback callback) throws IOException {
         channel.exchangeDeclare(exchange.name(), EXCHANGE_TYPE);
         String queueName = channel.queueDeclare().getQueue();
         channel.queueBind(queueName, exchange.name(), "");
-
-        DeliverCallback deliverCallback = (consumerTag, message) -> {
-            try {
-                Object object = standardDeserialize(message.getBody());
-                messageConsumer.accept(object);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        };
-
-        channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {});
+        channel.basicConsume(queueName, true, callback, consumerTag -> {});
     }
 
     /**

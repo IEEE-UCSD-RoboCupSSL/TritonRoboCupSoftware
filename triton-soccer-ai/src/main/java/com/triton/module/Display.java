@@ -1,5 +1,6 @@
 package com.triton.module;
 
+import com.rabbitmq.client.Delivery;
 import com.triton.TritonSoccerAI;
 import com.triton.config.DisplayConfig;
 import com.triton.config.ObjectConfig;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.config.Config.DISPLAY_CONFIG;
 import static com.triton.config.Config.OBJECT_CONFIG;
 import static com.triton.config.EasyYamlReader.readYaml;
+import static com.triton.publisher_consumer.EasySerialize.standardDeserialize;
 import static com.triton.publisher_consumer.Exchange.*;
 import static java.awt.BorderLayout.*;
 import static java.awt.Color.*;
@@ -42,8 +44,6 @@ public class Display extends Module {
 
     public Display() throws IOException, TimeoutException {
         super();
-        prepareGUI();
-        declareExchanges();
     }
 
     @Override
@@ -51,6 +51,12 @@ public class Display extends Module {
         super.loadConfig();
         objectConfig = (ObjectConfig) readYaml(OBJECT_CONFIG);
         displayConfig = (DisplayConfig) readYaml(DISPLAY_CONFIG);
+    }
+
+    @Override
+    protected void prepare() {
+        super.prepare();
+        prepareGUI();
     }
 
     private void prepareGUI() {
@@ -98,27 +104,55 @@ public class Display extends Module {
         declareConsume(BIASED_FOES, this::consumePerspectiveFoes);
     }
 
-    private void consumePerspectiveField(Object o) {
-        if (o == null) return;
-        fieldPanel.setField((SSL_GeometryFieldSize) o);
+    private void consumePerspectiveField(String s, Delivery delivery) {
+        SSL_GeometryFieldSize field = null;
+        try {
+            field = (SSL_GeometryFieldSize) standardDeserialize(delivery.getBody());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (field == null) return;
+        fieldPanel.setField(field);
         frame.repaint();
     }
 
-    private void consumePerspectiveBalls(Object o) {
-        if (o == null) return;
-        fieldPanel.setBalls((ArrayList<SSL_DetectionBall>) o);
+    private void consumePerspectiveBalls(String s, Delivery delivery) {
+        ArrayList<SSL_DetectionBall> balls = null;
+        try {
+            balls = (ArrayList<SSL_DetectionBall>) standardDeserialize(delivery.getBody());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (balls == null) return;
+        fieldPanel.setBalls(balls);
         frame.repaint();
     }
 
-    private void consumePerspectiveAllies(Object o) {
-        if (o == null) return;
-        fieldPanel.setAllies((ArrayList<SSL_DetectionRobot>) o);
+    private void consumePerspectiveAllies(String s, Delivery delivery) {
+        ArrayList<SSL_DetectionRobot> allies = null;
+        try {
+            allies = (ArrayList<SSL_DetectionRobot>) standardDeserialize(delivery.getBody());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (allies == null) return;
+        fieldPanel.setAllies(allies);
         frame.repaint();
     }
 
-    private void consumePerspectiveFoes(Object o) {
-        if (o == null) return;
-        fieldPanel.setFoes((ArrayList<SSL_DetectionRobot>) o);
+    private void consumePerspectiveFoes(String s, Delivery delivery) {
+        ArrayList<SSL_DetectionRobot> foes = null;
+        try {
+            foes = (ArrayList<SSL_DetectionRobot>) standardDeserialize(delivery.getBody());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (foes == null) return;
+        fieldPanel.setFoes(foes);
         frame.repaint();
     }
 
