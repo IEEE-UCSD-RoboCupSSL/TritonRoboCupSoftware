@@ -7,9 +7,7 @@ import com.rabbitmq.client.DeliverCallback;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
-import java.util.function.Consumer;
 
-import static com.triton.publisher_consumer.EasySerialize.standardDeserialize;
 import static com.triton.publisher_consumer.EasySerialize.standardSerialize;
 
 public abstract class Module extends Thread {
@@ -69,7 +67,8 @@ public abstract class Module extends Thread {
         channel.exchangeDeclare(exchange.name(), EXCHANGE_TYPE);
         String queueName = channel.queueDeclare().getQueue();
         channel.queueBind(queueName, exchange.name(), "");
-        channel.basicConsume(queueName, true, callback, consumerTag -> {});
+        channel.basicConsume(queueName, true, callback, consumerTag -> {
+        });
     }
 
     /**
@@ -81,4 +80,5 @@ public abstract class Module extends Thread {
      */
     protected void publish(Exchange exchange, Object object) throws IOException {
         channel.basicPublish(exchange.name(), "", null, standardSerialize(object));
-    }}
+    }
+}

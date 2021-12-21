@@ -5,12 +5,10 @@ import com.triton.config.NetworkConfig;
 import com.triton.networking.UDP_Client;
 import com.triton.publisher_consumer.Module;
 import proto.simulation.SslSimulationControl.SimulatorResponse;
-import proto.vision.MessagesRobocupSslDetection;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.Config.NETWORK_CONFIG;
