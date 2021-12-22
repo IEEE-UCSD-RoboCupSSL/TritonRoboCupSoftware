@@ -1,10 +1,10 @@
-package com.triton.modules.interfaces;
+package com.triton.module.interface_module;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.TritonSoccerAI;
 import com.triton.config.DisplayConfig;
 import com.triton.config.ObjectConfig;
-import com.triton.modules.Module;
+import com.triton.module.Module;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldCircularArc;

@@ -1,4 +1,4 @@
-package com.triton.modules;
+package com.triton.module;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;

@@ -1,7 +1,7 @@
-package com.triton.modules.interfaces;
+package com.triton.module.interface_module;
 
 import com.triton.config.NetworkConfig;
-import com.triton.modules.Module;
+import com.triton.module.Module;
 import com.triton.networking.UDP_MulticastReceiver;
 
 import java.io.ByteArrayInputStream;

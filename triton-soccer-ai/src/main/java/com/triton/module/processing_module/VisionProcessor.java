@@ -1,8 +1,8 @@
-package com.triton.modules.processors;
+package com.triton.module.processing_module;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.TritonSoccerAI;
-import com.triton.modules.Module;
+import com.triton.module.Module;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
 
 import java.io.IOException;

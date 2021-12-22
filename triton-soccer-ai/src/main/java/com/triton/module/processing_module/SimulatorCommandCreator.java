@@ -1,6 +1,6 @@
-package com.triton.modules.processors;
+package com.triton.module.processing_module;
 
-import com.triton.modules.Module;
+import com.triton.module.Module;
 import proto.simulation.SslSimulationControl.TeleportRobot;
 
 import java.io.IOException;
