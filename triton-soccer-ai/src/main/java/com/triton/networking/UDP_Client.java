@@ -31,8 +31,6 @@ public class UDP_Client extends Thread {
     }
 
     private void receive() {
-        if (packetConsumer == null) return;
-
         DatagramPacket packet = new DatagramPacket(inBuf, inBuf.length);
         try {
             socket.receive(packet);
