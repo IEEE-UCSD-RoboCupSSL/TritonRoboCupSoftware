@@ -14,7 +14,6 @@ public class UDP_Server extends Thread {
     private final Consumer<DatagramPacket> packetConsumer;
 
     private final DatagramSocket socket;
-    private final byte[] buf = new byte[BUF_SIZE];
 
     public UDP_Server(int serverPort, Consumer<DatagramPacket> packetConsumer) throws SocketException {
         super();
@@ -33,6 +32,7 @@ public class UDP_Server extends Thread {
     }
 
     private void receive() {
+        byte[] buf = new byte[BUF_SIZE];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
         try {
             socket.receive(packet);

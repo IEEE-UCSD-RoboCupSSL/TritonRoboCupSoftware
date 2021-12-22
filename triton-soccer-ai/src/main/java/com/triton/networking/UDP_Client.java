@@ -12,7 +12,6 @@ public class UDP_Client extends Thread {
     private final Consumer<DatagramPacket> packetConsumer;
 
     private final DatagramSocket socket;
-    private final byte[] buf = new byte[BUF_SIZE];
 
     public UDP_Client(String serverAddress, int serverPort, Consumer<DatagramPacket> packetConsumer) throws UnknownHostException, SocketException {
         super();
@@ -34,6 +33,7 @@ public class UDP_Client extends Thread {
     private void receive() {
         if (packetConsumer == null) return;
 
+        byte[] buf = new byte[BUF_SIZE];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
         try {
             socket.receive(packet);
