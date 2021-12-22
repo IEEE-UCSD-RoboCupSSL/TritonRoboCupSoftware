@@ -1,5 +1,5 @@
-from modules.processors import moduleA
-from modules.processors import moduleB
+from module.processing_module import moduleA
+from module.processing_module import moduleB
 
 
 def main():

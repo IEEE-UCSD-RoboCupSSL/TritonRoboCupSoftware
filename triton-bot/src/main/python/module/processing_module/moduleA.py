@@ -1,5 +1,5 @@
 import pickle
-from modules import module
+from module import module
 from messaging import exchange
 
 
