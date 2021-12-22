@@ -26,13 +26,11 @@ public class UDP_Client extends Thread {
     public void run() {
         super.run();
 
-        while (true)
+        while (packetConsumer != null)
             receive();
     }
 
     private void receive() {
-        if (packetConsumer == null) return;
-
         byte[] buf = new byte[BUF_SIZE];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
         try {
