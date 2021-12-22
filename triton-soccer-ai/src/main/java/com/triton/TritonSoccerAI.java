@@ -1,9 +1,9 @@
 package com.triton;
 
 import com.triton.ai.Team;
-import com.triton.module.interfaces.*;
-import com.triton.module.processors.RobotControlCreator;
-import com.triton.module.processors.VisionProcessor;
+import com.triton.modules.interfaces.*;
+import com.triton.modules.processors.RobotControlCreator;
+import com.triton.modules.processors.VisionProcessor;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;

@@ -1,4 +1,4 @@
-package com.triton.module.interfaces;
+package com.triton.modules.interfaces;
 
 import com.triton.config.NetworkConfig;
 import com.triton.networking.UDP_MulticastReceiver;

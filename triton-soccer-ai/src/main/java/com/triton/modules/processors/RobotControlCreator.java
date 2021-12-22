@@ -1,4 +1,4 @@
-package com.triton.module.processors;
+package com.triton.modules.processors;
 
 import com.triton.messaging.Module;
 

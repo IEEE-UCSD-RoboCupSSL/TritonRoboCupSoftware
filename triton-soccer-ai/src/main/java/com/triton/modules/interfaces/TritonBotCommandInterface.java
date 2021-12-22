@@ -1,4 +1,4 @@
-package com.triton.module.interfaces;
+package com.triton.modules.interfaces;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.config.NetworkConfig;
@@ -7,7 +7,6 @@ import com.triton.networking.AddressPort;
 import com.triton.networking.UDP_Server;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.HashMap;

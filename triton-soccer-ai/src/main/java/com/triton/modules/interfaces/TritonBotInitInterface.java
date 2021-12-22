@@ -1,4 +1,4 @@
-package com.triton.module.interfaces;
+package com.triton.modules.interfaces;
 
 import com.triton.messaging.Module;
 
