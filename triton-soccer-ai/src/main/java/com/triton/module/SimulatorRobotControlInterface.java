@@ -68,8 +68,8 @@ public class SimulatorRobotControlInterface extends Module {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         if (robotControl == null) return;
+
         client.send(robotControl.toByteArray());
     }
 
