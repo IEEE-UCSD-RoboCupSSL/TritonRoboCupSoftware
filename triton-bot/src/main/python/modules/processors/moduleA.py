@@ -1,5 +1,5 @@
-from publisher_consumer import exchange
-from publisher_consumer import module
+import module
+from messaging import exchange
 
 
 class ModuleA(module.Module):
