@@ -12,7 +12,7 @@ import java.net.DatagramPacket;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.Config.NETWORK_CONFIG;
-import static com.triton.config.ConfigReader.readYaml;
+import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.EasySerialize.standardDeserialize;
 import static com.triton.messaging.Exchange.ROBOT_CONTROL;
 import static proto.simulation.SslSimulationRobotControl.RobotControl;
@@ -31,7 +31,7 @@ public class RobotControlSender extends Module {
     @Override
     protected void loadConfig() throws IOException {
         super.loadConfig();
-        networkConfig = (NetworkConfig) readYaml(NETWORK_CONFIG);
+        networkConfig = (NetworkConfig) readConfig(NETWORK_CONFIG);
     }
 
     private void setupNetworking() throws IOException {

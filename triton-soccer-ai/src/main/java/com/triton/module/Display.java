@@ -22,7 +22,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.Config.DISPLAY_CONFIG;
 import static com.triton.config.Config.OBJECT_CONFIG;
-import static com.triton.config.ConfigReader.readYaml;
+import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.EasySerialize.standardDeserialize;
 import static com.triton.messaging.Exchange.*;
 import static java.awt.BorderLayout.*;
@@ -49,8 +49,8 @@ public class Display extends Module {
     @Override
     protected void loadConfig() throws IOException {
         super.loadConfig();
-        objectConfig = (ObjectConfig) readYaml(OBJECT_CONFIG);
-        displayConfig = (DisplayConfig) readYaml(DISPLAY_CONFIG);
+        objectConfig = (ObjectConfig) readConfig(OBJECT_CONFIG);
+        displayConfig = (DisplayConfig) readConfig(DISPLAY_CONFIG);
     }
 
     @Override
