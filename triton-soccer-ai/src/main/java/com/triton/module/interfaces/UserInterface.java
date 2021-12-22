@@ -1,4 +1,4 @@
-package com.triton.module;
+package com.triton.module.interfaces;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.TritonSoccerAI;
@@ -30,7 +30,7 @@ import static java.awt.Color.*;
 import static javax.swing.BoxLayout.Y_AXIS;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
-public class Display extends Module {
+public class UserInterface extends Module {
     private static final String MAIN_FRAME_TITLE = "Triton Display";
     private ObjectConfig objectConfig;
     private DisplayConfig displayConfig;
@@ -42,7 +42,7 @@ public class Display extends Module {
     private JPanel centerPanel;
     private FieldPanel fieldPanel;
 
-    public Display() throws IOException, TimeoutException {
+    public UserInterface() throws IOException, TimeoutException {
         super();
     }
 

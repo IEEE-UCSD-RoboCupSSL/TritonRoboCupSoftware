@@ -1,4 +1,4 @@
-package com.triton.module;
+package com.triton.module.interfaces;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.config.NetworkConfig;
@@ -20,13 +20,13 @@ import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotControl.*;
 
-public class TritonBotInterface extends Module {
+public class TritonBotCommandInterface extends Module {
     private NetworkConfig networkConfig;
 
     private UDP_Server server;
     private Map<Integer, AddressPort> addressPorts;
 
-    public TritonBotInterface() throws IOException, TimeoutException {
+    public TritonBotCommandInterface() throws IOException, TimeoutException {
         super();
     }
 
@@ -55,11 +55,8 @@ public class TritonBotInterface extends Module {
     }
 
     private void setupServer() throws SocketException {
-        server = new UDP_Server(networkConfig.getAiTritonBotPort(), this::callbackTritonBotResponse);
+        server = new UDP_Server(networkConfig.getAiTritonBotPort(), null);
         server.start();
-    }
-
-    private void callbackTritonBotResponse(DatagramPacket packet) {
     }
 
     private void callbackTritonBotCommand(String s, Delivery delivery) {

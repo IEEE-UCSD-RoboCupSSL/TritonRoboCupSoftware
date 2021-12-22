@@ -1,7 +1,9 @@
 package com.triton;
 
 import com.triton.ai.Team;
-import com.triton.module.*;
+import com.triton.module.interfaces.*;
+import com.triton.module.processors.RobotControlCreator;
+import com.triton.module.processors.VisionProcessor;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -10,19 +12,17 @@ public class TritonSoccerAI {
     private static Team team;
 
     public TritonSoccerAI() throws IOException, TimeoutException {
-        // input
-        new VisionInterface().start();
-
-        // processing
-        new PerspectiveConverter().start();
+        // processors
+        new VisionProcessor().start();
 //        new SimulatorCommandCreator().start();
         new RobotControlCreator().start();
 
-        // output
+        // interfaces
+        new CameraInterface().start();
         new SimulatorCommandInterface().start();
         new SimulatorRobotControlInterface().start();
-        new TritonBotInterface().start();
-        new Display().start();
+        new TritonBotCommandInterface().start();
+        new UserInterface().start();
     }
 
     public static void main(String[] args) {

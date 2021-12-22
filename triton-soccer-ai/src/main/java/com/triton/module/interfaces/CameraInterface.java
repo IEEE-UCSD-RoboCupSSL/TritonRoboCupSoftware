@@ -1,4 +1,4 @@
-package com.triton.module;
+package com.triton.module.interfaces;
 
 import com.triton.config.NetworkConfig;
 import com.triton.networking.UDP_MulticastReceiver;
@@ -14,12 +14,12 @@ import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.RAW_WRAPPER_PACKAGE;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
-public class VisionInterface extends Module {
+public class CameraInterface extends Module {
     private NetworkConfig networkConfig;
 
     private UDP_MulticastReceiver receiver;
 
-    public VisionInterface() throws IOException, TimeoutException {
+    public CameraInterface() throws IOException, TimeoutException {
         super();
     }
 

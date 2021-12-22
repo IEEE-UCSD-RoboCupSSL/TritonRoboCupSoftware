@@ -1,4 +1,4 @@
-package com.triton.module;
+package com.triton.module.processors;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.TritonSoccerAI;
@@ -17,9 +17,9 @@ import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 import static proto.vision.MessagesRobocupSslGeometry.*;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
-public class PerspectiveConverter extends Module {
+public class VisionProcessor extends Module {
 
-    public PerspectiveConverter() throws IOException, TimeoutException {
+    public VisionProcessor() throws IOException, TimeoutException {
         super();
         declareExchanges();
     }

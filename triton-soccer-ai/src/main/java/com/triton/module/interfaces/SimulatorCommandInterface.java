@@ -1,4 +1,4 @@
-package com.triton.module;
+package com.triton.module.interfaces;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.config.NetworkConfig;
