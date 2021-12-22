@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class EasyYamlReader {
+public class ConfigReader {
     public static Object readYaml(Config config) throws IOException {
         InputStream inputStream = new FileInputStream(config.getConfigPath());
         Yaml yaml = new Yaml(new Constructor(config.getConfigClass()));

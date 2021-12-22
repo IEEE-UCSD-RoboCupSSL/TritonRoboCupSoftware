@@ -22,7 +22,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.Config.DISPLAY_CONFIG;
 import static com.triton.config.Config.OBJECT_CONFIG;
-import static com.triton.config.EasyYamlReader.readYaml;
+import static com.triton.config.ConfigReader.readYaml;
 import static com.triton.messaging.EasySerialize.standardDeserialize;
 import static com.triton.messaging.Exchange.*;
 import static java.awt.BorderLayout.*;
