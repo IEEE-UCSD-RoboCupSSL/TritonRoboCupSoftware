@@ -111,8 +111,8 @@ public class Display extends Module {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         if (field == null) return;
+
         fieldPanel.setField(field);
         frame.repaint();
     }
@@ -124,8 +124,8 @@ public class Display extends Module {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         if (balls == null) return;
+
         fieldPanel.setBalls(balls);
         frame.repaint();
     }
@@ -137,8 +137,8 @@ public class Display extends Module {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         if (allies == null) return;
+
         fieldPanel.setAllies(allies);
         frame.repaint();
     }
@@ -150,8 +150,8 @@ public class Display extends Module {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         if (foes == null) return;
+
         fieldPanel.setFoes(foes);
         frame.repaint();
     }

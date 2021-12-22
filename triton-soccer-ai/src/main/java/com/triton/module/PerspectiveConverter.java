@@ -92,7 +92,6 @@ public class PerspectiveConverter extends Module {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         if (wrapperPacket == null) return;
 
         if (wrapperPacket.hasGeometry() && wrapperPacket.getGeometry().hasField()) {

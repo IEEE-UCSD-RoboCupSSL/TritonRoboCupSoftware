@@ -54,8 +54,8 @@ public class SimulatorCommandSender extends Module {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         if (command == null) return;
+
         client.send(command.toByteArray());
     }
 
