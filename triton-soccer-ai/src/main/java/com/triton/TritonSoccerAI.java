@@ -20,6 +20,7 @@ public class TritonSoccerAI {
         // output
         new SimulatorCommandSender().start();
         new RobotControlSender().start();
+        new TritonBotCommandSender().start();
         new Display().start();
     }
 

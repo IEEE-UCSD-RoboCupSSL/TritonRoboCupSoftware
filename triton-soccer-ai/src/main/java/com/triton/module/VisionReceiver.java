@@ -21,14 +21,22 @@ public class VisionReceiver extends Module {
 
     public VisionReceiver() throws IOException, TimeoutException {
         super();
-        setupNetworking();
-        declareExchanges();
     }
 
     @Override
     protected void loadConfig() throws IOException {
         super.loadConfig();
         networkConfig = (NetworkConfig) readConfig(NETWORK_CONFIG);
+    }
+
+    @Override
+    protected void prepare() {
+        super.prepare();
+        try {
+            setupNetworking();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
