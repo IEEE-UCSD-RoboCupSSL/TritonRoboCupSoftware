@@ -1,7 +1,7 @@
 package com.triton.module;
 
 import com.triton.config.NetworkConfig;
-import com.triton.networking.UDP_MulticastClient;
+import com.triton.network.UDP_MulticastClient;
 import com.triton.publisher_consumer.Module;
 
 import java.io.ByteArrayInputStream;

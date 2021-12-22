@@ -1,4 +1,4 @@
-package com.triton.networking;
+package com.triton.network;
 
 import java.io.IOException;
 import java.net.*;
