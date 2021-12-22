@@ -17,12 +17,12 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.messaging.Exchange.SIMULATOR_COMMAND;
 import static proto.simulation.SslSimulationControl.SimulatorCommand;
 
-public class SimulatorCommandSender extends Module {
+public class SimulatorCommandInterface extends Module {
     private NetworkConfig networkConfig;
 
     private UDP_Client client;
 
-    public SimulatorCommandSender() throws IOException, TimeoutException {
+    public SimulatorCommandInterface() throws IOException, TimeoutException {
         super();
         setupNetworking();
         declareExchanges();
