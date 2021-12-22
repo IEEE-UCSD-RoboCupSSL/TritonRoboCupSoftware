@@ -8,4 +8,5 @@ public enum Exchange {
     BIASED_FOES,
     SIMULATOR_COMMAND,
     ROBOT_CONTROL,
+    TRITON_BOT_COMMAND,
 }

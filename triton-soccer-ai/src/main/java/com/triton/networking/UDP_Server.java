@@ -11,14 +11,14 @@ public class UDP_Server extends Thread {
     protected static final int BUF_SIZE = 9999;
 
     private final int serverPort;
-    private final Consumer<DatagramPacket> packetConsumer;
+    private final Consumer<DatagramPacket> callbackPacket;
 
     private final DatagramSocket socket;
 
-    public UDP_Server(int serverPort, Consumer<DatagramPacket> packetConsumer) throws SocketException {
+    public UDP_Server(int serverPort, Consumer<DatagramPacket> callbackPacket) throws SocketException {
         super();
         this.serverPort = serverPort;
-        this.packetConsumer = packetConsumer;
+        this.callbackPacket = callbackPacket;
 
         this.socket = new DatagramSocket(serverPort);
     }
@@ -41,7 +41,7 @@ public class UDP_Server extends Thread {
         }
 
         try {
-            packetConsumer.accept(packet);
+            callbackPacket.accept(packet);
         } catch (Exception e) {
             e.printStackTrace();
         }

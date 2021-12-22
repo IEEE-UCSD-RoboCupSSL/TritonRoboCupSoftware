@@ -19,8 +19,8 @@ import static proto.simulation.SslSimulationRobotControl.RobotControl;
 import static proto.simulation.SslSimulationRobotFeedback.RobotControlResponse;
 
 public class RobotControlSender extends Module {
-    private UDP_Client client;
     private NetworkConfig networkConfig;
+    private UDP_Client client;
 
     public RobotControlSender() throws IOException, TimeoutException {
         super();
@@ -50,7 +50,7 @@ public class RobotControlSender extends Module {
             default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
         }
 
-        client = new UDP_Client(allyControlAddress, allyControlPort, this::consumeRobotControlResponse);
+        client = new UDP_Client(allyControlAddress, allyControlPort, this::callbackRobotControlResponse);
         client.start();
     }
 
@@ -72,7 +72,7 @@ public class RobotControlSender extends Module {
         client.send(robotControl.toByteArray());
     }
 
-    private void consumeRobotControlResponse(DatagramPacket packet) {
+    private void callbackRobotControlResponse(DatagramPacket packet) {
         try {
             RobotControlResponse response = parsePacket(packet);
             System.out.println(response);

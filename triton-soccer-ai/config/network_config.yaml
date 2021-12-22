@@ -1,4 +1,4 @@
-cameraOutputAddress: "224.5.23.2"
+cameraAddress: "224.5.23.2"
 cameraOutputPort: 10020
 
 simulationControlAddress: "localhost"
@@ -9,3 +9,6 @@ simulationRobotControlBluePort: 10301
 
 simulationRobotControlYellowAddress: "localhost"
 simulationRobotControlYellowPort: 10302
+
+aiAddress: "localhost"
+aiTritonBotPort: 12345

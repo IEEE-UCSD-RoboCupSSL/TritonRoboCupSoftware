@@ -9,15 +9,15 @@ public class UDP_Client extends Thread {
 
     private final InetAddress serverAddress;
     private final int serverPort;
-    private final Consumer<DatagramPacket> packetConsumer;
+    private final Consumer<DatagramPacket> callbackPacket;
 
     private final DatagramSocket socket;
 
-    public UDP_Client(String serverAddress, int serverPort, Consumer<DatagramPacket> packetConsumer) throws UnknownHostException, SocketException {
+    public UDP_Client(String serverAddress, int serverPort, Consumer<DatagramPacket> callbackPacket) throws UnknownHostException, SocketException {
         super();
         this.serverAddress = InetAddress.getByName(serverAddress);
         this.serverPort = serverPort;
-        this.packetConsumer = packetConsumer;
+        this.callbackPacket = callbackPacket;
 
         this.socket = new DatagramSocket();
     }
@@ -31,7 +31,7 @@ public class UDP_Client extends Thread {
     }
 
     private void receive() {
-        if (packetConsumer == null) return;
+        if (callbackPacket == null) return;
 
         byte[] buf = new byte[BUF_SIZE];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -42,7 +42,7 @@ public class UDP_Client extends Thread {
         }
 
         try {
-            packetConsumer.accept(packet);
+            callbackPacket.accept(packet);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -33,7 +33,7 @@ public class VisionReceiver extends Module {
     protected void prepare() {
         super.prepare();
         try {
-            setupNetworking();
+            setupClient();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,9 +50,9 @@ public class VisionReceiver extends Module {
      *
      * @throws IOException
      */
-    private void setupNetworking() throws IOException {
+    private void setupClient() throws IOException {
         // Setup a multicast receiver
-        client = new UDP_MulticastClient(networkConfig.getCameraOutputAddress(),
+        client = new UDP_MulticastClient(networkConfig.getCameraAddress(),
                 networkConfig.getCameraOutputPort(),
                 this::processPacket);
         client.start();

@@ -1,7 +1,7 @@
 package com.triton.config;
 
 public class NetworkConfig {
-    private String cameraOutputAddress;
+    private String cameraAddress;
     private int cameraOutputPort;
 
     private String simulationControlAddress;
@@ -13,12 +13,15 @@ public class NetworkConfig {
     private String simulationRobotControlYellowAddress;
     private int simulationRobotControlYellowPort;
 
-    public String getCameraOutputAddress() {
-        return cameraOutputAddress;
+    private String aiAddress;
+    private int aiTritonBotPort;
+
+    public String getCameraAddress() {
+        return cameraAddress;
     }
 
-    public void setCameraOutputAddress(String cameraOutputAddress) {
-        this.cameraOutputAddress = cameraOutputAddress;
+    public void setCameraAddress(String cameraAddress) {
+        this.cameraAddress = cameraAddress;
     }
 
     public int getCameraOutputPort() {
@@ -75,5 +78,21 @@ public class NetworkConfig {
 
     public void setSimulationRobotControlYellowPort(int simulationRobotControlYellowPort) {
         this.simulationRobotControlYellowPort = simulationRobotControlYellowPort;
+    }
+
+    public String getAiAddress() {
+        return aiAddress;
+    }
+
+    public void setAiAddress(String aiAddress) {
+        this.aiAddress = aiAddress;
+    }
+
+    public int getAiTritonBotPort() {
+        return aiTritonBotPort;
+    }
+
+    public void setAiTritonBotPort(int aiTritonBotPort) {
+        this.aiTritonBotPort = aiTritonBotPort;
     }
 }

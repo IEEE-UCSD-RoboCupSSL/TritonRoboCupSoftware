@@ -18,8 +18,8 @@ import static com.triton.messaging.Exchange.SIMULATOR_COMMAND;
 import static proto.simulation.SslSimulationControl.SimulatorCommand;
 
 public class SimulatorCommandSender extends Module {
-    private UDP_Client client;
     private NetworkConfig networkConfig;
+    private UDP_Client client;
 
     public SimulatorCommandSender() throws IOException, TimeoutException {
         super();
@@ -36,7 +36,7 @@ public class SimulatorCommandSender extends Module {
     private void setupNetworking() throws IOException {
         client = new UDP_Client(networkConfig.getSimulationControlAddress(),
                 networkConfig.getSimulationControlPort(),
-                this::consumeSimulatorResponse);
+                this::callbackSimulatorResponse);
         client.start();
     }
 
@@ -58,7 +58,7 @@ public class SimulatorCommandSender extends Module {
         client.send(command.toByteArray());
     }
 
-    private void consumeSimulatorResponse(DatagramPacket packet) {
+    private void callbackSimulatorResponse(DatagramPacket packet) {
         try {
             SimulatorResponse response = parsePacket(packet);
             System.out.println(response);

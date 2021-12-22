@@ -10,15 +10,15 @@ public class UDP_MulticastClient extends Thread {
 
     private final MulticastSocket socket;
     private final byte[] buf = new byte[PACKET_BUFFER_SIZE];
-    private final Consumer<DatagramPacket> consumer;
+    private final Consumer<DatagramPacket> callbackPacket;
 
-    public UDP_MulticastClient(String address, int port, Consumer<DatagramPacket> consumer) throws IOException {
+    public UDP_MulticastClient(String address, int port, Consumer<DatagramPacket> callbackPacket) throws IOException {
         socket = new MulticastSocket(port);
         InetAddress multicastAddress = InetAddress.getByName(address);
         InetSocketAddress group = new InetSocketAddress(multicastAddress, port);
         NetworkInterface networkInterface = NetworkInterface.getByName(NETWORK_INTERFACE);
         socket.joinGroup(group, networkInterface);
-        this.consumer = consumer;
+        this.callbackPacket = callbackPacket;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class UDP_MulticastClient extends Thread {
 
             try {
                 socket.receive(packet);
-                consumer.accept(packet);
+                callbackPacket.accept(packet);
             } catch (IOException e) {
                 e.printStackTrace();
             }
