@@ -1,5 +1,6 @@
-from publisher_consumer import exchange
-from publisher_consumer import module
+from modules import module
+from messaging import exchange
+
 
 import pickle
 

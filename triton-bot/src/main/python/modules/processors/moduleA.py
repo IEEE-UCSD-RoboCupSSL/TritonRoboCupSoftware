@@ -1,4 +1,5 @@
-import module
+import pickle
+from modules import module
 from messaging import exchange
 
 
