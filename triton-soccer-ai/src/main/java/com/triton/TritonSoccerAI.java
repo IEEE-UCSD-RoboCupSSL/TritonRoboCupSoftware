@@ -10,7 +10,7 @@ public class TritonSoccerAI {
 
     public TritonSoccerAI() throws IOException, TimeoutException {
         // input
-        new VisionReceiver().start();
+        new VisionInterface().start();
 
         // processing
         new PerspectiveConverter().start();
@@ -19,8 +19,8 @@ public class TritonSoccerAI {
 
         // output
         new SimulatorCommandSender().start();
-        new RobotControlSender().start();
-        new TritonBotCommandSender().start();
+        new SimulatorRobotControlInterface().start();
+        new TritonBotInterface().start();
         new Display().start();
     }
 

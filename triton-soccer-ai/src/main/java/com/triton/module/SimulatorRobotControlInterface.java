@@ -18,11 +18,12 @@ import static com.triton.messaging.Exchange.ROBOT_CONTROL;
 import static proto.simulation.SslSimulationRobotControl.RobotControl;
 import static proto.simulation.SslSimulationRobotFeedback.RobotControlResponse;
 
-public class RobotControlSender extends Module {
+public class SimulatorRobotControlInterface extends Module {
     private NetworkConfig networkConfig;
+
     private UDP_Client client;
 
-    public RobotControlSender() throws IOException, TimeoutException {
+    public SimulatorRobotControlInterface() throws IOException, TimeoutException {
         super();
         setupNetworking();
         declareExchanges();

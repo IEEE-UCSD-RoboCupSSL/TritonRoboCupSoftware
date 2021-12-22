@@ -19,6 +19,7 @@ import static proto.simulation.SslSimulationControl.SimulatorCommand;
 
 public class SimulatorCommandSender extends Module {
     private NetworkConfig networkConfig;
+
     private UDP_Client client;
 
     public SimulatorCommandSender() throws IOException, TimeoutException {

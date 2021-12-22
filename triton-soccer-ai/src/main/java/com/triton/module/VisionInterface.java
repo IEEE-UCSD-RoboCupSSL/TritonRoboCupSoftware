@@ -1,7 +1,7 @@
 package com.triton.module;
 
 import com.triton.config.NetworkConfig;
-import com.triton.networking.UDP_MulticastClient;
+import com.triton.networking.UDP_MulticastReceiver;
 import com.triton.messaging.Module;
 
 import java.io.ByteArrayInputStream;
@@ -14,12 +14,12 @@ import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.RAW_WRAPPER_PACKAGE;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
-public class VisionReceiver extends Module {
+public class VisionInterface extends Module {
     private NetworkConfig networkConfig;
 
-    private UDP_MulticastClient client;
+    private UDP_MulticastReceiver receiver;
 
-    public VisionReceiver() throws IOException, TimeoutException {
+    public VisionInterface() throws IOException, TimeoutException {
         super();
     }
 
@@ -52,10 +52,10 @@ public class VisionReceiver extends Module {
      */
     private void setupClient() throws IOException {
         // Setup a multicast receiver
-        client = new UDP_MulticastClient(networkConfig.getCameraAddress(),
+        receiver = new UDP_MulticastReceiver(networkConfig.getCameraAddress(),
                 networkConfig.getCameraOutputPort(),
                 this::processPacket);
-        client.start();
+        receiver.start();
     }
 
     /**

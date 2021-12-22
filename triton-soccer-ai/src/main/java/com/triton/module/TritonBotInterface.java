@@ -17,11 +17,12 @@ import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotControl.*;
 
-public class TritonBotCommandSender extends Module {
+public class TritonBotInterface extends Module {
     private NetworkConfig networkConfig;
+
     private UDP_Server server;
 
-    public TritonBotCommandSender() throws IOException, TimeoutException {
+    public TritonBotInterface() throws IOException, TimeoutException {
         super();
     }
 
