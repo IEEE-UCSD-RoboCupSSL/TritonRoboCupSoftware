@@ -1,4 +1,4 @@
-package com.triton.publisher_consumer;
+package com.triton.messaging;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -8,7 +8,7 @@ import com.rabbitmq.client.DeliverCallback;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.publisher_consumer.EasySerialize.standardSerialize;
+import static com.triton.messaging.EasySerialize.standardSerialize;
 
 public abstract class Module extends Thread {
     private static final String CONNECTION_FACTORY_HOST = "localhost";

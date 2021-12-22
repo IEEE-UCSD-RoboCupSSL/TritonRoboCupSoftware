@@ -1,23 +1,24 @@
-package com.triton.network;
+package com.triton.networking;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 import java.util.function.Consumer;
 
-public class UDP_Server extends Thread {
+public class UDP_Client extends Thread {
     protected static final int IN_BUF_SIZE = 9999;
 
+    private final InetAddress serverAddress;
+    private final int serverPort;
     private final DatagramSocket socket;
     private final Consumer<DatagramPacket> packetConsumer;
 
     private final byte[] inBuf = new byte[IN_BUF_SIZE];
 
-    public UDP_Server(int serverPort, Consumer<DatagramPacket> packetConsumer) throws SocketException {
+    public UDP_Client(String serverAddress, int serverPort, Consumer<DatagramPacket> packetConsumer) throws UnknownHostException, SocketException {
         super();
-        this.socket = new DatagramSocket(serverPort);
+        this.serverAddress = InetAddress.getByName(serverAddress);
+        this.serverPort = serverPort;
+        this.socket = new DatagramSocket();
         this.packetConsumer = packetConsumer;
     }
 
@@ -30,6 +31,8 @@ public class UDP_Server extends Thread {
     }
 
     private void receive() {
+        if (packetConsumer == null) return;
+
         DatagramPacket packet = new DatagramPacket(inBuf, inBuf.length);
         try {
             socket.receive(packet);
@@ -44,8 +47,8 @@ public class UDP_Server extends Thread {
         }
     }
 
-    public void send(byte[] outBytes, InetAddress clientAddress, int clientPort) {
-        DatagramPacket packet = new DatagramPacket(outBytes, outBytes.length, clientAddress, clientPort);
+    public void send(byte[] outBytes) {
+        DatagramPacket packet = new DatagramPacket(outBytes, outBytes.length, serverAddress, serverPort);
         try {
             socket.send(packet);
         } catch (IOException e) {

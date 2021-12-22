@@ -2,8 +2,8 @@ package com.triton.module;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.config.NetworkConfig;
-import com.triton.network.UDP_Client;
-import com.triton.publisher_consumer.Module;
+import com.triton.networking.UDP_Client;
+import com.triton.messaging.Module;
 import proto.simulation.SslSimulationControl.SimulatorResponse;
 
 import java.io.ByteArrayInputStream;
@@ -13,8 +13,8 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.Config.NETWORK_CONFIG;
 import static com.triton.config.EasyYamlReader.readYaml;
-import static com.triton.publisher_consumer.EasySerialize.standardDeserialize;
-import static com.triton.publisher_consumer.Exchange.SIMULATOR_COMMAND;
+import static com.triton.messaging.EasySerialize.standardDeserialize;
+import static com.triton.messaging.Exchange.SIMULATOR_COMMAND;
 import static proto.simulation.SslSimulationControl.SimulatorCommand;
 
 public class SimulatorCommandSender extends Module {

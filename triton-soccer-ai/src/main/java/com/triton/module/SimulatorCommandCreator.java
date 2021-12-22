@@ -1,12 +1,12 @@
 package com.triton.module;
 
-import com.triton.publisher_consumer.Module;
+import com.triton.messaging.Module;
 import proto.simulation.SslSimulationControl.TeleportRobot;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.publisher_consumer.Exchange.SIMULATOR_COMMAND;
+import static com.triton.messaging.Exchange.SIMULATOR_COMMAND;
 import static proto.simulation.SslGcCommon.RobotId;
 import static proto.simulation.SslGcCommon.Team;
 import static proto.simulation.SslSimulationConfig.SimulatorConfig;

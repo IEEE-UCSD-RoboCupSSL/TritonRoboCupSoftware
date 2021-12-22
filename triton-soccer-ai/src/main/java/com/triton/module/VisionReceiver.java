@@ -1,8 +1,8 @@
 package com.triton.module;
 
 import com.triton.config.NetworkConfig;
-import com.triton.network.UDP_MulticastClient;
-import com.triton.publisher_consumer.Module;
+import com.triton.networking.UDP_MulticastClient;
+import com.triton.messaging.Module;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.Config.NETWORK_CONFIG;
 import static com.triton.config.EasyYamlReader.readYaml;
-import static com.triton.publisher_consumer.Exchange.RAW_WRAPPER_PACKAGE;
+import static com.triton.messaging.Exchange.RAW_WRAPPER_PACKAGE;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class VisionReceiver extends Module {

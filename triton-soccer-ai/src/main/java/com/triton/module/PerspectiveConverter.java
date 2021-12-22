@@ -2,7 +2,7 @@ package com.triton.module;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.TritonSoccerAI;
-import com.triton.publisher_consumer.Module;
+import com.triton.messaging.Module;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
 
 import java.io.IOException;
@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.publisher_consumer.EasySerialize.standardDeserialize;
-import static com.triton.publisher_consumer.Exchange.*;
+import static com.triton.messaging.EasySerialize.standardDeserialize;
+import static com.triton.messaging.Exchange.*;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 import static proto.vision.MessagesRobocupSslGeometry.*;

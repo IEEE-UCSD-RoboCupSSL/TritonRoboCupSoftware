@@ -1,4 +1,4 @@
-package com.triton.publisher_consumer;
+package com.triton.messaging;
 
 public enum Exchange {
     RAW_WRAPPER_PACKAGE,
