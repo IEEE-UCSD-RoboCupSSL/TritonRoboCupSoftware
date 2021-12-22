@@ -3,8 +3,8 @@ package com.triton.modules.interfaces;
 import com.rabbitmq.client.Delivery;
 import com.triton.TritonSoccerAI;
 import com.triton.config.NetworkConfig;
+import com.triton.modules.Module;
 import com.triton.networking.UDP_Client;
-import com.triton.messaging.Module;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -13,8 +13,8 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.Config.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
-import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.messaging.Exchange.ROBOT_CONTROL;
+import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotControl.RobotControl;
 import static proto.simulation.SslSimulationRobotFeedback.RobotControlResponse;
 

@@ -2,7 +2,7 @@ package com.triton.modules.interfaces;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.config.NetworkConfig;
-import com.triton.messaging.Module;
+import com.triton.modules.Module;
 import com.triton.networking.AddressPort;
 import com.triton.networking.UDP_Server;
 
@@ -15,9 +15,9 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.Config.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
-import static com.triton.messaging.Exchange.*;
+import static com.triton.messaging.Exchange.TRITON_BOT_COMMAND;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.simulation.SslSimulationRobotControl.*;
+import static proto.simulation.SslSimulationRobotControl.RobotCommand;
 
 public class TritonBotCommandInterface extends Module {
     private NetworkConfig networkConfig;

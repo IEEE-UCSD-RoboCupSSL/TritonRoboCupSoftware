@@ -1,6 +1,6 @@
 package com.triton.modules.processors;
 
-import com.triton.messaging.Module;
+import com.triton.modules.Module;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;

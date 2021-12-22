@@ -1,9 +1,10 @@
-package com.triton.messaging;
+package com.triton.modules;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
+import com.triton.messaging.Exchange;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;

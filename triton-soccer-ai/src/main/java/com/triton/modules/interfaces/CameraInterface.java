@@ -1,8 +1,8 @@
 package com.triton.modules.interfaces;
 
 import com.triton.config.NetworkConfig;
+import com.triton.modules.Module;
 import com.triton.networking.UDP_MulticastReceiver;
-import com.triton.messaging.Module;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
