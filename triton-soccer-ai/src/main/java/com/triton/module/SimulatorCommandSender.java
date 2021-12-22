@@ -13,7 +13,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.Config.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
-import static com.triton.messaging.EasySerialize.standardDeserialize;
+import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.messaging.Exchange.SIMULATOR_COMMAND;
 import static proto.simulation.SslSimulationControl.SimulatorCommand;
 
@@ -49,7 +49,7 @@ public class SimulatorCommandSender extends Module {
     private void callbackSimulatorCommand(String s, Delivery delivery) {
         SimulatorCommand command = null;
         try {
-            command = (SimulatorCommand) standardDeserialize(delivery.getBody());
+            command = (SimulatorCommand) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

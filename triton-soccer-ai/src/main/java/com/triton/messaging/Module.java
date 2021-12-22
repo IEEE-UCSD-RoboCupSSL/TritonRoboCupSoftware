@@ -8,7 +8,7 @@ import com.rabbitmq.client.DeliverCallback;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.messaging.EasySerialize.standardSerialize;
+import static com.triton.messaging.SimpleSerialize.simpleSerialize;
 
 public abstract class Module extends Thread {
     private static final String CONNECTION_FACTORY_HOST = "localhost";
@@ -79,6 +79,6 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     protected void publish(Exchange exchange, Object object) throws IOException {
-        channel.basicPublish(exchange.name(), "", null, standardSerialize(object));
+        channel.basicPublish(exchange.name(), "", null, simpleSerialize(object));
     }
 }

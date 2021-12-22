@@ -23,7 +23,7 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.config.Config.DISPLAY_CONFIG;
 import static com.triton.config.Config.OBJECT_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
-import static com.triton.messaging.EasySerialize.standardDeserialize;
+import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.messaging.Exchange.*;
 import static java.awt.BorderLayout.*;
 import static java.awt.Color.*;
@@ -107,7 +107,7 @@ public class Display extends Module {
     private void callbackPerspectiveField(String s, Delivery delivery) {
         SSL_GeometryFieldSize field = null;
         try {
-            field = (SSL_GeometryFieldSize) standardDeserialize(delivery.getBody());
+            field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -120,7 +120,7 @@ public class Display extends Module {
     private void callbackPerspectiveBalls(String s, Delivery delivery) {
         ArrayList<SSL_DetectionBall> balls = null;
         try {
-            balls = (ArrayList<SSL_DetectionBall>) standardDeserialize(delivery.getBody());
+            balls = (ArrayList<SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -133,7 +133,7 @@ public class Display extends Module {
     private void callbackPerspectiveAllies(String s, Delivery delivery) {
         ArrayList<SSL_DetectionRobot> allies = null;
         try {
-            allies = (ArrayList<SSL_DetectionRobot>) standardDeserialize(delivery.getBody());
+            allies = (ArrayList<SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -146,7 +146,7 @@ public class Display extends Module {
     private void callbackPerspectiveFoes(String s, Delivery delivery) {
         ArrayList<SSL_DetectionRobot> foes = null;
         try {
-            foes = (ArrayList<SSL_DetectionRobot>) standardDeserialize(delivery.getBody());
+            foes = (ArrayList<SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

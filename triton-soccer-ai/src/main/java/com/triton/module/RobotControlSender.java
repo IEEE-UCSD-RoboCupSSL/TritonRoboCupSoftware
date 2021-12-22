@@ -13,7 +13,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.Config.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
-import static com.triton.messaging.EasySerialize.standardDeserialize;
+import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.messaging.Exchange.ROBOT_CONTROL;
 import static proto.simulation.SslSimulationRobotControl.RobotControl;
 import static proto.simulation.SslSimulationRobotFeedback.RobotControlResponse;
@@ -63,7 +63,7 @@ public class RobotControlSender extends Module {
     private void callbackRobotControl(String s, Delivery delivery) {
         RobotControl robotControl = null;
         try {
-            robotControl = (RobotControl) standardDeserialize(delivery.getBody());
+            robotControl = (RobotControl) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

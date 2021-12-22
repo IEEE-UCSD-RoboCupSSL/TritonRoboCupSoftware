@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.messaging.EasySerialize.standardDeserialize;
+import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.messaging.Exchange.*;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
@@ -88,7 +88,7 @@ public class PerspectiveConverter extends Module {
     private void callbackRawWrapperPacket(String s, Delivery delivery) {
         SSL_WrapperPacket wrapperPacket = null;
         try {
-            wrapperPacket = (SSL_WrapperPacket) standardDeserialize(delivery.getBody());
+            wrapperPacket = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
