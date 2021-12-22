@@ -10,15 +10,18 @@ import java.util.function.Consumer;
 public class UDP_Server extends Thread {
     protected static final int IN_BUF_SIZE = 9999;
 
-    private final DatagramSocket socket;
+    private final int serverPort;
     private final Consumer<DatagramPacket> packetConsumer;
 
+    private final DatagramSocket socket;
     private final byte[] inBuf = new byte[IN_BUF_SIZE];
 
     public UDP_Server(int serverPort, Consumer<DatagramPacket> packetConsumer) throws SocketException {
         super();
-        this.socket = new DatagramSocket(serverPort);
+        this.serverPort = serverPort;
         this.packetConsumer = packetConsumer;
+
+        this.socket = new DatagramSocket(serverPort);
     }
 
     @Override

@@ -9,17 +9,18 @@ public class UDP_Client extends Thread {
 
     private final InetAddress serverAddress;
     private final int serverPort;
-    private final DatagramSocket socket;
     private final Consumer<DatagramPacket> packetConsumer;
 
+    private final DatagramSocket socket;
     private final byte[] inBuf = new byte[IN_BUF_SIZE];
 
     public UDP_Client(String serverAddress, int serverPort, Consumer<DatagramPacket> packetConsumer) throws UnknownHostException, SocketException {
         super();
         this.serverAddress = InetAddress.getByName(serverAddress);
         this.serverPort = serverPort;
-        this.socket = new DatagramSocket();
         this.packetConsumer = packetConsumer;
+
+        this.socket = new DatagramSocket();
     }
 
     @Override
