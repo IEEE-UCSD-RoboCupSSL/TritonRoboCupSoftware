@@ -8,13 +8,13 @@ import java.net.SocketException;
 import java.util.function.Consumer;
 
 public class UDP_Server extends Thread {
-    protected static final int IN_BUF_SIZE = 9999;
+    protected static final int BUF_SIZE = 9999;
 
     private final int serverPort;
     private final Consumer<DatagramPacket> packetConsumer;
 
     private final DatagramSocket socket;
-    private final byte[] inBuf = new byte[IN_BUF_SIZE];
+    private final byte[] buf = new byte[BUF_SIZE];
 
     public UDP_Server(int serverPort, Consumer<DatagramPacket> packetConsumer) throws SocketException {
         super();
@@ -33,7 +33,7 @@ public class UDP_Server extends Thread {
     }
 
     private void receive() {
-        DatagramPacket packet = new DatagramPacket(inBuf, inBuf.length);
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
         try {
             socket.receive(packet);
         } catch (IOException e) {
@@ -47,8 +47,8 @@ public class UDP_Server extends Thread {
         }
     }
 
-    public void send(byte[] outBytes, InetAddress clientAddress, int clientPort) {
-        DatagramPacket packet = new DatagramPacket(outBytes, outBytes.length, clientAddress, clientPort);
+    public void send(byte[] bytes, InetAddress clientAddress, int clientPort) {
+        DatagramPacket packet = new DatagramPacket(bytes, bytes.length, clientAddress, clientPort);
         try {
             socket.send(packet);
         } catch (IOException e) {

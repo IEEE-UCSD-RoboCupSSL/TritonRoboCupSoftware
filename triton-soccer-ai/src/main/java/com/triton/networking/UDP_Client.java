@@ -5,14 +5,14 @@ import java.net.*;
 import java.util.function.Consumer;
 
 public class UDP_Client extends Thread {
-    protected static final int IN_BUF_SIZE = 9999;
+    protected static final int BUF_SIZE = 9999;
 
     private final InetAddress serverAddress;
     private final int serverPort;
     private final Consumer<DatagramPacket> packetConsumer;
 
     private final DatagramSocket socket;
-    private final byte[] inBuf = new byte[IN_BUF_SIZE];
+    private final byte[] buf = new byte[BUF_SIZE];
 
     public UDP_Client(String serverAddress, int serverPort, Consumer<DatagramPacket> packetConsumer) throws UnknownHostException, SocketException {
         super();
@@ -34,7 +34,7 @@ public class UDP_Client extends Thread {
     private void receive() {
         if (packetConsumer == null) return;
 
-        DatagramPacket packet = new DatagramPacket(inBuf, inBuf.length);
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
         try {
             socket.receive(packet);
         } catch (IOException e) {
@@ -48,8 +48,8 @@ public class UDP_Client extends Thread {
         }
     }
 
-    public void send(byte[] outBytes) {
-        DatagramPacket packet = new DatagramPacket(outBytes, outBytes.length, serverAddress, serverPort);
+    public void send(byte[] bytes) {
+        DatagramPacket packet = new DatagramPacket(bytes, bytes.length, serverAddress, serverPort);
         try {
             socket.send(packet);
         } catch (IOException e) {
