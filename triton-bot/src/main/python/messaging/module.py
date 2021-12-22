@@ -16,7 +16,7 @@ class Module(threading.Thread):
 
     def setup_channel(self):
         connection = pika.BlockingConnection(
-            pika.ConnectionParameters(self.CONNECTION_FACTORY_HOST))
+            pika.ConnectionParameters(Module.CONNECTION_FACTORY_HOST))
         self.channel = connection.channel()
 
     def load_config(self):
@@ -30,11 +30,11 @@ class Module(threading.Thread):
 
     def declare_publish(self, exchange):
         self.channel.exchange_declare(
-            exchange=exchange.name, exchange_type=self.EXCHANGE_TYPE)
+            exchange=exchange.name, exchange_type=Module.EXCHANGE_TYPE)
 
     def declare_consume(self, exchange, callback):
         self.channel.exchange_declare(
-            exchange=exchange.name, exchange_type=self.EXCHANGE_TYPE)
+            exchange=exchange.name, exchange_type=Module.EXCHANGE_TYPE)
 
         queue_name = self.channel.queue_declare(
             queue='', exclusive=True).method.queue
