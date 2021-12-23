@@ -13,13 +13,14 @@ public class UDP_MulticastReceiver extends Thread {
     private final byte[] buf = new byte[PACKET_BUFFER_SIZE];
     private final Consumer<byte[]> callbackPacket;
 
-    public UDP_MulticastReceiver(String address, int port, Consumer<byte[]> callbackPacket) throws IOException {
-        socket = new MulticastSocket(port);
-        InetAddress multicastAddress = InetAddress.getByName(address);
-        InetSocketAddress group = new InetSocketAddress(multicastAddress, port);
+    public UDP_MulticastReceiver(String multicastAddressName, int mutlicastPort, Consumer<byte[]> callbackPacket) throws IOException {
+        this.callbackPacket = callbackPacket;
+
+        socket = new MulticastSocket(mutlicastPort);
+        InetAddress multicastAddress = InetAddress.getByName(multicastAddressName);
+        InetSocketAddress group = new InetSocketAddress(multicastAddress, mutlicastPort);
         NetworkInterface networkInterface = NetworkInterface.getByName(NETWORK_INTERFACE);
         socket.joinGroup(group, networkInterface);
-        this.callbackPacket = callbackPacket;
     }
 
     @Override

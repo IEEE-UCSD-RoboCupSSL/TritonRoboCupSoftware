@@ -6,13 +6,8 @@ import com.triton.config.NetworkConfig;
 import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
 import com.triton.networking.UDP_Client;
-import com.triton.networking.UDP_Server;
-import proto.vision.MessagesRobocupSslWrapper;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -24,7 +19,7 @@ import static com.triton.config.ConfigPath.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.AI_TRITON_BOT_COMMAND;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.simulation.SslSimulationRobotControl.*;
+import static proto.simulation.SslSimulationRobotControl.RobotCommand;
 
 public class TritonBotCommandInterface extends Module {
     private NetworkConfig networkConfig;
