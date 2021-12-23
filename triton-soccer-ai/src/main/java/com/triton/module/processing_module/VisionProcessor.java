@@ -91,8 +91,8 @@ public class VisionProcessor extends Module {
             wrapperPacket = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            return;
         }
-        if (wrapperPacket == null) return;
 
         if (wrapperPacket.hasGeometry() && wrapperPacket.getGeometry().hasField()) {
             try {

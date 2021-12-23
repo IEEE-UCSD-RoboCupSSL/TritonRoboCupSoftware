@@ -67,8 +67,8 @@ public class SimulatorRobotControlInterface extends Module {
             robotControl = (RobotControl) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            return;
         }
-        if (robotControl == null) return;
 
         client.send(robotControl.toByteArray());
     }

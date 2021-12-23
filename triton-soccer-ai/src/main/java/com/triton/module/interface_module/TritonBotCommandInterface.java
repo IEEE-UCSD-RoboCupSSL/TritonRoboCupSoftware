@@ -64,8 +64,8 @@ public class TritonBotCommandInterface extends Module {
             command = (RobotCommand) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            return;
         }
-        if (command == null) return;
 
         int id = command.getId();
         if (!addressPorts.containsKey(id)) return;

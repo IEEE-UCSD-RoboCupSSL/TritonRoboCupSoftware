@@ -4,6 +4,7 @@ import com.triton.constant.Team;
 import com.triton.module.interface_module.*;
 import com.triton.module.processing_module.RobotControlCreator;
 import com.triton.module.processing_module.VisionProcessor;
+import org.apache.commons.cli.*;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -11,8 +12,10 @@ import java.util.concurrent.TimeoutException;
 public class TritonSoccerAI {
     private static Team team;
 
-    public TritonSoccerAI() {
+    public TritonSoccerAI(Team team) {
         super();
+
+        TritonSoccerAI.team = team;
 
         try {
             startModules();
@@ -22,19 +25,42 @@ public class TritonSoccerAI {
     }
 
     public static void main(String[] args) {
-        if (args.length < 1) return;
-        String teamString = args[0];
+        Options options = new Options();
+        Option teamOption = Option.builder("t")
+                .longOpt("team")
+                .argName("team")
+                .hasArg()
+                .required(true)
+                .desc("set team to manage").build();
+        options.addOption(teamOption);
+
+        CommandLine cmd;
+        CommandLineParser parser = new DefaultParser();
+        HelpFormatter helper = new HelpFormatter();
 
         Team team = null;
-        for (Team matchTeam : Team.values())
-            if (teamString.equals(matchTeam.getTeamString()))
-                team = matchTeam;
+        try {
+            cmd = parser.parse(options, args);
+            if (cmd.hasOption(teamOption))
+                team = parseTeam(cmd.getOptionValue(teamOption));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            helper.printHelp(" ", options);
+            return;
+        }
 
-        if (team == null)
+        if (team == null) {
             throw new IllegalStateException();
+        }
 
-        TritonSoccerAI.setTeam(team);
-        new TritonSoccerAI();
+        new TritonSoccerAI(team);
+    }
+
+    private static Team parseTeam(String teamString) {
+        for (Team team : Team.values())
+            if (teamString.equals(team.getTeamString()))
+                return team;
+        return null;
     }
 
     private void startModules() throws IOException, TimeoutException {

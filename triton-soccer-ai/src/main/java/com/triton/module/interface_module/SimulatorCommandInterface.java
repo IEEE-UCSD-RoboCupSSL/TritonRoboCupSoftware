@@ -53,8 +53,8 @@ public class SimulatorCommandInterface extends Module {
             command = (SimulatorCommand) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            return;
         }
-        if (command == null) return;
 
         client.send(command.toByteArray());
     }

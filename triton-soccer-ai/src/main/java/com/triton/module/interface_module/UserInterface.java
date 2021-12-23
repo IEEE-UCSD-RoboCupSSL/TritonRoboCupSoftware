@@ -110,8 +110,8 @@ public class UserInterface extends Module {
             field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            return;
         }
-        if (field == null) return;
 
         fieldPanel.setField(field);
         frame.repaint();
@@ -123,8 +123,8 @@ public class UserInterface extends Module {
             balls = (ArrayList<SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            return;
         }
-        if (balls == null) return;
 
         fieldPanel.setBalls(balls);
         frame.repaint();
@@ -136,8 +136,8 @@ public class UserInterface extends Module {
             allies = (ArrayList<SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            return;
         }
-        if (allies == null) return;
 
         fieldPanel.setAllies(allies);
         frame.repaint();
