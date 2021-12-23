@@ -78,11 +78,11 @@ public class VisionProcessor extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(RAW_WRAPPER_PACKAGE, this::callbackRawWrapperPacket);
-        declarePublish(BIASED_FIELD);
-        declarePublish(BIASED_BALLS);
-        declarePublish(BIASED_ALLIES);
-        declarePublish(BIASED_FOES);
+        declareConsume(AI_RAW_WRAPPER_PACKAGE, this::callbackRawWrapperPacket);
+        declarePublish(AI_BIASED_FIELD);
+        declarePublish(AI_BIASED_BALLS);
+        declarePublish(AI_BIASED_ALLIES);
+        declarePublish(AI_BIASED_FOES);
     }
 
     private void callbackRawWrapperPacket(String s, Delivery delivery) {
@@ -96,7 +96,7 @@ public class VisionProcessor extends Module {
 
         if (wrapperPacket.hasGeometry() && wrapperPacket.getGeometry().hasField()) {
             try {
-                publish(BIASED_FIELD, convertField(wrapperPacket.getGeometry().getField()));
+                publish(AI_BIASED_FIELD, convertField(wrapperPacket.getGeometry().getField()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -105,13 +105,13 @@ public class VisionProcessor extends Module {
         if (wrapperPacket.hasDetection()) {
             try {
                 SSL_DetectionFrame detection = wrapperPacket.getDetection();
-                publish(BIASED_BALLS, convertBalls(detection.getBallsList()));
+                publish(AI_BIASED_BALLS, convertBalls(detection.getBallsList()));
 
                 List<SSL_DetectionRobot> yellows = detection.getRobotsYellowList();
                 List<SSL_DetectionRobot> blues = detection.getRobotsBlueList();
                 List<List<SSL_DetectionRobot>> biasedBots = convertRobots(yellows, blues);
-                publish(BIASED_ALLIES, biasedBots.get(0));
-                publish(BIASED_FOES, biasedBots.get(1));
+                publish(AI_BIASED_ALLIES, biasedBots.get(0));
+                publish(AI_BIASED_FOES, biasedBots.get(1));
             } catch (IOException e) {
                 e.printStackTrace();
             }

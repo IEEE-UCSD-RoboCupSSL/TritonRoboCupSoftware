@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-proto_src_dir = "src/main/resources/proto"
+proto_src_dir = "src/main/proto"
 proto_dst_dir = "src/main/python/generated_sources/proto"
 proto_files = os.listdir(proto_src_dir)
 

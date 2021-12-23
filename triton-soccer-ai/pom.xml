@@ -96,7 +96,7 @@
         <version>0.6.1</version>
         <configuration>
           <protocExecutable>/usr/bin/protoc</protocExecutable>
-          <protoSourceRoot>src/main/resources/proto</protoSourceRoot>
+          <protoSourceRoot>src/main/proto</protoSourceRoot>
           <outputDirectory>src/main/generated-sources</outputDirectory>
         </configuration>
         <executions>

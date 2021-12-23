@@ -6,7 +6,7 @@ import proto.simulation.SslSimulationControl.TeleportRobot;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.messaging.Exchange.SIMULATOR_COMMAND;
+import static com.triton.messaging.Exchange.AI_SIMULATOR_COMMAND;
 import static proto.simulation.SslGcCommon.RobotId;
 import static proto.simulation.SslGcCommon.Team;
 import static proto.simulation.SslSimulationConfig.SimulatorConfig;
@@ -22,7 +22,7 @@ public class SimulatorCommandCreator extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declarePublish(SIMULATOR_COMMAND);
+        declarePublish(AI_SIMULATOR_COMMAND);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class SimulatorCommandCreator extends Module {
             command.setConfig(config);
 
             try {
-                publish(SIMULATOR_COMMAND, command.build());
+                publish(AI_SIMULATOR_COMMAND, command.build());
             } catch (IOException e) {
                 e.printStackTrace();
             }

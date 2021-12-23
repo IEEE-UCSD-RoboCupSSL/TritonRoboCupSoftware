@@ -1,16 +1,17 @@
 package com.triton.config;
 
 public enum ConfigPath {
-    NETWORK_CONFIG("../config/network_config.yaml", NetworkConfig.class),
-    OBJECT_CONFIG("../config/object_config.yaml", ObjectConfig.class),
-    DISPLAY_CONFIG("../config/display_config.yaml", DisplayConfig.class),
+    NETWORK_CONFIG("network_config.yaml", NetworkConfig.class),
+    OBJECT_CONFIG("object_config.yaml", ObjectConfig.class),
+    GAME_CONFIG("game_config.yaml", GameConfig.class),
+    DISPLAY_CONFIG("display_config.yaml", DisplayConfig.class),
     ;
 
     private final String configPath;
     private final Class configClass;
 
     ConfigPath(String configPath, Class configClass) {
-        this.configPath = configPath;
+        this.configPath = "../config/" + configPath;
         this.configClass = configClass;
     }
 

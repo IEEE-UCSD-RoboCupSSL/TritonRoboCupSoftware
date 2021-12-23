@@ -4,11 +4,13 @@ cameraOutputPort: 10020
 simulationControlAddress: "localhost"
 simulationControlPort: 10300
 
-simulationRobotControlBlueAddress: "localhost"
-simulationRobotControlBluePort: 10301
+simulationRobotControlAddressBlue: "localhost"
+simulationRobotControlPortBlue: 10301
+simulationRobotControlAddressYellow: "localhost"
+simulationRobotControlPortYellow: 10302
 
-simulationRobotControlYellowAddress: "localhost"
-simulationRobotControlYellowPort: 10302
-
-aiAddress: "localhost"
-aiTritonBotPort: 10500
+tritonBotAddressBlue: "localhost"
+tritonBotPortBaseBlue: 10500
+tritonBotAddressYellow: "localhost"
+tritonBotPortBaseYellow: 10600
+tritonBotPortIncr: 10

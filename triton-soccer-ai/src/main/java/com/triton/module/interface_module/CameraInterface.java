@@ -11,7 +11,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.ConfigPath.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
-import static com.triton.messaging.Exchange.RAW_WRAPPER_PACKAGE;
+import static com.triton.messaging.Exchange.AI_RAW_WRAPPER_PACKAGE;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class CameraInterface extends Module {
@@ -42,7 +42,7 @@ public class CameraInterface extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declarePublish(RAW_WRAPPER_PACKAGE);
+        declarePublish(AI_RAW_WRAPPER_PACKAGE);
     }
 
     /**
@@ -52,8 +52,8 @@ public class CameraInterface extends Module {
      */
     private void setupReceiver() throws IOException {
         // Setup a multicast receiver
-        receiver = new UDP_MulticastReceiver(networkConfig.getCameraAddress(),
-                networkConfig.getCameraOutputPort(),
+        receiver = new UDP_MulticastReceiver(networkConfig.cameraAddress,
+                networkConfig.cameraOutputPort,
                 this::processPacket);
         receiver.start();
     }
@@ -96,6 +96,6 @@ public class CameraInterface extends Module {
      * @throws IOException
      */
     private void publishWrapperPacket(SSL_WrapperPacket wrapperPacket) throws IOException {
-        publish(RAW_WRAPPER_PACKAGE, wrapperPacket);
+        publish(AI_RAW_WRAPPER_PACKAGE, wrapperPacket);
     }
 }

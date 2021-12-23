@@ -13,7 +13,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.ConfigPath.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
-import static com.triton.messaging.Exchange.SIMULATOR_COMMAND;
+import static com.triton.messaging.Exchange.AI_SIMULATOR_COMMAND;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationControl.SimulatorCommand;
 
@@ -35,8 +35,8 @@ public class SimulatorCommandInterface extends Module {
     }
 
     private void setupClient() throws IOException {
-        client = new UDP_Client(networkConfig.getSimulationControlAddress(),
-                networkConfig.getSimulationControlPort(),
+        client = new UDP_Client(networkConfig.simulationControlAddress,
+                networkConfig.simulationControlPort,
                 this::callbackSimulatorResponse);
         client.start();
     }
@@ -44,7 +44,7 @@ public class SimulatorCommandInterface extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(SIMULATOR_COMMAND, this::callbackSimulatorCommand);
+        declareConsume(AI_SIMULATOR_COMMAND, this::callbackSimulatorCommand);
     }
 
     private void callbackSimulatorCommand(String s, Delivery delivery) {
@@ -56,7 +56,7 @@ public class SimulatorCommandInterface extends Module {
             return;
         }
 
-        client.send(command.toByteArray());
+        client.addSend(command.toByteArray());
     }
 
     private void callbackSimulatorResponse(DatagramPacket packet) {

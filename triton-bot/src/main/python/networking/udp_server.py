@@ -3,28 +3,29 @@ from threading import Thread
 
 
 class UDP_Server(Thread):
-    LOCALHOST_ADDRESS = "127.0.0.1"
+    LOCALHOST_ADDRESS = "localhost"
     BUF_SIZE = 9999
 
-    def __init__(self, serverPort, callbackPacket):
+    def __init__(self, server_port, callback):
         super().__init__()
-        self.serverPort = serverPort
-        self.callbackPacket = callbackPacket
+        self.server_port = server_port
+        self.callback = callback
 
         self.socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
-        self.socket.bind((UDP_Server.LOCALHOST_ADDRESS, serverPort))
+        self.socket.bind((UDP_Server.LOCALHOST_ADDRESS, server_port))
 
     def run(self):
         super().run()
         while (True):
-            self.receive()
+            self.send(self.receive())
 
     def receive(self):
-        if (self.callbackPacket == None):
-            return
-
         packet = self.socket.recvfrom(UDP_Server.BUF_SIZE)
-        self.callbackPacket(packet=packet)
+        self.client_address_port = packet[1]
+        return self.callback(bytes=packet[0])
 
-    def send(self, bytes, clientAddress, clientPort):
-        self.socket.sendto(bytes, (clientAddress, clientPort))
+    def send(self, bytes):
+        if (bytes == None or self.client_address_port == None):
+            return
+            
+        self.socket.sendto(bytes, self.client_address_port)

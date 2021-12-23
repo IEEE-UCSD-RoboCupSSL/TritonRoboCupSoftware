@@ -13,7 +13,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.ConfigPath.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
-import static com.triton.messaging.Exchange.ROBOT_CONTROL;
+import static com.triton.messaging.Exchange.AI_ROBOT_CONTROL;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotControl.RobotControl;
 import static proto.simulation.SslSimulationRobotFeedback.RobotControlResponse;
@@ -41,12 +41,12 @@ public class SimulatorRobotControlInterface extends Module {
 
         switch (RuntimeConstants.team) {
             case BLUE -> {
-                allyControlAddress = networkConfig.getSimulationRobotControlBlueAddress();
-                allyControlPort = networkConfig.getSimulationRobotControlBluePort();
+                allyControlAddress = networkConfig.simulationRobotControlAddressBlue;
+                allyControlPort = networkConfig.simulationRobotControlPortBlue;
             }
             case YELLOW -> {
-                allyControlAddress = networkConfig.getSimulationRobotControlYellowAddress();
-                allyControlPort = networkConfig.getSimulationRobotControlYellowPort();
+                allyControlAddress = networkConfig.simulationRobotControlAddressYellow;
+                allyControlPort = networkConfig.simulationRobotControlPortYellow;
             }
             default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
         }
@@ -58,7 +58,7 @@ public class SimulatorRobotControlInterface extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(ROBOT_CONTROL, this::callbackRobotControl);
+        declareConsume(AI_ROBOT_CONTROL, this::callbackRobotControl);
     }
 
     private void callbackRobotControl(String s, Delivery delivery) {
@@ -70,12 +70,13 @@ public class SimulatorRobotControlInterface extends Module {
             return;
         }
 
-        client.send(robotControl.toByteArray());
+        client.addSend(robotControl.toByteArray());
     }
 
     private void callbackRobotControlResponse(DatagramPacket packet) {
         try {
             RobotControlResponse response = parsePacket(packet);
+            System.out.println(response);
         } catch (IOException e) {
             e.printStackTrace();
         }

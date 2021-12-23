@@ -1,9 +1,11 @@
 import pickle
-import threading
+from threading import Thread
+
+from google.protobuf.message import Message
 import pika
 
 
-class Module(threading.Thread):
+class Module(Thread):
     CONNECTION_FACTORY_HOST = 'localhost'
     EXCHANGE_TYPE = 'fanout'
 
@@ -20,13 +22,13 @@ class Module(threading.Thread):
         self.channel = connection.channel()
 
     def load_config(self):
-        return
+        pass
 
     def prepare(self):
-        return
+        pass
 
     def declare_exchanges(self):
-        return
+        pass
 
     def declare_publish(self, exchange):
         self.channel.exchange_declare(
@@ -42,8 +44,15 @@ class Module(threading.Thread):
 
         self.channel.basic_consume(
             queue=queue_name, on_message_callback=callback, auto_ack=True)
-        self.channel.start_consuming()
 
     def publish(self, exchange, object):
+        if (isinstance(object, Message)):
+            body = object.SerializeToString()
+        else:
+            body = pickle.dumps(object)
+
         self.channel.basic_publish(
-            exchange=exchange.name, routing_key='', body=pickle.dumps(object))
+            exchange=exchange.name, routing_key='', body=body)
+    
+    def consume(self):
+        self.channel.start_consuming()

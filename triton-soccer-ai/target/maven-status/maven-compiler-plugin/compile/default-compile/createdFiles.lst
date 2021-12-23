@@ -20,6 +20,7 @@ proto/vision/MessagesRobocupSslGeometry$Vector2f$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedBall$Builder.class
 proto/simulation/SslSimulationRobotControl$RobotCommand$Builder.class
 proto/simulation/SslSimulationError$SimulatorError$1.class
+com/triton/module/interface_module/TritonBotCommandInterface$1.class
 proto/simulation/SslVisionDetection$SSL_DetectionRobot$1.class
 proto/simulation/SslVisionGeometry$SSL_BallModelChipFixedLossOrBuilder.class
 proto/vision/MessagesRobocupSslWrapper$SSL_WrapperPacketOrBuilder.class
@@ -150,6 +151,7 @@ proto/simulation/SslSimulationError$SimulatorError$Builder.class
 proto/simulation/SslSimulationRobotControl$RobotControl$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$Vector3$Builder.class
 proto/simulation/SslVisionGeometry$SSL_GeometryCameraCalibration.class
+com/triton/config/GameConfig.class
 proto/vision/MessagesRobocupSslGeometry$SSL_BallModelStraightTwoPhase$1.class
 proto/simulation/SslVisionGeometry$SSL_FieldShapeType.class
 com/triton/module/processing_module/VisionProcessor.class

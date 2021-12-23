@@ -5,8 +5,8 @@ import com.triton.module.Module;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.messaging.Exchange.ROBOT_CONTROL;
-import static com.triton.messaging.Exchange.TRITON_BOT_COMMAND;
+import static com.triton.messaging.Exchange.AI_ROBOT_CONTROL;
+import static com.triton.messaging.Exchange.AI_TRITON_BOT_COMMAND;
 import static proto.simulation.SslSimulationRobotControl.*;
 
 public class RobotControlCreator extends Module {
@@ -18,8 +18,8 @@ public class RobotControlCreator extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declarePublish(ROBOT_CONTROL);
-        declarePublish(TRITON_BOT_COMMAND);
+        declarePublish(AI_ROBOT_CONTROL);
+        declarePublish(AI_TRITON_BOT_COMMAND);
     }
 
     @Override
@@ -46,11 +46,11 @@ public class RobotControlCreator extends Module {
                 robotCommand.setKickAngle(0);
                 robotCommand.setDribblerSpeed(10);
 
-                publish(TRITON_BOT_COMMAND, robotCommand.build());
+                publish(AI_TRITON_BOT_COMMAND, robotCommand.build());
 
                 robotControl.addRobotCommands(robotCommand);
 
-                publish(ROBOT_CONTROL, robotControl.build());
+                publish(AI_ROBOT_CONTROL, robotControl.build());
             } catch (IOException e) {
                 e.printStackTrace();
             }

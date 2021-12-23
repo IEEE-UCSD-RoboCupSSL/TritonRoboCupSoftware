@@ -98,10 +98,10 @@ public class UserInterface extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(BIASED_FIELD, this::callbackPerspectiveField);
-        declareConsume(BIASED_BALLS, this::callbackPerspectiveBalls);
-        declareConsume(BIASED_ALLIES, this::callbackPerspectiveAllies);
-        declareConsume(BIASED_FOES, this::callbackPerspectiveFoes);
+        declareConsume(AI_BIASED_FIELD, this::callbackPerspectiveField);
+        declareConsume(AI_BIASED_BALLS, this::callbackPerspectiveBalls);
+        declareConsume(AI_BIASED_ALLIES, this::callbackPerspectiveAllies);
+        declareConsume(AI_BIASED_FOES, this::callbackPerspectiveFoes);
     }
 
     private void callbackPerspectiveField(String s, Delivery delivery) {
@@ -240,7 +240,7 @@ public class UserInterface extends Module {
                 for (SSL_DetectionBall sslDetectionBall : balls) {
                     float x = sslDetectionBall.getX();
                     float y = sslDetectionBall.getY();
-                    float radius = objectConfig.getBallRadius();
+                    float radius = objectConfig.ballRadius;
 
                     graphics2D.setColor(MAGENTA);
                     graphics2D.fillArc((int) (x - radius / 2),
@@ -291,7 +291,7 @@ public class UserInterface extends Module {
         private void paintBot(Graphics2D graphics2D, SSL_DetectionRobot bot, Color fillColor, Color outlineColor) {
             float x = bot.getX();
             float y = bot.getY();
-            float radius = objectConfig.getYellowBotRadius();
+            float radius = objectConfig.yellowBotRadius;
 
             graphics2D.setColor(fillColor);
             graphics2D.fillArc((int) (x - radius / 2),
@@ -310,7 +310,7 @@ public class UserInterface extends Module {
                     360);
 
             graphics2D.setColor(WHITE);
-            setFont(new Font(displayConfig.getBotIdFontName(), Font.BOLD, displayConfig.getBotIdFontSize()));
+            setFont(new Font(displayConfig.botIdFontName, Font.BOLD, displayConfig.botIdFontSize));
             AffineTransform orgi = graphics2D.getTransform();
             graphics2D.translate(x, y);
             graphics2D.scale(1, -1);

@@ -3,6 +3,7 @@
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/java/com/triton/networking/UDP_Server.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/vision/MessagesRobocupSslWrapperTracked.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/vision/MessagesRobocupSslGeometry.java
+/home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/java/com/triton/constant/RuntimeConstants.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/simulation/SslSimulationRobotControl.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/java/com/triton/module/interface_module/UserInterface.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/java/com/triton/constant/Team.java
