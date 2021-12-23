@@ -8,7 +8,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 
 public class UDP_Client extends Thread {
-    protected static final int BUF_SIZE = 9999;
+    private static final int BUF_SIZE = 9999;
+    private static final int TIMEOUT = 10;
 
     private final InetAddress serverAddress;
     private final int serverPort;
@@ -23,7 +24,8 @@ public class UDP_Client extends Thread {
         this.serverPort = serverPort;
         this.callbackPacket = callbackPacket;
 
-        this.socket = new DatagramSocket();
+        socket = new DatagramSocket();
+        socket.setSoTimeout(TIMEOUT);
         sendQueue = new LinkedBlockingQueue<>();
     }
 
@@ -51,7 +53,6 @@ public class UDP_Client extends Thread {
     }
 
     private void receive(boolean receive) {
-        // TODO: CONSIDER WHEN MESSAGE IS NOT RECEIVED
         if (!receive || callbackPacket == null) return;
 
         byte[] buf = new byte[BUF_SIZE];

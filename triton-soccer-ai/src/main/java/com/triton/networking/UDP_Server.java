@@ -6,11 +6,10 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class UDP_Server extends Thread {
-    protected static final int BUF_SIZE = 9999;
+    private static final int BUF_SIZE = 9999;
 
     private final int serverPort;
     private final Function<byte[], byte[]> callbackPacket;
@@ -25,7 +24,7 @@ public class UDP_Server extends Thread {
         this.serverPort = serverPort;
         this.callbackPacket = callbackPacket;
 
-        this.socket = new DatagramSocket(serverPort);
+        socket = new DatagramSocket(serverPort);
     }
 
     @Override

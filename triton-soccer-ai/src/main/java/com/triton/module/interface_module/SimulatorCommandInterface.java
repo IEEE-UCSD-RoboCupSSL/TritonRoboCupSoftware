@@ -6,9 +6,7 @@ import com.triton.module.Module;
 import com.triton.networking.UDP_Client;
 import proto.simulation.SslSimulationControl.SimulatorResponse;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.DatagramPacket;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.ConfigPath.NETWORK_CONFIG;
