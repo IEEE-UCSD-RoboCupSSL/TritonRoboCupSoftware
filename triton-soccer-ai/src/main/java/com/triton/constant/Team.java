@@ -1,4 +1,4 @@
-package com.triton.ai;
+package com.triton.constant;
 
 public enum Team {
     YELLOW("yellow"),

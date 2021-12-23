@@ -1,2 +1,6 @@
 syntax = "proto3";
 
+message TritonBotInit {
+  string address = 1;
+  int32 port = 2;
+}
