@@ -1,17 +1,17 @@
-import threading
 import socket
+from threading import Thread
 
 
-class UDP_Server(threading.Thread):
+class UDP_Server(Thread):
     LOCALHOST_ADDRESS = "127.0.0.1"
     BUF_SIZE = 9999
 
-    def __init__(self, serverPort, packetConsumer):
+    def __init__(self, serverPort, callbackPacket):
         super().__init__()
         self.serverPort = serverPort
-        self.packetConsumer = packetConsumer
+        self.callbackPacket = callbackPacket
 
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
         self.socket.bind((UDP_Server.LOCALHOST_ADDRESS, serverPort))
 
     def run(self):
@@ -20,12 +20,11 @@ class UDP_Server(threading.Thread):
             self.receive()
 
     def receive(self):
-        if (self.packetConsumer == None):
+        if (self.callbackPacket == None):
             return
 
         packet = self.socket.recvfrom(UDP_Server.BUF_SIZE)
-        self.packetConsumer(packet)
-        
+        self.callbackPacket(packet=packet)
 
     def send(self, bytes, clientAddress, clientPort):
         self.socket.sendto(bytes, (clientAddress, clientPort))

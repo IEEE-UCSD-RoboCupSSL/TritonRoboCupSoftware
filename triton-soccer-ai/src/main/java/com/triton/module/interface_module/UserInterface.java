@@ -1,9 +1,9 @@
 package com.triton.module.interface_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.TritonSoccerAI;
 import com.triton.config.DisplayConfig;
 import com.triton.config.ObjectConfig;
+import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.config.Config.DISPLAY_CONFIG;
-import static com.triton.config.Config.OBJECT_CONFIG;
+import static com.triton.config.ConfigPath.DISPLAY_CONFIG;
+import static com.triton.config.ConfigPath.OBJECT_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
@@ -105,7 +105,7 @@ public class UserInterface extends Module {
     }
 
     private void callbackPerspectiveField(String s, Delivery delivery) {
-        SSL_GeometryFieldSize field = null;
+        SSL_GeometryFieldSize field;
         try {
             field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
@@ -118,7 +118,7 @@ public class UserInterface extends Module {
     }
 
     private void callbackPerspectiveBalls(String s, Delivery delivery) {
-        ArrayList<SSL_DetectionBall> balls = null;
+        ArrayList<SSL_DetectionBall> balls;
         try {
             balls = (ArrayList<SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
@@ -131,7 +131,7 @@ public class UserInterface extends Module {
     }
 
     private void callbackPerspectiveAllies(String s, Delivery delivery) {
-        ArrayList<SSL_DetectionRobot> allies = null;
+        ArrayList<SSL_DetectionRobot> allies;
         try {
             allies = (ArrayList<SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
@@ -144,13 +144,13 @@ public class UserInterface extends Module {
     }
 
     private void callbackPerspectiveFoes(String s, Delivery delivery) {
-        ArrayList<SSL_DetectionRobot> foes = null;
+        ArrayList<SSL_DetectionRobot> foes;
         try {
             foes = (ArrayList<SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            return;
         }
-        if (foes == null) return;
 
         fieldPanel.setFoes(foes);
         frame.repaint();
@@ -266,10 +266,10 @@ public class UserInterface extends Module {
                 for (SSL_DetectionRobot ally : allies) {
 
                     Color fillColor;
-                    switch (TritonSoccerAI.getTeam()) {
+                    switch (RuntimeConstants.team) {
                         case YELLOW -> fillColor = ORANGE;
                         case BLUE -> fillColor = BLUE;
-                        default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
+                        default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
                     }
                     paintBot(graphics2D, ally, fillColor, GREEN);
                 }
@@ -278,10 +278,10 @@ public class UserInterface extends Module {
             if (foes != null) {
                 for (SSL_DetectionRobot foe : foes) {
                     Color fillColor;
-                    switch (TritonSoccerAI.getTeam()) {
+                    switch (RuntimeConstants.team) {
                         case YELLOW -> fillColor = BLUE;
                         case BLUE -> fillColor = ORANGE;
-                        default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
+                        default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
                     }
                     paintBot(graphics2D, foe, fillColor, RED);
                 }

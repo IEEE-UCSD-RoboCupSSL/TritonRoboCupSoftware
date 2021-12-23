@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.ROBOT_CONTROL;
+import static com.triton.messaging.Exchange.TRITON_BOT_COMMAND;
 import static proto.simulation.SslSimulationRobotControl.*;
 
 public class RobotControlCreator extends Module {
@@ -18,6 +19,7 @@ public class RobotControlCreator extends Module {
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declarePublish(ROBOT_CONTROL);
+        declarePublish(TRITON_BOT_COMMAND);
     }
 
     @Override
@@ -30,7 +32,7 @@ public class RobotControlCreator extends Module {
 
                 RobotCommand.Builder robotCommand = RobotCommand.newBuilder();
 
-                robotCommand.setId(1);
+                robotCommand.setId(0);
 
                 RobotMoveCommand.Builder moveCommand = RobotMoveCommand.newBuilder();
                 MoveLocalVelocity.Builder localVelocity = MoveLocalVelocity.newBuilder();
@@ -43,6 +45,8 @@ public class RobotControlCreator extends Module {
                 robotCommand.setKickSpeed(10);
                 robotCommand.setKickAngle(0);
                 robotCommand.setDribblerSpeed(10);
+
+                publish(TRITON_BOT_COMMAND, robotCommand.build());
 
                 robotControl.addRobotCommands(robotCommand);
 

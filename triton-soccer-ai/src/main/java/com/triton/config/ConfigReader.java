@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ConfigReader {
-    public static Object readConfig(Config config) throws IOException {
-        InputStream inputStream = new FileInputStream(config.getConfigPath());
-        Yaml yaml = new Yaml(new Constructor(config.getConfigClass()));
+    public static Object readConfig(ConfigPath configPath) throws IOException {
+        InputStream inputStream = new FileInputStream(configPath.getConfigPath());
+        Yaml yaml = new Yaml(new Constructor(configPath.getConfigClass()));
         Object returnObject = yaml.load(inputStream);
         inputStream.close();
         return returnObject;

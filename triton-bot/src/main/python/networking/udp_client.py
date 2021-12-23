@@ -1,17 +1,17 @@
-import threading
 import socket
+from threading import Thread
 
 
-class UDP_Client(threading.Thread):
+class UDP_Client(Thread):
     BUF_SIZE = 9999
 
-    def __init__(self, serverAddress, serverPort, packetConsumer):
+    def __init__(self, serverAddress, serverPort, callbackPacket):
         super().__init__()
         self.serverAddress = serverAddress
         self.serverPort = serverPort
-        self.packetConsumer = packetConsumer
+        self.callbackPacket = callbackPacket
 
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 
     def run(self):
         super().run()
@@ -19,11 +19,10 @@ class UDP_Client(threading.Thread):
             self.receive()
 
     def receive(self):
-        if (self.packetConsumer == None):
+        if (self.callbackPacket == None):
             return
         packet = self.socket.recvfrom(UDP_Client.BUF_SIZE)
-        self.packetConsumer(packet)
-        
+        self.callbackPacket(packet=packet)
 
     def send(self, bytes):
         self.socket.sendto(bytes, (self.serverAddress, self.serverPort))

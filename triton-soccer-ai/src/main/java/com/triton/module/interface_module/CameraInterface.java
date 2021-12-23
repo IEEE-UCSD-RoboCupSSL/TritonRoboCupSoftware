@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.config.Config.NETWORK_CONFIG;
+import static com.triton.config.ConfigPath.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.RAW_WRAPPER_PACKAGE;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
@@ -33,7 +33,7 @@ public class CameraInterface extends Module {
     protected void prepare() {
         super.prepare();
         try {
-            setupClient();
+            setupReceiver();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class CameraInterface extends Module {
      *
      * @throws IOException
      */
-    private void setupClient() throws IOException {
+    private void setupReceiver() throws IOException {
         // Setup a multicast receiver
         receiver = new UDP_MulticastReceiver(networkConfig.getCameraAddress(),
                 networkConfig.getCameraOutputPort(),

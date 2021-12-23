@@ -3,17 +3,20 @@ package com.triton.module.interface_module;
 import com.rabbitmq.client.Delivery;
 import com.triton.config.NetworkConfig;
 import com.triton.module.Module;
-import com.triton.networking.AddressPort;
 import com.triton.networking.UDP_Server;
+import proto.triton.TritonBotInit;
+import proto.triton.TritonBotInit.Init;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.config.Config.NETWORK_CONFIG;
+import static com.triton.config.ConfigPath.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.TRITON_BOT_COMMAND;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
@@ -23,7 +26,8 @@ public class TritonBotCommandInterface extends Module {
     private NetworkConfig networkConfig;
 
     private UDP_Server server;
-    private Map<Integer, AddressPort> addressPorts;
+    private Map<Integer, InetAddress> addressMap;
+    private Map<Integer, Integer> portMap;
 
     public TritonBotCommandInterface() throws IOException, TimeoutException {
         super();
@@ -38,7 +42,9 @@ public class TritonBotCommandInterface extends Module {
     @Override
     protected void prepare() {
         super.prepare();
-        addressPorts = new HashMap<>();
+
+        addressMap = new HashMap<>();
+        portMap = new HashMap<>();
 
         try {
             setupServer();
@@ -54,12 +60,12 @@ public class TritonBotCommandInterface extends Module {
     }
 
     private void setupServer() throws SocketException {
-        server = new UDP_Server(networkConfig.getAiTritonBotPort(), null);
+        server = new UDP_Server(networkConfig.getAiTritonBotPort(), this::callbackTritonBotResponse);
         server.start();
     }
 
     private void callbackTritonBotCommand(String s, Delivery delivery) {
-        RobotCommand command = null;
+        RobotCommand command;
         try {
             command = (RobotCommand) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
@@ -67,12 +73,29 @@ public class TritonBotCommandInterface extends Module {
             return;
         }
 
-        int id = command.getId();
-        if (!addressPorts.containsKey(id)) return;
+        server.send(command.toByteArray(), addressMap.get(command.getId()), portMap.get(command.getId()));
+    }
 
-        AddressPort addressPort = addressPorts.get(id);
-        InetAddress clientAddress = addressPort.getAddress();
-        int clientPort = addressPort.getPort();
-        server.send(command.toByteArray(), clientAddress, clientPort);
+    private void callbackTritonBotResponse(DatagramPacket packet) {
+        Init init;
+        try {
+            init = parseInit(packet);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        addressMap.put(init.getId(), packet.getAddress());
+        portMap.put(init.getId(), packet.getPort());
+    }
+
+    private Init parseInit(DatagramPacket packet) throws IOException {
+        ByteArrayInputStream stream = new ByteArrayInputStream(packet.getData(),
+                packet.getOffset(),
+                packet.getLength());
+        TritonBotInit.Init init =
+                TritonBotInit.Init.parseFrom(stream);
+        stream.close();
+        return init;
     }
 }

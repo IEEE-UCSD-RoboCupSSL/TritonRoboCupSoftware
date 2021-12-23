@@ -1,8 +1,8 @@
 package com.triton.module.interface_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.TritonSoccerAI;
 import com.triton.config.NetworkConfig;
+import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
 import com.triton.networking.UDP_Client;
 
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.config.Config.NETWORK_CONFIG;
+import static com.triton.config.ConfigPath.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.ROBOT_CONTROL;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
@@ -25,7 +25,7 @@ public class SimulatorRobotControlInterface extends Module {
 
     public SimulatorRobotControlInterface() throws IOException, TimeoutException {
         super();
-        setupNetworking();
+        setupClient();
         declareExchanges();
     }
 
@@ -35,11 +35,11 @@ public class SimulatorRobotControlInterface extends Module {
         networkConfig = (NetworkConfig) readConfig(NETWORK_CONFIG);
     }
 
-    private void setupNetworking() throws IOException {
+    private void setupClient() throws IOException {
         String allyControlAddress;
         int allyControlPort;
 
-        switch (TritonSoccerAI.getTeam()) {
+        switch (RuntimeConstants.team) {
             case BLUE -> {
                 allyControlAddress = networkConfig.getSimulationRobotControlBlueAddress();
                 allyControlPort = networkConfig.getSimulationRobotControlBluePort();
@@ -48,7 +48,7 @@ public class SimulatorRobotControlInterface extends Module {
                 allyControlAddress = networkConfig.getSimulationRobotControlYellowAddress();
                 allyControlPort = networkConfig.getSimulationRobotControlYellowPort();
             }
-            default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
+            default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
         }
 
         client = new UDP_Client(allyControlAddress, allyControlPort, this::callbackRobotControlResponse);
@@ -62,7 +62,7 @@ public class SimulatorRobotControlInterface extends Module {
     }
 
     private void callbackRobotControl(String s, Delivery delivery) {
-        RobotControl robotControl = null;
+        RobotControl robotControl;
         try {
             robotControl = (RobotControl) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
@@ -76,7 +76,6 @@ public class SimulatorRobotControlInterface extends Module {
     private void callbackRobotControlResponse(DatagramPacket packet) {
         try {
             RobotControlResponse response = parsePacket(packet);
-            System.out.println(response);
         } catch (IOException e) {
             e.printStackTrace();
         }

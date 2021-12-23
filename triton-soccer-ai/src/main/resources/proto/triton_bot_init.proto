@@ -1,6 +1,7 @@
 syntax = "proto3";
 
-message TritonBotInit {
-  string address = 1;
-  int32 port = 2;
+package proto.triton;
+
+message Init {
+    int32 id = 1;
 }

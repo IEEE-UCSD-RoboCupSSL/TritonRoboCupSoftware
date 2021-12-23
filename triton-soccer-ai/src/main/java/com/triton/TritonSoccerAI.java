@@ -1,7 +1,11 @@
 package com.triton;
 
+import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.module.interface_module.*;
+import com.triton.module.interface_module.CameraInterface;
+import com.triton.module.interface_module.SimulatorCommandInterface;
+import com.triton.module.interface_module.TritonBotCommandInterface;
+import com.triton.module.interface_module.UserInterface;
 import com.triton.module.processing_module.RobotControlCreator;
 import com.triton.module.processing_module.VisionProcessor;
 import org.apache.commons.cli.*;
@@ -10,12 +14,8 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 public class TritonSoccerAI {
-    private static Team team;
-
-    public TritonSoccerAI(Team team) {
+    public TritonSoccerAI() {
         super();
-
-        TritonSoccerAI.team = team;
 
         try {
             startModules();
@@ -53,7 +53,9 @@ public class TritonSoccerAI {
             throw new IllegalStateException();
         }
 
-        new TritonSoccerAI(team);
+        RuntimeConstants.team = team;
+
+        new TritonSoccerAI();
     }
 
     private static Team parseTeam(String teamString) {
@@ -72,16 +74,8 @@ public class TritonSoccerAI {
         // interfaces
         new CameraInterface().start();
         new SimulatorCommandInterface().start();
-        new SimulatorRobotControlInterface().start();
+//        new SimulatorRobotControlInterface().start();
         new TritonBotCommandInterface().start();
         new UserInterface().start();
-    }
-
-    public static Team getTeam() {
-        return team;
-    }
-
-    public static void setTeam(Team team) {
-        TritonSoccerAI.team = team;
     }
 }

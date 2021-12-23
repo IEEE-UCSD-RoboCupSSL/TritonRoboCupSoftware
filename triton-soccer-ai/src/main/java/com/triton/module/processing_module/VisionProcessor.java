@@ -1,7 +1,7 @@
 package com.triton.module.processing_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.TritonSoccerAI;
+import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
 
@@ -49,7 +49,7 @@ public class VisionProcessor extends Module {
 
     private static Vector2f biasVec(Vector2f vec) {
         Vector2f.Builder biasedVec = Vector2f.newBuilder();
-        switch (TritonSoccerAI.getTeam()) {
+        switch (RuntimeConstants.team) {
             case YELLOW -> {
                 biasedVec.setX(-vec.getY());
                 biasedVec.setY(vec.getX());
@@ -58,20 +58,20 @@ public class VisionProcessor extends Module {
                 biasedVec.setX(vec.getY());
                 biasedVec.setY(-vec.getX());
             }
-            default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
+            default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
         }
         return biasedVec.build();
     }
 
     private static float convertOrient(float orient) {
-        switch (TritonSoccerAI.getTeam()) {
+        switch (RuntimeConstants.team) {
             case YELLOW -> {
                 return (float) ((orient + (Math.PI / 2)) % (2 * Math.PI));
             }
             case BLUE -> {
                 return (float) ((orient - (Math.PI / 2)) % (2 * Math.PI));
             }
-            default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
+            default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
         }
     }
 
@@ -86,7 +86,7 @@ public class VisionProcessor extends Module {
     }
 
     private void callbackRawWrapperPacket(String s, Delivery delivery) {
-        SSL_WrapperPacket wrapperPacket = null;
+        SSL_WrapperPacket wrapperPacket;
         try {
             wrapperPacket = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
@@ -169,7 +169,7 @@ public class VisionProcessor extends Module {
 
         List<SSL_DetectionRobot> allies;
         List<SSL_DetectionRobot> foes;
-        switch (TritonSoccerAI.getTeam()) {
+        switch (RuntimeConstants.team) {
             case YELLOW -> {
                 allies = yellows;
                 foes = blues;
@@ -178,7 +178,7 @@ public class VisionProcessor extends Module {
                 allies = blues;
                 foes = yellows;
             }
-            default -> throw new IllegalStateException("Unexpected value: " + TritonSoccerAI.getTeam());
+            default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
         }
 
         for (SSL_DetectionRobot ally : allies) {

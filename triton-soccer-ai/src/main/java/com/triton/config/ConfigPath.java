@@ -1,6 +1,6 @@
 package com.triton.config;
 
-public enum Config {
+public enum ConfigPath {
     NETWORK_CONFIG("../config/network_config.yaml", NetworkConfig.class),
     OBJECT_CONFIG("../config/object_config.yaml", ObjectConfig.class),
     DISPLAY_CONFIG("../config/display_config.yaml", DisplayConfig.class),
@@ -9,7 +9,7 @@ public enum Config {
     private final String configPath;
     private final Class configClass;
 
-    Config(String configPath, Class configClass) {
+    ConfigPath(String configPath, Class configClass) {
         this.configPath = configPath;
         this.configClass = configClass;
     }

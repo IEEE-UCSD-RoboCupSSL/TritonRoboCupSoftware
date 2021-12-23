@@ -2,41 +2,47 @@ import subprocess
 import os
 import time
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-triton_soccer_ai_jar_path = dir_path + "/triton-soccer-ai/target/"
-triton_soccer_ai_py_path = dir_path + "/triton-soccer-ai/src/main/python"
-triton_bot_path = dir_path + "/triton-bot/"
-sim_path = dir_path + "/framework/build/bin"
-
-def run_cmd(cmd, path, mode="current"):
+def run_cmd(cmd, path, mode='current'):
     # annoying lengthy path is removed from the print out
     prt_cmd_str = (' '.join(map(str, cmd))).replace(triton_bot_path,"")
-    if (mode == "current"):
+
+    if (mode == 'current'):
         print(">>> running " + prt_cmd_str + " in current terminal")
         subprocess.Popen(cmd, cwd=path)
-    if (mode == "background"):
+    if (mode == 'background'):
         print(">>> running " + prt_cmd_str + " as background process")
         subprocess.Popen(cmd, cwd=path, stdout=subprocess.PIPE) 
-    if (mode == "tab"):
+    if (mode == 'tab'):
         print(">>> running " + prt_cmd_str + " in a new terminal tab")
         subprocess.Popen(["gnome-terminal", "--tab", "--"] + cmd, cwd=path)
 
-run_cmd(["./simulator-cli", "-g", "2020B", "--realism", "Realistic"], sim_path, "tab")
-time.sleep(1)
+# setup paths
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
-triton_bot_py = [
-    "triton_bot.py"
-]
-for py in triton_bot_py:
-    run_cmd(["python", py], triton_bot_path, "tab")
-    time.sleep(1)
+simulator_path = dir_path + "/framework/build/bin"
+simulator = "./simulator-cli"
 
-run_cmd(["java", "-jar", "TritonSoccerAI.jar", "yellow"], triton_soccer_ai_jar_path, "tab")
-time.sleep(1)
+triton_soccer_ai_jar_path = dir_path + "/triton-soccer-ai/target"
+triton_soccer_ai_jar = "TritonSoccerAI.jar"
 
-triton_soccer_ai_py_modules = [
-    # "AI_C.py"
-]
-for py in triton_soccer_ai_py_modules:
-    run_cmd(["python", py], triton_soccer_ai_py_path, "tab")
-    time.sleep(1)
+triton_soccer_ai_py_path = dir_path + "/triton-soccer-ai/src/main/python"
+triton_soccer_ai_py = ""
+
+triton_bot_path = dir_path + "/triton-bot/src/main/python"
+triton_bot = "triton_bot.py"
+
+# run cmds
+run_cmd([simulator, "-g", "2020B", "--realism", "Realistic"], simulator_path, "tab")
+time.sleep(0.1)
+
+run_cmd(["java", "-jar", triton_soccer_ai_jar, "--team", "yellow"], triton_soccer_ai_jar_path, "tab")
+time.sleep(0.1)
+
+# run_cmd(["python", triton_soccer_ai_py, "--team", "yellow"], triton_soccer_ai_py_path, "tab")
+time.sleep(0.1)
+
+num_bots = 1
+for i in range(num_bots):
+    id = str(i)
+    run_cmd(["python", triton_bot, "--team", "yellow", "--id", id], triton_bot_path, "tab")
+    time.sleep(0.1)

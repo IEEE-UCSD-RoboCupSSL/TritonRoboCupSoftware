@@ -1,5 +1,6 @@
+from enum import Enum
 import enum
 
 
-class Exchange(enum.Enum):
+class Exchange(Enum):
     DATA_A = enum.auto()

@@ -48,6 +48,9 @@ public class UDP_Server extends Thread {
     }
 
     public void send(byte[] bytes, InetAddress clientAddress, int clientPort) {
+        if (clientAddress == null)
+            return;
+
         DatagramPacket packet = new DatagramPacket(bytes, bytes.length, clientAddress, clientPort);
         try {
             socket.send(packet);
@@ -55,4 +58,5 @@ public class UDP_Server extends Thread {
             e.printStackTrace();
         }
     }
+
 }

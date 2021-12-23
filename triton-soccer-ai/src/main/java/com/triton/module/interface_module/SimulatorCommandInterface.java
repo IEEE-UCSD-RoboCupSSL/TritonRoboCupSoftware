@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.config.Config.NETWORK_CONFIG;
+import static com.triton.config.ConfigPath.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.SIMULATOR_COMMAND;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
@@ -24,7 +24,7 @@ public class SimulatorCommandInterface extends Module {
 
     public SimulatorCommandInterface() throws IOException, TimeoutException {
         super();
-        setupNetworking();
+        setupClient();
         declareExchanges();
     }
 
@@ -34,7 +34,7 @@ public class SimulatorCommandInterface extends Module {
         networkConfig = (NetworkConfig) readConfig(NETWORK_CONFIG);
     }
 
-    private void setupNetworking() throws IOException {
+    private void setupClient() throws IOException {
         client = new UDP_Client(networkConfig.getSimulationControlAddress(),
                 networkConfig.getSimulationControlPort(),
                 this::callbackSimulatorResponse);
@@ -48,7 +48,7 @@ public class SimulatorCommandInterface extends Module {
     }
 
     private void callbackSimulatorCommand(String s, Delivery delivery) {
-        SimulatorCommand command = null;
+        SimulatorCommand command;
         try {
             command = (SimulatorCommand) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
