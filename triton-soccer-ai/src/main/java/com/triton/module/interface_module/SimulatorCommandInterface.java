@@ -59,21 +59,12 @@ public class SimulatorCommandInterface extends Module {
         client.addSend(command.toByteArray());
     }
 
-    private void callbackSimulatorResponse(DatagramPacket packet) {
+    private void callbackSimulatorResponse(byte[] bytes) {
         try {
-            SimulatorResponse response = parsePacket(packet);
+            SimulatorResponse response = SimulatorResponse.parseFrom(bytes);
             System.out.println(response);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private SimulatorResponse parsePacket(DatagramPacket packet) throws IOException {
-        ByteArrayInputStream stream = new ByteArrayInputStream(packet.getData(),
-                packet.getOffset(),
-                packet.getLength());
-        SimulatorResponse error = SimulatorResponse.parseFrom(stream);
-        stream.close();
-        return error;
     }
 }

@@ -1,7 +1,7 @@
 package com.triton.messaging;
 
 public enum Exchange {
-    AI_RAW_WRAPPER_PACKAGE,
+    AI_WRAPPER,
     AI_BIASED_FIELD,
     AI_BIASED_BALLS,
     AI_BIASED_ALLIES,

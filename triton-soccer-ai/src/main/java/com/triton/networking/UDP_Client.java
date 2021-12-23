@@ -1,5 +1,6 @@
 package com.triton.networking;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.*;
 import java.util.concurrent.BlockingQueue;
@@ -11,12 +12,12 @@ public class UDP_Client extends Thread {
 
     private final InetAddress serverAddress;
     private final int serverPort;
-    private final Consumer<DatagramPacket> callbackPacket;
+    private final Consumer<byte[]> callbackPacket;
 
     private final DatagramSocket socket;
     private final BlockingQueue<byte[]> sendQueue;
 
-    public UDP_Client(String serverAddress, int serverPort, Consumer<DatagramPacket> callbackPacket) throws UnknownHostException, SocketException {
+    public UDP_Client(String serverAddress, int serverPort, Consumer<byte[]> callbackPacket) throws UnknownHostException, SocketException {
         super();
         this.serverAddress = InetAddress.getByName(serverAddress);
         this.serverPort = serverPort;
@@ -62,7 +63,12 @@ public class UDP_Client extends Thread {
         }
 
         try {
-            callbackPacket.accept(packet);
+            ByteArrayInputStream stream = new ByteArrayInputStream(packet.getData(),
+                    packet.getOffset(),
+                    packet.getLength());
+            byte[] bytes = stream.readAllBytes();
+            stream.close();
+            callbackPacket.accept(bytes);
         } catch (Exception e) {
             e.printStackTrace();
         }

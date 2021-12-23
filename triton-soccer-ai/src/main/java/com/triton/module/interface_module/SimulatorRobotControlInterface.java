@@ -73,21 +73,12 @@ public class SimulatorRobotControlInterface extends Module {
         client.addSend(robotControl.toByteArray());
     }
 
-    private void callbackRobotControlResponse(DatagramPacket packet) {
+    private void callbackRobotControlResponse(byte[] bytes) {
         try {
-            RobotControlResponse response = parsePacket(packet);
+            RobotControlResponse response = RobotControlResponse.parseFrom(bytes);
             System.out.println(response);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private RobotControlResponse parsePacket(DatagramPacket packet) throws IOException {
-        ByteArrayInputStream stream = new ByteArrayInputStream(packet.getData(),
-                packet.getOffset(),
-                packet.getLength());
-        RobotControlResponse response = RobotControlResponse.parseFrom(stream);
-        stream.close();
-        return response;
     }
 }

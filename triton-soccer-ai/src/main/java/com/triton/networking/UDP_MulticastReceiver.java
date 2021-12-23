@@ -1,5 +1,6 @@
 package com.triton.networking;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.*;
 import java.util.function.Consumer;
@@ -10,9 +11,9 @@ public class UDP_MulticastReceiver extends Thread {
 
     private final MulticastSocket socket;
     private final byte[] buf = new byte[PACKET_BUFFER_SIZE];
-    private final Consumer<DatagramPacket> callbackPacket;
+    private final Consumer<byte[]> callbackPacket;
 
-    public UDP_MulticastReceiver(String address, int port, Consumer<DatagramPacket> callbackPacket) throws IOException {
+    public UDP_MulticastReceiver(String address, int port, Consumer<byte[]> callbackPacket) throws IOException {
         socket = new MulticastSocket(port);
         InetAddress multicastAddress = InetAddress.getByName(address);
         InetSocketAddress group = new InetSocketAddress(multicastAddress, port);
@@ -28,8 +29,13 @@ public class UDP_MulticastReceiver extends Thread {
 
             try {
                 socket.receive(packet);
-                callbackPacket.accept(packet);
-            } catch (IOException e) {
+                ByteArrayInputStream stream = new ByteArrayInputStream(packet.getData(),
+                        packet.getOffset(),
+                        packet.getLength());
+                byte[] bytes = stream.readAllBytes();
+                stream.close();
+                callbackPacket.accept(bytes);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -1,5 +1,6 @@
 package com.triton.networking;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -12,14 +13,14 @@ public class UDP_Server extends Thread {
     protected static final int BUF_SIZE = 9999;
 
     private final int serverPort;
-    private final Function<DatagramPacket, byte[]> callbackPacket;
+    private final Function<byte[], byte[]> callbackPacket;
 
     private final DatagramSocket socket;
 
     private InetAddress clientAddress;
     private int clientPort;
 
-    public UDP_Server(int serverPort, Function<DatagramPacket, byte[]> callbackPacket) throws SocketException {
+    public UDP_Server(int serverPort, Function<byte[], byte[]> callbackPacket) throws SocketException {
         super();
         this.serverPort = serverPort;
         this.callbackPacket = callbackPacket;
@@ -49,9 +50,13 @@ public class UDP_Server extends Thread {
         clientAddress = packet.getAddress();
         clientPort = packet.getPort();
 
-        // TODO: CONSIDER CHANGING TO CONSUME BYTES INSTEAD OF PACKETS
         try {
-            return callbackPacket.apply(packet);
+            ByteArrayInputStream stream = new ByteArrayInputStream(packet.getData(),
+                    packet.getOffset(),
+                    packet.getLength());
+            byte[] bytes = stream.readAllBytes();
+            stream.close();
+            return callbackPacket.apply(bytes);
         } catch (Exception e) {
             e.printStackTrace();
         }

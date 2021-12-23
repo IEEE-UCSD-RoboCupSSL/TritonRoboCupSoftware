@@ -78,33 +78,33 @@ public class VisionProcessor extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(AI_RAW_WRAPPER_PACKAGE, this::callbackRawWrapperPacket);
+        declareConsume(AI_WRAPPER, this::callbackWrapper);
         declarePublish(AI_BIASED_FIELD);
         declarePublish(AI_BIASED_BALLS);
         declarePublish(AI_BIASED_ALLIES);
         declarePublish(AI_BIASED_FOES);
     }
 
-    private void callbackRawWrapperPacket(String s, Delivery delivery) {
-        SSL_WrapperPacket wrapperPacket;
+    private void callbackWrapper(String s, Delivery delivery) {
+        SSL_WrapperPacket wrapper;
         try {
-            wrapperPacket = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
+            wrapper = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
         }
 
-        if (wrapperPacket.hasGeometry() && wrapperPacket.getGeometry().hasField()) {
+        if (wrapper.hasGeometry() && wrapper.getGeometry().hasField()) {
             try {
-                publish(AI_BIASED_FIELD, convertField(wrapperPacket.getGeometry().getField()));
+                publish(AI_BIASED_FIELD, convertField(wrapper.getGeometry().getField()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        if (wrapperPacket.hasDetection()) {
+        if (wrapper.hasDetection()) {
             try {
-                SSL_DetectionFrame detection = wrapperPacket.getDetection();
+                SSL_DetectionFrame detection = wrapper.getDetection();
                 publish(AI_BIASED_BALLS, convertBalls(detection.getBallsList()));
 
                 List<SSL_DetectionRobot> yellows = detection.getRobotsYellowList();
