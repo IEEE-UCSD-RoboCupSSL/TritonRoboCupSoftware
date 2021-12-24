@@ -9,7 +9,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.ConfigPath.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
-import static com.triton.messaging.Exchange.AI_WRAPPER;
+import static com.triton.messaging.Exchange.AI_VISION_WRAPPER;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class CameraInterface extends Module {
@@ -40,7 +40,7 @@ public class CameraInterface extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declarePublish(AI_WRAPPER);
+        declarePublish(AI_VISION_WRAPPER);
     }
 
     /**
@@ -64,7 +64,7 @@ public class CameraInterface extends Module {
     private void callbackWrapper(byte[] bytes) {
         try {
             SSL_WrapperPacket wrapper = SSL_WrapperPacket.parseFrom(bytes);
-            publish(AI_WRAPPER, wrapper);
+            publish(AI_VISION_WRAPPER, wrapper);
         } catch (IOException e) {
             e.printStackTrace();
         }

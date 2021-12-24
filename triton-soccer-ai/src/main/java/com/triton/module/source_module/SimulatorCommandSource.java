@@ -1,4 +1,4 @@
-package com.triton.module.processing_module;
+package com.triton.module.source_module;
 
 import com.triton.module.Module;
 import proto.simulation.SslSimulationControl.TeleportRobot;
@@ -6,15 +6,15 @@ import proto.simulation.SslSimulationControl.TeleportRobot;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.messaging.Exchange.AI_SIMULATOR_COMMAND;
+import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_COMMAND;
 import static proto.simulation.SslGcCommon.RobotId;
 import static proto.simulation.SslGcCommon.Team;
 import static proto.simulation.SslSimulationConfig.SimulatorConfig;
 import static proto.simulation.SslSimulationControl.SimulatorCommand;
 import static proto.simulation.SslSimulationControl.SimulatorControl;
 
-public class SimulatorCommandCreator extends Module {
-    public SimulatorCommandCreator() throws IOException, TimeoutException {
+public class SimulatorCommandSource extends Module {
+    public SimulatorCommandSource() throws IOException, TimeoutException {
         super();
         declareExchanges();
     }
@@ -22,7 +22,7 @@ public class SimulatorCommandCreator extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declarePublish(AI_SIMULATOR_COMMAND);
+        declarePublish(AI_BIASED_SIMULATOR_COMMAND);
     }
 
     @Override
@@ -34,10 +34,15 @@ public class SimulatorCommandCreator extends Module {
 
             SimulatorControl.Builder control = SimulatorControl.newBuilder();
             TeleportRobot.Builder teleportBot = TeleportRobot.newBuilder();
-            teleportBot.setId(RobotId.newBuilder().setId(0).setTeam(Team.BLUE));
-            teleportBot.setX(0);
-            teleportBot.setY(0);
+            teleportBot.setId(RobotId.newBuilder().setId(0).setTeam(Team.YELLOW));
+            teleportBot.setX(1);
+            teleportBot.setY(1);
             teleportBot.setOrientation(0);
+            teleportBot.setVX(0);
+            teleportBot.setVY(0);
+            teleportBot.setVAngular(0);
+            teleportBot.setPresent(true);
+            teleportBot.setByForce(false);
             control.addTeleportRobot(teleportBot);
             command.setControl(control);
 
@@ -45,7 +50,13 @@ public class SimulatorCommandCreator extends Module {
             command.setConfig(config);
 
             try {
-                publish(AI_SIMULATOR_COMMAND, command.build());
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                publish(AI_BIASED_SIMULATOR_COMMAND, command.build());
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -22,8 +22,6 @@ public class SimulatorCommandInterface extends Module {
 
     public SimulatorCommandInterface() throws IOException, TimeoutException {
         super();
-        setupClient();
-        declareExchanges();
     }
 
     @Override
@@ -32,11 +30,15 @@ public class SimulatorCommandInterface extends Module {
         networkConfig = (NetworkConfig) readConfig(NETWORK_CONFIG);
     }
 
-    private void setupClient() throws IOException {
-        client = new UDP_Client(networkConfig.simulationControlAddress,
-                networkConfig.simulationControlPort,
-                this::callbackSimulatorResponse);
-        client.start();
+    @Override
+    protected void prepare() {
+        super.prepare();
+
+        try {
+            setupClient();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -45,22 +47,29 @@ public class SimulatorCommandInterface extends Module {
         declareConsume(AI_SIMULATOR_COMMAND, this::callbackSimulatorCommand);
     }
 
+    private void setupClient() throws IOException {
+        client = new UDP_Client(networkConfig.simulationCommandAddress,
+                networkConfig.simulationCommandPort,
+                this::callbackSimulatorResponse);
+        client.start();
+    }
+
     private void callbackSimulatorCommand(String s, Delivery delivery) {
-        SimulatorCommand command;
+        SimulatorCommand simulatorCommand;
         try {
-            command = (SimulatorCommand) simpleDeserialize(delivery.getBody());
+            simulatorCommand = (SimulatorCommand) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
         }
 
-        client.addSend(command.toByteArray());
+        client.addSend(simulatorCommand.toByteArray());
     }
 
     private void callbackSimulatorResponse(byte[] bytes) {
         try {
-            SimulatorResponse response = SimulatorResponse.parseFrom(bytes);
-            System.out.println(response);
+            SimulatorResponse simulatorResponse = SimulatorResponse.parseFrom(bytes);
+            System.out.println(simulatorResponse);
         } catch (IOException e) {
             e.printStackTrace();
         }

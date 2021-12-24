@@ -40,8 +40,7 @@ public class UDP_Client extends Thread {
 
     private boolean send() {
         byte[] bytes = sendQueue.poll();
-        if (bytes == null)
-            return false;
+        if (bytes == null) return false;
 
         DatagramPacket packet = new DatagramPacket(bytes, bytes.length, serverAddress, serverPort);
         try {
@@ -60,7 +59,7 @@ public class UDP_Client extends Thread {
         try {
             socket.receive(packet);
         } catch (IOException e) {
-            e.printStackTrace();
+            return;
         }
 
         try {

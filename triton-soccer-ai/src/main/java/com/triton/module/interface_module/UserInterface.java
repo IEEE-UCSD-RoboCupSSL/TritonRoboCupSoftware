@@ -98,13 +98,13 @@ public class UserInterface extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(AI_BIASED_FIELD, this::callbackPerspectiveField);
-        declareConsume(AI_BIASED_BALLS, this::callbackPerspectiveBalls);
-        declareConsume(AI_BIASED_ALLIES, this::callbackPerspectiveAllies);
-        declareConsume(AI_BIASED_FOES, this::callbackPerspectiveFoes);
+        declareConsume(AI_BIASED_FIELD, this::callbackBiasedField);
+        declareConsume(AI_BIASED_BALLS, this::callbackBiasedBalls);
+        declareConsume(AI_BIASED_ALLIES, this::callbackBiasedAllies);
+        declareConsume(AI_BIASED_FOES, this::callbackBiasedFoes);
     }
 
-    private void callbackPerspectiveField(String s, Delivery delivery) {
+    private void callbackBiasedField(String s, Delivery delivery) {
         SSL_GeometryFieldSize field;
         try {
             field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
@@ -117,7 +117,7 @@ public class UserInterface extends Module {
         frame.repaint();
     }
 
-    private void callbackPerspectiveBalls(String s, Delivery delivery) {
+    private void callbackBiasedBalls(String s, Delivery delivery) {
         ArrayList<SSL_DetectionBall> balls;
         try {
             balls = (ArrayList<SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
@@ -130,7 +130,7 @@ public class UserInterface extends Module {
         frame.repaint();
     }
 
-    private void callbackPerspectiveAllies(String s, Delivery delivery) {
+    private void callbackBiasedAllies(String s, Delivery delivery) {
         ArrayList<SSL_DetectionRobot> allies;
         try {
             allies = (ArrayList<SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
@@ -143,7 +143,7 @@ public class UserInterface extends Module {
         frame.repaint();
     }
 
-    private void callbackPerspectiveFoes(String s, Delivery delivery) {
+    private void callbackBiasedFoes(String s, Delivery delivery) {
         ArrayList<SSL_DetectionRobot> foes;
         try {
             foes = (ArrayList<SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());

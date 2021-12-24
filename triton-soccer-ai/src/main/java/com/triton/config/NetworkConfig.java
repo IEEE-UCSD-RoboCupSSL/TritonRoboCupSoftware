@@ -4,8 +4,8 @@ public class NetworkConfig {
     public String cameraAddress;
     public int cameraOutputPort;
 
-    public String simulationControlAddress;
-    public int simulationControlPort;
+    public String simulationCommandAddress;
+    public int simulationCommandPort;
 
     public String simulationRobotControlAddressBlue;
     public int simulationRobotControlPortBlue;
