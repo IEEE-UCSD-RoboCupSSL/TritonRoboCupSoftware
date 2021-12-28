@@ -20,7 +20,5 @@ public enum Exchange {
     AI_ROBOT_COMMAND,       // Controls robots in the simulator
 
     // Commands sent to triton bot
-    AI_TRITON_BOT_VISION,   // Will be combined with AI_TRITON_BOT_COMMAND to make AI_TRITON_BOT_MESSAGE
-    AI_TRITON_BOT_COMMAND,  // Will be combined with AI_TRITON_BOT_VISION to make AI_TRITON_BOT_MESSAGE
     AI_TRITON_BOT_MESSAGE,  // A combined message sent to a triton bot containing vision and commands for that triton bot
 }

@@ -12,6 +12,8 @@ from module.processing_module.robot_control_local_processor import \
     RobotControlLocalProcessor
 from module.processing_module.robot_control_wheel_processor import \
     RobotControlWheelProcessor
+from module.processing_module.triton_bot_message_processor import \
+    TritonBotMessageProcessor
 
 
 class TritonBot:
@@ -19,12 +21,13 @@ class TritonBot:
         self.start_modules()
 
     def start_modules(self):
+        AI_Interface().start()
+        SimulatorRobotControlInterface().start()
+
+        TritonBotMessageProcessor().start()
         RobotControlGlobalProcessor().start()
         RobotControlLocalProcessor().start()
         RobotControlWheelProcessor().start()
-
-        AI_Interface().start()
-        SimulatorRobotControlInterface().start()
 
 
 def parseTeam(teamStr):

@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-package proto.triton;
-
-message Init {
-    int32 id = 1;
-}

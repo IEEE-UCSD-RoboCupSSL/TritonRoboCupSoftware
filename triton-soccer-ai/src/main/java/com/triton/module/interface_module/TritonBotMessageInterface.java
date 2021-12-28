@@ -18,7 +18,7 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.config.ConfigPath.GAME_CONFIG;
 import static com.triton.config.ConfigPath.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
-import static com.triton.messaging.Exchange.AI_TRITON_BOT_COMMAND;
+import static com.triton.messaging.Exchange.AI_TRITON_BOT_MESSAGE;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 
 public class TritonBotMessageInterface extends Module {
@@ -54,7 +54,7 @@ public class TritonBotMessageInterface extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(AI_TRITON_BOT_COMMAND, this::callbackTritonBotMessage);
+        declareConsume(AI_TRITON_BOT_MESSAGE, this::callbackTritonBotMessage);
     }
 
     private void setupClients() throws SocketException, UnknownHostException {

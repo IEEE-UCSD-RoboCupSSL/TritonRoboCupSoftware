@@ -71,14 +71,11 @@ public class TritonSoccerAI {
         new RobotCommandSource().start();
 
         // PROCESSING MODULES
-        // incomming
+        // incoming
         new VisionBiasedConverter().start();
-        new SimulatorCommandAudienceConverter().start();
-
         // outgoing
+        new SimulatorCommandAudienceConverter().start();
         new RobotCommandAudienceConverter().start();
-        new TritonBotCommandBuilder().start();
-        new TritonBotVisionBuilder().start();
         new TritonBotMessageBuilder().start();
 
         // INTERFACE MODULE

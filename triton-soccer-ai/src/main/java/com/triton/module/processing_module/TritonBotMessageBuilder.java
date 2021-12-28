@@ -1,9 +1,15 @@
 package com.triton.module.processing_module;
 
 import com.rabbitmq.client.Delivery;
+import com.triton.constant.RuntimeConstants;
+import com.triton.constant.Team;
 import com.triton.module.Module;
+import proto.simulation.SslSimulationRobotControl;
+import proto.vision.MessagesRobocupSslDetection;
+import proto.vision.MessagesRobocupSslWrapper;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
@@ -11,9 +17,6 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.triton.TritonBotCommunication.*;
 
 public class TritonBotMessageBuilder extends Module {
-    private TritonBotVision tritonBotVision;
-    private TritonBotCommand tritonBotCommand;
-
     public TritonBotMessageBuilder() throws IOException, TimeoutException {
         super();
     }
@@ -31,44 +34,54 @@ public class TritonBotMessageBuilder extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(AI_TRITON_BOT_VISION, this::callbackTritonBotVision);
-        declareConsume(AI_TRITON_BOT_COMMAND, this::callbackTritonBotCommand);
+        declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
+        declareConsume(AI_ROBOT_COMMAND, this::callbackRobotCommand);
         declarePublish(AI_TRITON_BOT_MESSAGE);
     }
 
-    private void callbackTritonBotVision(String s, Delivery delivery) {
-        TritonBotVision tritonBotVision;
+    private void callbackWrapper(String s, Delivery delivery) {
+        MessagesRobocupSslWrapper.SSL_WrapperPacket wrapper;
         try {
-            tritonBotVision = (TritonBotVision) simpleDeserialize(delivery.getBody());
+            wrapper = (MessagesRobocupSslWrapper.SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
         }
 
-        this.tritonBotVision = tritonBotVision;
-        publishTritonBotMessage();
+        List<MessagesRobocupSslDetection.SSL_DetectionRobot> allies;
+        if (RuntimeConstants.team == Team.BLUE)
+            allies = wrapper.getDetection().getRobotsBlueList();
+        else
+            allies = wrapper.getDetection().getRobotsYellowList();
+
+        for (MessagesRobocupSslDetection.SSL_DetectionRobot ally : allies) {
+            TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
+            message.setId(ally.getRobotId());
+            message.setVision(ally);
+
+            try {
+                publish(AI_TRITON_BOT_MESSAGE, message.build());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    private void callbackTritonBotCommand(String s, Delivery delivery) {
-        TritonBotCommand tritonBotCommand;
+    private void callbackRobotCommand(String s, Delivery delivery) {
+        SslSimulationRobotControl.RobotCommand robotCommand;
         try {
-            tritonBotCommand = (TritonBotCommand) simpleDeserialize(delivery.getBody());
+            robotCommand = (SslSimulationRobotControl.RobotCommand) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
         }
 
-        this.tritonBotCommand = tritonBotCommand;
-        publishTritonBotMessage();
-    }
-
-    private void publishTritonBotMessage() {
-        TritonBotMessage.Builder tritonBotMessage = TritonBotMessage.newBuilder();
-        tritonBotMessage.setTritonBotVision(tritonBotVision);
-        tritonBotMessage.setTritonBotCommand(tritonBotCommand);
+        TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
+        message.setId(robotCommand.getId());
+        message.setCommand(robotCommand);
 
         try {
-            publish(AI_TRITON_BOT_MESSAGE, tritonBotMessage);
+            publish(AI_TRITON_BOT_MESSAGE, message.build());
         } catch (IOException e) {
             e.printStackTrace();
         }
