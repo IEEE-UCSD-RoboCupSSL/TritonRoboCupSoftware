@@ -2,9 +2,11 @@ package com.triton;
 
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.module.interface_module.*;
+import com.triton.module.interface_module.CameraInterface;
+import com.triton.module.interface_module.TritonBotMessageInterface;
+import com.triton.module.interface_module.UserInterface;
 import com.triton.module.processing_module.*;
-import com.triton.module.source_module.RobotControlSource;
+import com.triton.module.source_module.RobotCommandSource;
 import com.triton.module.source_module.SimulatorCommandSource;
 import org.apache.commons.cli.*;
 
@@ -66,20 +68,24 @@ public class TritonSoccerAI {
     private void startModules() throws IOException, TimeoutException {
         // SOURCE MODULES
         new SimulatorCommandSource().start();
-        new RobotControlSource().start();
+        new RobotCommandSource().start();
 
         // PROCESSING MODULES
+        // incomming
         new VisionBiasedConverter().start();
         new SimulatorCommandAudienceConverter().start();
-        new RobotControlSplitter().start();
+
+        // outgoing
         new RobotCommandAudienceConverter().start();
-        new TritonBotCommandConverter().start();
+        new TritonBotCommandBuilder().start();
+        new TritonBotVisionBuilder().start();
+        new TritonBotMessageBuilder().start();
 
         // INTERFACE MODULE
         new CameraInterface().start();
 //        new SimulatorCommandInterface().start();
 //        new SimulatorRobotCommandInterface().start();
-        new TritonBotCommandInterface().start();
+        new TritonBotMessageInterface().start();
         new UserInterface().start();
     }
 }

@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.messaging.Exchange.AI_SIMULATOR_COMMAND;
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_COMMAND;
+import static com.triton.messaging.Exchange.AI_SIMULATOR_COMMAND;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationControl.*;
 

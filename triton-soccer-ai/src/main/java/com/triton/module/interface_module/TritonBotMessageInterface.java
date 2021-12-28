@@ -6,6 +6,7 @@ import com.triton.config.NetworkConfig;
 import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
 import com.triton.networking.UDP_Client;
+import proto.triton.TritonBotCommunication.TritonBotMessage;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -19,15 +20,14 @@ import static com.triton.config.ConfigPath.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.AI_TRITON_BOT_COMMAND;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.simulation.SslSimulationRobotControl.RobotCommand;
 
-public class TritonBotCommandInterface extends Module {
+public class TritonBotMessageInterface extends Module {
     private NetworkConfig networkConfig;
     private GameConfig gameConfig;
 
     private Map<Integer, UDP_Client> clientMap;
 
-    public TritonBotCommandInterface() throws IOException, TimeoutException {
+    public TritonBotMessageInterface() throws IOException, TimeoutException {
         super();
     }
 
@@ -54,7 +54,7 @@ public class TritonBotCommandInterface extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(AI_TRITON_BOT_COMMAND, this::callbackTritonBotCommand);
+        declareConsume(AI_TRITON_BOT_COMMAND, this::callbackTritonBotMessage);
     }
 
     private void setupClients() throws SocketException, UnknownHostException {
@@ -79,15 +79,15 @@ public class TritonBotCommandInterface extends Module {
         }
     }
 
-    private void callbackTritonBotCommand(String s, Delivery delivery) {
-        RobotCommand command;
+    private void callbackTritonBotMessage(String s, Delivery delivery) {
+        TritonBotMessage message;
         try {
-            command = (RobotCommand) simpleDeserialize(delivery.getBody());
+            message = (TritonBotMessage) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
         }
 
-        clientMap.get(command.getId()).addSend(command.toByteArray());
+        clientMap.get(message.getId()).addSend(message.toByteArray());
     }
 }

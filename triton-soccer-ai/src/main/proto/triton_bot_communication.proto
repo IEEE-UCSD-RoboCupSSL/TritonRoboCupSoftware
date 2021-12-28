@@ -1,0 +1,19 @@
+syntax = "proto3";
+package proto.triton;
+
+import "ssl_simulation_robot_control.proto";
+import "messages_robocup_ssl_detection.proto";
+
+message TritonBotMessage {
+  int32 id = 1;
+  TritonBotVision tritonBotVision = 2;
+  TritonBotCommand tritonBotCommand = 3;
+}
+
+message TritonBotCommand {
+  proto.simulation.RobotCommand robotCommand = 1;
+}
+
+message TritonBotVision {
+  proto.vision.SSL_DetectionRobot dectionRobot = 1;
+}

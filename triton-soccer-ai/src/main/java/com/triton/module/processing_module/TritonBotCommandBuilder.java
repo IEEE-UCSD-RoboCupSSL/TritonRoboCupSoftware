@@ -6,13 +6,14 @@ import com.triton.module.Module;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.messaging.Exchange.*;
+import static com.triton.messaging.Exchange.AI_ROBOT_COMMAND;
+import static com.triton.messaging.Exchange.AI_TRITON_BOT_COMMAND;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotControl.RobotCommand;
-import static proto.simulation.SslSimulationRobotControl.RobotControl;
+import static proto.triton.TritonBotCommunication.TritonBotCommand;
 
-public class TritonBotCommandConverter extends Module {
-    public TritonBotCommandConverter() throws IOException, TimeoutException {
+public class TritonBotCommandBuilder extends Module {
+    public TritonBotCommandBuilder() throws IOException, TimeoutException {
         super();
     }
 
@@ -42,7 +43,8 @@ public class TritonBotCommandConverter extends Module {
             return;
         }
 
-        RobotCommand tritonBotCommand = robotCommand;
+        TritonBotCommand.Builder tritonBotCommand = TritonBotCommand.newBuilder();
+        tritonBotCommand.setRobotCommand(robotCommand);
 
         try {
             publish(AI_TRITON_BOT_COMMAND, tritonBotCommand);

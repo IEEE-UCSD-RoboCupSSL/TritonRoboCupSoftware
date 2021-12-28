@@ -1,22 +1,26 @@
 package com.triton.messaging;
 
 public enum Exchange {
-    // CAMERA
+    // Received from the camera
     AI_VISION_WRAPPER,
 
-    // PROCESSED VISION INFORMATION
+    // Camera data processed into a biased team perspective
     AI_BIASED_FIELD,
     AI_BIASED_BALLS,
     AI_BIASED_ALLIES,
     AI_BIASED_FOES,
 
-    // WILL BE CONVERTED BEFORE BEING SENT
+    // Commands sent from our team perspective
     AI_BIASED_SIMULATOR_COMMAND,
     AI_BIASED_ROBOT_CONTROL,
     AI_BIASED_ROBOT_COMMAND,
 
-    // CAN BE SENT DIRECTLY
-    AI_SIMULATOR_COMMAND,
-    AI_ROBOT_COMMAND,
-    AI_TRITON_BOT_COMMAND,
+    // Commands sent to the simulator
+    AI_SIMULATOR_COMMAND,   // Controls the simulator
+    AI_ROBOT_COMMAND,       // Controls robots in the simulator
+
+    // Commands sent to triton bot
+    AI_TRITON_BOT_VISION,   // Will be combined with AI_TRITON_BOT_COMMAND to make AI_TRITON_BOT_MESSAGE
+    AI_TRITON_BOT_COMMAND,  // Will be combined with AI_TRITON_BOT_VISION to make AI_TRITON_BOT_MESSAGE
+    AI_TRITON_BOT_MESSAGE,  // A combined message sent to a triton bot containing vision and commands for that triton bot
 }

@@ -5,11 +5,11 @@ import com.triton.module.Module;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_CONTROL;
+import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
 import static proto.simulation.SslSimulationRobotControl.*;
 
-public class RobotControlSource extends Module {
-    public RobotControlSource() throws IOException, TimeoutException {
+public class RobotCommandSource extends Module {
+    public RobotCommandSource() throws IOException, TimeoutException {
         super();
         declareExchanges();
     }
@@ -17,7 +17,7 @@ public class RobotControlSource extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declarePublish(AI_BIASED_ROBOT_CONTROL);
+        declarePublish(AI_BIASED_ROBOT_COMMAND);
     }
 
     @Override
@@ -26,8 +26,6 @@ public class RobotControlSource extends Module {
 
         while (true) {
             try {
-                RobotControl.Builder robotControl = RobotControl.newBuilder();
-
                 RobotCommand.Builder robotCommand = RobotCommand.newBuilder();
 
                 robotCommand.setId(0);
@@ -44,9 +42,7 @@ public class RobotControlSource extends Module {
                 robotCommand.setKickAngle(0);
                 robotCommand.setDribblerSpeed(10);
 
-                robotControl.addRobotCommands(robotCommand);
-
-                publish(AI_BIASED_ROBOT_CONTROL, robotControl.build());
+                publish(AI_BIASED_ROBOT_COMMAND, robotCommand.build());
             } catch (IOException e) {
                 e.printStackTrace();
             }
