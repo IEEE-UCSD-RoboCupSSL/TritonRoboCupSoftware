@@ -1,6 +1,9 @@
 package com.triton.module.source_module;
 
+import com.triton.constant.RuntimeConstants;
+import com.triton.constant.Team;
 import com.triton.module.Module;
+import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl.TeleportRobot;
 
 import java.io.IOException;
@@ -8,7 +11,6 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_COMMAND;
 import static proto.simulation.SslGcCommon.RobotId;
-import static proto.simulation.SslGcCommon.Team;
 import static proto.simulation.SslSimulationConfig.SimulatorConfig;
 import static proto.simulation.SslSimulationControl.SimulatorCommand;
 import static proto.simulation.SslSimulationControl.SimulatorControl;
@@ -34,10 +36,14 @@ public class SimulatorCommandSource extends Module {
 
             SimulatorControl.Builder control = SimulatorControl.newBuilder();
             TeleportRobot.Builder teleportBot = TeleportRobot.newBuilder();
-            teleportBot.setId(RobotId.newBuilder().setId(0).setTeam(Team.YELLOW));
-            teleportBot.setX(1);
-            teleportBot.setY(1);
-            teleportBot.setOrientation(0);
+            if (RuntimeConstants.team == Team.YELLOW) {
+                teleportBot.setId(RobotId.newBuilder().setId(0).setTeam(SslGcCommon.Team.YELLOW));
+            } else {
+                teleportBot.setId(RobotId.newBuilder().setId(0).setTeam(SslGcCommon.Team.BLUE));
+            }
+            teleportBot.setX(0);
+            teleportBot.setY(0);
+            teleportBot.setOrientation((float) (Math.PI / 2));
             teleportBot.setVX(0);
             teleportBot.setVY(0);
             teleportBot.setVAngular(0);

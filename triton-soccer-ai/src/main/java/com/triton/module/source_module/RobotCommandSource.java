@@ -31,11 +31,19 @@ public class RobotCommandSource extends Module {
                 robotCommand.setId(0);
 
                 RobotMoveCommand.Builder moveCommand = RobotMoveCommand.newBuilder();
-                MoveLocalVelocity.Builder localVelocity = MoveLocalVelocity.newBuilder();
-                localVelocity.setForward(10);
-                localVelocity.setLeft(10);
-                localVelocity.setAngular(1);
-                moveCommand.setLocalVelocity(localVelocity);
+
+                MoveGlobalVelocity.Builder globalVelocity = MoveGlobalVelocity.newBuilder();
+                globalVelocity.setX(-2);
+                globalVelocity.setY(1);
+                globalVelocity.setAngular(0);
+                moveCommand.setGlobalVelocity(globalVelocity);
+
+//                MoveLocalVelocity.Builder localVelocity = MoveLocalVelocity.newBuilder();
+//                localVelocity.setLeft(2);
+//                localVelocity.setForward(0);
+//                localVelocity.setAngular(0);
+//                moveCommand.setLocalVelocity(localVelocity);
+
                 robotCommand.setMoveCommand(moveCommand);
 
                 robotCommand.setKickSpeed(10);

@@ -39,7 +39,6 @@ class AI_Interface(Module):
             server_port = self.network_config['tritonBotPortBaseBlue'] + \
                 RuntimeConstants.id * self.network_config['tritonBotPortIncr']
 
-        print(server_port)
         self.server = UDP_Server(
             server_port=server_port, callback=self.callback_message)
         self.server.start()

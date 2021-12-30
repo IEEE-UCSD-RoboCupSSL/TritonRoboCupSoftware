@@ -6,14 +6,11 @@ from constant.team import Team
 from module.interface_module.ai_interface import AI_Interface
 from module.interface_module.simulator_robot_control_interface import \
     SimulatorRobotControlInterface
-from module.processing_module.robot_control_global_processor import \
-    RobotControlGlobalProcessor
-from module.processing_module.robot_control_local_processor import \
-    RobotControlLocalProcessor
-from module.processing_module.robot_control_wheel_processor import \
-    RobotControlWheelProcessor
+from module.processing_module.robot_command_global_to_local_processor import \
+    RobotCommandGlobalToLocalProcessor
 from module.processing_module.triton_bot_message_processor import \
     TritonBotMessageProcessor
+from module.processing_module.vision_filter import VisionFilter
 
 
 class TritonBot:
@@ -25,9 +22,8 @@ class TritonBot:
         SimulatorRobotControlInterface().start()
 
         TritonBotMessageProcessor().start()
-        RobotControlGlobalProcessor().start()
-        RobotControlLocalProcessor().start()
-        RobotControlWheelProcessor().start()
+        VisionFilter().start()
+        RobotCommandGlobalToLocalProcessor().start()
 
 
 def parseTeam(teamStr):

@@ -1,8 +1,8 @@
 package com.triton.constant;
 
 public enum Team {
-    YELLOW("yellow"),
     BLUE("blue"),
+    YELLOW("yellow"),
     ;
 
     private final String teamString;

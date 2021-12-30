@@ -21,7 +21,7 @@ class TritonBotMessageProcessor(Module):
     def declare_exchanges(self):
         super().declare_exchanges()
         self.declare_consume(Exchange.TB_MESSAGE, self.callback_message)
-        self.declare_publish(Exchange.TB_VISION)
+        self.declare_publish(Exchange.TB_RAW_VISION)
         self.declare_publish(Exchange.TB_GLOBAL_COMMAND)
         self.declare_publish(Exchange.TB_LOCAL_COMMAND)
         self.declare_publish(Exchange.TB_WHEEL_COMMAND)
@@ -30,12 +30,12 @@ class TritonBotMessageProcessor(Module):
         super().run()
         self.consume()
 
-    def callback_message(self, ch, method, properties, body):        
+    def callback_message(self, ch, method, properties, body):
         message = TritonBotMessage()
         message.ParseFromString(body)
         
         if (message.HasField('vision')):
-            self.publish(exchange=Exchange.TB_VISION, object=message.vision)
+            self.publish(exchange=Exchange.TB_RAW_VISION, object=message.vision)
 
         elif (message.HasField('command')):
             exchange = Exchange.TB_WHEEL_COMMAND

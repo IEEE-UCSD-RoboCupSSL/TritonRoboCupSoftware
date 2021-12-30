@@ -2,10 +2,12 @@ from pickle import loads
 
 from config.config_path import ConfigPath
 from config.config_reader import read_config
+from generated_sources.proto.ssl_simulation_robot_control_pb2 import (
+    RobotCommand, RobotControl)
+from generated_sources.proto.ssl_simulation_robot_feedback_pb2 import \
+    RobotControlResponse
 from constant.runtime_constants import RuntimeConstants
 from constant.team import Team
-from generated_sources.proto.ssl_simulation_robot_feedback_pb2 import RobotControlResponse
-from generated_sources.proto.ssl_simulation_robot_control_pb2 import RobotControl
 from messaging.exchange import Exchange
 from module.module import Module
 from networking.udp_client import UDP_Client
@@ -26,8 +28,10 @@ class SimulatorRobotControlInterface(Module):
 
     def declare_exchanges(self):
         super().declare_exchanges()
-        self.declare_consume(Exchange.TB_ROBOT_CONTROL,
-                             self.callback_robot_control)
+        self.declare_consume(exchange=Exchange.TB_LOCAL_COMMAND,
+                             callback=self.callback_local_command)
+        self.declare_consume(exchange=Exchange.TB_WHEEL_COMMAND,
+                             callback=self.callback_wheel_command)
 
     def run(self):
         super().run()
@@ -47,9 +51,18 @@ class SimulatorRobotControlInterface(Module):
             callback=self.callback_robot_control_response)
         self.client.start()
 
-    def callback_robot_control(self, ch, method, properties, body):
+    def callback_local_command(self, ch, method, properties, body):
+        local_command = RobotCommand()
+        local_command.ParseFromString(body)
         robot_control = RobotControl()
-        robot_control.ParseFromString(body)
+        robot_control.robot_commands.append(local_command)
+        self.client.add_send(robot_control.SerializeToString())
+
+    def callback_wheel_command(self, ch, method, properties, body):
+        wheel_command = RobotCommand()
+        wheel_command.ParseFromString(body)
+        robot_control = RobotControl()
+        robot_control.robot_commands.append(wheel_command)
         self.client.add_send(robot_control.SerializeToString())
 
     def callback_robot_control_response(self,bytes):

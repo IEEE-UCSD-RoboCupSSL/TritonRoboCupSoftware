@@ -42,8 +42,6 @@ public class RobotCommandAudienceConverter extends Module {
         audienceGlobalVelocity.setX(audiencePosition.get(0));
         audienceGlobalVelocity.setY(audiencePosition.get(1));
 
-        audienceGlobalVelocity.setAngular(ConvertCoordinate.audienceToBiased(globalVelocity.getAngular()));
-
         return audienceGlobalVelocity.build();
     }
 

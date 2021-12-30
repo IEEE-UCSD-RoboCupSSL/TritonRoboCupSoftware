@@ -3,6 +3,7 @@ package com.triton;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.interface_module.CameraInterface;
+import com.triton.module.interface_module.SimulatorCommandInterface;
 import com.triton.module.interface_module.TritonBotMessageInterface;
 import com.triton.module.interface_module.UserInterface;
 import com.triton.module.processing_module.*;
