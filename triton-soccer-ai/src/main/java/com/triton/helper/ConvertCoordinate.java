@@ -24,6 +24,7 @@ public class ConvertCoordinate {
     }
 
     public static float audienceToBiased(float orientation) {
+        // TODO Bound to -180 and 180
         if (RuntimeConstants.team == Team.YELLOW) {
             return (float) ((orientation + (Math.PI / 2)) % (2 * Math.PI));
         } else {
@@ -48,6 +49,7 @@ public class ConvertCoordinate {
     }
 
     public static float biasedToAudience(float orientation) {
+        // TODO Bound to -180 and 180
         if (RuntimeConstants.team == Team.YELLOW) {
             return (float) ((orientation - (Math.PI / 2)) % (2 * Math.PI));
         } else {

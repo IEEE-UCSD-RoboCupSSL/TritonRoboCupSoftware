@@ -50,7 +50,8 @@ public class SimulatorCommandInterface extends Module {
     private void setupClient() throws IOException {
         client = new UDP_Client(networkConfig.simulationCommandAddress,
                 networkConfig.simulationCommandPort,
-                this::callbackSimulatorResponse);
+                this::callbackSimulatorResponse,
+                10);
         client.start();
     }
 

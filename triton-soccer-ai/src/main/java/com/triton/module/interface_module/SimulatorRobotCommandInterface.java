@@ -65,7 +65,7 @@ public class SimulatorRobotCommandInterface extends Module {
             default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
         }
 
-        client = new UDP_Client(allyControlAddress, allyControlPort, this::callbackRobotControlResponse);
+        client = new UDP_Client(allyControlAddress, allyControlPort, this::callbackRobotControlResponse, 10);
         client.start();
     }
 

@@ -43,7 +43,7 @@ public class SimulatorCommandSource extends Module {
             }
             teleportBot.setX(0);
             teleportBot.setY(0);
-            teleportBot.setOrientation((float) (Math.PI / 2));
+            teleportBot.setOrientation(0);
             teleportBot.setVX(0);
             teleportBot.setVY(0);
             teleportBot.setVAngular(0);
@@ -56,7 +56,7 @@ public class SimulatorCommandSource extends Module {
             command.setConfig(config);
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

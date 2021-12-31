@@ -81,7 +81,7 @@ public class TritonSoccerAI {
 
         // INTERFACE MODULE
         new CameraInterface().start();
-//        new SimulatorCommandInterface().start();
+        new SimulatorCommandInterface().start();
 //        new SimulatorRobotCommandInterface().start();
         new TritonBotMessageInterface().start();
         new UserInterface().start();

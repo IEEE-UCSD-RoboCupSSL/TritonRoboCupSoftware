@@ -33,16 +33,10 @@ public class RobotCommandSource extends Module {
                 RobotMoveCommand.Builder moveCommand = RobotMoveCommand.newBuilder();
 
                 MoveGlobalVelocity.Builder globalVelocity = MoveGlobalVelocity.newBuilder();
-                globalVelocity.setX(-2);
-                globalVelocity.setY(1);
-                globalVelocity.setAngular(0);
+                globalVelocity.setX(-1);
+                globalVelocity.setY(0);
+                globalVelocity.setAngular(1f);
                 moveCommand.setGlobalVelocity(globalVelocity);
-
-//                MoveLocalVelocity.Builder localVelocity = MoveLocalVelocity.newBuilder();
-//                localVelocity.setLeft(2);
-//                localVelocity.setForward(0);
-//                localVelocity.setAngular(0);
-//                moveCommand.setLocalVelocity(localVelocity);
 
                 robotCommand.setMoveCommand(moveCommand);
 
@@ -51,6 +45,12 @@ public class RobotCommandSource extends Module {
                 robotCommand.setDribblerSpeed(10);
 
                 publish(AI_BIASED_ROBOT_COMMAND, robotCommand.build());
+
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

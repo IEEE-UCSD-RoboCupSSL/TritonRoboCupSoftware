@@ -1,4 +1,5 @@
 from math import cos, degrees, pi, radians, sin
+import time
 
 from generated_sources.proto.messages_robocup_ssl_detection_pb2 import SSL_DetectionRobot
 from generated_sources.proto.ssl_simulation_robot_control_pb2 import MoveLocalVelocity, RobotCommand, RobotMoveCommand
@@ -29,6 +30,7 @@ class RobotCommandGlobalToLocalProcessor(Module):
     def callback_vision(self, ch, method, properties, body):
         vision = SSL_DetectionRobot()
         vision.ParseFromString(body)
+        print(degrees(vision.orientation))
         self.latest_vision = vision
 
     def callback_global_command(self, ch, method, properties, body):
@@ -38,12 +40,12 @@ class RobotCommandGlobalToLocalProcessor(Module):
         global_command = RobotCommand()
         global_command.ParseFromString(body)
 
-        orientation = self.latest_vision.orientation
-        rotation = -orientation + pi / 2
-
         vx = global_command.move_command.global_velocity.x
         vy = global_command.move_command.global_velocity.y
         angular = global_command.move_command.global_velocity.angular
+
+        orientation = self.latest_vision.orientation
+        rotation = -(orientation + angular) + pi / 2
 
         local_vx = vx * cos(rotation) - vy * sin(rotation)
         local_vy = vx * sin(rotation) + vy * cos(rotation)

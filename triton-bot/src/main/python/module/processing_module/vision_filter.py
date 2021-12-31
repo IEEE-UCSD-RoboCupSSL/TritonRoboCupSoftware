@@ -25,5 +25,4 @@ class VisionFilter(Module):
     def callback_vision(self, ch, method, properties, body):
         vision = SSL_DetectionRobot()
         vision.ParseFromString(body)
-
         self.publish(exchange=Exchange.TB_VSION, object=vision)

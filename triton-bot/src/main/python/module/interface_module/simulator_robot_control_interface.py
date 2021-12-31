@@ -68,4 +68,4 @@ class SimulatorRobotControlInterface(Module):
     def callback_robot_control_response(self,bytes):
         response = RobotControlResponse()
         response.ParseFromString(bytes)
-        print(response)
+        # print(response)

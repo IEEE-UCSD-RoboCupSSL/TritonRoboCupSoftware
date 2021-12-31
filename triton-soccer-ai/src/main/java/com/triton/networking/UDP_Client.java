@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 
 public class UDP_Client extends Thread {
     private static final int BUF_SIZE = 9999;
-    private static final int TIMEOUT = 10;
 
     private final InetAddress serverAddress;
     private final int serverPort;
@@ -19,13 +18,17 @@ public class UDP_Client extends Thread {
     private final BlockingQueue<byte[]> sendQueue;
 
     public UDP_Client(String serverAddress, int serverPort, Consumer<byte[]> callbackPacket) throws UnknownHostException, SocketException {
+        this(serverAddress, serverPort, callbackPacket, 0);
+    }
+
+    public UDP_Client(String serverAddress, int serverPort, Consumer<byte[]> callbackPacket, int timeout) throws UnknownHostException, SocketException {
         super();
         this.serverAddress = InetAddress.getByName(serverAddress);
         this.serverPort = serverPort;
         this.callbackPacket = callbackPacket;
 
         socket = new DatagramSocket();
-        socket.setSoTimeout(TIMEOUT);
+        socket.setSoTimeout(timeout);
         sendQueue = new LinkedBlockingQueue<>();
     }
 

@@ -309,6 +309,10 @@ public class UserInterface extends Module {
                     0,
                     360);
 
+            graphics2D.setColor(BLACK);
+            float orientation = bot.getOrientation();
+            graphics2D.drawLine((int) x, (int) y, (int) (x + radius * Math.cos(orientation)), (int) (y + radius * Math.sin(orientation)));
+
             graphics2D.setColor(WHITE);
             setFont(new Font(displayConfig.botIdFontName, Font.BOLD, displayConfig.botIdFontSize));
             AffineTransform orgi = graphics2D.getTransform();
