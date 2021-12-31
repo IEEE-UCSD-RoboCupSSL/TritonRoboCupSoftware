@@ -49,4 +49,3 @@ class AI_Interface(Module):
         message.ParseFromString(bytes)
 
         self.publish(exchange=Exchange.TB_MESSAGE, object=message)
-        return None

@@ -33,9 +33,9 @@ public class RobotCommandSource extends Module {
                 RobotMoveCommand.Builder moveCommand = RobotMoveCommand.newBuilder();
 
                 MoveGlobalVelocity.Builder globalVelocity = MoveGlobalVelocity.newBuilder();
-                globalVelocity.setX(-1);
-                globalVelocity.setY(0);
-                globalVelocity.setAngular(1f);
+                globalVelocity.setX(0);
+                globalVelocity.setY(3);
+                globalVelocity.setAngular((float) (3 * 2 * Math.PI));
                 moveCommand.setGlobalVelocity(globalVelocity);
 
                 robotCommand.setMoveCommand(moveCommand);
@@ -45,12 +45,6 @@ public class RobotCommandSource extends Module {
                 robotCommand.setDribblerSpeed(10);
 
                 publish(AI_BIASED_ROBOT_COMMAND, robotCommand.build());
-
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

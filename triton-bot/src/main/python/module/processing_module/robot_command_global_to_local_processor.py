@@ -30,7 +30,6 @@ class RobotCommandGlobalToLocalProcessor(Module):
     def callback_vision(self, ch, method, properties, body):
         vision = SSL_DetectionRobot()
         vision.ParseFromString(body)
-        print(degrees(vision.orientation))
         self.latest_vision = vision
 
     def callback_global_command(self, ch, method, properties, body):
@@ -45,7 +44,8 @@ class RobotCommandGlobalToLocalProcessor(Module):
         angular = global_command.move_command.global_velocity.angular
 
         orientation = self.latest_vision.orientation
-        rotation = -(orientation + angular) + pi / 2
+        angular_correction = 0.07
+        rotation = -(orientation + angular * angular_correction) + pi / 2
 
         local_vx = vx * cos(rotation) - vy * sin(rotation)
         local_vy = vx * sin(rotation) + vy * cos(rotation)

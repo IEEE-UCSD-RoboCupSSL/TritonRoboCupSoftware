@@ -37,7 +37,7 @@ class TritonBotMessageProcessor(Module):
         if (message.HasField('vision')):
             self.publish(exchange=Exchange.TB_RAW_VISION, object=message.vision)
 
-        elif (message.HasField('command')):
+        if (message.HasField('command')):
             exchange = Exchange.TB_WHEEL_COMMAND
             if (message.command.HasField('move_command')):
                 if (message.command.move_command.HasField('global_velocity')):

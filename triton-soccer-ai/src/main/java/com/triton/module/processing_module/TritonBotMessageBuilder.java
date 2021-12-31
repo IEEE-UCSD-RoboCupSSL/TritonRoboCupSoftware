@@ -4,19 +4,30 @@ import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
+import org.apache.commons.collections4.queue.CircularFifoQueue;
 import proto.simulation.SslSimulationRobotControl;
 import proto.vision.MessagesRobocupSslDetection;
+import proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
 import proto.vision.MessagesRobocupSslWrapper;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
+import static proto.simulation.SslSimulationRobotControl.*;
 import static proto.triton.TritonBotCommunication.*;
+import static proto.vision.MessagesRobocupSslDetection.*;
+import static proto.vision.MessagesRobocupSslWrapper.*;
 
 public class TritonBotMessageBuilder extends Module {
+    private long lastCommandTimeStamp;
+
+    private static long commandDelay = 10;
+
     public TritonBotMessageBuilder() throws IOException, TimeoutException {
         super();
     }
@@ -39,26 +50,30 @@ public class TritonBotMessageBuilder extends Module {
         declarePublish(AI_TRITON_BOT_MESSAGE);
     }
 
+    @Override
+    public void run() {
+        super.run();
+    }
+
     private void callbackWrapper(String s, Delivery delivery) {
-        MessagesRobocupSslWrapper.SSL_WrapperPacket wrapper;
+        SSL_WrapperPacket wrapper;
         try {
-            wrapper = (MessagesRobocupSslWrapper.SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
+            wrapper = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
         }
 
-        List<MessagesRobocupSslDetection.SSL_DetectionRobot> allies;
+        List<SSL_DetectionRobot> allies;
         if (RuntimeConstants.team == Team.BLUE)
             allies = wrapper.getDetection().getRobotsBlueList();
         else
             allies = wrapper.getDetection().getRobotsYellowList();
 
-        for (MessagesRobocupSslDetection.SSL_DetectionRobot ally : allies) {
+        for (SSL_DetectionRobot ally : allies) {
             TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
             message.setId(ally.getRobotId());
             message.setVision(ally);
-
             try {
                 publish(AI_TRITON_BOT_MESSAGE, message.build());
             } catch (IOException e) {
@@ -68,9 +83,11 @@ public class TritonBotMessageBuilder extends Module {
     }
 
     private void callbackRobotCommand(String s, Delivery delivery) {
-        SslSimulationRobotControl.RobotCommand robotCommand;
+        if (System.currentTimeMillis() - lastCommandTimeStamp < commandDelay) return;
+
+        RobotCommand robotCommand;
         try {
-            robotCommand = (SslSimulationRobotControl.RobotCommand) simpleDeserialize(delivery.getBody());
+            robotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
@@ -85,5 +102,7 @@ public class TritonBotMessageBuilder extends Module {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        lastCommandTimeStamp = System.currentTimeMillis();
     }
 }

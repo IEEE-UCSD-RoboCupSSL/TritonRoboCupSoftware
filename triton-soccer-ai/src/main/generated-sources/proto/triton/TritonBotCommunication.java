@@ -48,8 +48,6 @@ public final class TritonBotCommunication {
      * <code>.proto.simulation.RobotCommand command = 3;</code>
      */
     proto.simulation.SslSimulationRobotControl.RobotCommandOrBuilder getCommandOrBuilder();
-
-    public proto.triton.TritonBotCommunication.TritonBotMessage.UpdateCase getUpdateCase();
   }
   /**
    * Protobuf type {@code proto.triton.TritonBotMessage}
@@ -98,30 +96,28 @@ public final class TritonBotCommunication {
             }
             case 18: {
               proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.Builder subBuilder = null;
-              if (updateCase_ == 2) {
-                subBuilder = ((proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot) update_).toBuilder();
+              if (vision_ != null) {
+                subBuilder = vision_.toBuilder();
               }
-              update_ =
-                  input.readMessage(proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.PARSER, extensionRegistry);
+              vision_ = input.readMessage(proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot) update_);
-                update_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(vision_);
+                vision_ = subBuilder.buildPartial();
               }
-              updateCase_ = 2;
+
               break;
             }
             case 26: {
               proto.simulation.SslSimulationRobotControl.RobotCommand.Builder subBuilder = null;
-              if (updateCase_ == 3) {
-                subBuilder = ((proto.simulation.SslSimulationRobotControl.RobotCommand) update_).toBuilder();
+              if (command_ != null) {
+                subBuilder = command_.toBuilder();
               }
-              update_ =
-                  input.readMessage(proto.simulation.SslSimulationRobotControl.RobotCommand.PARSER, extensionRegistry);
+              command_ = input.readMessage(proto.simulation.SslSimulationRobotControl.RobotCommand.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((proto.simulation.SslSimulationRobotControl.RobotCommand) update_);
-                update_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(command_);
+                command_ = subBuilder.buildPartial();
               }
-              updateCase_ = 3;
+
               break;
             }
             default: {
@@ -156,44 +152,6 @@ public final class TritonBotCommunication {
               proto.triton.TritonBotCommunication.TritonBotMessage.class, proto.triton.TritonBotCommunication.TritonBotMessage.Builder.class);
     }
 
-    private int updateCase_ = 0;
-    private java.lang.Object update_;
-    public enum UpdateCase
-        implements com.google.protobuf.Internal.EnumLite {
-      VISION(2),
-      COMMAND(3),
-      UPDATE_NOT_SET(0);
-      private final int value;
-      private UpdateCase(int value) {
-        this.value = value;
-      }
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static UpdateCase valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static UpdateCase forNumber(int value) {
-        switch (value) {
-          case 2: return VISION;
-          case 3: return COMMAND;
-          case 0: return UPDATE_NOT_SET;
-          default: return null;
-        }
-      }
-      public int getNumber() {
-        return this.value;
-      }
-    };
-
-    public UpdateCase
-    getUpdateCase() {
-      return UpdateCase.forNumber(
-          updateCase_);
-    }
-
     public static final int ID_FIELD_NUMBER = 1;
     private int id_;
     /**
@@ -204,55 +162,45 @@ public final class TritonBotCommunication {
     }
 
     public static final int VISION_FIELD_NUMBER = 2;
+    private proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot vision_;
     /**
      * <code>.proto.vision.SSL_DetectionRobot vision = 2;</code>
      */
     public boolean hasVision() {
-      return updateCase_ == 2;
+      return vision_ != null;
     }
     /**
      * <code>.proto.vision.SSL_DetectionRobot vision = 2;</code>
      */
     public proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot getVision() {
-      if (updateCase_ == 2) {
-         return (proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot) update_;
-      }
-      return proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.getDefaultInstance();
+      return vision_ == null ? proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.getDefaultInstance() : vision_;
     }
     /**
      * <code>.proto.vision.SSL_DetectionRobot vision = 2;</code>
      */
     public proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobotOrBuilder getVisionOrBuilder() {
-      if (updateCase_ == 2) {
-         return (proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot) update_;
-      }
-      return proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.getDefaultInstance();
+      return getVision();
     }
 
     public static final int COMMAND_FIELD_NUMBER = 3;
+    private proto.simulation.SslSimulationRobotControl.RobotCommand command_;
     /**
      * <code>.proto.simulation.RobotCommand command = 3;</code>
      */
     public boolean hasCommand() {
-      return updateCase_ == 3;
+      return command_ != null;
     }
     /**
      * <code>.proto.simulation.RobotCommand command = 3;</code>
      */
     public proto.simulation.SslSimulationRobotControl.RobotCommand getCommand() {
-      if (updateCase_ == 3) {
-         return (proto.simulation.SslSimulationRobotControl.RobotCommand) update_;
-      }
-      return proto.simulation.SslSimulationRobotControl.RobotCommand.getDefaultInstance();
+      return command_ == null ? proto.simulation.SslSimulationRobotControl.RobotCommand.getDefaultInstance() : command_;
     }
     /**
      * <code>.proto.simulation.RobotCommand command = 3;</code>
      */
     public proto.simulation.SslSimulationRobotControl.RobotCommandOrBuilder getCommandOrBuilder() {
-      if (updateCase_ == 3) {
-         return (proto.simulation.SslSimulationRobotControl.RobotCommand) update_;
-      }
-      return proto.simulation.SslSimulationRobotControl.RobotCommand.getDefaultInstance();
+      return getCommand();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -262,13 +210,13 @@ public final class TritonBotCommunication {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (updateCase_ == 2) {
+      if (hasVision()) {
         if (!getVision().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
       }
-      if (updateCase_ == 3) {
+      if (hasCommand()) {
         if (!getCommand().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
@@ -284,11 +232,11 @@ public final class TritonBotCommunication {
       if (id_ != 0) {
         output.writeInt32(1, id_);
       }
-      if (updateCase_ == 2) {
-        output.writeMessage(2, (proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot) update_);
+      if (vision_ != null) {
+        output.writeMessage(2, getVision());
       }
-      if (updateCase_ == 3) {
-        output.writeMessage(3, (proto.simulation.SslSimulationRobotControl.RobotCommand) update_);
+      if (command_ != null) {
+        output.writeMessage(3, getCommand());
       }
       unknownFields.writeTo(output);
     }
@@ -303,13 +251,13 @@ public final class TritonBotCommunication {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, id_);
       }
-      if (updateCase_ == 2) {
+      if (vision_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, (proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot) update_);
+          .computeMessageSize(2, getVision());
       }
-      if (updateCase_ == 3) {
+      if (command_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, (proto.simulation.SslSimulationRobotControl.RobotCommand) update_);
+          .computeMessageSize(3, getCommand());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -329,20 +277,15 @@ public final class TritonBotCommunication {
       boolean result = true;
       result = result && (getId()
           == other.getId());
-      result = result && getUpdateCase().equals(
-          other.getUpdateCase());
-      if (!result) return false;
-      switch (updateCase_) {
-        case 2:
-          result = result && getVision()
-              .equals(other.getVision());
-          break;
-        case 3:
-          result = result && getCommand()
-              .equals(other.getCommand());
-          break;
-        case 0:
-        default:
+      result = result && (hasVision() == other.hasVision());
+      if (hasVision()) {
+        result = result && getVision()
+            .equals(other.getVision());
+      }
+      result = result && (hasCommand() == other.hasCommand());
+      if (hasCommand()) {
+        result = result && getCommand()
+            .equals(other.getCommand());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -357,17 +300,13 @@ public final class TritonBotCommunication {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + getId();
-      switch (updateCase_) {
-        case 2:
-          hash = (37 * hash) + VISION_FIELD_NUMBER;
-          hash = (53 * hash) + getVision().hashCode();
-          break;
-        case 3:
-          hash = (37 * hash) + COMMAND_FIELD_NUMBER;
-          hash = (53 * hash) + getCommand().hashCode();
-          break;
-        case 0:
-        default:
+      if (hasVision()) {
+        hash = (37 * hash) + VISION_FIELD_NUMBER;
+        hash = (53 * hash) + getVision().hashCode();
+      }
+      if (hasCommand()) {
+        hash = (37 * hash) + COMMAND_FIELD_NUMBER;
+        hash = (53 * hash) + getCommand().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -504,8 +443,18 @@ public final class TritonBotCommunication {
         super.clear();
         id_ = 0;
 
-        updateCase_ = 0;
-        update_ = null;
+        if (visionBuilder_ == null) {
+          vision_ = null;
+        } else {
+          vision_ = null;
+          visionBuilder_ = null;
+        }
+        if (commandBuilder_ == null) {
+          command_ = null;
+        } else {
+          command_ = null;
+          commandBuilder_ = null;
+        }
         return this;
       }
 
@@ -533,21 +482,16 @@ public final class TritonBotCommunication {
       public proto.triton.TritonBotCommunication.TritonBotMessage buildPartial() {
         proto.triton.TritonBotCommunication.TritonBotMessage result = new proto.triton.TritonBotCommunication.TritonBotMessage(this);
         result.id_ = id_;
-        if (updateCase_ == 2) {
-          if (visionBuilder_ == null) {
-            result.update_ = update_;
-          } else {
-            result.update_ = visionBuilder_.build();
-          }
+        if (visionBuilder_ == null) {
+          result.vision_ = vision_;
+        } else {
+          result.vision_ = visionBuilder_.build();
         }
-        if (updateCase_ == 3) {
-          if (commandBuilder_ == null) {
-            result.update_ = update_;
-          } else {
-            result.update_ = commandBuilder_.build();
-          }
+        if (commandBuilder_ == null) {
+          result.command_ = command_;
+        } else {
+          result.command_ = commandBuilder_.build();
         }
-        result.updateCase_ = updateCase_;
         onBuilt();
         return result;
       }
@@ -599,18 +543,11 @@ public final class TritonBotCommunication {
         if (other.getId() != 0) {
           setId(other.getId());
         }
-        switch (other.getUpdateCase()) {
-          case VISION: {
-            mergeVision(other.getVision());
-            break;
-          }
-          case COMMAND: {
-            mergeCommand(other.getCommand());
-            break;
-          }
-          case UPDATE_NOT_SET: {
-            break;
-          }
+        if (other.hasVision()) {
+          mergeVision(other.getVision());
+        }
+        if (other.hasCommand()) {
+          mergeCommand(other.getCommand());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -619,12 +556,12 @@ public final class TritonBotCommunication {
 
       @java.lang.Override
       public final boolean isInitialized() {
-        if (updateCase_ == 2) {
+        if (hasVision()) {
           if (!getVision().isInitialized()) {
             return false;
           }
         }
-        if (updateCase_ == 3) {
+        if (hasCommand()) {
           if (!getCommand().isInitialized()) {
             return false;
           }
@@ -650,21 +587,6 @@ public final class TritonBotCommunication {
         }
         return this;
       }
-      private int updateCase_ = 0;
-      private java.lang.Object update_;
-      public UpdateCase
-          getUpdateCase() {
-        return UpdateCase.forNumber(
-            updateCase_);
-      }
-
-      public Builder clearUpdate() {
-        updateCase_ = 0;
-        update_ = null;
-        onChanged();
-        return this;
-      }
-
 
       private int id_ ;
       /**
@@ -692,28 +614,23 @@ public final class TritonBotCommunication {
         return this;
       }
 
+      private proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot vision_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot, proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.Builder, proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobotOrBuilder> visionBuilder_;
       /**
        * <code>.proto.vision.SSL_DetectionRobot vision = 2;</code>
        */
       public boolean hasVision() {
-        return updateCase_ == 2;
+        return visionBuilder_ != null || vision_ != null;
       }
       /**
        * <code>.proto.vision.SSL_DetectionRobot vision = 2;</code>
        */
       public proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot getVision() {
         if (visionBuilder_ == null) {
-          if (updateCase_ == 2) {
-            return (proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot) update_;
-          }
-          return proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.getDefaultInstance();
+          return vision_ == null ? proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.getDefaultInstance() : vision_;
         } else {
-          if (updateCase_ == 2) {
-            return visionBuilder_.getMessage();
-          }
-          return proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.getDefaultInstance();
+          return visionBuilder_.getMessage();
         }
       }
       /**
@@ -724,12 +641,12 @@ public final class TritonBotCommunication {
           if (value == null) {
             throw new NullPointerException();
           }
-          update_ = value;
+          vision_ = value;
           onChanged();
         } else {
           visionBuilder_.setMessage(value);
         }
-        updateCase_ = 2;
+
         return this;
       }
       /**
@@ -738,12 +655,12 @@ public final class TritonBotCommunication {
       public Builder setVision(
           proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.Builder builderForValue) {
         if (visionBuilder_ == null) {
-          update_ = builderForValue.build();
+          vision_ = builderForValue.build();
           onChanged();
         } else {
           visionBuilder_.setMessage(builderForValue.build());
         }
-        updateCase_ = 2;
+
         return this;
       }
       /**
@@ -751,21 +668,17 @@ public final class TritonBotCommunication {
        */
       public Builder mergeVision(proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot value) {
         if (visionBuilder_ == null) {
-          if (updateCase_ == 2 &&
-              update_ != proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.getDefaultInstance()) {
-            update_ = proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.newBuilder((proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot) update_)
-                .mergeFrom(value).buildPartial();
+          if (vision_ != null) {
+            vision_ =
+              proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.newBuilder(vision_).mergeFrom(value).buildPartial();
           } else {
-            update_ = value;
+            vision_ = value;
           }
           onChanged();
         } else {
-          if (updateCase_ == 2) {
-            visionBuilder_.mergeFrom(value);
-          }
-          visionBuilder_.setMessage(value);
+          visionBuilder_.mergeFrom(value);
         }
-        updateCase_ = 2;
+
         return this;
       }
       /**
@@ -773,37 +686,32 @@ public final class TritonBotCommunication {
        */
       public Builder clearVision() {
         if (visionBuilder_ == null) {
-          if (updateCase_ == 2) {
-            updateCase_ = 0;
-            update_ = null;
-            onChanged();
-          }
+          vision_ = null;
+          onChanged();
         } else {
-          if (updateCase_ == 2) {
-            updateCase_ = 0;
-            update_ = null;
-          }
-          visionBuilder_.clear();
+          vision_ = null;
+          visionBuilder_ = null;
         }
+
         return this;
       }
       /**
        * <code>.proto.vision.SSL_DetectionRobot vision = 2;</code>
        */
       public proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.Builder getVisionBuilder() {
+        
+        onChanged();
         return getVisionFieldBuilder().getBuilder();
       }
       /**
        * <code>.proto.vision.SSL_DetectionRobot vision = 2;</code>
        */
       public proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobotOrBuilder getVisionOrBuilder() {
-        if ((updateCase_ == 2) && (visionBuilder_ != null)) {
+        if (visionBuilder_ != null) {
           return visionBuilder_.getMessageOrBuilder();
         } else {
-          if (updateCase_ == 2) {
-            return (proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot) update_;
-          }
-          return proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.getDefaultInstance();
+          return vision_ == null ?
+              proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.getDefaultInstance() : vision_;
         }
       }
       /**
@@ -813,43 +721,33 @@ public final class TritonBotCommunication {
           proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot, proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.Builder, proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobotOrBuilder> 
           getVisionFieldBuilder() {
         if (visionBuilder_ == null) {
-          if (!(updateCase_ == 2)) {
-            update_ = proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.getDefaultInstance();
-          }
           visionBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot, proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot.Builder, proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobotOrBuilder>(
-                  (proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot) update_,
+                  getVision(),
                   getParentForChildren(),
                   isClean());
-          update_ = null;
+          vision_ = null;
         }
-        updateCase_ = 2;
-        onChanged();;
         return visionBuilder_;
       }
 
+      private proto.simulation.SslSimulationRobotControl.RobotCommand command_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           proto.simulation.SslSimulationRobotControl.RobotCommand, proto.simulation.SslSimulationRobotControl.RobotCommand.Builder, proto.simulation.SslSimulationRobotControl.RobotCommandOrBuilder> commandBuilder_;
       /**
        * <code>.proto.simulation.RobotCommand command = 3;</code>
        */
       public boolean hasCommand() {
-        return updateCase_ == 3;
+        return commandBuilder_ != null || command_ != null;
       }
       /**
        * <code>.proto.simulation.RobotCommand command = 3;</code>
        */
       public proto.simulation.SslSimulationRobotControl.RobotCommand getCommand() {
         if (commandBuilder_ == null) {
-          if (updateCase_ == 3) {
-            return (proto.simulation.SslSimulationRobotControl.RobotCommand) update_;
-          }
-          return proto.simulation.SslSimulationRobotControl.RobotCommand.getDefaultInstance();
+          return command_ == null ? proto.simulation.SslSimulationRobotControl.RobotCommand.getDefaultInstance() : command_;
         } else {
-          if (updateCase_ == 3) {
-            return commandBuilder_.getMessage();
-          }
-          return proto.simulation.SslSimulationRobotControl.RobotCommand.getDefaultInstance();
+          return commandBuilder_.getMessage();
         }
       }
       /**
@@ -860,12 +758,12 @@ public final class TritonBotCommunication {
           if (value == null) {
             throw new NullPointerException();
           }
-          update_ = value;
+          command_ = value;
           onChanged();
         } else {
           commandBuilder_.setMessage(value);
         }
-        updateCase_ = 3;
+
         return this;
       }
       /**
@@ -874,12 +772,12 @@ public final class TritonBotCommunication {
       public Builder setCommand(
           proto.simulation.SslSimulationRobotControl.RobotCommand.Builder builderForValue) {
         if (commandBuilder_ == null) {
-          update_ = builderForValue.build();
+          command_ = builderForValue.build();
           onChanged();
         } else {
           commandBuilder_.setMessage(builderForValue.build());
         }
-        updateCase_ = 3;
+
         return this;
       }
       /**
@@ -887,21 +785,17 @@ public final class TritonBotCommunication {
        */
       public Builder mergeCommand(proto.simulation.SslSimulationRobotControl.RobotCommand value) {
         if (commandBuilder_ == null) {
-          if (updateCase_ == 3 &&
-              update_ != proto.simulation.SslSimulationRobotControl.RobotCommand.getDefaultInstance()) {
-            update_ = proto.simulation.SslSimulationRobotControl.RobotCommand.newBuilder((proto.simulation.SslSimulationRobotControl.RobotCommand) update_)
-                .mergeFrom(value).buildPartial();
+          if (command_ != null) {
+            command_ =
+              proto.simulation.SslSimulationRobotControl.RobotCommand.newBuilder(command_).mergeFrom(value).buildPartial();
           } else {
-            update_ = value;
+            command_ = value;
           }
           onChanged();
         } else {
-          if (updateCase_ == 3) {
-            commandBuilder_.mergeFrom(value);
-          }
-          commandBuilder_.setMessage(value);
+          commandBuilder_.mergeFrom(value);
         }
-        updateCase_ = 3;
+
         return this;
       }
       /**
@@ -909,37 +803,32 @@ public final class TritonBotCommunication {
        */
       public Builder clearCommand() {
         if (commandBuilder_ == null) {
-          if (updateCase_ == 3) {
-            updateCase_ = 0;
-            update_ = null;
-            onChanged();
-          }
+          command_ = null;
+          onChanged();
         } else {
-          if (updateCase_ == 3) {
-            updateCase_ = 0;
-            update_ = null;
-          }
-          commandBuilder_.clear();
+          command_ = null;
+          commandBuilder_ = null;
         }
+
         return this;
       }
       /**
        * <code>.proto.simulation.RobotCommand command = 3;</code>
        */
       public proto.simulation.SslSimulationRobotControl.RobotCommand.Builder getCommandBuilder() {
+        
+        onChanged();
         return getCommandFieldBuilder().getBuilder();
       }
       /**
        * <code>.proto.simulation.RobotCommand command = 3;</code>
        */
       public proto.simulation.SslSimulationRobotControl.RobotCommandOrBuilder getCommandOrBuilder() {
-        if ((updateCase_ == 3) && (commandBuilder_ != null)) {
+        if (commandBuilder_ != null) {
           return commandBuilder_.getMessageOrBuilder();
         } else {
-          if (updateCase_ == 3) {
-            return (proto.simulation.SslSimulationRobotControl.RobotCommand) update_;
-          }
-          return proto.simulation.SslSimulationRobotControl.RobotCommand.getDefaultInstance();
+          return command_ == null ?
+              proto.simulation.SslSimulationRobotControl.RobotCommand.getDefaultInstance() : command_;
         }
       }
       /**
@@ -949,18 +838,13 @@ public final class TritonBotCommunication {
           proto.simulation.SslSimulationRobotControl.RobotCommand, proto.simulation.SslSimulationRobotControl.RobotCommand.Builder, proto.simulation.SslSimulationRobotControl.RobotCommandOrBuilder> 
           getCommandFieldBuilder() {
         if (commandBuilder_ == null) {
-          if (!(updateCase_ == 3)) {
-            update_ = proto.simulation.SslSimulationRobotControl.RobotCommand.getDefaultInstance();
-          }
           commandBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               proto.simulation.SslSimulationRobotControl.RobotCommand, proto.simulation.SslSimulationRobotControl.RobotCommand.Builder, proto.simulation.SslSimulationRobotControl.RobotCommandOrBuilder>(
-                  (proto.simulation.SslSimulationRobotControl.RobotCommand) update_,
+                  getCommand(),
                   getParentForChildren(),
                   isClean());
-          update_ = null;
+          command_ = null;
         }
-        updateCase_ = 3;
-        onChanged();;
         return commandBuilder_;
       }
       @java.lang.Override
@@ -1033,10 +917,10 @@ public final class TritonBotCommunication {
       "\n\036triton_bot_communication.proto\022\014proto." +
       "triton\032\"ssl_simulation_robot_control.pro" +
       "to\032$messages_robocup_ssl_detection.proto" +
-      "\"\217\001\n\020TritonBotMessage\022\n\n\002id\030\001 \001(\005\0222\n\006vis" +
+      "\"\201\001\n\020TritonBotMessage\022\n\n\002id\030\001 \001(\005\0220\n\006vis" +
       "ion\030\002 \001(\0132 .proto.vision.SSL_DetectionRo" +
-      "botH\000\0221\n\007command\030\003 \001(\0132\036.proto.simulatio" +
-      "n.RobotCommandH\000B\010\n\006updateb\006proto3"
+      "bot\022/\n\007command\030\003 \001(\0132\036.proto.simulation." +
+      "RobotCommandb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1057,7 +941,7 @@ public final class TritonBotCommunication {
     internal_static_proto_triton_TritonBotMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_TritonBotMessage_descriptor,
-        new java.lang.String[] { "Id", "Vision", "Command", "Update", });
+        new java.lang.String[] { "Id", "Vision", "Command", });
     proto.simulation.SslSimulationRobotControl.getDescriptor();
     proto.vision.MessagesRobocupSslDetection.getDescriptor();
   }
