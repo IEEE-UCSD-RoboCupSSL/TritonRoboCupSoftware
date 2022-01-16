@@ -291,7 +291,7 @@ public class UserInterface extends Module {
         private void paintBot(Graphics2D graphics2D, SSL_DetectionRobot bot, Color fillColor, Color outlineColor) {
             float x = bot.getX();
             float y = bot.getY();
-            float radius = objectConfig.yellowBotRadius;
+            float radius = objectConfig.robotRadius;
 
             graphics2D.setColor(fillColor);
             graphics2D.fillArc((int) (x - radius / 2),

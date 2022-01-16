@@ -24,7 +24,7 @@ import static proto.vision.MessagesRobocupSslDetection.*;
 import static proto.vision.MessagesRobocupSslWrapper.*;
 
 public class TritonBotMessageBuilder extends Module {
-    private long lastCommandTimeStamp;
+    private HashMap<Integer, Long> lastCommandTimeStamps;
 
     private static long commandDelay = 10;
 
@@ -40,6 +40,7 @@ public class TritonBotMessageBuilder extends Module {
     @Override
     protected void prepare() {
         super.prepare();
+        lastCommandTimeStamps = new HashMap<>();
     }
 
     @Override
@@ -48,11 +49,6 @@ public class TritonBotMessageBuilder extends Module {
         declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
         declareConsume(AI_ROBOT_COMMAND, this::callbackRobotCommand);
         declarePublish(AI_TRITON_BOT_MESSAGE);
-    }
-
-    @Override
-    public void run() {
-        super.run();
     }
 
     private void callbackWrapper(String s, Delivery delivery) {
@@ -83,8 +79,6 @@ public class TritonBotMessageBuilder extends Module {
     }
 
     private void callbackRobotCommand(String s, Delivery delivery) {
-        if (System.currentTimeMillis() - lastCommandTimeStamp < commandDelay) return;
-
         RobotCommand robotCommand;
         try {
             robotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
@@ -92,6 +86,10 @@ public class TritonBotMessageBuilder extends Module {
             e.printStackTrace();
             return;
         }
+
+        if (lastCommandTimeStamps.containsKey(robotCommand.getId()) &&
+                ((System.currentTimeMillis() - lastCommandTimeStamps.get(robotCommand.getId())) < commandDelay))
+            return;
 
         TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
         message.setId(robotCommand.getId());
@@ -103,6 +101,6 @@ public class TritonBotMessageBuilder extends Module {
             e.printStackTrace();
         }
 
-        lastCommandTimeStamp = System.currentTimeMillis();
+        lastCommandTimeStamps.put(robotCommand.getId(), System.currentTimeMillis());
     }
 }

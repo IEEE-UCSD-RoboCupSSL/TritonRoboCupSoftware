@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='proto.triton',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x1etriton_bot_communication.proto\x12\x0cproto.triton\x1a\"ssl_simulation_robot_control.proto\x1a$messages_robocup_ssl_detection.proto\"\x81\x01\n\x10TritonBotMessage\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x30\n\x06vision\x18\x02 \x01(\x0b\x32 .proto.vision.SSL_DetectionRobot\x12/\n\x07\x63ommand\x18\x03 \x01(\x0b\x32\x1e.proto.simulation.RobotCommandb\x06proto3')
+  serialized_pb=_b('\n\x1etriton_bot_communication.proto\x12\x0cproto.triton\x1a\"ssl_simulation_robot_control.proto\x1a$messages_robocup_ssl_detection.proto\"\x8f\x01\n\x10TritonBotMessage\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x32\n\x06vision\x18\x02 \x01(\x0b\x32 .proto.vision.SSL_DetectionRobotH\x00\x12\x31\n\x07\x63ommand\x18\x03 \x01(\x0b\x32\x1e.proto.simulation.RobotCommandH\x00\x42\x08\n\x06updateb\x06proto3')
   ,
   dependencies=[ssl__simulation__robot__control__pb2.DESCRIPTOR,messages__robocup__ssl__detection__pb2.DESCRIPTOR,])
 
@@ -67,13 +67,22 @@ _TRITONBOTMESSAGE = _descriptor.Descriptor(
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
+    _descriptor.OneofDescriptor(
+      name='update', full_name='proto.triton.TritonBotMessage.update',
+      index=0, containing_type=None, fields=[]),
   ],
   serialized_start=123,
-  serialized_end=252,
+  serialized_end=266,
 )
 
 _TRITONBOTMESSAGE.fields_by_name['vision'].message_type = messages__robocup__ssl__detection__pb2._SSL_DETECTIONROBOT
 _TRITONBOTMESSAGE.fields_by_name['command'].message_type = ssl__simulation__robot__control__pb2._ROBOTCOMMAND
+_TRITONBOTMESSAGE.oneofs_by_name['update'].fields.append(
+  _TRITONBOTMESSAGE.fields_by_name['vision'])
+_TRITONBOTMESSAGE.fields_by_name['vision'].containing_oneof = _TRITONBOTMESSAGE.oneofs_by_name['update']
+_TRITONBOTMESSAGE.oneofs_by_name['update'].fields.append(
+  _TRITONBOTMESSAGE.fields_by_name['command'])
+_TRITONBOTMESSAGE.fields_by_name['command'].containing_oneof = _TRITONBOTMESSAGE.oneofs_by_name['update']
 DESCRIPTOR.message_types_by_name['TritonBotMessage'] = _TRITONBOTMESSAGE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 

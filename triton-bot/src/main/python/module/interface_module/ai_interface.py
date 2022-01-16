@@ -47,5 +47,4 @@ class AI_Interface(Module):
     def callback_message(self, bytes):
         message = TritonBotMessage()
         message.ParseFromString(bytes)
-
         self.publish(exchange=Exchange.TB_MESSAGE, object=message)

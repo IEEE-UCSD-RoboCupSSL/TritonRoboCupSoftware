@@ -1,3 +1,40 @@
-ballRadius : 100
-blueBotRadius : 200
-yellowBotRadius : 200
+  # Ball radius [m]
+  ballRadius : 100
+
+  # Robot radius [m]
+  robotRadius : 200
+  # Robot height [m]
+  robotHeight : 1
+  # Robot mass [kg]
+  robotMass : 1
+  # Max linear kick speed [m/s]
+  robotMaxLinearKickSpeed : 1
+  # Max chip kick speed [m/s]
+  robotMaxChipKickSpeed : 1
+  # Distance from robot center to dribbler [m] (implicitly defines the opening angle and dribbler width)
+  robotCenterToDribbler : 1
+
+  # Max absolute speed-up acceleration [m/s^2]
+  robotAccSpeedupAbsoluteMax: 1
+  # Max angular speed-up acceleration [rad/s^2]
+  robotAccSpeedupAngularMax : 1
+  # Max absolute brake acceleration [m/s^2]
+  robotAccBrakeAbsoluteMax : 1
+  # Max angular brake acceleration [rad/s^2]
+  robotAccBrakeAngularMax : 1
+  # Max absolute velocity [m/s]
+  robotVelAbsoluteMax : 1
+  # Max angular velocity [rad/s]
+  robotVelAngularMax : 1
+
+  # Robot wheel angle configuration
+  # all angles are relative to looking forward,
+  # all wheels / angles are clockwise
+  # Angle front right [rad]
+  robotFrontRight : 1
+  # Angle back right [rad]
+  robotBackRight : 1
+  # Angle front left [rad]
+  robotBackLeft: 1
+  # Angle back left [rad]
+  robotFrontLeft : 1

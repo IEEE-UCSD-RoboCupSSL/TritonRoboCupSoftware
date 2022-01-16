@@ -41,7 +41,7 @@ time.sleep(0.1)
 # run_cmd(["python", triton_soccer_ai_py, "--team", "yellow"], triton_soccer_ai_py_path, "tab")
 time.sleep(0.1)
 
-num_bots = 1
+num_bots = 6
 for i in range(num_bots):
     id = str(i)
     run_cmd(["python", triton_bot, "--team", "yellow", "--id", id], triton_bot_path, "tab")

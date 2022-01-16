@@ -44,7 +44,7 @@ class RobotCommandGlobalToLocalProcessor(Module):
         angular = global_command.move_command.global_velocity.angular
 
         orientation = self.latest_vision.orientation
-        angular_correction = 0.07
+        angular_correction = 0.1
         rotation = -(orientation + angular * angular_correction) + pi / 2
 
         local_vx = vx * cos(rotation) - vy * sin(rotation)

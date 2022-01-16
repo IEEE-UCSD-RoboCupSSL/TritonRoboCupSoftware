@@ -2,6 +2,7 @@ import pickle
 from threading import Thread
 
 from google.protobuf.message import Message
+from constant.runtime_constants import RuntimeConstants
 import pika
 
 
@@ -32,15 +33,15 @@ class Module(Thread):
 
     def declare_publish(self, exchange):
         self.channel.exchange_declare(
-            exchange=exchange.name, exchange_type=Module.EXCHANGE_TYPE)
+            exchange=exchange.name + str(RuntimeConstants.id), exchange_type=Module.EXCHANGE_TYPE)
 
     def declare_consume(self, exchange, callback):
         self.channel.exchange_declare(
-            exchange=exchange.name, exchange_type=Module.EXCHANGE_TYPE)
+            exchange=exchange.name + str(RuntimeConstants.id), exchange_type=Module.EXCHANGE_TYPE)
 
         queue_name = self.channel.queue_declare(
             queue='', exclusive=True).method.queue
-        self.channel.queue_bind(exchange=exchange.name, queue=queue_name)
+        self.channel.queue_bind(exchange=exchange.name + str(RuntimeConstants.id), queue=queue_name)
 
         self.channel.basic_consume(
             queue=queue_name, on_message_callback=callback, auto_ack=True)
@@ -52,7 +53,7 @@ class Module(Thread):
             body = pickle.dumps(object)
 
         self.channel.basic_publish(
-            exchange=exchange.name, routing_key='', body=body)
+            exchange=exchange.name + str(RuntimeConstants.id), routing_key='', body=body)
     
     def consume(self):
         self.channel.start_consuming()

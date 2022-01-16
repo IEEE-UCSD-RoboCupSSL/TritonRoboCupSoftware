@@ -11,12 +11,13 @@ public enum Exchange {
     AI_BIASED_FOES,
 
     // Commands sent from our team perspective
-    AI_BIASED_SIMULATOR_COMMAND,
+    AI_BIASED_SIMULATOR_CONTROL,
     AI_BIASED_ROBOT_CONTROL,
     AI_BIASED_ROBOT_COMMAND,
 
     // Commands sent to the simulator
-    AI_SIMULATOR_COMMAND,   // Controls the simulator
+    AI_SIMULATOR_CONTROL,   // Commands the simulator, teleport robots/balls around
+    AI_SIMULATOR_CONFIG,    // Commands the simulator, set robot specs, geometry, etc.
     AI_ROBOT_COMMAND,       // Controls robots in the simulator
 
     // Commands sent to triton bot

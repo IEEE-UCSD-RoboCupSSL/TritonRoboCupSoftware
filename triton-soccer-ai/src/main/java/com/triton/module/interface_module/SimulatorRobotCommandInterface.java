@@ -82,6 +82,8 @@ public class SimulatorRobotCommandInterface extends Module {
         RobotControl.Builder robotControl = RobotControl.newBuilder();
         robotControl.addRobotCommands(robotCommand);
 
+        System.out.println(robotCommand);
+
         client.addSend(robotControl.build().toByteArray());
     }
 

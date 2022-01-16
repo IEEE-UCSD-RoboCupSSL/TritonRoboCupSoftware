@@ -3,6 +3,7 @@ import sys
 
 from constant.runtime_constants import RuntimeConstants
 from constant.team import Team
+from module.processing_module.robot_command_local_to_wheel_processor import RobotCommandLocalToWheelProcessor
 from module.interface_module.ai_interface import AI_Interface
 from module.interface_module.simulator_robot_control_interface import \
     SimulatorRobotControlInterface
@@ -24,6 +25,7 @@ class TritonBot:
         TritonBotMessageProcessor().start()
         VisionFilter().start()
         RobotCommandGlobalToLocalProcessor().start()
+        RobotCommandLocalToWheelProcessor().start()
 
 
 def parseTeam(teamStr):
@@ -46,6 +48,5 @@ if (team == None):
 
 RuntimeConstants.team = team
 RuntimeConstants.id = args.id
-
 
 TritonBot()

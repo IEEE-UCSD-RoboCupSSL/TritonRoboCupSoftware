@@ -30,8 +30,8 @@ class SimulatorRobotControlInterface(Module):
         super().declare_exchanges()
         self.declare_consume(exchange=Exchange.TB_LOCAL_COMMAND,
                              callback=self.callback_local_command)
-        self.declare_consume(exchange=Exchange.TB_WHEEL_COMMAND,
-                             callback=self.callback_wheel_command)
+        # self.declare_consume(exchange=Exchange.TB_WHEEL_COMMAND,
+        #                      callback=self.callback_wheel_command)
 
     def run(self):
         super().run()
@@ -56,6 +56,9 @@ class SimulatorRobotControlInterface(Module):
         local_command.ParseFromString(body)
         robot_control = RobotControl()
         robot_control.robot_commands.append(local_command)
+
+        print(robot_control)
+
         self.client.add_send(robot_control.SerializeToString())
 
     def callback_wheel_command(self, ch, method, properties, body):
@@ -68,4 +71,3 @@ class SimulatorRobotControlInterface(Module):
     def callback_robot_control_response(self,bytes):
         response = RobotControlResponse()
         response.ParseFromString(bytes)
-        # print(response)

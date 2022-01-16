@@ -62,6 +62,7 @@ public class RobotCommandAudienceConverter extends Module {
         }
 
         RobotCommand robotCommand = biasedToAudience(biasedRobotCommand);
+
         try {
             publish(AI_ROBOT_COMMAND, robotCommand);
         } catch (IOException e) {

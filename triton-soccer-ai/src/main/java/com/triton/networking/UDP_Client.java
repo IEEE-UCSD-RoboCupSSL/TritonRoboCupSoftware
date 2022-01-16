@@ -11,7 +11,7 @@ public class UDP_Client extends Thread {
     private static final int BUF_SIZE = 9999;
 
     private final InetAddress serverAddress;
-    private final int serverPort;
+    public final int serverPort;
     private final Consumer<byte[]> callbackPacket;
 
     private final DatagramSocket socket;
