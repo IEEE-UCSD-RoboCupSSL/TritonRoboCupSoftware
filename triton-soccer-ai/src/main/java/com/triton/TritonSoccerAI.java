@@ -5,6 +5,7 @@ import com.triton.constant.Team;
 import com.triton.module.interface_module.*;
 import com.triton.module.processing_module.*;
 import com.triton.module.source_module.FollowBall;
+import com.triton.module.source_module.SimulatorControlSource;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
@@ -64,7 +65,7 @@ public class TritonSoccerAI {
 
     private void startModules() throws IOException, TimeoutException {
         // SOURCE MODULES
-//        new SimulatorControlSource().start();
+        new SimulatorControlSource().start();
 //        new SimulatorConfigSource().start();
 //        new RobotCommandSource().start();
         new FollowBall().start();

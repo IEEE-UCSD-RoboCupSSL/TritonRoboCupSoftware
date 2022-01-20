@@ -75,8 +75,10 @@ public class FollowBall extends Module {
             float allyX = ally.getX();
             float allyY = ally.getY();
 
-            float vx = (avgBallX - allyX) / 100;
-            float vy = (avgBallY - allyY) / 100;
+            float vx = (avgBallX - allyX) / 200;
+            float vy = (avgBallY - allyY) / 200;
+
+            float angular = (float) (Math.atan2(vy,vx) - ally.getOrientation());
 
             RobotCommand.Builder robotCommand = RobotCommand.newBuilder();
             robotCommand.setId(ally.getRobotId());
@@ -84,7 +86,7 @@ public class FollowBall extends Module {
             MoveGlobalVelocity.Builder globalVelocity = MoveGlobalVelocity.newBuilder();
             globalVelocity.setX(vx);
             globalVelocity.setY(vy);
-            globalVelocity.setAngular(0);
+            globalVelocity.setAngular(angular);
             moveCommand.setGlobalVelocity(globalVelocity);
             robotCommand.setMoveCommand(moveCommand);
 

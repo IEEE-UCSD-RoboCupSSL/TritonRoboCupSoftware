@@ -47,25 +47,10 @@ public class SimulatorControlSource extends Module {
 
         while (true) {
             SimulatorControl.Builder simulatorControl = SimulatorControl.newBuilder();
-            TeleportRobot.Builder teleportBot = TeleportRobot.newBuilder();
-            if (RuntimeConstants.team == Team.YELLOW) {
-                teleportBot.setId(RobotId.newBuilder().setId(0).setTeam(SslGcCommon.Team.YELLOW));
-            } else {
-                teleportBot.setId(RobotId.newBuilder().setId(0).setTeam(SslGcCommon.Team.BLUE));
-            }
-            teleportBot.setX(0);
-            teleportBot.setY(0);
-            teleportBot.setOrientation(new Random().nextFloat((float) -Math.PI, (float) Math.PI));
-            teleportBot.setVX(0);
-            teleportBot.setVY(0);
-            teleportBot.setVAngular(0);
-            teleportBot.setPresent(true);
-            teleportBot.setByForce(false);
-            simulatorControl.addTeleportRobot(teleportBot);
 
             TeleportBall.Builder teleportBall = TeleportBall.newBuilder();
-            teleportBall.setX(1);
-            teleportBall.setY(1);
+            teleportBall.setX(0);
+            teleportBall.setY(0);
             teleportBall.setZ(0);
             teleportBall.setVx(0);
             teleportBall.setVy(0);

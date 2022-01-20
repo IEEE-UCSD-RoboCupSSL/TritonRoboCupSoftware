@@ -139,6 +139,7 @@ proto/simulation/SslSimulationControl$TeleportRobot.class
 proto/simulation/SslSimulationControl$TeleportRobot$Builder.class
 proto/simulation/SslVisionGeometry$Vector2f$Builder.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldShapeType.class
+com/triton/module/processing_module/ai_module/SkillsModule.class
 proto/simulation/SslVisionGeometry$SSL_FieldLineSegment.class
 proto/simulation/SslSimulationRobotFeedback$RobotControlResponse$1.class
 proto/simulation/SslVisionGeometry$SSL_GeometryModels$Builder.class
@@ -252,6 +253,7 @@ proto/vision/MessagesRobocupSslGeometry$SSL_FieldCircularArc.class
 proto/simulation/SslVisionDetection$SSL_DetectionFrame$1.class
 com/triton/module/interface_module/UserInterface$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$1.class
+com/triton/module/processing_module/ai_module/StrategyModules.class
 proto/simulation/SslVisionGeometry.class
 proto/simulation/SslSimulationConfig$RealismConfigOrBuilder.class
 proto/vision/MessagesRobocupSslWrapper$SSL_WrapperPacket$1.class
@@ -274,6 +276,7 @@ proto/simulation/SslGcCommon$RobotId$Builder.class
 proto/simulation/SslSimulationControl$TeleportBall$Builder.class
 proto/simulation/SslSimulationControl$SimulatorResponse$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrameOrBuilder.class
+com/triton/module/processing_module/ai_module/TacticsModule.class
 proto/simulation/SslSimulationRobotControl$MoveGlobalVelocity$1.class
 proto/simulation/SslVisionDetection.class
 proto/simulation/SslVisionGeometry$Vector2f$1.class
