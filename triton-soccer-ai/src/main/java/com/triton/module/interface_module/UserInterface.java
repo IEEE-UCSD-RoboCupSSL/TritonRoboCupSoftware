@@ -17,6 +17,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -131,9 +132,9 @@ public class UserInterface extends Module {
     }
 
     private void callbackBiasedAllies(String s, Delivery delivery) {
-        ArrayList<SSL_DetectionRobot> allies;
+        HashMap<Integer, SSL_DetectionRobot> allies;
         try {
-            allies = (ArrayList<SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
+            allies = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
@@ -144,9 +145,9 @@ public class UserInterface extends Module {
     }
 
     private void callbackBiasedFoes(String s, Delivery delivery) {
-        ArrayList<SSL_DetectionRobot> foes;
+        HashMap<Integer, SSL_DetectionRobot> foes;
         try {
-            foes = (ArrayList<SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
+            foes = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
@@ -159,8 +160,8 @@ public class UserInterface extends Module {
     private class FieldPanel extends JPanel {
         private SSL_GeometryFieldSize field;
         private List<SSL_DetectionBall> balls;
-        private List<SSL_DetectionRobot> allies;
-        private List<SSL_DetectionRobot> foes;
+        private HashMap<Integer, SSL_DetectionRobot> allies;
+        private HashMap<Integer, SSL_DetectionRobot> foes;
 
         @Override
         protected void paintComponent(Graphics g) {
@@ -261,9 +262,9 @@ public class UserInterface extends Module {
             }
         }
 
-        private void paintBots(Graphics2D graphics2D, List<SSL_DetectionRobot> allies, List<SSL_DetectionRobot> foes) {
+        private void paintBots(Graphics2D graphics2D, HashMap<Integer, SSL_DetectionRobot> allies, HashMap<Integer, SSL_DetectionRobot> foes) {
             if (allies != null) {
-                for (SSL_DetectionRobot ally : allies) {
+                for (SSL_DetectionRobot ally : allies.values()) {
 
                     Color fillColor;
                     switch (RuntimeConstants.team) {
@@ -276,7 +277,7 @@ public class UserInterface extends Module {
             }
 
             if (foes != null) {
-                for (SSL_DetectionRobot foe : foes) {
+                for (SSL_DetectionRobot foe : foes.values()) {
                     Color fillColor;
                     switch (RuntimeConstants.team) {
                         case YELLOW -> fillColor = BLUE;
@@ -330,11 +331,11 @@ public class UserInterface extends Module {
             this.balls = balls;
         }
 
-        public void setAllies(ArrayList<SSL_DetectionRobot> allies) {
+        public void setAllies(HashMap<Integer, SSL_DetectionRobot> allies) {
             this.allies = allies;
         }
 
-        public void setFoes(ArrayList<SSL_DetectionRobot> foes) {
+        public void setFoes(HashMap<Integer, SSL_DetectionRobot> foes) {
             this.foes = foes;
         }
     }

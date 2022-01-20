@@ -2,10 +2,17 @@ package com.triton;
 
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.module.interface_module.*;
-import com.triton.module.processing_module.*;
-import com.triton.module.source_module.FollowBall;
-import com.triton.module.source_module.SimulatorControlSource;
+import com.triton.module.ai_module.*;
+import com.triton.module.debug_module.FollowBall;
+import com.triton.module.debug_module.SimulatorControlSource;
+import com.triton.module.interface_module.CameraInterface;
+import com.triton.module.interface_module.SimulatorCommandInterface;
+import com.triton.module.interface_module.TritonBotMessageInterface;
+import com.triton.module.interface_module.UserInterface;
+import com.triton.module.processing_module.RobotCommandAudienceConverter;
+import com.triton.module.processing_module.SimulatorControlAudienceConverter;
+import com.triton.module.processing_module.TritonBotMessageBuilder;
+import com.triton.module.processing_module.VisionBiasedConverter;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
@@ -64,19 +71,25 @@ public class TritonSoccerAI {
     }
 
     private void startModules() throws IOException, TimeoutException {
-        // SOURCE MODULES
+        // DEBUG MODULES
         new SimulatorControlSource().start();
 //        new SimulatorConfigSource().start();
 //        new RobotCommandSource().start();
-        new FollowBall().start();
 
         // PROCESSING MODULES
-        // incoming
         new VisionBiasedConverter().start();
-        // outgoing
         new SimulatorControlAudienceConverter().start();
         new RobotCommandAudienceConverter().start();
         new TritonBotMessageBuilder().start();
+
+        // AI MODULES
+        new FollowBall().start();
+        new OverviewModule().start();
+        new StrategyModule().start();
+        new TeamSkillsModule().start();
+        new CoordinatedSkillsModule().start();
+        new IndividualSkillsModule().start();
+        new BasicSkillsModule().start();
 
         // INTERFACE MODULE
         new CameraInterface().start();

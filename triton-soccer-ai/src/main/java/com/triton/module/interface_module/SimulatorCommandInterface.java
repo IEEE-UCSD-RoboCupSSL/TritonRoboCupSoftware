@@ -4,9 +4,7 @@ import com.rabbitmq.client.Delivery;
 import com.triton.config.NetworkConfig;
 import com.triton.module.Module;
 import com.triton.networking.UDP_Client;
-import proto.simulation.SslSimulationConfig;
 import proto.simulation.SslSimulationConfig.SimulatorConfig;
-import proto.simulation.SslSimulationControl;
 import proto.simulation.SslSimulationControl.SimulatorResponse;
 
 import java.io.IOException;
@@ -17,8 +15,8 @@ import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.AI_SIMULATOR_CONFIG;
 import static com.triton.messaging.Exchange.AI_SIMULATOR_CONTROL;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.simulation.SslSimulationControl.*;
 import static proto.simulation.SslSimulationControl.SimulatorCommand;
+import static proto.simulation.SslSimulationControl.SimulatorControl;
 
 public class SimulatorCommandInterface extends Module {
     private NetworkConfig networkConfig;
@@ -86,7 +84,8 @@ public class SimulatorCommandInterface extends Module {
 
         SimulatorCommand.Builder simulatorCommand = SimulatorCommand.newBuilder();
         simulatorCommand.setConfig(simulatorConfig);
-        client.addSend(simulatorCommand.build().toByteArray());    }
+        client.addSend(simulatorCommand.build().toByteArray());
+    }
 
     private void callbackSimulatorResponse(byte[] bytes) {
         try {

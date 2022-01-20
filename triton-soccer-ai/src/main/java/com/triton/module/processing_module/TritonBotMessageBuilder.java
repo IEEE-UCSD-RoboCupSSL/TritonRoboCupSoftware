@@ -4,29 +4,22 @@ import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
-import org.apache.commons.collections4.queue.CircularFifoQueue;
-import proto.simulation.SslSimulationRobotControl;
-import proto.vision.MessagesRobocupSslDetection;
-import proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
-import proto.vision.MessagesRobocupSslWrapper;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.simulation.SslSimulationRobotControl.*;
-import static proto.triton.TritonBotCommunication.*;
-import static proto.vision.MessagesRobocupSslDetection.*;
-import static proto.vision.MessagesRobocupSslWrapper.*;
+import static proto.simulation.SslSimulationRobotControl.RobotCommand;
+import static proto.triton.TritonBotCommunication.TritonBotMessage;
+import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
+import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class TritonBotMessageBuilder extends Module {
+    private static final long commandDelay = 10;
     private HashMap<Integer, Long> lastCommandTimeStamps;
-
-    private static long commandDelay = 10;
 
     public TritonBotMessageBuilder() throws IOException, TimeoutException {
         super();

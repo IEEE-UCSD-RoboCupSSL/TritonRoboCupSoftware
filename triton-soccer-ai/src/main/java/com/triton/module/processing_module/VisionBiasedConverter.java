@@ -9,6 +9,7 @@ import proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -125,21 +126,21 @@ public class VisionBiasedConverter extends Module {
             try {
                 SSL_DetectionFrame detection = wrapper.getDetection();
 
-                List<SSL_DetectionBall> biasedBalls = new ArrayList<>();
+                ArrayList<SSL_DetectionBall> biasedBalls = new ArrayList<>();
                 for (SSL_DetectionBall ball : detection.getBallsList())
                     biasedBalls.add(audienceToBiased(ball));
                 publish(AI_BIASED_BALLS, biasedBalls);
 
-                List<SSL_DetectionRobot> biasedYellows = new ArrayList<>();
+                HashMap<Integer, SSL_DetectionRobot> biasedYellows = new HashMap<>();
                 for (SSL_DetectionRobot robot : detection.getRobotsYellowList())
-                    biasedYellows.add(audienceToBiased(robot));
+                    biasedYellows.put(robot.getRobotId(), audienceToBiased(robot));
 
-                List<SSL_DetectionRobot> biasedBlues = new ArrayList<>();
+                HashMap<Integer, SSL_DetectionRobot> biasedBlues = new HashMap<>();
                 for (SSL_DetectionRobot robot : detection.getRobotsBlueList())
-                    biasedBlues.add(audienceToBiased(robot));
+                    biasedBlues.put(robot.getRobotId(), audienceToBiased(robot));
 
-                List<SSL_DetectionRobot> biasedAllies;
-                List<SSL_DetectionRobot> biasedFoes;
+                HashMap<Integer, SSL_DetectionRobot> biasedAllies;
+                HashMap<Integer, SSL_DetectionRobot> biasedFoes;
                 if (RuntimeConstants.team == Team.YELLOW) {
                     biasedAllies = biasedYellows;
                     biasedFoes = biasedBlues;
