@@ -3,8 +3,6 @@ package com.triton.module.ai_module;
 import com.rabbitmq.client.Delivery;
 import com.triton.ai.skills.individual_skills.*;
 import com.triton.module.Module;
-import proto.vision.MessagesRobocupSslDetection;
-import proto.vision.MessagesRobocupSslGeometry;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,8 +13,9 @@ import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.triton.AiBasicSkills.BasicSkill;
 import static proto.triton.AiIndividualSkills.IndividualSkill;
-import static proto.vision.MessagesRobocupSslDetection.*;
-import static proto.vision.MessagesRobocupSslGeometry.*;
+import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
+import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
+import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class IndividualSkillsModule extends Module {
     SSL_GeometryFieldSize field;
