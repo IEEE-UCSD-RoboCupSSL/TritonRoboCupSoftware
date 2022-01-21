@@ -1,6 +1,12 @@
+from ast import arg
 import subprocess 
 import os
 import time
+import argparse
+
+parser = argparse.ArgumentParser(description="Run programs.")
+parser.add_argument('--test', choices=('True', 'False'))
+args = parser.parse_args()
 
 def run_cmd(cmd, path, mode='current'):
     # annoying lengthy path is removed from the print out
@@ -35,14 +41,18 @@ triton_bot = "triton_bot.py"
 run_cmd([simulator, "-g", "2020B", "--realism", "Realistic"], simulator_path, "tab")
 time.sleep(0.1)
 
-run_cmd(["java", "-jar", triton_soccer_ai_jar, "--team", "yellow"], triton_soccer_ai_jar_path, "tab")
-time.sleep(0.1)
-
-# run_cmd(["python", triton_soccer_ai_py, "--team", "yellow"], triton_soccer_ai_py_path, "tab")
-time.sleep(0.1)
-
 num_bots = 6
 for i in range(num_bots):
     id = str(i)
     run_cmd(["python", triton_bot, "--team", "yellow", "--id", id], triton_bot_path, "tab")
     time.sleep(0.1)
+
+if (args.test == 'True'):
+    run_cmd(["java", "-jar", triton_soccer_ai_jar, "--team", "yellow", "--test"], triton_soccer_ai_jar_path, "tab")
+    time.sleep(0.1)
+else:
+    run_cmd(["java", "-jar", triton_soccer_ai_jar, "--team", "yellow"], triton_soccer_ai_jar_path, "tab")
+    time.sleep(0.1)
+
+# run_cmd(["python", triton_soccer_ai_py, "--team", "yellow"], triton_soccer_ai_py_path, "tab")
+# time.sleep(0.1)

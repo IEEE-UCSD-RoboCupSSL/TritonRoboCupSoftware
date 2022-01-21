@@ -105,6 +105,7 @@ proto/simulation/SslVisionGeometry$Vector2f$Builder.class
 proto/triton/AiTeamSkills$AggressiveOffense.class
 proto/simulation/SslVisionGeometry$SSL_FieldLineSegment.class
 proto/triton/AiIndividualSkills$CatchBall$1.class
+com/triton/test/Test.class
 proto/vision/MessagesRobocupSslRefboxLog.class
 proto/vision/MessagesRobocupSslDetectionTracked$KickedBall.class
 proto/triton/AiCoordinatedSkills$Pass$Builder.class
@@ -236,6 +237,7 @@ proto/vision/MessagesRobocupSslDetection$SSL_DetectionBall$1.class
 proto/simulation/SslSimulationRobotControl$MoveGlobalVelocityOrBuilder.class
 proto/simulation/SslVisionDetection$SSL_DetectionFrame$Builder.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldLineSegment$Builder.class
+com/triton/module/test_module/FollowBallTest.class
 proto/simulation/SslVisionDetection$SSL_DetectionRobot.class
 proto/simulation/SslVisionDetection$SSL_DetectionBall.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryFieldSizeOrBuilder.class
@@ -293,7 +295,6 @@ proto/triton/AiTeamSkills$DefaultDefense.class
 proto/simulation/SslGcCommon$RobotId.class
 com/triton/module/interface_module/TritonBotMessageInterface.class
 proto/simulation/SslVisionGeometry$SSL_BallModelStraightTwoPhase.class
-com/triton/module/debug_module/FollowBall.class
 proto/triton/AiIndividualSkills$DribbleBall.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionRobot$Builder.class
 proto/triton/AiIndividualSkills$Juke.class
@@ -434,6 +435,7 @@ proto/simulation/SslSimulationRobotControl.class
 com/triton/networking/UDP_MulticastReceiver.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrame$2.class
 proto/simulation/SslGcCommon$Division.class
+com/triton/TritonSoccerAI$1.class
 proto/simulation/SslSimulationConfig$RobotSpecs.class
 com/triton/ai/skills/individual_skills/Stealskill.class
 proto/vision/MessagesRobocupSslDetectionTracked$Vector3.class

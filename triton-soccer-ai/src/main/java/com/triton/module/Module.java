@@ -14,7 +14,6 @@ import static com.triton.messaging.SimpleSerialize.simpleSerialize;
 public abstract class Module extends Thread {
     private static final String CONNECTION_FACTORY_HOST = "localhost";
     private static final String EXCHANGE_TYPE = "fanout";
-
     private Channel channel;
 
     public Module() throws IOException, TimeoutException {
@@ -80,6 +79,17 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     protected void publish(Exchange exchange, Object object) throws IOException {
-        channel.basicPublish(exchange.name(), "", null, simpleSerialize(object));
+        if (channel.isOpen())
+            channel.basicPublish(exchange.name(), "", null, simpleSerialize(object));
+    }
+
+    @Override
+    public void interrupt() {
+        super.interrupt();
+        try {
+            channel.close();
+        } catch (IOException | TimeoutException e) {
+            e.printStackTrace();
+        }
     }
 }
