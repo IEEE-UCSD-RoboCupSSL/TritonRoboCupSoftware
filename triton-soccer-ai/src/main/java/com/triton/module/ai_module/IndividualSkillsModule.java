@@ -11,7 +11,6 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.triton.AiBasicSkills.BasicSkill;
 import static proto.triton.AiIndividualSkills.IndividualSkill;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
@@ -94,26 +93,21 @@ public class IndividualSkillsModule extends Module {
 
         int id = individualSkill.getId();
 
-        BasicSkill basicSkill = null;
-        switch (individualSkill.getCommandCase()) {
-            case GOAL_KEEP -> basicSkill = GoalKeepSkill.goalKeepSkill(id, individualSkill.getGoalKeep());
-            case PATHFIND_TO_POINT -> basicSkill = PathFindToPointSkill.pathFindToPointSkill(id, individualSkill.getPathfindToPoint());
-            case CHASE_BALL -> basicSkill = ChaseBallSkill.chaseBallSkill(id, individualSkill.getChaseBall());
-            case CATCH_BALL -> basicSkill = CatchBallSkill.catchBallSkill(id, individualSkill.getCatchBall());
-            case KICK_BALL_TO_POINT -> basicSkill = KickBallToPointSkill.kickBallToPointSkill(id, individualSkill.getKickBallToPoint());
-            case DRIBBLE_BALL -> basicSkill = DribbleBallSkill.dribbleBallSkill(id, individualSkill.getDribbleBall());
-            case SHOOT -> basicSkill = ShootSkill.shootSkill(id, individualSkill.getShoot());
-            case STEAL -> basicSkill = Stealskill.stealSkill(id, individualSkill.getSteal());
-            case JUKE -> basicSkill = JukeSkill.jukeSkill(id, individualSkill.getJuke());
-            default -> throw new IllegalStateException("Unexpected value: " + individualSkill.getCommandCase());
-        }
-
-        if (basicSkill != null) {
-            try {
-                publish(AI_BASIC_SKILL, basicSkill);
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            switch (individualSkill.getCommandCase()) {
+                case GOAL_KEEP -> GoalKeepSkill.goalKeepSkill(this, id, individualSkill.getGoalKeep());
+                case PATH_TO_POINT -> PathToPointSkill.pathFindToPointSkill(this, id, individualSkill.getPathToPoint(), allies);
+                case CHASE_BALL -> ChaseBallSkill.chaseBallSkill(this, id, individualSkill.getChaseBall(), balls);
+                case CATCH_BALL -> CatchBallSkill.catchBallSkill(this, id, individualSkill.getCatchBall());
+                case KICK_BALL_TO_POINT -> KickBallToPointSkill.kickBallToPointSkill(this, id, individualSkill.getKickBallToPoint());
+                case DRIBBLE_BALL -> DribbleBallSkill.dribbleBallSkill(this, id, individualSkill.getDribbleBall());
+                case SHOOT -> ShootSkill.shootSkill(this, id, individualSkill.getShoot());
+                case STEAL -> Stealskill.stealSkill(this, id, individualSkill.getSteal());
+                case JUKE -> JukeSkill.jukeSkill(this, id, individualSkill.getJuke());
+                default -> throw new IllegalStateException("Unexpected value: " + individualSkill.getCommandCase());
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

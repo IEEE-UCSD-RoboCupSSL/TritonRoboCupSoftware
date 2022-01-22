@@ -1,10 +1,11 @@
 package com.triton.ai.skills.individual_skills;
 
+import com.triton.module.Module;
 import proto.triton.AiBasicSkills;
 import proto.triton.AiIndividualSkills;
 
 public class ShootSkill {
-    public static AiBasicSkills.BasicSkill shootSkill(int id, AiIndividualSkills.Shoot shoot) {
-        return null;
+    public static void shootSkill(Module module, int id, AiIndividualSkills.Shoot shoot) {
+        return;
     }
 }

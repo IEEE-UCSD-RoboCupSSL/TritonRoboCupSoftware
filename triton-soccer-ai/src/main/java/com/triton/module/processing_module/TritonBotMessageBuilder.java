@@ -18,8 +18,9 @@ import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class TritonBotMessageBuilder extends Module {
-    private static final long commandDelay = 10;
+    private static final long commandDelay = 1;
     private HashMap<Integer, Long> lastCommandTimeStamps;
+    private HashMap<Integer, RobotCommand.Builder> aggregateRobotCommands;
 
     public TritonBotMessageBuilder() throws IOException, TimeoutException {
         super();
@@ -34,6 +35,7 @@ public class TritonBotMessageBuilder extends Module {
     protected void prepare() {
         super.prepare();
         lastCommandTimeStamps = new HashMap<>();
+        aggregateRobotCommands = new HashMap<>();
     }
 
     @Override
@@ -80,13 +82,29 @@ public class TritonBotMessageBuilder extends Module {
             return;
         }
 
+        if (!aggregateRobotCommands.containsKey(robotCommand.getId())) {
+            RobotCommand.Builder aggregateRobotCommand = RobotCommand.newBuilder();
+            aggregateRobotCommand.setId(robotCommand.getId());
+            aggregateRobotCommands.put(robotCommand.getId(), aggregateRobotCommand);
+        }
+
+        RobotCommand.Builder aggregateRobotCommand = aggregateRobotCommands.get(robotCommand.getId());
+        if (robotCommand.hasMoveCommand())
+            aggregateRobotCommand.setMoveCommand(robotCommand.getMoveCommand());
+        if (robotCommand.hasKickSpeed())
+            aggregateRobotCommand.setKickSpeed(robotCommand.getKickSpeed());
+        if (robotCommand.hasKickAngle())
+            aggregateRobotCommand.setKickAngle(robotCommand.getKickAngle());
+        if (robotCommand.hasDribblerSpeed())
+            aggregateRobotCommand.setDribblerSpeed(robotCommand.getDribblerSpeed());
+
         if (lastCommandTimeStamps.containsKey(robotCommand.getId()) &&
                 ((System.currentTimeMillis() - lastCommandTimeStamps.get(robotCommand.getId())) < commandDelay))
             return;
 
         TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
         message.setId(robotCommand.getId());
-        message.setCommand(robotCommand);
+        message.setCommand(aggregateRobotCommand);
 
         try {
             publish(AI_TRITON_BOT_MESSAGE, message.build());

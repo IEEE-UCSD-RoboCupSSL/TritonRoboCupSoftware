@@ -1,12 +1,18 @@
 package com.triton.ai.skills.basic_skills;
 
+import com.triton.messaging.Exchange;
+import com.triton.module.Module;
 import proto.simulation.SslSimulationRobotControl;
 import proto.triton.AiBasicSkills;
 import proto.vision.MessagesRobocupSslDetection;
 
+import java.io.IOException;
+
+import static com.triton.messaging.Exchange.*;
+
 public class MoveToPointSkill {
-    public static SslSimulationRobotControl.RobotCommand moveToPointSkill(int id, AiBasicSkills.MoveToPoint moveToPoint, MessagesRobocupSslDetection.SSL_DetectionRobot ally) {
-        if (ally == null) return null;
+    public static void moveToPointSkill(Module module, int id, AiBasicSkills.MoveToPoint moveToPoint, MessagesRobocupSslDetection.SSL_DetectionRobot ally) throws IOException {
+        if (ally == null) return;
 
         SslSimulationRobotControl.RobotCommand.Builder robotCommand = SslSimulationRobotControl.RobotCommand.newBuilder();
         robotCommand.setId(id);
@@ -27,6 +33,7 @@ public class MoveToPointSkill {
         globalVelocity.setAngular(angular);
         moveCommand.setGlobalVelocity(globalVelocity);
         robotCommand.setMoveCommand(moveCommand);
-        return robotCommand.build();
+
+        module.publish(AI_BIASED_ROBOT_COMMAND, robotCommand.build());
     }
 }

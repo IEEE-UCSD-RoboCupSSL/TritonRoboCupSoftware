@@ -5,7 +5,7 @@ message IndividualSkill {
   int32 id = 1;
   oneof command {
     GoalKeep goal_keep = 2;
-    PathfindToPoint pathfind_to_point = 3;
+    PathToPoint path_to_point = 3;
     ChaseBall chase_ball = 4;
     CatchBall catch_ball = 5;
     KickBallToPoint kick_ball_to_point = 6;
@@ -19,10 +19,17 @@ message IndividualSkill {
 message GoalKeep {
 }
 
-message PathfindToPoint{
+message PathToPoint {
+  float x = 1;
+  float y = 2;
+  oneof target_orientation {
+    float orientation = 3;
+    bool face_point = 4;
+  }
 }
 
 message ChaseBall {
+  bool dribble = 1;
 }
 
 message CatchBall {

@@ -78,7 +78,7 @@ public abstract class Module extends Thread {
      * @param object   the object to send
      * @throws IOException
      */
-    protected void publish(Exchange exchange, Object object) throws IOException {
+    public void publish(Exchange exchange, Object object) throws IOException {
         if (channel.isOpen())
             channel.basicPublish(exchange.name(), "", null, simpleSerialize(object));
     }

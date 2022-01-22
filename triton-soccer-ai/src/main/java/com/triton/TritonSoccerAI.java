@@ -15,14 +15,15 @@ import com.triton.module.processing_module.RobotCommandAudienceConverter;
 import com.triton.module.processing_module.SimulatorControlAudienceConverter;
 import com.triton.module.processing_module.TritonBotMessageBuilder;
 import com.triton.module.processing_module.VisionBiasedConverter;
-import com.triton.module.test_module.FollowBallTest;
+import com.triton.module.test_module.ChaseBallTest;
+import com.triton.module.test_module.DribbleTest;
+import com.triton.module.test_module.KickTest;
 import com.triton.test.Test;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
@@ -135,7 +136,9 @@ public class TritonSoccerAI {
             Test test = parseTest(scanner.nextLine());
 
             switch (test) {
-                case FOLLOW_BALL -> startModule(new FollowBallTest(), testModules);
+                case KICK -> startModule(new KickTest(), testModules);
+                case DRIBBLE -> startModule(new DribbleTest(), testModules);
+                case CHASE_BALL -> startModule(new ChaseBallTest(), testModules);
                 default -> System.out.println("Test not found.");
             }
 

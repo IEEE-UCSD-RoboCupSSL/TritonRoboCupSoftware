@@ -53,25 +53,17 @@ public class BasicSkillsModule extends Module {
 
         int id = basicSkill.getId();
 
-        RobotCommand robotCommand = null;
-        switch (basicSkill.getCommandCase()) {
-            case STOP -> robotCommand = StopSkill.stopSkill(id, basicSkill.getStop());
-            case MATCH_VELOCITY -> robotCommand = MatchVelocitySkill.matchVelocitySkill(id, basicSkill.getMatchVelocity());
-            case MOVE_TO_POINT -> {
-                if (allies == null) break;
-                robotCommand = MoveToPointSkill.moveToPointSkill(id, basicSkill.getMoveToPoint(), allies.get(id));
+        try {
+            switch (basicSkill.getCommandCase()) {
+                case STOP -> StopSkill.stopSkill(this, id, basicSkill.getStop());
+                case MATCH_VELOCITY -> MatchVelocitySkill.matchVelocitySkill(this, id, basicSkill.getMatchVelocity());
+                case MOVE_TO_POINT -> MoveToPointSkill.moveToPointSkill(this, id, basicSkill.getMoveToPoint(), allies.get(id));
+                case KICK -> KickSkill.kickSkill(this, id, basicSkill.getKick());
+                case DRIBBLE -> DribbleSkill.dribbleSkill(this, id, basicSkill.getDribble());
+                default -> throw new IllegalStateException("Unexpected value: " + basicSkill.getCommandCase());
             }
-            case KICK -> robotCommand = KickSkill.kickSkill(id, basicSkill.getKick());
-            case DRIBBLE -> robotCommand = DribbleSkill.dribbleSkill(id, basicSkill.getDribble());
-            default -> throw new IllegalStateException("Unexpected value: " + basicSkill.getCommandCase());
-        }
-
-        if (robotCommand != null) {
-            try {
-                publish(AI_BIASED_ROBOT_COMMAND, robotCommand);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

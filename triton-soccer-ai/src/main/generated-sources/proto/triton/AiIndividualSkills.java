@@ -37,17 +37,17 @@ public final class AiIndividualSkills {
     proto.triton.AiIndividualSkills.GoalKeepOrBuilder getGoalKeepOrBuilder();
 
     /**
-     * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+     * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
      */
-    boolean hasPathfindToPoint();
+    boolean hasPathToPoint();
     /**
-     * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+     * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
      */
-    proto.triton.AiIndividualSkills.PathfindToPoint getPathfindToPoint();
+    proto.triton.AiIndividualSkills.PathToPoint getPathToPoint();
     /**
-     * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+     * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
      */
-    proto.triton.AiIndividualSkills.PathfindToPointOrBuilder getPathfindToPointOrBuilder();
+    proto.triton.AiIndividualSkills.PathToPointOrBuilder getPathToPointOrBuilder();
 
     /**
      * <code>.proto.triton.ChaseBall chase_ball = 4;</code>
@@ -202,14 +202,14 @@ public final class AiIndividualSkills {
               break;
             }
             case 26: {
-              proto.triton.AiIndividualSkills.PathfindToPoint.Builder subBuilder = null;
+              proto.triton.AiIndividualSkills.PathToPoint.Builder subBuilder = null;
               if (commandCase_ == 3) {
-                subBuilder = ((proto.triton.AiIndividualSkills.PathfindToPoint) command_).toBuilder();
+                subBuilder = ((proto.triton.AiIndividualSkills.PathToPoint) command_).toBuilder();
               }
               command_ =
-                  input.readMessage(proto.triton.AiIndividualSkills.PathfindToPoint.parser(), extensionRegistry);
+                  input.readMessage(proto.triton.AiIndividualSkills.PathToPoint.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((proto.triton.AiIndividualSkills.PathfindToPoint) command_);
+                subBuilder.mergeFrom((proto.triton.AiIndividualSkills.PathToPoint) command_);
                 command_ = subBuilder.buildPartial();
               }
               commandCase_ = 3;
@@ -350,7 +350,7 @@ public final class AiIndividualSkills {
     public enum CommandCase
         implements com.google.protobuf.Internal.EnumLite {
       GOAL_KEEP(2),
-      PATHFIND_TO_POINT(3),
+      PATH_TO_POINT(3),
       CHASE_BALL(4),
       CATCH_BALL(5),
       KICK_BALL_TO_POINT(6),
@@ -374,7 +374,7 @@ public final class AiIndividualSkills {
       public static CommandCase forNumber(int value) {
         switch (value) {
           case 2: return GOAL_KEEP;
-          case 3: return PATHFIND_TO_POINT;
+          case 3: return PATH_TO_POINT;
           case 4: return CHASE_BALL;
           case 5: return CATCH_BALL;
           case 6: return KICK_BALL_TO_POINT;
@@ -432,30 +432,30 @@ public final class AiIndividualSkills {
       return proto.triton.AiIndividualSkills.GoalKeep.getDefaultInstance();
     }
 
-    public static final int PATHFIND_TO_POINT_FIELD_NUMBER = 3;
+    public static final int PATH_TO_POINT_FIELD_NUMBER = 3;
     /**
-     * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+     * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
      */
-    public boolean hasPathfindToPoint() {
+    public boolean hasPathToPoint() {
       return commandCase_ == 3;
     }
     /**
-     * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+     * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
      */
-    public proto.triton.AiIndividualSkills.PathfindToPoint getPathfindToPoint() {
+    public proto.triton.AiIndividualSkills.PathToPoint getPathToPoint() {
       if (commandCase_ == 3) {
-         return (proto.triton.AiIndividualSkills.PathfindToPoint) command_;
+         return (proto.triton.AiIndividualSkills.PathToPoint) command_;
       }
-      return proto.triton.AiIndividualSkills.PathfindToPoint.getDefaultInstance();
+      return proto.triton.AiIndividualSkills.PathToPoint.getDefaultInstance();
     }
     /**
-     * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+     * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
      */
-    public proto.triton.AiIndividualSkills.PathfindToPointOrBuilder getPathfindToPointOrBuilder() {
+    public proto.triton.AiIndividualSkills.PathToPointOrBuilder getPathToPointOrBuilder() {
       if (commandCase_ == 3) {
-         return (proto.triton.AiIndividualSkills.PathfindToPoint) command_;
+         return (proto.triton.AiIndividualSkills.PathToPoint) command_;
       }
-      return proto.triton.AiIndividualSkills.PathfindToPoint.getDefaultInstance();
+      return proto.triton.AiIndividualSkills.PathToPoint.getDefaultInstance();
     }
 
     public static final int CHASE_BALL_FIELD_NUMBER = 4;
@@ -661,7 +661,7 @@ public final class AiIndividualSkills {
         output.writeMessage(2, (proto.triton.AiIndividualSkills.GoalKeep) command_);
       }
       if (commandCase_ == 3) {
-        output.writeMessage(3, (proto.triton.AiIndividualSkills.PathfindToPoint) command_);
+        output.writeMessage(3, (proto.triton.AiIndividualSkills.PathToPoint) command_);
       }
       if (commandCase_ == 4) {
         output.writeMessage(4, (proto.triton.AiIndividualSkills.ChaseBall) command_);
@@ -703,7 +703,7 @@ public final class AiIndividualSkills {
       }
       if (commandCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, (proto.triton.AiIndividualSkills.PathfindToPoint) command_);
+          .computeMessageSize(3, (proto.triton.AiIndividualSkills.PathToPoint) command_);
       }
       if (commandCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
@@ -760,8 +760,8 @@ public final class AiIndividualSkills {
               .equals(other.getGoalKeep());
           break;
         case 3:
-          result = result && getPathfindToPoint()
-              .equals(other.getPathfindToPoint());
+          result = result && getPathToPoint()
+              .equals(other.getPathToPoint());
           break;
         case 4:
           result = result && getChaseBall()
@@ -813,8 +813,8 @@ public final class AiIndividualSkills {
           hash = (53 * hash) + getGoalKeep().hashCode();
           break;
         case 3:
-          hash = (37 * hash) + PATHFIND_TO_POINT_FIELD_NUMBER;
-          hash = (53 * hash) + getPathfindToPoint().hashCode();
+          hash = (37 * hash) + PATH_TO_POINT_FIELD_NUMBER;
+          hash = (53 * hash) + getPathToPoint().hashCode();
           break;
         case 4:
           hash = (37 * hash) + CHASE_BALL_FIELD_NUMBER;
@@ -1019,10 +1019,10 @@ public final class AiIndividualSkills {
           }
         }
         if (commandCase_ == 3) {
-          if (pathfindToPointBuilder_ == null) {
+          if (pathToPointBuilder_ == null) {
             result.command_ = command_;
           } else {
-            result.command_ = pathfindToPointBuilder_.build();
+            result.command_ = pathToPointBuilder_.build();
           }
         }
         if (commandCase_ == 4) {
@@ -1131,8 +1131,8 @@ public final class AiIndividualSkills {
             mergeGoalKeep(other.getGoalKeep());
             break;
           }
-          case PATHFIND_TO_POINT: {
-            mergePathfindToPoint(other.getPathfindToPoint());
+          case PATH_TO_POINT: {
+            mergePathToPoint(other.getPathToPoint());
             break;
           }
           case CHASE_BALL: {
@@ -1374,67 +1374,67 @@ public final class AiIndividualSkills {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          proto.triton.AiIndividualSkills.PathfindToPoint, proto.triton.AiIndividualSkills.PathfindToPoint.Builder, proto.triton.AiIndividualSkills.PathfindToPointOrBuilder> pathfindToPointBuilder_;
+          proto.triton.AiIndividualSkills.PathToPoint, proto.triton.AiIndividualSkills.PathToPoint.Builder, proto.triton.AiIndividualSkills.PathToPointOrBuilder> pathToPointBuilder_;
       /**
-       * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+       * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
        */
-      public boolean hasPathfindToPoint() {
+      public boolean hasPathToPoint() {
         return commandCase_ == 3;
       }
       /**
-       * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+       * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
        */
-      public proto.triton.AiIndividualSkills.PathfindToPoint getPathfindToPoint() {
-        if (pathfindToPointBuilder_ == null) {
+      public proto.triton.AiIndividualSkills.PathToPoint getPathToPoint() {
+        if (pathToPointBuilder_ == null) {
           if (commandCase_ == 3) {
-            return (proto.triton.AiIndividualSkills.PathfindToPoint) command_;
+            return (proto.triton.AiIndividualSkills.PathToPoint) command_;
           }
-          return proto.triton.AiIndividualSkills.PathfindToPoint.getDefaultInstance();
+          return proto.triton.AiIndividualSkills.PathToPoint.getDefaultInstance();
         } else {
           if (commandCase_ == 3) {
-            return pathfindToPointBuilder_.getMessage();
+            return pathToPointBuilder_.getMessage();
           }
-          return proto.triton.AiIndividualSkills.PathfindToPoint.getDefaultInstance();
+          return proto.triton.AiIndividualSkills.PathToPoint.getDefaultInstance();
         }
       }
       /**
-       * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+       * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
        */
-      public Builder setPathfindToPoint(proto.triton.AiIndividualSkills.PathfindToPoint value) {
-        if (pathfindToPointBuilder_ == null) {
+      public Builder setPathToPoint(proto.triton.AiIndividualSkills.PathToPoint value) {
+        if (pathToPointBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
           command_ = value;
           onChanged();
         } else {
-          pathfindToPointBuilder_.setMessage(value);
+          pathToPointBuilder_.setMessage(value);
         }
         commandCase_ = 3;
         return this;
       }
       /**
-       * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+       * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
        */
-      public Builder setPathfindToPoint(
-          proto.triton.AiIndividualSkills.PathfindToPoint.Builder builderForValue) {
-        if (pathfindToPointBuilder_ == null) {
+      public Builder setPathToPoint(
+          proto.triton.AiIndividualSkills.PathToPoint.Builder builderForValue) {
+        if (pathToPointBuilder_ == null) {
           command_ = builderForValue.build();
           onChanged();
         } else {
-          pathfindToPointBuilder_.setMessage(builderForValue.build());
+          pathToPointBuilder_.setMessage(builderForValue.build());
         }
         commandCase_ = 3;
         return this;
       }
       /**
-       * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+       * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
        */
-      public Builder mergePathfindToPoint(proto.triton.AiIndividualSkills.PathfindToPoint value) {
-        if (pathfindToPointBuilder_ == null) {
+      public Builder mergePathToPoint(proto.triton.AiIndividualSkills.PathToPoint value) {
+        if (pathToPointBuilder_ == null) {
           if (commandCase_ == 3 &&
-              command_ != proto.triton.AiIndividualSkills.PathfindToPoint.getDefaultInstance()) {
-            command_ = proto.triton.AiIndividualSkills.PathfindToPoint.newBuilder((proto.triton.AiIndividualSkills.PathfindToPoint) command_)
+              command_ != proto.triton.AiIndividualSkills.PathToPoint.getDefaultInstance()) {
+            command_ = proto.triton.AiIndividualSkills.PathToPoint.newBuilder((proto.triton.AiIndividualSkills.PathToPoint) command_)
                 .mergeFrom(value).buildPartial();
           } else {
             command_ = value;
@@ -1442,18 +1442,18 @@ public final class AiIndividualSkills {
           onChanged();
         } else {
           if (commandCase_ == 3) {
-            pathfindToPointBuilder_.mergeFrom(value);
+            pathToPointBuilder_.mergeFrom(value);
           }
-          pathfindToPointBuilder_.setMessage(value);
+          pathToPointBuilder_.setMessage(value);
         }
         commandCase_ = 3;
         return this;
       }
       /**
-       * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+       * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
        */
-      public Builder clearPathfindToPoint() {
-        if (pathfindToPointBuilder_ == null) {
+      public Builder clearPathToPoint() {
+        if (pathToPointBuilder_ == null) {
           if (commandCase_ == 3) {
             commandCase_ = 0;
             command_ = null;
@@ -1464,49 +1464,49 @@ public final class AiIndividualSkills {
             commandCase_ = 0;
             command_ = null;
           }
-          pathfindToPointBuilder_.clear();
+          pathToPointBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+       * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
        */
-      public proto.triton.AiIndividualSkills.PathfindToPoint.Builder getPathfindToPointBuilder() {
-        return getPathfindToPointFieldBuilder().getBuilder();
+      public proto.triton.AiIndividualSkills.PathToPoint.Builder getPathToPointBuilder() {
+        return getPathToPointFieldBuilder().getBuilder();
       }
       /**
-       * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+       * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
        */
-      public proto.triton.AiIndividualSkills.PathfindToPointOrBuilder getPathfindToPointOrBuilder() {
-        if ((commandCase_ == 3) && (pathfindToPointBuilder_ != null)) {
-          return pathfindToPointBuilder_.getMessageOrBuilder();
+      public proto.triton.AiIndividualSkills.PathToPointOrBuilder getPathToPointOrBuilder() {
+        if ((commandCase_ == 3) && (pathToPointBuilder_ != null)) {
+          return pathToPointBuilder_.getMessageOrBuilder();
         } else {
           if (commandCase_ == 3) {
-            return (proto.triton.AiIndividualSkills.PathfindToPoint) command_;
+            return (proto.triton.AiIndividualSkills.PathToPoint) command_;
           }
-          return proto.triton.AiIndividualSkills.PathfindToPoint.getDefaultInstance();
+          return proto.triton.AiIndividualSkills.PathToPoint.getDefaultInstance();
         }
       }
       /**
-       * <code>.proto.triton.PathfindToPoint pathfind_to_point = 3;</code>
+       * <code>.proto.triton.PathToPoint path_to_point = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          proto.triton.AiIndividualSkills.PathfindToPoint, proto.triton.AiIndividualSkills.PathfindToPoint.Builder, proto.triton.AiIndividualSkills.PathfindToPointOrBuilder> 
-          getPathfindToPointFieldBuilder() {
-        if (pathfindToPointBuilder_ == null) {
+          proto.triton.AiIndividualSkills.PathToPoint, proto.triton.AiIndividualSkills.PathToPoint.Builder, proto.triton.AiIndividualSkills.PathToPointOrBuilder> 
+          getPathToPointFieldBuilder() {
+        if (pathToPointBuilder_ == null) {
           if (!(commandCase_ == 3)) {
-            command_ = proto.triton.AiIndividualSkills.PathfindToPoint.getDefaultInstance();
+            command_ = proto.triton.AiIndividualSkills.PathToPoint.getDefaultInstance();
           }
-          pathfindToPointBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              proto.triton.AiIndividualSkills.PathfindToPoint, proto.triton.AiIndividualSkills.PathfindToPoint.Builder, proto.triton.AiIndividualSkills.PathfindToPointOrBuilder>(
-                  (proto.triton.AiIndividualSkills.PathfindToPoint) command_,
+          pathToPointBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              proto.triton.AiIndividualSkills.PathToPoint, proto.triton.AiIndividualSkills.PathToPoint.Builder, proto.triton.AiIndividualSkills.PathToPointOrBuilder>(
+                  (proto.triton.AiIndividualSkills.PathToPoint) command_,
                   getParentForChildren(),
                   isClean());
           command_ = null;
         }
         commandCase_ = 3;
         onChanged();;
-        return pathfindToPointBuilder_;
+        return pathToPointBuilder_;
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -2925,23 +2925,47 @@ public final class AiIndividualSkills {
 
   }
 
-  public interface PathfindToPointOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.triton.PathfindToPoint)
+  public interface PathToPointOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:proto.triton.PathToPoint)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>float x = 1;</code>
+     */
+    float getX();
+
+    /**
+     * <code>float y = 2;</code>
+     */
+    float getY();
+
+    /**
+     * <code>float orientation = 3;</code>
+     */
+    float getOrientation();
+
+    /**
+     * <code>bool face_point = 4;</code>
+     */
+    boolean getFacePoint();
+
+    public proto.triton.AiIndividualSkills.PathToPoint.TargetOrientationCase getTargetOrientationCase();
   }
   /**
-   * Protobuf type {@code proto.triton.PathfindToPoint}
+   * Protobuf type {@code proto.triton.PathToPoint}
    */
-  public  static final class PathfindToPoint extends
+  public  static final class PathToPoint extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.triton.PathfindToPoint)
-      PathfindToPointOrBuilder {
+      // @@protoc_insertion_point(message_implements:proto.triton.PathToPoint)
+      PathToPointOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use PathfindToPoint.newBuilder() to construct.
-    private PathfindToPoint(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use PathToPoint.newBuilder() to construct.
+    private PathToPoint(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private PathfindToPoint() {
+    private PathToPoint() {
+      x_ = 0F;
+      y_ = 0F;
     }
 
     @java.lang.Override
@@ -2949,7 +2973,7 @@ public final class AiIndividualSkills {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private PathfindToPoint(
+    private PathToPoint(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2957,6 +2981,7 @@ public final class AiIndividualSkills {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2967,6 +2992,26 @@ public final class AiIndividualSkills {
             case 0:
               done = true;
               break;
+            case 13: {
+
+              x_ = input.readFloat();
+              break;
+            }
+            case 21: {
+
+              y_ = input.readFloat();
+              break;
+            }
+            case 29: {
+              targetOrientationCase_ = 3;
+              targetOrientation_ = input.readFloat();
+              break;
+            }
+            case 32: {
+              targetOrientationCase_ = 4;
+              targetOrientation_ = input.readBool();
+              break;
+            }
             default: {
               if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -2988,15 +3033,93 @@ public final class AiIndividualSkills {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.triton.AiIndividualSkills.internal_static_proto_triton_PathfindToPoint_descriptor;
+      return proto.triton.AiIndividualSkills.internal_static_proto_triton_PathToPoint_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.triton.AiIndividualSkills.internal_static_proto_triton_PathfindToPoint_fieldAccessorTable
+      return proto.triton.AiIndividualSkills.internal_static_proto_triton_PathToPoint_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              proto.triton.AiIndividualSkills.PathfindToPoint.class, proto.triton.AiIndividualSkills.PathfindToPoint.Builder.class);
+              proto.triton.AiIndividualSkills.PathToPoint.class, proto.triton.AiIndividualSkills.PathToPoint.Builder.class);
+    }
+
+    private int targetOrientationCase_ = 0;
+    private java.lang.Object targetOrientation_;
+    public enum TargetOrientationCase
+        implements com.google.protobuf.Internal.EnumLite {
+      ORIENTATION(3),
+      FACE_POINT(4),
+      TARGETORIENTATION_NOT_SET(0);
+      private final int value;
+      private TargetOrientationCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static TargetOrientationCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static TargetOrientationCase forNumber(int value) {
+        switch (value) {
+          case 3: return ORIENTATION;
+          case 4: return FACE_POINT;
+          case 0: return TARGETORIENTATION_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public TargetOrientationCase
+    getTargetOrientationCase() {
+      return TargetOrientationCase.forNumber(
+          targetOrientationCase_);
+    }
+
+    public static final int X_FIELD_NUMBER = 1;
+    private float x_;
+    /**
+     * <code>float x = 1;</code>
+     */
+    public float getX() {
+      return x_;
+    }
+
+    public static final int Y_FIELD_NUMBER = 2;
+    private float y_;
+    /**
+     * <code>float y = 2;</code>
+     */
+    public float getY() {
+      return y_;
+    }
+
+    public static final int ORIENTATION_FIELD_NUMBER = 3;
+    /**
+     * <code>float orientation = 3;</code>
+     */
+    public float getOrientation() {
+      if (targetOrientationCase_ == 3) {
+        return (java.lang.Float) targetOrientation_;
+      }
+      return 0F;
+    }
+
+    public static final int FACE_POINT_FIELD_NUMBER = 4;
+    /**
+     * <code>bool face_point = 4;</code>
+     */
+    public boolean getFacePoint() {
+      if (targetOrientationCase_ == 4) {
+        return (java.lang.Boolean) targetOrientation_;
+      }
+      return false;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -3013,6 +3136,20 @@ public final class AiIndividualSkills {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (x_ != 0F) {
+        output.writeFloat(1, x_);
+      }
+      if (y_ != 0F) {
+        output.writeFloat(2, y_);
+      }
+      if (targetOrientationCase_ == 3) {
+        output.writeFloat(
+            3, (float)((java.lang.Float) targetOrientation_));
+      }
+      if (targetOrientationCase_ == 4) {
+        output.writeBool(
+            4, (boolean)((java.lang.Boolean) targetOrientation_));
+      }
       unknownFields.writeTo(output);
     }
 
@@ -3022,6 +3159,24 @@ public final class AiIndividualSkills {
       if (size != -1) return size;
 
       size = 0;
+      if (x_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(1, x_);
+      }
+      if (y_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(2, y_);
+      }
+      if (targetOrientationCase_ == 3) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(
+              3, (float)((java.lang.Float) targetOrientation_));
+      }
+      if (targetOrientationCase_ == 4) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(
+              4, (boolean)((java.lang.Boolean) targetOrientation_));
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -3032,12 +3187,37 @@ public final class AiIndividualSkills {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof proto.triton.AiIndividualSkills.PathfindToPoint)) {
+      if (!(obj instanceof proto.triton.AiIndividualSkills.PathToPoint)) {
         return super.equals(obj);
       }
-      proto.triton.AiIndividualSkills.PathfindToPoint other = (proto.triton.AiIndividualSkills.PathfindToPoint) obj;
+      proto.triton.AiIndividualSkills.PathToPoint other = (proto.triton.AiIndividualSkills.PathToPoint) obj;
 
       boolean result = true;
+      result = result && (
+          java.lang.Float.floatToIntBits(getX())
+          == java.lang.Float.floatToIntBits(
+              other.getX()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getY())
+          == java.lang.Float.floatToIntBits(
+              other.getY()));
+      result = result && getTargetOrientationCase().equals(
+          other.getTargetOrientationCase());
+      if (!result) return false;
+      switch (targetOrientationCase_) {
+        case 3:
+          result = result && (
+              java.lang.Float.floatToIntBits(getOrientation())
+              == java.lang.Float.floatToIntBits(
+                  other.getOrientation()));
+          break;
+        case 4:
+          result = result && (getFacePoint()
+              == other.getFacePoint());
+          break;
+        case 0:
+        default:
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -3049,74 +3229,94 @@ public final class AiIndividualSkills {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + X_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getX());
+      hash = (37 * hash) + Y_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getY());
+      switch (targetOrientationCase_) {
+        case 3:
+          hash = (37 * hash) + ORIENTATION_FIELD_NUMBER;
+          hash = (53 * hash) + java.lang.Float.floatToIntBits(
+              getOrientation());
+          break;
+        case 4:
+          hash = (37 * hash) + FACE_POINT_FIELD_NUMBER;
+          hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+              getFacePoint());
+          break;
+        case 0:
+        default:
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static proto.triton.AiIndividualSkills.PathfindToPoint parseFrom(
+    public static proto.triton.AiIndividualSkills.PathToPoint parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.triton.AiIndividualSkills.PathfindToPoint parseFrom(
+    public static proto.triton.AiIndividualSkills.PathToPoint parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.triton.AiIndividualSkills.PathfindToPoint parseFrom(
+    public static proto.triton.AiIndividualSkills.PathToPoint parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.triton.AiIndividualSkills.PathfindToPoint parseFrom(
+    public static proto.triton.AiIndividualSkills.PathToPoint parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.triton.AiIndividualSkills.PathfindToPoint parseFrom(byte[] data)
+    public static proto.triton.AiIndividualSkills.PathToPoint parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static proto.triton.AiIndividualSkills.PathfindToPoint parseFrom(
+    public static proto.triton.AiIndividualSkills.PathToPoint parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static proto.triton.AiIndividualSkills.PathfindToPoint parseFrom(java.io.InputStream input)
+    public static proto.triton.AiIndividualSkills.PathToPoint parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static proto.triton.AiIndividualSkills.PathfindToPoint parseFrom(
+    public static proto.triton.AiIndividualSkills.PathToPoint parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static proto.triton.AiIndividualSkills.PathfindToPoint parseDelimitedFrom(java.io.InputStream input)
+    public static proto.triton.AiIndividualSkills.PathToPoint parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static proto.triton.AiIndividualSkills.PathfindToPoint parseDelimitedFrom(
+    public static proto.triton.AiIndividualSkills.PathToPoint parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static proto.triton.AiIndividualSkills.PathfindToPoint parseFrom(
+    public static proto.triton.AiIndividualSkills.PathToPoint parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static proto.triton.AiIndividualSkills.PathfindToPoint parseFrom(
+    public static proto.triton.AiIndividualSkills.PathToPoint parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -3129,7 +3329,7 @@ public final class AiIndividualSkills {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(proto.triton.AiIndividualSkills.PathfindToPoint prototype) {
+    public static Builder newBuilder(proto.triton.AiIndividualSkills.PathToPoint prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -3145,26 +3345,26 @@ public final class AiIndividualSkills {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.triton.PathfindToPoint}
+     * Protobuf type {@code proto.triton.PathToPoint}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.triton.PathfindToPoint)
-        proto.triton.AiIndividualSkills.PathfindToPointOrBuilder {
+        // @@protoc_insertion_point(builder_implements:proto.triton.PathToPoint)
+        proto.triton.AiIndividualSkills.PathToPointOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return proto.triton.AiIndividualSkills.internal_static_proto_triton_PathfindToPoint_descriptor;
+        return proto.triton.AiIndividualSkills.internal_static_proto_triton_PathToPoint_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return proto.triton.AiIndividualSkills.internal_static_proto_triton_PathfindToPoint_fieldAccessorTable
+        return proto.triton.AiIndividualSkills.internal_static_proto_triton_PathToPoint_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                proto.triton.AiIndividualSkills.PathfindToPoint.class, proto.triton.AiIndividualSkills.PathfindToPoint.Builder.class);
+                proto.triton.AiIndividualSkills.PathToPoint.class, proto.triton.AiIndividualSkills.PathToPoint.Builder.class);
       }
 
-      // Construct using proto.triton.AiIndividualSkills.PathfindToPoint.newBuilder()
+      // Construct using proto.triton.AiIndividualSkills.PathToPoint.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3182,23 +3382,29 @@ public final class AiIndividualSkills {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        x_ = 0F;
+
+        y_ = 0F;
+
+        targetOrientationCase_ = 0;
+        targetOrientation_ = null;
         return this;
       }
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return proto.triton.AiIndividualSkills.internal_static_proto_triton_PathfindToPoint_descriptor;
+        return proto.triton.AiIndividualSkills.internal_static_proto_triton_PathToPoint_descriptor;
       }
 
       @java.lang.Override
-      public proto.triton.AiIndividualSkills.PathfindToPoint getDefaultInstanceForType() {
-        return proto.triton.AiIndividualSkills.PathfindToPoint.getDefaultInstance();
+      public proto.triton.AiIndividualSkills.PathToPoint getDefaultInstanceForType() {
+        return proto.triton.AiIndividualSkills.PathToPoint.getDefaultInstance();
       }
 
       @java.lang.Override
-      public proto.triton.AiIndividualSkills.PathfindToPoint build() {
-        proto.triton.AiIndividualSkills.PathfindToPoint result = buildPartial();
+      public proto.triton.AiIndividualSkills.PathToPoint build() {
+        proto.triton.AiIndividualSkills.PathToPoint result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -3206,8 +3412,17 @@ public final class AiIndividualSkills {
       }
 
       @java.lang.Override
-      public proto.triton.AiIndividualSkills.PathfindToPoint buildPartial() {
-        proto.triton.AiIndividualSkills.PathfindToPoint result = new proto.triton.AiIndividualSkills.PathfindToPoint(this);
+      public proto.triton.AiIndividualSkills.PathToPoint buildPartial() {
+        proto.triton.AiIndividualSkills.PathToPoint result = new proto.triton.AiIndividualSkills.PathToPoint(this);
+        result.x_ = x_;
+        result.y_ = y_;
+        if (targetOrientationCase_ == 3) {
+          result.targetOrientation_ = targetOrientation_;
+        }
+        if (targetOrientationCase_ == 4) {
+          result.targetOrientation_ = targetOrientation_;
+        }
+        result.targetOrientationCase_ = targetOrientationCase_;
         onBuilt();
         return result;
       }
@@ -3246,16 +3461,35 @@ public final class AiIndividualSkills {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof proto.triton.AiIndividualSkills.PathfindToPoint) {
-          return mergeFrom((proto.triton.AiIndividualSkills.PathfindToPoint)other);
+        if (other instanceof proto.triton.AiIndividualSkills.PathToPoint) {
+          return mergeFrom((proto.triton.AiIndividualSkills.PathToPoint)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(proto.triton.AiIndividualSkills.PathfindToPoint other) {
-        if (other == proto.triton.AiIndividualSkills.PathfindToPoint.getDefaultInstance()) return this;
+      public Builder mergeFrom(proto.triton.AiIndividualSkills.PathToPoint other) {
+        if (other == proto.triton.AiIndividualSkills.PathToPoint.getDefaultInstance()) return this;
+        if (other.getX() != 0F) {
+          setX(other.getX());
+        }
+        if (other.getY() != 0F) {
+          setY(other.getY());
+        }
+        switch (other.getTargetOrientationCase()) {
+          case ORIENTATION: {
+            setOrientation(other.getOrientation());
+            break;
+          }
+          case FACE_POINT: {
+            setFacePoint(other.getFacePoint());
+            break;
+          }
+          case TARGETORIENTATION_NOT_SET: {
+            break;
+          }
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -3271,16 +3505,143 @@ public final class AiIndividualSkills {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        proto.triton.AiIndividualSkills.PathfindToPoint parsedMessage = null;
+        proto.triton.AiIndividualSkills.PathToPoint parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (proto.triton.AiIndividualSkills.PathfindToPoint) e.getUnfinishedMessage();
+          parsedMessage = (proto.triton.AiIndividualSkills.PathToPoint) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
           }
+        }
+        return this;
+      }
+      private int targetOrientationCase_ = 0;
+      private java.lang.Object targetOrientation_;
+      public TargetOrientationCase
+          getTargetOrientationCase() {
+        return TargetOrientationCase.forNumber(
+            targetOrientationCase_);
+      }
+
+      public Builder clearTargetOrientation() {
+        targetOrientationCase_ = 0;
+        targetOrientation_ = null;
+        onChanged();
+        return this;
+      }
+
+
+      private float x_ ;
+      /**
+       * <code>float x = 1;</code>
+       */
+      public float getX() {
+        return x_;
+      }
+      /**
+       * <code>float x = 1;</code>
+       */
+      public Builder setX(float value) {
+        
+        x_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float x = 1;</code>
+       */
+      public Builder clearX() {
+        
+        x_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float y_ ;
+      /**
+       * <code>float y = 2;</code>
+       */
+      public float getY() {
+        return y_;
+      }
+      /**
+       * <code>float y = 2;</code>
+       */
+      public Builder setY(float value) {
+        
+        y_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float y = 2;</code>
+       */
+      public Builder clearY() {
+        
+        y_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <code>float orientation = 3;</code>
+       */
+      public float getOrientation() {
+        if (targetOrientationCase_ == 3) {
+          return (java.lang.Float) targetOrientation_;
+        }
+        return 0F;
+      }
+      /**
+       * <code>float orientation = 3;</code>
+       */
+      public Builder setOrientation(float value) {
+        targetOrientationCase_ = 3;
+        targetOrientation_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float orientation = 3;</code>
+       */
+      public Builder clearOrientation() {
+        if (targetOrientationCase_ == 3) {
+          targetOrientationCase_ = 0;
+          targetOrientation_ = null;
+          onChanged();
+        }
+        return this;
+      }
+
+      /**
+       * <code>bool face_point = 4;</code>
+       */
+      public boolean getFacePoint() {
+        if (targetOrientationCase_ == 4) {
+          return (java.lang.Boolean) targetOrientation_;
+        }
+        return false;
+      }
+      /**
+       * <code>bool face_point = 4;</code>
+       */
+      public Builder setFacePoint(boolean value) {
+        targetOrientationCase_ = 4;
+        targetOrientation_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool face_point = 4;</code>
+       */
+      public Builder clearFacePoint() {
+        if (targetOrientationCase_ == 4) {
+          targetOrientationCase_ = 0;
+          targetOrientation_ = null;
+          onChanged();
         }
         return this;
       }
@@ -3297,41 +3658,41 @@ public final class AiIndividualSkills {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.triton.PathfindToPoint)
+      // @@protoc_insertion_point(builder_scope:proto.triton.PathToPoint)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.triton.PathfindToPoint)
-    private static final proto.triton.AiIndividualSkills.PathfindToPoint DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:proto.triton.PathToPoint)
+    private static final proto.triton.AiIndividualSkills.PathToPoint DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new proto.triton.AiIndividualSkills.PathfindToPoint();
+      DEFAULT_INSTANCE = new proto.triton.AiIndividualSkills.PathToPoint();
     }
 
-    public static proto.triton.AiIndividualSkills.PathfindToPoint getDefaultInstance() {
+    public static proto.triton.AiIndividualSkills.PathToPoint getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<PathfindToPoint>
-        PARSER = new com.google.protobuf.AbstractParser<PathfindToPoint>() {
+    private static final com.google.protobuf.Parser<PathToPoint>
+        PARSER = new com.google.protobuf.AbstractParser<PathToPoint>() {
       @java.lang.Override
-      public PathfindToPoint parsePartialFrom(
+      public PathToPoint parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PathfindToPoint(input, extensionRegistry);
+        return new PathToPoint(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<PathfindToPoint> parser() {
+    public static com.google.protobuf.Parser<PathToPoint> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<PathfindToPoint> getParserForType() {
+    public com.google.protobuf.Parser<PathToPoint> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public proto.triton.AiIndividualSkills.PathfindToPoint getDefaultInstanceForType() {
+    public proto.triton.AiIndividualSkills.PathToPoint getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -3340,6 +3701,11 @@ public final class AiIndividualSkills {
   public interface ChaseBallOrBuilder extends
       // @@protoc_insertion_point(interface_extends:proto.triton.ChaseBall)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>bool dribble = 1;</code>
+     */
+    boolean getDribble();
   }
   /**
    * Protobuf type {@code proto.triton.ChaseBall}
@@ -3354,6 +3720,7 @@ public final class AiIndividualSkills {
       super(builder);
     }
     private ChaseBall() {
+      dribble_ = false;
     }
 
     @java.lang.Override
@@ -3369,6 +3736,7 @@ public final class AiIndividualSkills {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3379,6 +3747,11 @@ public final class AiIndividualSkills {
             case 0:
               done = true;
               break;
+            case 8: {
+
+              dribble_ = input.readBool();
+              break;
+            }
             default: {
               if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -3411,6 +3784,15 @@ public final class AiIndividualSkills {
               proto.triton.AiIndividualSkills.ChaseBall.class, proto.triton.AiIndividualSkills.ChaseBall.Builder.class);
     }
 
+    public static final int DRIBBLE_FIELD_NUMBER = 1;
+    private boolean dribble_;
+    /**
+     * <code>bool dribble = 1;</code>
+     */
+    public boolean getDribble() {
+      return dribble_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -3425,6 +3807,9 @@ public final class AiIndividualSkills {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (dribble_ != false) {
+        output.writeBool(1, dribble_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -3434,6 +3819,10 @@ public final class AiIndividualSkills {
       if (size != -1) return size;
 
       size = 0;
+      if (dribble_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, dribble_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -3450,6 +3839,8 @@ public final class AiIndividualSkills {
       proto.triton.AiIndividualSkills.ChaseBall other = (proto.triton.AiIndividualSkills.ChaseBall) obj;
 
       boolean result = true;
+      result = result && (getDribble()
+          == other.getDribble());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -3461,6 +3852,9 @@ public final class AiIndividualSkills {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + DRIBBLE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getDribble());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3594,6 +3988,8 @@ public final class AiIndividualSkills {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        dribble_ = false;
+
         return this;
       }
 
@@ -3620,6 +4016,7 @@ public final class AiIndividualSkills {
       @java.lang.Override
       public proto.triton.AiIndividualSkills.ChaseBall buildPartial() {
         proto.triton.AiIndividualSkills.ChaseBall result = new proto.triton.AiIndividualSkills.ChaseBall(this);
+        result.dribble_ = dribble_;
         onBuilt();
         return result;
       }
@@ -3668,6 +4065,9 @@ public final class AiIndividualSkills {
 
       public Builder mergeFrom(proto.triton.AiIndividualSkills.ChaseBall other) {
         if (other == proto.triton.AiIndividualSkills.ChaseBall.getDefaultInstance()) return this;
+        if (other.getDribble() != false) {
+          setDribble(other.getDribble());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -3694,6 +4094,32 @@ public final class AiIndividualSkills {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+
+      private boolean dribble_ ;
+      /**
+       * <code>bool dribble = 1;</code>
+       */
+      public boolean getDribble() {
+        return dribble_;
+      }
+      /**
+       * <code>bool dribble = 1;</code>
+       */
+      public Builder setDribble(boolean value) {
+        
+        dribble_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool dribble = 1;</code>
+       */
+      public Builder clearDribble() {
+        
+        dribble_ = false;
+        onChanged();
         return this;
       }
       @java.lang.Override
@@ -6232,10 +6658,10 @@ public final class AiIndividualSkills {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_proto_triton_GoalKeep_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_triton_PathfindToPoint_descriptor;
+    internal_static_proto_triton_PathToPoint_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_triton_PathfindToPoint_fieldAccessorTable;
+      internal_static_proto_triton_PathToPoint_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_proto_triton_ChaseBall_descriptor;
   private static final 
@@ -6281,21 +6707,24 @@ public final class AiIndividualSkills {
   static {
     java.lang.String[] descriptorData = {
       "\n\032ai_individual_skills.proto\022\014proto.trit" +
-      "on\"\317\003\n\017IndividualSkill\022\n\n\002id\030\001 \001(\005\022+\n\tgo" +
+      "on\"\307\003\n\017IndividualSkill\022\n\n\002id\030\001 \001(\005\022+\n\tgo" +
       "al_keep\030\002 \001(\0132\026.proto.triton.GoalKeepH\000\022" +
-      ":\n\021pathfind_to_point\030\003 \001(\0132\035.proto.trito" +
-      "n.PathfindToPointH\000\022-\n\nchase_ball\030\004 \001(\0132" +
-      "\027.proto.triton.ChaseBallH\000\022-\n\ncatch_ball" +
-      "\030\005 \001(\0132\027.proto.triton.CatchBallH\000\022;\n\022kic" +
-      "k_ball_to_point\030\006 \001(\0132\035.proto.triton.Kic" +
-      "kBallToPointH\000\0221\n\014dribble_ball\030\007 \001(\0132\031.p" +
-      "roto.triton.DribbleBallH\000\022$\n\005shoot\030\010 \001(\013" +
-      "2\023.proto.triton.ShootH\000\022$\n\005steal\030\t \001(\0132\023" +
-      ".proto.triton.StealH\000\022\"\n\004juke\030\n \001(\0132\022.pr" +
-      "oto.triton.JukeH\000B\t\n\007command\"\n\n\010GoalKeep" +
-      "\"\021\n\017PathfindToPoint\"\013\n\tChaseBall\"\013\n\tCatc" +
-      "hBall\"\021\n\017KickBallToPoint\"\r\n\013DribbleBall\"" +
-      "\007\n\005Shoot\"\007\n\005Steal\"\006\n\004Jukeb\006proto3"
+      "2\n\rpath_to_point\030\003 \001(\0132\031.proto.triton.Pa" +
+      "thToPointH\000\022-\n\nchase_ball\030\004 \001(\0132\027.proto." +
+      "triton.ChaseBallH\000\022-\n\ncatch_ball\030\005 \001(\0132\027" +
+      ".proto.triton.CatchBallH\000\022;\n\022kick_ball_t" +
+      "o_point\030\006 \001(\0132\035.proto.triton.KickBallToP" +
+      "ointH\000\0221\n\014dribble_ball\030\007 \001(\0132\031.proto.tri" +
+      "ton.DribbleBallH\000\022$\n\005shoot\030\010 \001(\0132\023.proto" +
+      ".triton.ShootH\000\022$\n\005steal\030\t \001(\0132\023.proto.t" +
+      "riton.StealH\000\022\"\n\004juke\030\n \001(\0132\022.proto.trit" +
+      "on.JukeH\000B\t\n\007command\"\n\n\010GoalKeep\"f\n\013Path" +
+      "ToPoint\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\025\n\013orienta" +
+      "tion\030\003 \001(\002H\000\022\024\n\nface_point\030\004 \001(\010H\000B\024\n\022ta" +
+      "rget_orientation\"\034\n\tChaseBall\022\017\n\007dribble" +
+      "\030\001 \001(\010\"\013\n\tCatchBall\"\021\n\017KickBallToPoint\"\r" +
+      "\n\013DribbleBall\"\007\n\005Shoot\"\007\n\005Steal\"\006\n\004Jukeb" +
+      "\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6314,25 +6743,25 @@ public final class AiIndividualSkills {
     internal_static_proto_triton_IndividualSkill_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_IndividualSkill_descriptor,
-        new java.lang.String[] { "Id", "GoalKeep", "PathfindToPoint", "ChaseBall", "CatchBall", "KickBallToPoint", "DribbleBall", "Shoot", "Steal", "Juke", "Command", });
+        new java.lang.String[] { "Id", "GoalKeep", "PathToPoint", "ChaseBall", "CatchBall", "KickBallToPoint", "DribbleBall", "Shoot", "Steal", "Juke", "Command", });
     internal_static_proto_triton_GoalKeep_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_proto_triton_GoalKeep_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_GoalKeep_descriptor,
         new java.lang.String[] { });
-    internal_static_proto_triton_PathfindToPoint_descriptor =
+    internal_static_proto_triton_PathToPoint_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_proto_triton_PathfindToPoint_fieldAccessorTable = new
+    internal_static_proto_triton_PathToPoint_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_triton_PathfindToPoint_descriptor,
-        new java.lang.String[] { });
+        internal_static_proto_triton_PathToPoint_descriptor,
+        new java.lang.String[] { "X", "Y", "Orientation", "FacePoint", "TargetOrientation", });
     internal_static_proto_triton_ChaseBall_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_proto_triton_ChaseBall_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_ChaseBall_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "Dribble", });
     internal_static_proto_triton_CatchBall_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_proto_triton_CatchBall_fieldAccessorTable = new
