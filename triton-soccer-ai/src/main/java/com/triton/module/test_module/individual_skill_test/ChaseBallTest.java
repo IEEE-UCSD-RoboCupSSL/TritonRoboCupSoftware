@@ -1,12 +1,8 @@
 package com.triton.module.test_module.individual_skill_test;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.TritonSoccerAI;
 import com.triton.module.Module;
 import proto.simulation.SslSimulationControl;
-import proto.triton.AiBasicSkills;
-import proto.triton.AiIndividualSkills;
-import proto.vision.MessagesRobocupSslDetection;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,11 +11,14 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.triton.AiIndividualSkills.*;
+import static proto.triton.AiIndividualSkills.ChaseBall;
+import static proto.triton.AiIndividualSkills.IndividualSkill;
+import static proto.triton.ObjectWithMetadata.Ball;
+import static proto.triton.ObjectWithMetadata.Robot;
 
 public class ChaseBallTest extends Module {
-    private ArrayList<MessagesRobocupSslDetection.SSL_DetectionBall> balls;
-    private HashMap<Integer, MessagesRobocupSslDetection.SSL_DetectionRobot> allies;
+    private Ball ball;
+    private HashMap<Integer, Robot> allies;
 
     public ChaseBallTest() throws IOException, TimeoutException {
         super();
@@ -66,22 +65,22 @@ public class ChaseBallTest extends Module {
     }
 
     private void callbackBalls(String s, Delivery delivery) {
-        ArrayList<MessagesRobocupSslDetection.SSL_DetectionBall> balls;
+        Ball ball;
         try {
-            balls = (ArrayList<MessagesRobocupSslDetection.SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
+            ball = (Ball) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
         }
 
-        this.balls = balls;
+        this.ball = ball;
         createCommand();
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, MessagesRobocupSslDetection.SSL_DetectionRobot> allies;
+        HashMap<Integer, Robot> allies;
         try {
-            allies = (HashMap<Integer, MessagesRobocupSslDetection.SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
+            allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;

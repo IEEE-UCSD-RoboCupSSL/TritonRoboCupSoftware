@@ -5,7 +5,7 @@ import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
 import proto.simulation.SslGcCommon;
-import proto.vision.MessagesRobocupSslDetection;
+import proto.triton.ObjectWithMetadata;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,11 +17,10 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslGcCommon.RobotId;
 import static proto.simulation.SslSimulationControl.*;
 import static proto.triton.AiBasicSkills.*;
-import static proto.triton.AiBasicSkills.BasicSkill;
 
 public class DribbleTest extends Module {
-    private ArrayList<MessagesRobocupSslDetection.SSL_DetectionBall> balls;
-    private HashMap<Integer, MessagesRobocupSslDetection.SSL_DetectionRobot> allies;
+    private ArrayList<ObjectWithMetadata.Ball> balls;
+    private HashMap<Integer, ObjectWithMetadata.Robot> allies;
 
     public DribbleTest() throws IOException, TimeoutException {
         super();
@@ -83,9 +82,9 @@ public class DribbleTest extends Module {
     }
 
     private void callbackBalls(String s, Delivery delivery) {
-        ArrayList<MessagesRobocupSslDetection.SSL_DetectionBall> balls;
+        ArrayList<ObjectWithMetadata.Ball> balls;
         try {
-            balls = (ArrayList<MessagesRobocupSslDetection.SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
+            balls = (ArrayList<ObjectWithMetadata.Ball>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
@@ -96,9 +95,9 @@ public class DribbleTest extends Module {
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, MessagesRobocupSslDetection.SSL_DetectionRobot> allies;
+        HashMap<Integer, ObjectWithMetadata.Robot> allies;
         try {
-            allies = (HashMap<Integer, MessagesRobocupSslDetection.SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
+            allies = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;

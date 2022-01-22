@@ -1,38 +1,24 @@
 package com.triton.ai.skills.individual_skills;
 
 import com.triton.module.Module;
-import proto.triton.AiBasicSkills;
-import proto.triton.AiIndividualSkills;
-import proto.vision.MessagesRobocupSslDetection;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import static com.triton.messaging.Exchange.*;
-import static proto.triton.AiBasicSkills.*;
+import static com.triton.messaging.Exchange.AI_BASIC_SKILL;
+import static com.triton.messaging.Exchange.AI_INDIVIDUAL_SKILL;
+import static proto.triton.AiBasicSkills.BasicSkill;
+import static proto.triton.AiBasicSkills.Dribble;
 import static proto.triton.AiIndividualSkills.*;
-import static proto.triton.AiIndividualSkills.ChaseBall;
-import static proto.vision.MessagesRobocupSslDetection.*;
+import static proto.triton.ObjectWithMetadata.Ball;
 
 public class ChaseBallSkill {
-    public static void chaseBallSkill(Module module, int id, ChaseBall chaseBall, ArrayList<SSL_DetectionBall> balls) throws IOException {
-        float avgBallX = 0;
-        float avgBallY = 0;
-
-        for (MessagesRobocupSslDetection.SSL_DetectionBall ball : balls) {
-            avgBallX += ball.getX();
-            avgBallY += ball.getY();
-        }
-
-        avgBallX /= balls.size();
-        avgBallY /= balls.size();
-
+    public static void chaseBallSkill(Module module, int id, ChaseBall chaseBall, Ball ball) throws IOException {
         IndividualSkill.Builder pathToPointSkill = IndividualSkill.newBuilder();
         pathToPointSkill.setId(id);
         PathToPoint.Builder pathToPoint = PathToPoint.newBuilder();
-        pathToPoint.setX(avgBallX);
-        pathToPoint.setY(avgBallY);
+        pathToPoint.setX(ball.getX());
+        pathToPoint.setY(ball.getY());
         pathToPoint.setFacePoint(true);
         pathToPointSkill.setPathToPoint(pathToPoint);
         module.publish(AI_INDIVIDUAL_SKILL, pathToPointSkill.build());

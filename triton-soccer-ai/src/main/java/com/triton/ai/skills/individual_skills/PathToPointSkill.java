@@ -1,24 +1,21 @@
 package com.triton.ai.skills.individual_skills;
 
-import com.triton.messaging.Exchange;
 import com.triton.module.Module;
-import proto.triton.AiBasicSkills;
-import proto.vision.MessagesRobocupSslDetection;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-import static com.triton.messaging.Exchange.*;
-import static proto.triton.AiBasicSkills.*;
+import static com.triton.messaging.Exchange.AI_BASIC_SKILL;
 import static proto.triton.AiBasicSkills.BasicSkill;
+import static proto.triton.AiBasicSkills.MoveToPoint;
 import static proto.triton.AiIndividualSkills.PathToPoint;
-import static proto.vision.MessagesRobocupSslDetection.*;
+import static proto.triton.ObjectWithMetadata.Robot;
 
 public class PathToPointSkill {
-    public static void pathFindToPointSkill(Module module, int id, PathToPoint pathToPoint, HashMap<Integer, SSL_DetectionRobot> allies) throws IOException {
+    public static void pathFindToPointSkill(Module module, int id, PathToPoint pathToPoint, HashMap<Integer, Robot> allies) throws IOException {
         if (allies == null) return;
 
-        SSL_DetectionRobot ally = allies.get(id);
+        Robot ally = allies.get(id);
         if (ally == null) return;
 
         BasicSkill.Builder moveToPointSkill = BasicSkill.newBuilder();

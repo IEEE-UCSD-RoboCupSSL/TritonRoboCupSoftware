@@ -1,8 +1,8 @@
 package com.triton.config;
 
 public class NetworkConfig {
-    public String cameraAddress;
-    public int cameraOutputPort;
+    public String visionAddress;
+    public int visionDetectionPort;
 
     public String simulationCommandAddress;
     public int simulationCommandPort;

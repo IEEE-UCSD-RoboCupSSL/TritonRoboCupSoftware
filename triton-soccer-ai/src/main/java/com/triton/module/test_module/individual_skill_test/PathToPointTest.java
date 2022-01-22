@@ -6,7 +6,6 @@ import com.triton.constant.Team;
 import com.triton.module.Module;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
-import proto.triton.AiIndividualSkills;
 import proto.vision.MessagesRobocupSslDetection;
 
 import java.io.IOException;
@@ -15,9 +14,8 @@ import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
-import static proto.triton.AiBasicSkills.BasicSkill;
-import static proto.triton.AiBasicSkills.MoveToPoint;
-import static proto.triton.AiIndividualSkills.*;
+import static proto.triton.AiIndividualSkills.IndividualSkill;
+import static proto.triton.AiIndividualSkills.PathToPoint;
 
 public class PathToPointTest extends Module {
     private ArrayList<MessagesRobocupSslDetection.SSL_DetectionBall> balls;

@@ -1,6 +1,5 @@
 package com.triton.ai.skills.basic_skills;
 
-import com.triton.messaging.Exchange;
 import com.triton.module.Module;
 import proto.triton.AiBasicSkills;
 

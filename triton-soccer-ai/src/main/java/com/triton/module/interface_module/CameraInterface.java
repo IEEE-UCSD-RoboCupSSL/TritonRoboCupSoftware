@@ -15,7 +15,7 @@ import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 public class CameraInterface extends Module {
     private NetworkConfig networkConfig;
 
-    private UDP_MulticastReceiver receiver;
+    private UDP_MulticastReceiver detectionReceiver;
 
     public CameraInterface() throws IOException, TimeoutException {
         super();
@@ -50,10 +50,11 @@ public class CameraInterface extends Module {
      */
     private void setupReceiver() throws IOException {
         // Setup a multicast receiver
-        receiver = new UDP_MulticastReceiver(networkConfig.cameraAddress,
-                networkConfig.cameraOutputPort,
+        detectionReceiver = new UDP_MulticastReceiver(networkConfig.visionAddress,
+                networkConfig.visionDetectionPort,
                 this::callbackWrapper);
-        receiver.start();
+
+        detectionReceiver.start();
     }
 
     /**

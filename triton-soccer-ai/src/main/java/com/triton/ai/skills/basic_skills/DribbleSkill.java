@@ -1,13 +1,12 @@
 package com.triton.ai.skills.basic_skills;
 
-import com.triton.messaging.Exchange;
 import com.triton.module.Module;
 import proto.simulation.SslSimulationRobotControl;
 import proto.triton.AiBasicSkills;
 
 import java.io.IOException;
 
-import static com.triton.messaging.Exchange.*;
+import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
 
 public class DribbleSkill {
     public static void dribbleSkill(Module module, int id, AiBasicSkills.Dribble skill) throws IOException {

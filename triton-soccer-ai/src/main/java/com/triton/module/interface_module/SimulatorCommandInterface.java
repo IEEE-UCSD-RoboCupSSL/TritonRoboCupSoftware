@@ -4,10 +4,8 @@ import com.rabbitmq.client.Delivery;
 import com.triton.config.NetworkConfig;
 import com.triton.module.Module;
 import com.triton.networking.UDP_Client;
-import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationConfig.SimulatorConfig;
-import proto.simulation.SslSimulationControl;
-import proto.simulation.SslSimulationControl.SimulatorResponse;
+import proto.simulation.SslSimulationControl.*;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -17,12 +15,10 @@ import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.AI_SIMULATOR_CONFIG;
 import static com.triton.messaging.Exchange.AI_SIMULATOR_CONTROL;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.simulation.SslGcCommon.*;
+import static proto.simulation.SslGcCommon.RobotId;
 import static proto.simulation.SslGcCommon.Team.BLUE;
 import static proto.simulation.SslGcCommon.Team.YELLOW;
 import static proto.simulation.SslSimulationControl.*;
-import static proto.simulation.SslSimulationControl.SimulatorCommand;
-import static proto.simulation.SslSimulationControl.SimulatorControl;
 
 public class SimulatorCommandInterface extends Module {
     private NetworkConfig networkConfig;

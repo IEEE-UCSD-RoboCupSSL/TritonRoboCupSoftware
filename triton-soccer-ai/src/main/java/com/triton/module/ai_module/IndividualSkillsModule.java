@@ -12,15 +12,15 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.triton.AiIndividualSkills.IndividualSkill;
-import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
-import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
+import static proto.triton.ObjectWithMetadata.Ball;
+import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class IndividualSkillsModule extends Module {
     SSL_GeometryFieldSize field;
-    HashMap<Integer, SSL_DetectionRobot> allies;
-    HashMap<Integer, SSL_DetectionRobot> foes;
-    ArrayList<SSL_DetectionBall> balls;
+    HashMap<Integer, Robot> allies;
+    HashMap<Integer, Robot> foes;
+    Ball ball;
 
     public IndividualSkillsModule() throws IOException, TimeoutException {
         super();
@@ -50,9 +50,9 @@ public class IndividualSkillsModule extends Module {
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, SSL_DetectionRobot> allies;
+        HashMap<Integer, Robot> allies;
         try {
-            allies = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
+            allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
@@ -61,9 +61,9 @@ public class IndividualSkillsModule extends Module {
     }
 
     private void callbackFoes(String s, Delivery delivery) {
-        HashMap<Integer, SSL_DetectionRobot> foes;
+        HashMap<Integer, Robot> foes;
         try {
-            foes = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
+            foes = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
@@ -72,14 +72,14 @@ public class IndividualSkillsModule extends Module {
     }
 
     private void callbackBalls(String s, Delivery delivery) {
-        ArrayList<SSL_DetectionBall> balls;
+        Ball ball;
         try {
-            balls = (ArrayList<SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
+            ball = (Ball) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
         }
-        this.balls = balls;
+        this.ball = ball;
     }
 
     private void callbackIndividualSkill(String s, Delivery delivery) {
@@ -97,7 +97,7 @@ public class IndividualSkillsModule extends Module {
             switch (individualSkill.getCommandCase()) {
                 case GOAL_KEEP -> GoalKeepSkill.goalKeepSkill(this, id, individualSkill.getGoalKeep());
                 case PATH_TO_POINT -> PathToPointSkill.pathFindToPointSkill(this, id, individualSkill.getPathToPoint(), allies);
-                case CHASE_BALL -> ChaseBallSkill.chaseBallSkill(this, id, individualSkill.getChaseBall(), balls);
+                case CHASE_BALL -> ChaseBallSkill.chaseBallSkill(this, id, individualSkill.getChaseBall(), ball);
                 case CATCH_BALL -> CatchBallSkill.catchBallSkill(this, id, individualSkill.getCatchBall());
                 case KICK_BALL_TO_POINT -> KickBallToPointSkill.kickBallToPointSkill(this, id, individualSkill.getKickBallToPoint());
                 case DRIBBLE_BALL -> DribbleBallSkill.dribbleBallSkill(this, id, individualSkill.getDribbleBall());

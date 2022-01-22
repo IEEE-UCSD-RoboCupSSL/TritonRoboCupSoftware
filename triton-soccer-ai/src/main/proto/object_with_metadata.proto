@@ -1,0 +1,23 @@
+syntax = "proto3";
+package proto.triton;
+
+import "messages_robocup_ssl_detection.proto";
+
+message Ball {
+  float x = 2;
+  float y = 3;
+  float z = 4;
+  float vx = 5;
+  float vy = 6;
+  float vz = 7;
+}
+
+message Robot {
+  int32 id = 1;
+  float x = 2;
+  float y = 3;
+  float orientation = 4;
+  float vx = 5;
+  float vy = 6;
+  float angular = 7;
+}

@@ -1,25 +1,20 @@
 package com.triton.module.processing_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
-import com.triton.constant.Team;
-import com.triton.helper.ConvertCoordinate;
 import com.triton.module.Module;
-import proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
+import static proto.triton.ObjectWithMetadata.Ball;
+import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
-import static proto.vision.MessagesRobocupSslGeometry.*;
-import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class FilterModule extends Module {
     private LinkedList<ArrayList<SSL_DetectionBall>> aggregatedBalls;
@@ -60,8 +55,27 @@ public class FilterModule extends Module {
             return;
         }
 
+        Ball.Builder filteredBall = Ball.newBuilder();
+
+        float x = 0;
+        float y = 0;
+        float z = 0;
+        for (SSL_DetectionBall ball : balls) {
+            x += ball.getX();
+            y += ball.getY();
+            z += ball.getZ();
+        }
+
+        filteredBall.setX(x / balls.size());
+        filteredBall.setY(y / balls.size());
+        filteredBall.setZ(z / balls.size());
+
+        filteredBall.setVx(0);
+        filteredBall.setVy(0);
+        filteredBall.setVz(0);
+
         try {
-            publish(AI_FILTERED_BIASED_BALLS, balls);
+            publish(AI_FILTERED_BIASED_BALLS, filteredBall.build());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,8 +90,23 @@ public class FilterModule extends Module {
             return;
         }
 
+        HashMap<Integer, Robot> filteredAllies = new HashMap<>();
+        for (SSL_DetectionRobot ally : allies.values()) {
+            Robot.Builder filteredAlly = Robot.newBuilder();
+            filteredAlly.setId(ally.getRobotId());
+            filteredAlly.setX(ally.getX());
+            filteredAlly.setY(ally.getY());
+            filteredAlly.setOrientation(ally.getOrientation());
+
+            filteredAlly.setVx(0);
+            filteredAlly.setVy(0);
+            filteredAlly.setAngular(0);
+
+            filteredAllies.put(ally.getRobotId(), filteredAlly.build());
+        }
+
         try {
-            publish(AI_FILTERED_BIASED_ALLIES, allies);
+            publish(AI_FILTERED_BIASED_ALLIES, filteredAllies);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,8 +121,23 @@ public class FilterModule extends Module {
             return;
         }
 
+        HashMap<Integer, Robot> filteredFoes = new HashMap<>();
+        for (SSL_DetectionRobot foe : foes.values()) {
+            Robot.Builder filteredFoe = Robot.newBuilder();
+            filteredFoe.setId(foe.getRobotId());
+            filteredFoe.setX(foe.getX());
+            filteredFoe.setY(foe.getY());
+            filteredFoe.setOrientation(foe.getOrientation());
+
+            filteredFoe.setVx(0);
+            filteredFoe.setVy(0);
+            filteredFoe.setAngular(0);
+
+            filteredFoes.put(foe.getRobotId(), filteredFoe.build());
+        }
+
         try {
-            publish(AI_FILTERED_BIASED_FOES, foes);
+            publish(AI_FILTERED_BIASED_FOES, filteredFoes);
         } catch (IOException e) {
             e.printStackTrace();
         }

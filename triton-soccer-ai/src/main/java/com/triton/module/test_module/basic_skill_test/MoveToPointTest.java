@@ -6,6 +6,7 @@ import com.triton.constant.Team;
 import com.triton.module.Module;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
+import proto.triton.ObjectWithMetadata;
 import proto.vision.MessagesRobocupSslDetection;
 
 import java.io.IOException;
@@ -14,12 +15,11 @@ import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
-import static proto.triton.AiBasicSkills.*;
+import static proto.triton.AiBasicSkills.BasicSkill;
+import static proto.triton.AiBasicSkills.MoveToPoint;
+import static proto.triton.ObjectWithMetadata.*;
 
 public class MoveToPointTest extends Module {
-    private ArrayList<MessagesRobocupSslDetection.SSL_DetectionBall> balls;
-    private HashMap<Integer, MessagesRobocupSslDetection.SSL_DetectionRobot> allies;
-
     public MoveToPointTest() throws IOException, TimeoutException {
         super();
     }

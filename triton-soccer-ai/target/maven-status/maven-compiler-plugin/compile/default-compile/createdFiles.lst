@@ -8,6 +8,7 @@ proto/vision/MessagesRobocupSslWrapper.class
 com/triton/TritonSoccerAI.class
 proto/simulation/SslGcCommon$Division$1.class
 com/triton/module/interface_module/SimulatorCommandInterface.class
+proto/triton/ObjectWithMetadata$1.class
 proto/simulation/SslSimulationControl$TeleportRobot$1.class
 com/triton/config/ConfigReader.class
 proto/vision/MessagesRobocupSslGeometry$Vector2f$1.class
@@ -33,6 +34,7 @@ proto/triton/AiIndividualSkills$DribbleBall$1.class
 proto/simulation/SslSimulationControl$SimulatorControlOrBuilder.class
 proto/triton/AiBasicSkills$BasicSkill.class
 proto/vision/MessagesRobocupSslDetectionTracked$TeamColor$1.class
+proto/triton/ObjectWithMetadata$Ball$1.class
 proto/triton/TritonBotCommunication$TritonBotMessage.class
 proto/triton/TritonBotCommunication$TritonBotMessage$UpdateCase.class
 proto/simulation/SslGcCommon$RobotId$1.class
@@ -79,6 +81,7 @@ com/triton/ai/skills/individual_skills/DribbleBallSkill.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedRobot$Builder.class
 proto/triton/AiIndividualSkills$Steal$1.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryModels.class
+proto/triton/ObjectWithMetadata$RobotOrBuilder.class
 com/triton/module/Module.class
 proto/triton/AiIndividualSkills$Steal.class
 proto/simulation/SslSimulationRobotControl$MoveWheelVelocity$Builder.class
@@ -209,6 +212,7 @@ proto/vision/MessagesRobocupSslGeometry$SSL_GeometryData.class
 proto/triton/AiBasicSkills$MatchVelocityOrBuilder.class
 com/triton/module/processing_module/VisionBiasedConverter.class
 proto/triton/AiIndividualSkills$Steal$Builder.class
+proto/triton/ObjectWithMetadata$Ball$Builder.class
 proto/simulation/SslSimulationRobotControl$RobotCommandOrBuilder.class
 proto/simulation/SslVisionGeometry$SSL_FieldCircularArc.class
 proto/simulation/SslSimulationControl$SimulatorCommand$1.class
@@ -302,6 +306,7 @@ proto/simulation/SslVisionGeometry$SSL_BallModelStraightTwoPhase.class
 com/triton/module/processing_module/FilterModule.class
 proto/triton/AiIndividualSkills$DribbleBall.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionRobot$Builder.class
+proto/triton/ObjectWithMetadata$BallOrBuilder.class
 proto/triton/AiIndividualSkills$Juke.class
 proto/triton/AiIndividualSkills$DribbleBall$Builder.class
 proto/triton/TritonBotCommunication$TritonBotMessageOrBuilder.class
@@ -366,17 +371,20 @@ proto/vision/MessagesRobocupSslGeometry$SSL_BallModelStraightTwoPhase$1.class
 proto/triton/AiTeamSkills$AggressiveDefenseOrBuilder.class
 proto/simulation/SslVisionGeometry$SSL_FieldShapeType.class
 proto/simulation/SslSimulationSynchronous$SimulationSyncRequest$Builder.class
+proto/triton/ObjectWithMetadata$Ball.class
 proto/triton/AiBasicSkills$MoveToPointOrBuilder.class
 proto/triton/AiIndividualSkills$KickBallToPointOrBuilder.class
 proto/vision/MessagesRobocupSslDetectionTracked$KickedBall$1.class
 proto/simulation/SslVisionDetection$SSL_DetectionBall$Builder.class
 proto/vision/MessagesRobocupSslRefboxLog$Log_FrameOrBuilder.class
 proto/vision/MessagesRobocupSslWrapperTracked$1.class
+proto/triton/ObjectWithMetadata$Robot$Builder.class
 proto/triton/AiIndividualSkills$PathToPoint$1.class
 proto/triton/AiTeamSkills$1.class
 proto/simulation/SslSimulationControl$SimulatorControl$1.class
 proto/vision/MessagesRobocupSslRefboxLog$Log_Frame$1.class
 com/triton/ai/skills/individual_skills/KickBallToPointSkill.class
+proto/triton/ObjectWithMetadata$Robot.class
 proto/simulation/SslGcCommon$1.class
 proto/triton/AiIndividualSkills$KickBallToPoint.class
 com/triton/helper/ConvertCoordinate.class
@@ -418,6 +426,7 @@ proto/triton/AiIndividualSkills$IndividualSkillOrBuilder.class
 proto/triton/AiTeamSkills$AggressiveNeutralOrBuilder.class
 proto/simulation/SslSimulationError.class
 proto/vision/MessagesRobocupSslGeometry$SSL_BallModelChipFixedLoss$Builder.class
+proto/triton/ObjectWithMetadata$Robot$1.class
 proto/triton/AiTeamSkills$2.class
 proto/simulation/SslVisionGeometry$SSL_GeometryCameraCalibrationOrBuilder.class
 com/triton/module/processing_module/SimulatorControlAudienceConverter.class
@@ -473,6 +482,7 @@ com/triton/ai/skills/individual_skills/CatchBallSkill.class
 proto/simulation/SslVisionDetection$1.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionRobotOrBuilder.class
 proto/triton/AiBasicSkills$Stop$1.class
+proto/triton/ObjectWithMetadata.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrame$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$Vector3OrBuilder.class
 com/triton/module/interface_module/SimulatorRobotCommandInterface$1.class

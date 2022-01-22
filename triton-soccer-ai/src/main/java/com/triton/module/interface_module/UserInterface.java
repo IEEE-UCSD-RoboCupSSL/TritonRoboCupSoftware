@@ -5,8 +5,7 @@ import com.triton.config.DisplayConfig;
 import com.triton.config.ObjectConfig;
 import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
-import proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
-import proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
+import proto.triton.ObjectWithMetadata;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldCircularArc;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldLineSegment;
 import proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
@@ -16,7 +15,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
@@ -30,6 +28,7 @@ import static java.awt.BorderLayout.*;
 import static java.awt.Color.*;
 import static javax.swing.BoxLayout.Y_AXIS;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import static proto.triton.ObjectWithMetadata.*;
 
 public class UserInterface extends Module {
     private static final String MAIN_FRAME_TITLE = "Triton Display";
@@ -99,13 +98,13 @@ public class UserInterface extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(AI_BIASED_FIELD, this::callbackBiasedField);
-        declareConsume(AI_FILTERED_BIASED_BALLS, this::callbackBiasedBalls);
-        declareConsume(AI_FILTERED_BIASED_ALLIES, this::callbackBiasedAllies);
-        declareConsume(AI_FILTERED_BIASED_FOES, this::callbackBiasedFoes);
+        declareConsume(AI_BIASED_FIELD, this::callbackField);
+        declareConsume(AI_FILTERED_BIASED_BALLS, this::callbackBalls);
+        declareConsume(AI_FILTERED_BIASED_ALLIES, this::callbackAllies);
+        declareConsume(AI_FILTERED_BIASED_FOES, this::callbackFoes);
     }
 
-    private void callbackBiasedField(String s, Delivery delivery) {
+    private void callbackField(String s, Delivery delivery) {
         SSL_GeometryFieldSize field;
         try {
             field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
@@ -118,23 +117,23 @@ public class UserInterface extends Module {
         frame.repaint();
     }
 
-    private void callbackBiasedBalls(String s, Delivery delivery) {
-        ArrayList<SSL_DetectionBall> balls;
+    private void callbackBalls(String s, Delivery delivery) {
+        Ball ball;
         try {
-            balls = (ArrayList<SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
+            ball = (Ball) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
         }
 
-        fieldPanel.setBalls(balls);
+        fieldPanel.setBall(ball);
         frame.repaint();
     }
 
-    private void callbackBiasedAllies(String s, Delivery delivery) {
-        HashMap<Integer, SSL_DetectionRobot> allies;
+    private void callbackAllies(String s, Delivery delivery) {
+        HashMap<Integer, ObjectWithMetadata.Robot> allies;
         try {
-            allies = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
+            allies = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
@@ -144,10 +143,10 @@ public class UserInterface extends Module {
         frame.repaint();
     }
 
-    private void callbackBiasedFoes(String s, Delivery delivery) {
-        HashMap<Integer, SSL_DetectionRobot> foes;
+    private void callbackFoes(String s, Delivery delivery) {
+        HashMap<Integer, ObjectWithMetadata.Robot> foes;
         try {
-            foes = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
+            foes = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
@@ -159,9 +158,9 @@ public class UserInterface extends Module {
 
     private class FieldPanel extends JPanel {
         private SSL_GeometryFieldSize field;
-        private List<SSL_DetectionBall> balls;
-        private HashMap<Integer, SSL_DetectionRobot> allies;
-        private HashMap<Integer, SSL_DetectionRobot> foes;
+        private Ball ball;
+        private HashMap<Integer, ObjectWithMetadata.Robot> allies;
+        private HashMap<Integer, ObjectWithMetadata.Robot> foes;
 
         @Override
         protected void paintComponent(Graphics g) {
@@ -181,7 +180,7 @@ public class UserInterface extends Module {
 
             transformGraphics(graphics2D, field);
             paintGeometry(graphics2D, field);
-            paintBalls(graphics2D, balls);
+            paintBall(graphics2D, ball);
             paintBots(graphics2D, allies, foes);
         }
 
@@ -236,36 +235,33 @@ public class UserInterface extends Module {
             }
         }
 
-        private void paintBalls(Graphics2D graphics2D, List<SSL_DetectionBall> balls) {
-            if (balls != null) {
-                for (SSL_DetectionBall sslDetectionBall : balls) {
-                    float x = sslDetectionBall.getX();
-                    float y = sslDetectionBall.getY();
-                    float radius = objectConfig.ballRadius;
+        private void paintBall(Graphics2D graphics2D, Ball ball) {
+            if (ball != null) {
+                float x = ball.getX();
+                float y = ball.getY();
+                float radius = objectConfig.ballRadius;
 
-                    graphics2D.setColor(MAGENTA);
-                    graphics2D.fillArc((int) (x - radius / 2),
-                            (int) (y - radius / 2),
-                            (int) radius,
-                            (int) radius,
-                            0,
-                            360);
+                graphics2D.setColor(MAGENTA);
+                graphics2D.fillArc((int) (x - radius / 2),
+                        (int) (y - radius / 2),
+                        (int) radius,
+                        (int) radius,
+                        0,
+                        360);
 
-                    graphics2D.setColor(BLACK);
-                    graphics2D.drawArc((int) (x - radius / 2),
-                            (int) (y - radius / 2),
-                            (int) radius,
-                            (int) radius,
-                            0,
-                            360);
-                }
+                graphics2D.setColor(BLACK);
+                graphics2D.drawArc((int) (x - radius / 2),
+                        (int) (y - radius / 2),
+                        (int) radius,
+                        (int) radius,
+                        0,
+                        360);
             }
         }
 
-        private void paintBots(Graphics2D graphics2D, HashMap<Integer, SSL_DetectionRobot> allies, HashMap<Integer, SSL_DetectionRobot> foes) {
+        private void paintBots(Graphics2D graphics2D, HashMap<Integer, ObjectWithMetadata.Robot> allies, HashMap<Integer, ObjectWithMetadata.Robot> foes) {
             if (allies != null) {
-                for (SSL_DetectionRobot ally : allies.values()) {
-
+                for (ObjectWithMetadata.Robot ally : allies.values()) {
                     Color fillColor;
                     switch (RuntimeConstants.team) {
                         case YELLOW -> fillColor = ORANGE;
@@ -277,7 +273,7 @@ public class UserInterface extends Module {
             }
 
             if (foes != null) {
-                for (SSL_DetectionRobot foe : foes.values()) {
+                for (ObjectWithMetadata.Robot foe : foes.values()) {
                     Color fillColor;
                     switch (RuntimeConstants.team) {
                         case YELLOW -> fillColor = BLUE;
@@ -289,9 +285,9 @@ public class UserInterface extends Module {
             }
         }
 
-        private void paintBot(Graphics2D graphics2D, SSL_DetectionRobot bot, Color fillColor, Color outlineColor) {
-            float x = bot.getX();
-            float y = bot.getY();
+        private void paintBot(Graphics2D graphics2D, ObjectWithMetadata.Robot robot, Color fillColor, Color outlineColor) {
+            float x = robot.getX();
+            float y = robot.getY();
             float radius = objectConfig.robotRadius;
 
             graphics2D.setColor(fillColor);
@@ -311,7 +307,7 @@ public class UserInterface extends Module {
                     360);
 
             graphics2D.setColor(BLACK);
-            float orientation = bot.getOrientation();
+            float orientation = robot.getOrientation();
             graphics2D.drawLine((int) x, (int) y, (int) (x + radius * Math.cos(orientation)), (int) (y + radius * Math.sin(orientation)));
 
             graphics2D.setColor(WHITE);
@@ -319,7 +315,7 @@ public class UserInterface extends Module {
             AffineTransform orgi = graphics2D.getTransform();
             graphics2D.translate(x, y);
             graphics2D.scale(1, -1);
-            graphics2D.drawString(String.valueOf(bot.getRobotId()), 0, 0);
+            graphics2D.drawString(String.valueOf(robot.getId()), 0, 0);
             graphics2D.setTransform(orgi);
         }
 
@@ -327,15 +323,15 @@ public class UserInterface extends Module {
             this.field = field;
         }
 
-        public void setBalls(ArrayList<SSL_DetectionBall> balls) {
-            this.balls = balls;
+        public void setBall(Ball ball) {
+            this.ball = ball;
         }
 
-        public void setAllies(HashMap<Integer, SSL_DetectionRobot> allies) {
+        public void setAllies(HashMap<Integer, ObjectWithMetadata.Robot> allies) {
             this.allies = allies;
         }
 
-        public void setFoes(HashMap<Integer, SSL_DetectionRobot> foes) {
+        public void setFoes(HashMap<Integer, ObjectWithMetadata.Robot> foes) {
             this.foes = foes;
         }
     }

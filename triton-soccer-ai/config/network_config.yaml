@@ -1,5 +1,5 @@
-cameraAddress: "224.5.23.2"
-cameraOutputPort: 10020
+visionAddress: "224.5.23.2"
+visionDetectionPort: 10020
 
 simulationCommandAddress: "localhost"
 simulationCommandPort: 10300

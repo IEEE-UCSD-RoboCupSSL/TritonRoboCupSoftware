@@ -3,7 +3,6 @@ package com.triton.module.ai_module;
 import com.rabbitmq.client.Delivery;
 import com.triton.ai.skills.basic_skills.*;
 import com.triton.module.Module;
-import proto.vision.MessagesRobocupSslDetection;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,11 +10,11 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.simulation.SslSimulationRobotControl.RobotCommand;
 import static proto.triton.AiBasicSkills.BasicSkill;
+import static proto.triton.ObjectWithMetadata.Robot;
 
 public class BasicSkillsModule extends Module {
-    private HashMap<Integer, MessagesRobocupSslDetection.SSL_DetectionRobot> allies;
+    private HashMap<Integer, Robot> allies;
 
     public BasicSkillsModule() throws IOException, TimeoutException {
         super();
@@ -31,9 +30,9 @@ public class BasicSkillsModule extends Module {
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, MessagesRobocupSslDetection.SSL_DetectionRobot> allies;
+        HashMap<Integer, Robot> allies;
         try {
-            allies = (HashMap<Integer, MessagesRobocupSslDetection.SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
+            allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
