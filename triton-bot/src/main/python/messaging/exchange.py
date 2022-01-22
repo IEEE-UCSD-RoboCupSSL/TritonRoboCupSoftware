@@ -9,3 +9,4 @@ class Exchange(Enum):
     TB_GLOBAL_COMMAND = enum.auto()         
     TB_LOCAL_COMMAND = enum.auto()
     TB_WHEEL_COMMAND = enum.auto()
+    TB_FEEDBACK = enum.auto()

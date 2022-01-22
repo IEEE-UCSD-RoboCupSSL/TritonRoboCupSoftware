@@ -16,17 +16,17 @@ from module.processing_module.vision_filter import VisionFilter
 
 class TritonBot:
     def __init__(self):
+        print("Starting Modules for TritonBot " + str(RuntimeConstants.team) + " " + str(RuntimeConstants.id))
         self.start_modules()
 
     def start_modules(self):
-        AI_Interface().start()
-        SimulatorRobotControlInterface().start()
-
         TritonBotMessageProcessor().start()
         VisionFilter().start()
         RobotCommandGlobalToLocalProcessor().start()
         RobotCommandLocalToWheelProcessor().start()
 
+        AI_Interface().start()
+        SimulatorRobotControlInterface().start()
 
 def parseTeam(teamStr):
     for matchTeam in Team:

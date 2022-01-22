@@ -13,7 +13,7 @@ public class DribbleSkill {
         SslSimulationRobotControl.RobotCommand.Builder robotCommand = SslSimulationRobotControl.RobotCommand.newBuilder();
         robotCommand.setId(id);
         // TODO WORK ON DRIBBLE
-        robotCommand.setDribblerSpeed(1);
+        robotCommand.setDribblerSpeed(-100);
         module.publish(AI_BIASED_ROBOT_COMMAND, robotCommand.build());
     }
 }

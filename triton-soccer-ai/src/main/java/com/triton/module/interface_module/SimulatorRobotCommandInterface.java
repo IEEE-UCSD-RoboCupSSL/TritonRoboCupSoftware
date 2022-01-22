@@ -7,20 +7,24 @@ import com.triton.module.Module;
 import com.triton.networking.UDP_Client;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.ConfigPath.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.AI_ROBOT_COMMAND;
+import static com.triton.messaging.Exchange.AI_ROBOT_FEEDBACKS;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotControl.RobotCommand;
 import static proto.simulation.SslSimulationRobotControl.RobotControl;
+import static proto.simulation.SslSimulationRobotFeedback.*;
 import static proto.simulation.SslSimulationRobotFeedback.RobotControlResponse;
 
 public class SimulatorRobotCommandInterface extends Module {
     private NetworkConfig networkConfig;
 
     private UDP_Client client;
+    private HashMap<Integer, RobotFeedback> feedbacks;
 
     public SimulatorRobotCommandInterface() throws IOException, TimeoutException {
         super();
@@ -35,6 +39,8 @@ public class SimulatorRobotCommandInterface extends Module {
     @Override
     protected void prepare() {
         super.prepare();
+
+        feedbacks = new HashMap<>();
 
         try {
             setupClient();
@@ -88,9 +94,19 @@ public class SimulatorRobotCommandInterface extends Module {
     }
 
     private void callbackRobotControlResponse(byte[] bytes) {
+        RobotControlResponse response = null;
+
         try {
-            RobotControlResponse robotControlResponse = RobotControlResponse.parseFrom(bytes);
-            System.out.println(robotControlResponse);
+            response = RobotControlResponse.parseFrom(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (RobotFeedback feedback : response.getFeedbackList())
+            feedbacks.put(feedback.getId(), feedback);
+
+        try {
+            publish(AI_ROBOT_FEEDBACKS, feedbacks);
         } catch (IOException e) {
             e.printStackTrace();
         }

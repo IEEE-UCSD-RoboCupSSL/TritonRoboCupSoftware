@@ -8,6 +8,7 @@ public enum Test {
     PATH_TO_POINT("Test the ability of robots to path to a point."),
     CHASE_BALL("Test the ability of robots to follow the ball."),
     CATCH_BALL("Test the ability of robots to catch the ball."),
+    GOAL_KEEP("Test the ability of robots to keep the goal."),
     ;
 
     private final String desc;

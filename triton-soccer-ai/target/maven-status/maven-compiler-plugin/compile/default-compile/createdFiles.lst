@@ -163,6 +163,7 @@ proto/vision/MessagesRobocupSslRefboxLog$Log_Frame$Builder.class
 proto/simulation/SslVisionDetection$SSL_DetectionRobotOrBuilder.class
 proto/triton/AiIndividualSkills$IndividualSkill.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionBallOrBuilder.class
+proto/triton/TritonBotCommunication$TritonBotResponse.class
 proto/vision/MessagesRobocupSslGeometry$SSL_BallModelStraightTwoPhase.class
 proto/simulation/SslSimulationControl$SimulatorControl.class
 proto/triton/AiBasicSkills$1.class
@@ -292,11 +293,13 @@ proto/simulation/SslVisionGeometry$SSL_GeometryFieldSize$1.class
 proto/vision/MessagesRobocupSslDetection$1.class
 proto/simulation/SslSimulationControl$SimulatorCommand$Builder.class
 com/triton/ai/skills/individual_skills/PathToPointSkill.class
+proto/triton/TritonBotCommunication$TritonBotResponse$Builder.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldLineSegment$1.class
 proto/simulation/SslVisionGeometry$SSL_GeometryCameraCalibration$1.class
 proto/triton/AiIndividualSkills$ShootOrBuilder.class
 proto/triton/AiIndividualSkills$IndividualSkill$Builder.class
 proto/simulation/SslVisionGeometry$1.class
+com/triton/module/test_module/individual_skill_test/GoalKeepTest.class
 proto/simulation/SslSimulationConfig$RobotWheelAngles$Builder.class
 proto/simulation/SslVisionGeometry$SSL_GeometryData.class
 proto/triton/AiTeamSkills$DefaultDefense.class
@@ -374,6 +377,7 @@ proto/simulation/SslSimulationSynchronous$SimulationSyncRequest$Builder.class
 proto/triton/ObjectWithMetadata$Ball.class
 proto/triton/AiBasicSkills$MoveToPointOrBuilder.class
 proto/triton/AiIndividualSkills$KickBallToPointOrBuilder.class
+proto/triton/TritonBotCommunication$TritonBotResponseOrBuilder.class
 proto/vision/MessagesRobocupSslDetectionTracked$KickedBall$1.class
 proto/simulation/SslVisionDetection$SSL_DetectionBall$Builder.class
 proto/vision/MessagesRobocupSslRefboxLog$Log_FrameOrBuilder.class
@@ -425,6 +429,7 @@ proto/simulation/SslVisionDetection$SSL_DetectionBall$1.class
 proto/triton/AiIndividualSkills$IndividualSkillOrBuilder.class
 proto/triton/AiTeamSkills$AggressiveNeutralOrBuilder.class
 proto/simulation/SslSimulationError.class
+proto/triton/TritonBotCommunication$TritonBotResponse$1.class
 proto/vision/MessagesRobocupSslGeometry$SSL_BallModelChipFixedLoss$Builder.class
 proto/triton/ObjectWithMetadata$Robot$1.class
 proto/triton/AiTeamSkills$2.class

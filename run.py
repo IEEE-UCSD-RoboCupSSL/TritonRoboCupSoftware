@@ -22,6 +22,7 @@ def run_cmd(cmd, path, mode='current'):
         print(">>> running " + prt_cmd_str + " in a new terminal tab")
         subprocess.Popen(["gnome-terminal", "--tab", "--"] + cmd, cwd=path)
 
+
 # setup paths
 dir_path = os.path.dirname(os.path.realpath(__file__))
 

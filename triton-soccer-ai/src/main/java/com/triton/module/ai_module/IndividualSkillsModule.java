@@ -95,10 +95,10 @@ public class IndividualSkillsModule extends Module {
 
         try {
             switch (individualSkill.getCommandCase()) {
-                case GOAL_KEEP -> GoalKeepSkill.goalKeepSkill(this, id, individualSkill.getGoalKeep());
+                case GOAL_KEEP -> GoalKeepSkill.goalKeepSkill(this, id, individualSkill.getGoalKeep(), field, allies, ball);
                 case PATH_TO_POINT -> PathToPointSkill.pathFindToPointSkill(this, id, individualSkill.getPathToPoint(), allies);
                 case CHASE_BALL -> ChaseBallSkill.chaseBallSkill(this, id, individualSkill.getChaseBall(), ball);
-                case CATCH_BALL -> CatchBallSkill.catchBallSkill(this, id, individualSkill.getCatchBall());
+                case CATCH_BALL -> CatchBallSkill.catchBallSkill(this, id, individualSkill.getCatchBall(), allies, ball);
                 case KICK_BALL_TO_POINT -> KickBallToPointSkill.kickBallToPointSkill(this, id, individualSkill.getKickBallToPoint());
                 case DRIBBLE_BALL -> DribbleBallSkill.dribbleBallSkill(this, id, individualSkill.getDribbleBall());
                 case SHOOT -> ShootSkill.shootSkill(this, id, individualSkill.getShoot());

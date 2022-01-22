@@ -4,6 +4,9 @@ public enum Exchange {
     // Received from the camera
     AI_VISION_WRAPPER,
 
+    // Feedback sent back after sending a command, tells whether the robot is in contact with the ball
+    AI_ROBOT_FEEDBACKS,
+
     // Camera data processed into a biased team perspective
     AI_BIASED_FIELD,
     AI_BIASED_BALLS,

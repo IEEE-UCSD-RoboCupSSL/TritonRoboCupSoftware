@@ -7,21 +7,15 @@ import com.triton.module.Module;
 import proto.simulation.SslGcCommon;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
-import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslGcCommon.RobotId;
 import static proto.simulation.SslSimulationControl.*;
 import static proto.triton.AiBasicSkills.BasicSkill;
 import static proto.triton.AiBasicSkills.Kick;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
 
 public class KickTest extends Module {
-    private Ball ball;
-    private HashMap<Integer, Robot> allies;
 
     public KickTest() throws IOException, TimeoutException {
         super();
@@ -30,8 +24,7 @@ public class KickTest extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(AI_FILTERED_BIASED_BALLS, this::callbackBalls);
-        declareConsume(AI_FILTERED_BIASED_ALLIES, this::callbackAllies);
+        declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
         declarePublish(AI_BIASED_SIMULATOR_CONTROL);
         declarePublish(AI_BASIC_SKILL);
     }
@@ -63,7 +56,7 @@ public class KickTest extends Module {
             teleportBall.setY(0.5f);
             teleportBall.setZ(0);
             teleportBall.setVx(0);
-            teleportBall.setVy(-2.0f);
+            teleportBall.setVy(-1.0f);
             teleportBall.setVz(0);
             teleportBall.setByForce(false);
             simulatorControl.setTeleportBall(teleportBall);
@@ -82,35 +75,7 @@ public class KickTest extends Module {
         }
     }
 
-    private void callbackBalls(String s, Delivery delivery) {
-        Ball ball;
-        try {
-            ball = (Ball) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        this.ball = ball;
-        createCommand();
-    }
-
-    private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, Robot> allies;
-        try {
-            allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        this.allies = allies;
-        createCommand();
-    }
-
-    private void createCommand() {
-        if (ball == null || allies == null) return;
-
+    private void callbackWrapper(String s, Delivery delivery) {
         BasicSkill.Builder kickSkill = BasicSkill.newBuilder();
         Kick.Builder kick = Kick.newBuilder();
         kick.setChip(false);

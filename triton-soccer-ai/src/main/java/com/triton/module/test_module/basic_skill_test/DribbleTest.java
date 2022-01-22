@@ -17,10 +17,11 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslGcCommon.RobotId;
 import static proto.simulation.SslSimulationControl.*;
 import static proto.triton.AiBasicSkills.*;
+import static proto.triton.ObjectWithMetadata.*;
 
 public class DribbleTest extends Module {
-    private ArrayList<ObjectWithMetadata.Ball> balls;
-    private HashMap<Integer, ObjectWithMetadata.Robot> allies;
+    private Ball ball;
+    private HashMap<Integer, Robot> allies;
 
     public DribbleTest() throws IOException, TimeoutException {
         super();
@@ -59,10 +60,10 @@ public class DribbleTest extends Module {
 
             TeleportBall.Builder teleportBall = TeleportBall.newBuilder();
             teleportBall.setX(0);
-            teleportBall.setY(0.5f);
+            teleportBall.setY(500f / 1000f);
             teleportBall.setZ(0);
             teleportBall.setVx(0);
-            teleportBall.setVy(-2.0f);
+            teleportBall.setVy(0);
             teleportBall.setVz(0);
             teleportBall.setByForce(false);
             simulatorControl.setTeleportBall(teleportBall);
@@ -82,22 +83,22 @@ public class DribbleTest extends Module {
     }
 
     private void callbackBalls(String s, Delivery delivery) {
-        ArrayList<ObjectWithMetadata.Ball> balls;
+        Ball ball;
         try {
-            balls = (ArrayList<ObjectWithMetadata.Ball>) simpleDeserialize(delivery.getBody());
+            ball = (Ball) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
         }
 
-        this.balls = balls;
+        this.ball = ball;
         createCommand();
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, ObjectWithMetadata.Robot> allies;
+        HashMap<Integer, Robot> allies;
         try {
-            allies = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
+            allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return;
@@ -108,7 +109,7 @@ public class DribbleTest extends Module {
     }
 
     private void createCommand() {
-        if (balls == null || allies == null) return;
+        if (ball == null || allies == null) return;
 
         BasicSkill.Builder dribbleSkill = BasicSkill.newBuilder();
         Dribble.Builder dribble = Dribble.newBuilder();
@@ -124,7 +125,7 @@ public class DribbleTest extends Module {
         BasicSkill.Builder matchVelocitySkill = BasicSkill.newBuilder();
         MatchVelocity.Builder matchVelocity = MatchVelocity.newBuilder();
         matchVelocity.setVx(0);
-        matchVelocity.setVy(-1);
+        matchVelocity.setVy(1f);
         matchVelocity.setAngular(0);
         matchVelocitySkill.setMatchVelocity(matchVelocity);
 

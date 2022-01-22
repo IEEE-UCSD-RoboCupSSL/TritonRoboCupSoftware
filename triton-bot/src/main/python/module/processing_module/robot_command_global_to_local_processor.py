@@ -3,6 +3,7 @@ import time
 
 from generated_sources.proto.messages_robocup_ssl_detection_pb2 import SSL_DetectionRobot
 from generated_sources.proto.ssl_simulation_robot_control_pb2 import MoveLocalVelocity, RobotCommand, RobotMoveCommand
+from generated_sources.proto.ssl_simulation_robot_feedback_pb2 import RobotFeedback
 from messaging.exchange import Exchange
 from module.module import Module
 
@@ -22,6 +23,7 @@ class RobotCommandGlobalToLocalProcessor(Module):
         self.declare_consume(exchange=Exchange.TB_VSION, callback=self.callback_vision)
         self.declare_consume(exchange=Exchange.TB_GLOBAL_COMMAND, callback=self.callback_global_command)
         self.declare_publish(exchange=Exchange.TB_LOCAL_COMMAND)
+        self.declare_publish(exchange=Exchange.TB_MESSAGE)
 
     def run(self):
         super().run()

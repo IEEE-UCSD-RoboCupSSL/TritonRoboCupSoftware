@@ -13,8 +13,9 @@ import static com.triton.messaging.SimpleSerialize.simpleSerialize;
 
 public abstract class Module extends Thread {
     private static final String CONNECTION_FACTORY_HOST = "localhost";
-    private static final String EXCHANGE_TYPE = "fanout";
-    private Channel channel;
+    private static final String FANOUT = "fanout";
+    private Channel publish_channel;
+    private Channel consume_channel;
 
     public Module() throws IOException, TimeoutException {
         setupChannel();
@@ -26,8 +27,12 @@ public abstract class Module extends Thread {
     private void setupChannel() throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(CONNECTION_FACTORY_HOST);
-        Connection connection = factory.newConnection();
-        channel = connection.createChannel();
+
+        Connection publish_connection = factory.newConnection();
+        publish_channel = publish_connection.createChannel();
+
+        Connection consume_connection = factory.newConnection();
+        consume_channel = consume_connection.createChannel();
     }
 
     protected void loadConfig() throws IOException {
@@ -52,7 +57,7 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     protected void declarePublish(Exchange exchange) throws IOException {
-        channel.exchangeDeclare(exchange.name(), EXCHANGE_TYPE);
+        publish_channel.exchangeDeclare(exchange.name(), FANOUT);
     }
 
     /**
@@ -64,11 +69,10 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     protected void declareConsume(Exchange exchange, DeliverCallback callback) throws IOException {
-        channel.exchangeDeclare(exchange.name(), EXCHANGE_TYPE);
-        String queueName = channel.queueDeclare().getQueue();
-        channel.queueBind(queueName, exchange.name(), "");
-        channel.basicConsume(queueName, true, callback, consumerTag -> {
-        });
+        consume_channel.exchangeDeclare(exchange.name(), FANOUT);
+        String queueName = consume_channel.queueDeclare().getQueue();
+        consume_channel.queueBind(queueName, exchange.name(), "");
+        consume_channel.basicConsume(queueName, true, callback, consumerTag -> {});
     }
 
     /**
@@ -79,15 +83,16 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     public void publish(Exchange exchange, Object object) throws IOException {
-        if (channel.isOpen())
-            channel.basicPublish(exchange.name(), "", null, simpleSerialize(object));
+        if (publish_channel.isOpen())
+            publish_channel.basicPublish(exchange.name(), "", null, simpleSerialize(object));
     }
 
     @Override
     public void interrupt() {
         super.interrupt();
         try {
-            channel.close();
+            consume_channel.close();
+            publish_channel.close();
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }

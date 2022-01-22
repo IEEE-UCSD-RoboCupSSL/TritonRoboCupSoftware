@@ -17,7 +17,7 @@ public class UDP_Client extends Thread {
     private final BlockingQueue<byte[]> sendQueue;
 
     public UDP_Client(String serverAddress, int serverPort, Consumer<byte[]> callbackPacket) throws UnknownHostException, SocketException {
-        this(serverAddress, serverPort, callbackPacket, 0);
+        this(serverAddress, serverPort, callbackPacket, 100);
     }
 
     public UDP_Client(String serverAddress, int serverPort, Consumer<byte[]> callbackPacket, int timeout) throws UnknownHostException, SocketException {
