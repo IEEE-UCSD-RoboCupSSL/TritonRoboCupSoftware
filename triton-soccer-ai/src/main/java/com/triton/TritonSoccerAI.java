@@ -18,6 +18,7 @@ import com.triton.module.processing_module.VisionBiasedConverter;
 import com.triton.module.test_module.ChaseBallTest;
 import com.triton.module.test_module.DribbleTest;
 import com.triton.module.test_module.KickTest;
+import com.triton.module.test_module.MatchVelocityTest;
 import com.triton.test.Test;
 import org.apache.commons.cli.*;
 
@@ -138,6 +139,7 @@ public class TritonSoccerAI {
             switch (test) {
                 case KICK -> startModule(new KickTest(), testModules);
                 case DRIBBLE -> startModule(new DribbleTest(), testModules);
+                case MATCH_VELOCITY -> startModule(new MatchVelocityTest(), testModules);
                 case CHASE_BALL -> startModule(new ChaseBallTest(), testModules);
                 default -> System.out.println("Test not found.");
             }

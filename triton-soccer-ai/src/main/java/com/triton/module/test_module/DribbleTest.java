@@ -77,7 +77,7 @@ public class DribbleTest extends Module {
             }
 
             try {
-                Thread.sleep(5000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -120,6 +120,19 @@ public class DribbleTest extends Module {
 
         try {
             publish(AI_BASIC_SKILL, dribbleSkill.build());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        BasicSkill.Builder matchVelocitySkill = BasicSkill.newBuilder();
+        MatchVelocity.Builder matchVelocity = MatchVelocity.newBuilder();
+        matchVelocity.setVx(0);
+        matchVelocity.setVy(-1);
+        matchVelocity.setAngular(0);
+        matchVelocitySkill.setMatchVelocity(matchVelocity);
+
+        try {
+            publish(AI_BASIC_SKILL, matchVelocitySkill.build());
         } catch (IOException e) {
             e.printStackTrace();
         }

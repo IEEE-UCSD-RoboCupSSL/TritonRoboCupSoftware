@@ -471,6 +471,7 @@ proto/triton/AiBasicSkills$Stop$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrame$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$Vector3OrBuilder.class
 com/triton/module/interface_module/SimulatorRobotCommandInterface$1.class
+com/triton/module/test_module/MatchVelocityTest.class
 proto/simulation/SslSimulationRobotFeedback.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryCameraCalibration.class
 proto/triton/AiTeamSkills$AggressiveDefense$Builder.class
