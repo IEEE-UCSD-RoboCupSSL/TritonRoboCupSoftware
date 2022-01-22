@@ -11,11 +11,14 @@ import com.triton.module.interface_module.CameraInterface;
 import com.triton.module.interface_module.SimulatorCommandInterface;
 import com.triton.module.interface_module.TritonBotMessageInterface;
 import com.triton.module.interface_module.UserInterface;
-import com.triton.module.processing_module.RobotCommandAudienceConverter;
-import com.triton.module.processing_module.SimulatorControlAudienceConverter;
-import com.triton.module.processing_module.TritonBotMessageBuilder;
-import com.triton.module.processing_module.VisionBiasedConverter;
-import com.triton.module.test_module.*;
+import com.triton.module.processing_module.*;
+import com.triton.module.test_module.basic_skill_test.DribbleTest;
+import com.triton.module.test_module.basic_skill_test.KickTest;
+import com.triton.module.test_module.basic_skill_test.MatchVelocityTest;
+import com.triton.module.test_module.basic_skill_test.MoveToPointTest;
+import com.triton.module.test_module.individual_skill_test.CatchBallTest;
+import com.triton.module.test_module.individual_skill_test.ChaseBallTest;
+import com.triton.module.test_module.individual_skill_test.PathToPointTest;
 import com.triton.test.Test;
 import org.apache.commons.cli.*;
 
@@ -99,6 +102,7 @@ public class TritonSoccerAI {
 
     public void startProcessingModules() throws IOException, TimeoutException {
         startModule(new VisionBiasedConverter());
+        startModule(new FilterModule());
         startModule(new SimulatorControlAudienceConverter());
         startModule(new RobotCommandAudienceConverter());
         startModule(new TritonBotMessageBuilder());
@@ -128,7 +132,7 @@ public class TritonSoccerAI {
         while (true) {
             System.out.println("Available tests:");
             for (Test test : Test.values())
-                System.out.println("\t" + test.ordinal() + ". " + test.name() + ":\n\t\t" + test.getDesc());
+                System.out.println("- " + test.ordinal() + ". " + test.name() + ":\n\t\t" + test.getDesc());
 
             System.out.print("Choose a test:\t");
             Test test = parseTest(scanner.nextLine());
@@ -140,6 +144,7 @@ public class TritonSoccerAI {
                 case MOVE_TO_POINT -> startModule(new MoveToPointTest(), testModules);
                 case PATH_TO_POINT -> startModule(new PathToPointTest(), testModules);
                 case CHASE_BALL -> startModule(new ChaseBallTest(), testModules);
+                case CATCH_BALL -> startModule(new CatchBallTest(), testModules);
                 default -> System.out.println("Test not found.");
             }
 

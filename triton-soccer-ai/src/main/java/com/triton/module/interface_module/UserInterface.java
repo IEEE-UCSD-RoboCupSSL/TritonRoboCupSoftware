@@ -100,9 +100,9 @@ public class UserInterface extends Module {
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declareConsume(AI_BIASED_FIELD, this::callbackBiasedField);
-        declareConsume(AI_BIASED_BALLS, this::callbackBiasedBalls);
-        declareConsume(AI_BIASED_ALLIES, this::callbackBiasedAllies);
-        declareConsume(AI_BIASED_FOES, this::callbackBiasedFoes);
+        declareConsume(AI_FILTERED_BIASED_BALLS, this::callbackBiasedBalls);
+        declareConsume(AI_FILTERED_BIASED_ALLIES, this::callbackBiasedAllies);
+        declareConsume(AI_FILTERED_BIASED_FOES, this::callbackBiasedFoes);
     }
 
     private void callbackBiasedField(String s, Delivery delivery) {

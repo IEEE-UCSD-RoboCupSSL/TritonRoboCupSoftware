@@ -30,9 +30,9 @@ public class IndividualSkillsModule extends Module {
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declareConsume(AI_BIASED_FIELD, this::callbackField);
-        declareConsume(AI_BIASED_ALLIES, this::callbackAllies);
-        declareConsume(AI_BIASED_FOES, this::callbackFoes);
-        declareConsume(AI_BIASED_BALLS, this::callbackBalls);
+        declareConsume(AI_FILTERED_BIASED_ALLIES, this::callbackAllies);
+        declareConsume(AI_FILTERED_BIASED_FOES, this::callbackFoes);
+        declareConsume(AI_FILTERED_BIASED_BALLS, this::callbackBalls);
         declareConsume(AI_INDIVIDUAL_SKILL, this::callbackIndividualSkill);
 
         declarePublish(AI_BASIC_SKILL);

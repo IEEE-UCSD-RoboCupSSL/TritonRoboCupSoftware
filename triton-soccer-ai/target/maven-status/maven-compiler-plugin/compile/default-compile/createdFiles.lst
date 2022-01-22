@@ -45,8 +45,8 @@ proto/vision/MessagesRobocupSslGeometry$SSL_FieldCircularArc$1.class
 proto/simulation/SslSimulationSynchronous$SimulationSyncRequest$1.class
 com/triton/constant/RuntimeConstants.class
 proto/simulation/SslVisionGeometry$SSL_GeometryModels$1.class
-com/triton/module/test_module/KickTest.class
 proto/simulation/SslVisionDetection$SSL_DetectionFrame.class
+com/triton/module/test_module/individual_skill_test/ChaseBallTest.class
 com/triton/ai/skills/individual_skills/GoalKeepSkill.class
 proto/triton/AiBasicSkills$Dribble$1.class
 proto/triton/AiCoordinatedSkills$Pass$1.class
@@ -60,6 +60,7 @@ com/triton/ai/skills/basic_skills/KickSkill.class
 proto/simulation/SslSimulationConfig$RealismConfig$Builder.class
 proto/vision/MessagesRobocupSslWrapper$1.class
 com/triton/config/NetworkConfig.class
+com/triton/module/test_module/basic_skill_test/KickTest.class
 proto/simulation/SslVisionGeometry$SSL_GeometryDataOrBuilder.class
 com/triton/module/ai_module/IndividualSkillsModule.class
 proto/triton/AiBasicSkills$StopOrBuilder.class
@@ -100,6 +101,7 @@ proto/triton/AiBasicSkills$BasicSkill$CommandCase.class
 proto/vision/MessagesRobocupSslDetectionTracked$RobotId$Builder.class
 proto/simulation/SslSimulationSynchronous$SimulationSyncResponse.class
 proto/simulation/SslSimulationControl$TeleportRobot$Builder.class
+com/triton/module/test_module/individual_skill_test/PathToPointTest.class
 proto/simulation/SslVisionGeometry$Vector2f$Builder.class
 proto/triton/AiTeamSkills$AggressiveOffense.class
 proto/simulation/SslVisionGeometry$SSL_FieldLineSegment.class
@@ -131,9 +133,7 @@ com/triton/module/interface_module/TritonBotMessageInterface$1.class
 proto/simulation/SslSimulationSynchronous$SimulationSyncRequest.class
 proto/triton/AiIndividualSkills$Shoot$Builder.class
 proto/simulation/SslVisionGeometry$SSL_GeometryData$1.class
-com/triton/module/test_module/PathToPointTest.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryData$Builder.class
-com/triton/module/test_module/ChaseBallTest.class
 proto/simulation/SslSimulationControl$SimulatorResponseOrBuilder.class
 proto/simulation/SslVisionGeometry$SSL_BallModelStraightTwoPhase$Builder.class
 proto/vision/MessagesRobocupSslGeometry$SSL_BallModelStraightTwoPhaseOrBuilder.class
@@ -184,11 +184,11 @@ proto/simulation/SslSimulationConfig$SimulatorConfig$1.class
 proto/simulation/SslSimulationConfig$RobotLimits.class
 proto/vision/MessagesRobocupSslDetectionTracked$Vector3$1.class
 proto/vision/MessagesRobocupSslRefboxLog$1.class
+com/triton/module/test_module/basic_skill_test/MatchVelocityTest.class
 proto/simulation/SslVisionGeometry$SSL_FieldLineSegmentOrBuilder.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionFrame.class
 proto/triton/AiTeamSkills$DefensiveNeutral$1.class
 proto/triton/AiTeamSkills$AggressiveNeutral$1.class
-com/triton/module/test_module/DribbleTest.class
 proto/triton/AiBasicSkills$Stop$Builder.class
 proto/simulation/SslSimulationError$SimulatorErrorOrBuilder.class
 com/triton/ai/skills/basic_skills/MatchVelocitySkill.class
@@ -208,7 +208,6 @@ proto/triton/AiIndividualSkills$ChaseBall$Builder.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryData.class
 proto/triton/AiBasicSkills$MatchVelocityOrBuilder.class
 com/triton/module/processing_module/VisionBiasedConverter.class
-com/triton/module/test_module/MoveToPointTest.class
 proto/triton/AiIndividualSkills$Steal$Builder.class
 proto/simulation/SslSimulationRobotControl$RobotCommandOrBuilder.class
 proto/simulation/SslVisionGeometry$SSL_FieldCircularArc.class
@@ -229,6 +228,7 @@ proto/triton/AiTeamSkills$AggressiveOffense$1.class
 proto/simulation/SslSimulationSynchronous.class
 proto/triton/AiBasicSkills$Kick$1.class
 proto/triton/AiCoordinatedSkills$2.class
+com/triton/module/test_module/basic_skill_test/DribbleTest.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryFieldSize.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldLineSegmentOrBuilder.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionBall.class
@@ -299,6 +299,7 @@ proto/triton/AiTeamSkills$DefaultDefense.class
 proto/simulation/SslGcCommon$RobotId.class
 com/triton/module/interface_module/TritonBotMessageInterface.class
 proto/simulation/SslVisionGeometry$SSL_BallModelStraightTwoPhase.class
+com/triton/module/processing_module/FilterModule.class
 proto/triton/AiIndividualSkills$DribbleBall.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionRobot$Builder.class
 proto/triton/AiIndividualSkills$Juke.class
@@ -324,6 +325,7 @@ proto/triton/AiTeamSkills$AggressiveDefense.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionRobot.class
 proto/triton/AiIndividualSkills$ChaseBall.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedRobotOrBuilder.class
+com/triton/module/test_module/individual_skill_test/CatchBallTest.class
 proto/simulation/SslSimulationRobotControl$RobotMoveCommand$Builder.class
 com/triton/ai/skills/basic_skills/MoveToPointSkill.class
 proto/simulation/SslSimulationRobotFeedback$RobotFeedback.class
@@ -460,6 +462,7 @@ proto/simulation/SslVisionDetection$SSL_DetectionFrameOrBuilder.class
 proto/triton/AiIndividualSkills$CatchBall$Builder.class
 proto/simulation/SslVisionGeometry$SSL_BallModelStraightTwoPhase$1.class
 proto/simulation/SslSimulationRobotControl$RobotMoveCommand$1.class
+com/triton/module/test_module/basic_skill_test/MoveToPointTest.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldCircularArcOrBuilder.class
 proto/triton/AiTeamSkills$DefensiveOffenseOrBuilder.class
 proto/vision/MessagesRobocupSslDetectionTracked$KickedBall$Builder.class
@@ -473,7 +476,6 @@ proto/triton/AiBasicSkills$Stop$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrame$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$Vector3OrBuilder.class
 com/triton/module/interface_module/SimulatorRobotCommandInterface$1.class
-com/triton/module/test_module/MatchVelocityTest.class
 proto/simulation/SslSimulationRobotFeedback.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryCameraCalibration.class
 proto/triton/AiTeamSkills$AggressiveDefense$Builder.class

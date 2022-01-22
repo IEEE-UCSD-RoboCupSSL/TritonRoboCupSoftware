@@ -24,7 +24,7 @@ public class BasicSkillsModule extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(AI_BIASED_ALLIES, this::callbackAllies);
+        declareConsume(AI_FILTERED_BIASED_ALLIES, this::callbackAllies);
         declareConsume(AI_BASIC_SKILL, this::callbackBasicSkill);
 
         declarePublish(AI_BIASED_ROBOT_COMMAND);

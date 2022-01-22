@@ -37,13 +37,11 @@ public class ChaseBallSkill {
         pathToPointSkill.setPathToPoint(pathToPoint);
         module.publish(AI_INDIVIDUAL_SKILL, pathToPointSkill.build());
 
-        if (chaseBall.getDribble()) {
-            BasicSkill.Builder dribbleSkill = BasicSkill.newBuilder();
-            dribbleSkill.setId(id);
-            Dribble.Builder dribble = Dribble.newBuilder();
-            dribble.setDribbleOn(true);
-            dribbleSkill.setDribble(dribble);
-            module.publish(AI_BASIC_SKILL, dribbleSkill.build());
-        }
+        BasicSkill.Builder dribbleSkill = BasicSkill.newBuilder();
+        dribbleSkill.setId(id);
+        Dribble.Builder dribble = Dribble.newBuilder();
+        dribble.setDribbleOn(true);
+        dribbleSkill.setDribble(dribble);
+        module.publish(AI_BASIC_SKILL, dribbleSkill.build());
     }
 }

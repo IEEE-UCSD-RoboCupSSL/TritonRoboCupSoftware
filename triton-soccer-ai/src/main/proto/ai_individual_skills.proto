@@ -29,7 +29,6 @@ message PathToPoint {
 }
 
 message ChaseBall {
-  bool dribble = 1;
 }
 
 message CatchBall {

@@ -3701,11 +3701,6 @@ public final class AiIndividualSkills {
   public interface ChaseBallOrBuilder extends
       // @@protoc_insertion_point(interface_extends:proto.triton.ChaseBall)
       com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>bool dribble = 1;</code>
-     */
-    boolean getDribble();
   }
   /**
    * Protobuf type {@code proto.triton.ChaseBall}
@@ -3720,7 +3715,6 @@ public final class AiIndividualSkills {
       super(builder);
     }
     private ChaseBall() {
-      dribble_ = false;
     }
 
     @java.lang.Override
@@ -3736,7 +3730,6 @@ public final class AiIndividualSkills {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3747,11 +3740,6 @@ public final class AiIndividualSkills {
             case 0:
               done = true;
               break;
-            case 8: {
-
-              dribble_ = input.readBool();
-              break;
-            }
             default: {
               if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -3784,15 +3772,6 @@ public final class AiIndividualSkills {
               proto.triton.AiIndividualSkills.ChaseBall.class, proto.triton.AiIndividualSkills.ChaseBall.Builder.class);
     }
 
-    public static final int DRIBBLE_FIELD_NUMBER = 1;
-    private boolean dribble_;
-    /**
-     * <code>bool dribble = 1;</code>
-     */
-    public boolean getDribble() {
-      return dribble_;
-    }
-
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -3807,9 +3786,6 @@ public final class AiIndividualSkills {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (dribble_ != false) {
-        output.writeBool(1, dribble_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -3819,10 +3795,6 @@ public final class AiIndividualSkills {
       if (size != -1) return size;
 
       size = 0;
-      if (dribble_ != false) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(1, dribble_);
-      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -3839,8 +3811,6 @@ public final class AiIndividualSkills {
       proto.triton.AiIndividualSkills.ChaseBall other = (proto.triton.AiIndividualSkills.ChaseBall) obj;
 
       boolean result = true;
-      result = result && (getDribble()
-          == other.getDribble());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -3852,9 +3822,6 @@ public final class AiIndividualSkills {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + DRIBBLE_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-          getDribble());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3988,8 +3955,6 @@ public final class AiIndividualSkills {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        dribble_ = false;
-
         return this;
       }
 
@@ -4016,7 +3981,6 @@ public final class AiIndividualSkills {
       @java.lang.Override
       public proto.triton.AiIndividualSkills.ChaseBall buildPartial() {
         proto.triton.AiIndividualSkills.ChaseBall result = new proto.triton.AiIndividualSkills.ChaseBall(this);
-        result.dribble_ = dribble_;
         onBuilt();
         return result;
       }
@@ -4065,9 +4029,6 @@ public final class AiIndividualSkills {
 
       public Builder mergeFrom(proto.triton.AiIndividualSkills.ChaseBall other) {
         if (other == proto.triton.AiIndividualSkills.ChaseBall.getDefaultInstance()) return this;
-        if (other.getDribble() != false) {
-          setDribble(other.getDribble());
-        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -4094,32 +4055,6 @@ public final class AiIndividualSkills {
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-
-      private boolean dribble_ ;
-      /**
-       * <code>bool dribble = 1;</code>
-       */
-      public boolean getDribble() {
-        return dribble_;
-      }
-      /**
-       * <code>bool dribble = 1;</code>
-       */
-      public Builder setDribble(boolean value) {
-        
-        dribble_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>bool dribble = 1;</code>
-       */
-      public Builder clearDribble() {
-        
-        dribble_ = false;
-        onChanged();
         return this;
       }
       @java.lang.Override
@@ -6721,10 +6656,9 @@ public final class AiIndividualSkills {
       "on.JukeH\000B\t\n\007command\"\n\n\010GoalKeep\"f\n\013Path" +
       "ToPoint\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\025\n\013orienta" +
       "tion\030\003 \001(\002H\000\022\024\n\nface_point\030\004 \001(\010H\000B\024\n\022ta" +
-      "rget_orientation\"\034\n\tChaseBall\022\017\n\007dribble" +
-      "\030\001 \001(\010\"\013\n\tCatchBall\"\021\n\017KickBallToPoint\"\r" +
-      "\n\013DribbleBall\"\007\n\005Shoot\"\007\n\005Steal\"\006\n\004Jukeb" +
-      "\006proto3"
+      "rget_orientation\"\013\n\tChaseBall\"\013\n\tCatchBa" +
+      "ll\"\021\n\017KickBallToPoint\"\r\n\013DribbleBall\"\007\n\005" +
+      "Shoot\"\007\n\005Steal\"\006\n\004Jukeb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6761,7 +6695,7 @@ public final class AiIndividualSkills {
     internal_static_proto_triton_ChaseBall_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_ChaseBall_descriptor,
-        new java.lang.String[] { "Dribble", });
+        new java.lang.String[] { });
     internal_static_proto_triton_CatchBall_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_proto_triton_CatchBall_fieldAccessorTable = new

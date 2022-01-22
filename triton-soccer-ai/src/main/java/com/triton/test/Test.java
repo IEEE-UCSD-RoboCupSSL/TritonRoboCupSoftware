@@ -7,6 +7,7 @@ public enum Test {
     MOVE_TO_POINT("Test the ability of robots to move to a point."),
     PATH_TO_POINT("Test the ability of robots to path to a point."),
     CHASE_BALL("Test the ability of robots to follow the ball."),
+    CATCH_BALL("Test the ability of robots to catch the ball."),
     ;
 
     private final String desc;

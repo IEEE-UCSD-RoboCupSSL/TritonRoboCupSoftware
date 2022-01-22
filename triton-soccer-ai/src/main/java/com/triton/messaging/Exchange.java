@@ -10,6 +10,11 @@ public enum Exchange {
     AI_BIASED_ALLIES,
     AI_BIASED_FOES,
 
+    // Camera data processed into a biased team perspective, then filtered to reduce noise
+    AI_FILTERED_BIASED_BALLS,
+    AI_FILTERED_BIASED_ALLIES,
+    AI_FILTERED_BIASED_FOES,
+
     // Commands sent from our team perspective
     AI_BIASED_SIMULATOR_CONTROL,
     AI_BIASED_ROBOT_CONTROL,
