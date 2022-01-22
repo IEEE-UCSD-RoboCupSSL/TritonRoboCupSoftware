@@ -131,6 +131,7 @@ com/triton/module/interface_module/TritonBotMessageInterface$1.class
 proto/simulation/SslSimulationSynchronous$SimulationSyncRequest.class
 proto/triton/AiIndividualSkills$Shoot$Builder.class
 proto/simulation/SslVisionGeometry$SSL_GeometryData$1.class
+com/triton/module/test_module/PathToPointTest.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryData$Builder.class
 com/triton/module/test_module/ChaseBallTest.class
 proto/simulation/SslSimulationControl$SimulatorResponseOrBuilder.class
@@ -207,6 +208,7 @@ proto/triton/AiIndividualSkills$ChaseBall$Builder.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryData.class
 proto/triton/AiBasicSkills$MatchVelocityOrBuilder.class
 com/triton/module/processing_module/VisionBiasedConverter.class
+com/triton/module/test_module/MoveToPointTest.class
 proto/triton/AiIndividualSkills$Steal$Builder.class
 proto/simulation/SslSimulationRobotControl$RobotCommandOrBuilder.class
 proto/simulation/SslVisionGeometry$SSL_FieldCircularArc.class

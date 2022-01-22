@@ -15,10 +15,7 @@ import com.triton.module.processing_module.RobotCommandAudienceConverter;
 import com.triton.module.processing_module.SimulatorControlAudienceConverter;
 import com.triton.module.processing_module.TritonBotMessageBuilder;
 import com.triton.module.processing_module.VisionBiasedConverter;
-import com.triton.module.test_module.ChaseBallTest;
-import com.triton.module.test_module.DribbleTest;
-import com.triton.module.test_module.KickTest;
-import com.triton.module.test_module.MatchVelocityTest;
+import com.triton.module.test_module.*;
 import com.triton.test.Test;
 import org.apache.commons.cli.*;
 
@@ -140,6 +137,8 @@ public class TritonSoccerAI {
                 case KICK -> startModule(new KickTest(), testModules);
                 case DRIBBLE -> startModule(new DribbleTest(), testModules);
                 case MATCH_VELOCITY -> startModule(new MatchVelocityTest(), testModules);
+                case MOVE_TO_POINT -> startModule(new MoveToPointTest(), testModules);
+                case PATH_TO_POINT -> startModule(new PathToPointTest(), testModules);
                 case CHASE_BALL -> startModule(new ChaseBallTest(), testModules);
                 default -> System.out.println("Test not found.");
             }
