@@ -1,5 +1,7 @@
 package com.triton.helper;
 
+import java.util.Objects;
+
 public class Vector2d {
     public final float x;
     public final float y;
@@ -58,6 +60,19 @@ public class Vector2d {
 
     public float dist(Vector2d vector) {
         return sub(vector).mag();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vector2d vector2d = (Vector2d) o;
+        return Float.compare(vector2d.x, x) == 0 && Float.compare(vector2d.y, y) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
     @Override
