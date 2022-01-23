@@ -38,6 +38,12 @@ message KickBallToPoint {
 }
 
 message DribbleBall {
+  float x = 1;
+  float y = 2;
+  oneof target_orientation {
+    float orientation = 3;
+    bool face_point = 4;
+  }
 }
 
 message Shoot {

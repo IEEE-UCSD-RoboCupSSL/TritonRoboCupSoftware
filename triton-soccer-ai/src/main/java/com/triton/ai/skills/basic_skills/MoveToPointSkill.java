@@ -1,5 +1,6 @@
 package com.triton.ai.skills.basic_skills;
 
+import com.triton.helper.Vector2d;
 import com.triton.module.Module;
 import proto.simulation.SslSimulationRobotControl;
 import proto.triton.AiBasicSkills;
@@ -18,17 +19,15 @@ public class MoveToPointSkill {
         SslSimulationRobotControl.RobotMoveCommand.Builder moveCommand = SslSimulationRobotControl.RobotMoveCommand.newBuilder();
         SslSimulationRobotControl.MoveGlobalVelocity.Builder globalVelocity = SslSimulationRobotControl.MoveGlobalVelocity.newBuilder();
 
-        float vx = moveToPoint.getX() - ally.getX();
-        float vy = moveToPoint.getY() - ally.getY();
+        Vector2d vel = new Vector2d(moveToPoint.getX() - ally.getX(), moveToPoint.getY() - ally.getY());
         float angular = (moveToPoint.getOrientation() - ally.getOrientation());
 
         // TODO CONSIDER SPEED CAP LATER
-        vx /= 200;
-        vy /= 200;
-        angular /= 1f;
+        vel = vel.scale(1f / 200f);
+        angular *= 1f / 2f;
 
-        globalVelocity.setX(vx);
-        globalVelocity.setY(vy);
+        globalVelocity.setX(vel.x);
+        globalVelocity.setY(vel.y);
         globalVelocity.setAngular(angular);
         moveCommand.setGlobalVelocity(globalVelocity);
         robotCommand.setMoveCommand(moveCommand);

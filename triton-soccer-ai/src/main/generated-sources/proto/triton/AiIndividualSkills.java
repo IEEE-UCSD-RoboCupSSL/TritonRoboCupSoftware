@@ -4937,6 +4937,28 @@ public final class AiIndividualSkills {
   public interface DribbleBallOrBuilder extends
       // @@protoc_insertion_point(interface_extends:proto.triton.DribbleBall)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>float x = 1;</code>
+     */
+    float getX();
+
+    /**
+     * <code>float y = 2;</code>
+     */
+    float getY();
+
+    /**
+     * <code>float orientation = 3;</code>
+     */
+    float getOrientation();
+
+    /**
+     * <code>bool face_point = 4;</code>
+     */
+    boolean getFacePoint();
+
+    public proto.triton.AiIndividualSkills.DribbleBall.TargetOrientationCase getTargetOrientationCase();
   }
   /**
    * Protobuf type {@code proto.triton.DribbleBall}
@@ -4951,6 +4973,8 @@ public final class AiIndividualSkills {
       super(builder);
     }
     private DribbleBall() {
+      x_ = 0F;
+      y_ = 0F;
     }
 
     @java.lang.Override
@@ -4966,6 +4990,7 @@ public final class AiIndividualSkills {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4976,6 +5001,26 @@ public final class AiIndividualSkills {
             case 0:
               done = true;
               break;
+            case 13: {
+
+              x_ = input.readFloat();
+              break;
+            }
+            case 21: {
+
+              y_ = input.readFloat();
+              break;
+            }
+            case 29: {
+              targetOrientationCase_ = 3;
+              targetOrientation_ = input.readFloat();
+              break;
+            }
+            case 32: {
+              targetOrientationCase_ = 4;
+              targetOrientation_ = input.readBool();
+              break;
+            }
             default: {
               if (!parseUnknownFieldProto3(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -5008,6 +5053,84 @@ public final class AiIndividualSkills {
               proto.triton.AiIndividualSkills.DribbleBall.class, proto.triton.AiIndividualSkills.DribbleBall.Builder.class);
     }
 
+    private int targetOrientationCase_ = 0;
+    private java.lang.Object targetOrientation_;
+    public enum TargetOrientationCase
+        implements com.google.protobuf.Internal.EnumLite {
+      ORIENTATION(3),
+      FACE_POINT(4),
+      TARGETORIENTATION_NOT_SET(0);
+      private final int value;
+      private TargetOrientationCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static TargetOrientationCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static TargetOrientationCase forNumber(int value) {
+        switch (value) {
+          case 3: return ORIENTATION;
+          case 4: return FACE_POINT;
+          case 0: return TARGETORIENTATION_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public TargetOrientationCase
+    getTargetOrientationCase() {
+      return TargetOrientationCase.forNumber(
+          targetOrientationCase_);
+    }
+
+    public static final int X_FIELD_NUMBER = 1;
+    private float x_;
+    /**
+     * <code>float x = 1;</code>
+     */
+    public float getX() {
+      return x_;
+    }
+
+    public static final int Y_FIELD_NUMBER = 2;
+    private float y_;
+    /**
+     * <code>float y = 2;</code>
+     */
+    public float getY() {
+      return y_;
+    }
+
+    public static final int ORIENTATION_FIELD_NUMBER = 3;
+    /**
+     * <code>float orientation = 3;</code>
+     */
+    public float getOrientation() {
+      if (targetOrientationCase_ == 3) {
+        return (java.lang.Float) targetOrientation_;
+      }
+      return 0F;
+    }
+
+    public static final int FACE_POINT_FIELD_NUMBER = 4;
+    /**
+     * <code>bool face_point = 4;</code>
+     */
+    public boolean getFacePoint() {
+      if (targetOrientationCase_ == 4) {
+        return (java.lang.Boolean) targetOrientation_;
+      }
+      return false;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -5022,6 +5145,20 @@ public final class AiIndividualSkills {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (x_ != 0F) {
+        output.writeFloat(1, x_);
+      }
+      if (y_ != 0F) {
+        output.writeFloat(2, y_);
+      }
+      if (targetOrientationCase_ == 3) {
+        output.writeFloat(
+            3, (float)((java.lang.Float) targetOrientation_));
+      }
+      if (targetOrientationCase_ == 4) {
+        output.writeBool(
+            4, (boolean)((java.lang.Boolean) targetOrientation_));
+      }
       unknownFields.writeTo(output);
     }
 
@@ -5031,6 +5168,24 @@ public final class AiIndividualSkills {
       if (size != -1) return size;
 
       size = 0;
+      if (x_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(1, x_);
+      }
+      if (y_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(2, y_);
+      }
+      if (targetOrientationCase_ == 3) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(
+              3, (float)((java.lang.Float) targetOrientation_));
+      }
+      if (targetOrientationCase_ == 4) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(
+              4, (boolean)((java.lang.Boolean) targetOrientation_));
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -5047,6 +5202,31 @@ public final class AiIndividualSkills {
       proto.triton.AiIndividualSkills.DribbleBall other = (proto.triton.AiIndividualSkills.DribbleBall) obj;
 
       boolean result = true;
+      result = result && (
+          java.lang.Float.floatToIntBits(getX())
+          == java.lang.Float.floatToIntBits(
+              other.getX()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getY())
+          == java.lang.Float.floatToIntBits(
+              other.getY()));
+      result = result && getTargetOrientationCase().equals(
+          other.getTargetOrientationCase());
+      if (!result) return false;
+      switch (targetOrientationCase_) {
+        case 3:
+          result = result && (
+              java.lang.Float.floatToIntBits(getOrientation())
+              == java.lang.Float.floatToIntBits(
+                  other.getOrientation()));
+          break;
+        case 4:
+          result = result && (getFacePoint()
+              == other.getFacePoint());
+          break;
+        case 0:
+        default:
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -5058,6 +5238,26 @@ public final class AiIndividualSkills {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + X_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getX());
+      hash = (37 * hash) + Y_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getY());
+      switch (targetOrientationCase_) {
+        case 3:
+          hash = (37 * hash) + ORIENTATION_FIELD_NUMBER;
+          hash = (53 * hash) + java.lang.Float.floatToIntBits(
+              getOrientation());
+          break;
+        case 4:
+          hash = (37 * hash) + FACE_POINT_FIELD_NUMBER;
+          hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+              getFacePoint());
+          break;
+        case 0:
+        default:
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -5191,6 +5391,12 @@ public final class AiIndividualSkills {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        x_ = 0F;
+
+        y_ = 0F;
+
+        targetOrientationCase_ = 0;
+        targetOrientation_ = null;
         return this;
       }
 
@@ -5217,6 +5423,15 @@ public final class AiIndividualSkills {
       @java.lang.Override
       public proto.triton.AiIndividualSkills.DribbleBall buildPartial() {
         proto.triton.AiIndividualSkills.DribbleBall result = new proto.triton.AiIndividualSkills.DribbleBall(this);
+        result.x_ = x_;
+        result.y_ = y_;
+        if (targetOrientationCase_ == 3) {
+          result.targetOrientation_ = targetOrientation_;
+        }
+        if (targetOrientationCase_ == 4) {
+          result.targetOrientation_ = targetOrientation_;
+        }
+        result.targetOrientationCase_ = targetOrientationCase_;
         onBuilt();
         return result;
       }
@@ -5265,6 +5480,25 @@ public final class AiIndividualSkills {
 
       public Builder mergeFrom(proto.triton.AiIndividualSkills.DribbleBall other) {
         if (other == proto.triton.AiIndividualSkills.DribbleBall.getDefaultInstance()) return this;
+        if (other.getX() != 0F) {
+          setX(other.getX());
+        }
+        if (other.getY() != 0F) {
+          setY(other.getY());
+        }
+        switch (other.getTargetOrientationCase()) {
+          case ORIENTATION: {
+            setOrientation(other.getOrientation());
+            break;
+          }
+          case FACE_POINT: {
+            setFacePoint(other.getFacePoint());
+            break;
+          }
+          case TARGETORIENTATION_NOT_SET: {
+            break;
+          }
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -5290,6 +5524,133 @@ public final class AiIndividualSkills {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
           }
+        }
+        return this;
+      }
+      private int targetOrientationCase_ = 0;
+      private java.lang.Object targetOrientation_;
+      public TargetOrientationCase
+          getTargetOrientationCase() {
+        return TargetOrientationCase.forNumber(
+            targetOrientationCase_);
+      }
+
+      public Builder clearTargetOrientation() {
+        targetOrientationCase_ = 0;
+        targetOrientation_ = null;
+        onChanged();
+        return this;
+      }
+
+
+      private float x_ ;
+      /**
+       * <code>float x = 1;</code>
+       */
+      public float getX() {
+        return x_;
+      }
+      /**
+       * <code>float x = 1;</code>
+       */
+      public Builder setX(float value) {
+        
+        x_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float x = 1;</code>
+       */
+      public Builder clearX() {
+        
+        x_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float y_ ;
+      /**
+       * <code>float y = 2;</code>
+       */
+      public float getY() {
+        return y_;
+      }
+      /**
+       * <code>float y = 2;</code>
+       */
+      public Builder setY(float value) {
+        
+        y_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float y = 2;</code>
+       */
+      public Builder clearY() {
+        
+        y_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <code>float orientation = 3;</code>
+       */
+      public float getOrientation() {
+        if (targetOrientationCase_ == 3) {
+          return (java.lang.Float) targetOrientation_;
+        }
+        return 0F;
+      }
+      /**
+       * <code>float orientation = 3;</code>
+       */
+      public Builder setOrientation(float value) {
+        targetOrientationCase_ = 3;
+        targetOrientation_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float orientation = 3;</code>
+       */
+      public Builder clearOrientation() {
+        if (targetOrientationCase_ == 3) {
+          targetOrientationCase_ = 0;
+          targetOrientation_ = null;
+          onChanged();
+        }
+        return this;
+      }
+
+      /**
+       * <code>bool face_point = 4;</code>
+       */
+      public boolean getFacePoint() {
+        if (targetOrientationCase_ == 4) {
+          return (java.lang.Boolean) targetOrientation_;
+        }
+        return false;
+      }
+      /**
+       * <code>bool face_point = 4;</code>
+       */
+      public Builder setFacePoint(boolean value) {
+        targetOrientationCase_ = 4;
+        targetOrientation_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool face_point = 4;</code>
+       */
+      public Builder clearFacePoint() {
+        if (targetOrientationCase_ == 4) {
+          targetOrientationCase_ = 0;
+          targetOrientation_ = null;
+          onChanged();
         }
         return this;
       }
@@ -6657,8 +7018,10 @@ public final class AiIndividualSkills {
       "ToPoint\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\025\n\013orienta" +
       "tion\030\003 \001(\002H\000\022\024\n\nface_point\030\004 \001(\010H\000B\024\n\022ta" +
       "rget_orientation\"\013\n\tChaseBall\"\013\n\tCatchBa" +
-      "ll\"\021\n\017KickBallToPoint\"\r\n\013DribbleBall\"\007\n\005" +
-      "Shoot\"\007\n\005Steal\"\006\n\004Jukeb\006proto3"
+      "ll\"\021\n\017KickBallToPoint\"f\n\013DribbleBall\022\t\n\001" +
+      "x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\025\n\013orientation\030\003 \001(\002H" +
+      "\000\022\024\n\nface_point\030\004 \001(\010H\000B\024\n\022target_orient" +
+      "ation\"\007\n\005Shoot\"\007\n\005Steal\"\006\n\004Jukeb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6713,7 +7076,7 @@ public final class AiIndividualSkills {
     internal_static_proto_triton_DribbleBall_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_DribbleBall_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "X", "Y", "Orientation", "FacePoint", "TargetOrientation", });
     internal_static_proto_triton_Shoot_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_proto_triton_Shoot_fieldAccessorTable = new

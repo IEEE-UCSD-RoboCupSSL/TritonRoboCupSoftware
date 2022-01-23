@@ -100,7 +100,7 @@ public class IndividualSkillsModule extends Module {
                 case CHASE_BALL -> ChaseBallSkill.chaseBallSkill(this, id, individualSkill.getChaseBall(), ball);
                 case CATCH_BALL -> CatchBallSkill.catchBallSkill(this, id, individualSkill.getCatchBall(), allies, ball);
                 case KICK_BALL_TO_POINT -> KickBallToPointSkill.kickBallToPointSkill(this, id, individualSkill.getKickBallToPoint());
-                case DRIBBLE_BALL -> DribbleBallSkill.dribbleBallSkill(this, id, individualSkill.getDribbleBall());
+                case DRIBBLE_BALL -> DribbleBallSkill.dribbleBallSkill(this, id, individualSkill.getDribbleBall(), 1, 1);
                 case SHOOT -> ShootSkill.shootSkill(this, id, individualSkill.getShoot());
                 case STEAL -> Stealskill.stealSkill(this, id, individualSkill.getSteal());
                 case JUKE -> JukeSkill.jukeSkill(this, id, individualSkill.getJuke());
