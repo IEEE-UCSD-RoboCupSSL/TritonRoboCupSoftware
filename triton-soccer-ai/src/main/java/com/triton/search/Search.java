@@ -1,11 +1,12 @@
 package com.triton.search;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public abstract class Search {
-    protected ArrayList<Node> nodes;
+    protected LinkedList<Node> nodes;
 
-    Search(ArrayList<Node> nodes) {
+    Search(LinkedList<Node> nodes) {
         this.nodes = nodes;
     }
 
@@ -16,5 +17,5 @@ public abstract class Search {
      * @param target the node to end at
      * @return a list of nodes representing the path from the start node to the target node, null if there is no path
      */
-    public abstract ArrayList<Node> search(Node start, Node target);
+    public abstract LinkedList<Node> search(Node start, Node target);
 }

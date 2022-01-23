@@ -1,45 +1,32 @@
 package com.triton.search;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Path {
-    ArrayList<Node> path;
-    Node latestNode;
-    double distanceTraveled;
-    double score; // score = actual distance to Node from start + heuristic
+    public LinkedList<Node> nodePath;
+    public double distance;
+    public double score; // score = actual distance to Node from start + heuristic
 
-    public Path(ArrayList<Node> p, Node n, double distance, double s){
-        this.path = p;
-        this.latestNode = n;
-        this.distanceTraveled = distanceTraveled;
-        this.score = s;
+    public Path(LinkedList<Node> nodePath, double distance, double score){
+        this.nodePath = nodePath;
+        this.distance = distance;
+        this.score = score;
     }
 
     // copy constructor
-    Path(Path p){
-        this.path = new ArrayList<Path>;
-        for (Node n : p.path){
-            temp = new Node(n);
-            this.path.add(temp);
-        }
-        this.latestNode = p.latestNode;
-        this.distanceTraveled = p.distanceTraveled
-        this.score = p.score;
+    public Path(Path path) {
+        this.nodePath = new LinkedList<>();
+        this.nodePath.addAll(path.nodePath);
+        this.distance = path.distance;
+        this.score = path.score;
     }
-}
 
-public void setPath(ArrayList<Node> p){
-    this.path = p;
-}
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
 
-public void setNode(Node n){
-    this.latestNode = n;
-}
- 
-public void setDistance(double distance){
-    distanceTraveled = distance;
-}
-
-public void setScore(double s){
-    score = s;
+    public void setScore(double score) {
+        this.score = score;
+    }
 }
