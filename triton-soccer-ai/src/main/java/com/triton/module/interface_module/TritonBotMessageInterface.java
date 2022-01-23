@@ -17,9 +17,10 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.config.ConfigPath.GAME_CONFIG;
 import static com.triton.config.ConfigPath.NETWORK_CONFIG;
 import static com.triton.config.ConfigReader.readConfig;
-import static com.triton.messaging.Exchange.*;
+import static com.triton.messaging.Exchange.AI_ROBOT_FEEDBACKS;
+import static com.triton.messaging.Exchange.AI_TRITON_BOT_MESSAGE;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.simulation.SslSimulationRobotFeedback.*;
+import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 
 public class TritonBotMessageInterface extends Module {
     private NetworkConfig networkConfig;

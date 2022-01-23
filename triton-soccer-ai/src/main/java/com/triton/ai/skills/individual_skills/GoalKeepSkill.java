@@ -2,8 +2,6 @@ package com.triton.ai.skills.individual_skills;
 
 import com.triton.messaging.Exchange;
 import com.triton.module.Module;
-import proto.triton.AiBasicSkills;
-import proto.triton.ObjectWithMetadata;
 import proto.vision.MessagesRobocupSslGeometry;
 
 import java.io.IOException;
@@ -11,8 +9,8 @@ import java.util.HashMap;
 
 import static proto.triton.AiBasicSkills.*;
 import static proto.triton.AiIndividualSkills.GoalKeep;
-import static proto.triton.ObjectWithMetadata.*;
-import static proto.vision.MessagesRobocupSslGeometry.SSL_FieldShapeType.*;
+import static proto.triton.ObjectWithMetadata.Ball;
+import static proto.triton.ObjectWithMetadata.Robot;
 
 public class GoalKeepSkill {
     public static void goalKeepSkill(Module module, int id, GoalKeep goalKeep, MessagesRobocupSslGeometry.SSL_GeometryFieldSize field, HashMap<Integer, Robot> allies, Ball ball) throws IOException {

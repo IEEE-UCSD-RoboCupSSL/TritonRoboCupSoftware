@@ -6,10 +6,10 @@ import com.triton.module.Module;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static com.triton.messaging.Exchange.*;
+import static com.triton.messaging.Exchange.AI_INDIVIDUAL_SKILL;
 import static proto.triton.AiIndividualSkills.*;
-import static proto.triton.AiIndividualSkills.CatchBall;
-import static proto.triton.ObjectWithMetadata.*;
+import static proto.triton.ObjectWithMetadata.Ball;
+import static proto.triton.ObjectWithMetadata.Robot;
 
 public class CatchBallSkill {
     public static void catchBallSkill(Module module, int id, CatchBall catchBall, HashMap<Integer, Robot> allies, Ball ball) throws IOException {

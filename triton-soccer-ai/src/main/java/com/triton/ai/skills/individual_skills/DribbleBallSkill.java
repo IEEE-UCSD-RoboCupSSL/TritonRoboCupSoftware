@@ -7,7 +7,6 @@ import com.triton.module.Module;
 import java.io.IOException;
 
 import static proto.triton.AiIndividualSkills.*;
-import static proto.triton.AiIndividualSkills.DribbleBall;
 
 public class DribbleBallSkill {
     public static void dribbleBallSkill(Module module, int id, DribbleBall dribbleBall, float ballRadius, float robotRadius) throws IOException {

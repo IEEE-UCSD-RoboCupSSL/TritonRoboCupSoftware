@@ -6,8 +6,6 @@ import com.triton.constant.Team;
 import com.triton.module.Module;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
-import proto.simulation.SslSimulationRobotFeedback;
-import proto.triton.ObjectWithMetadata;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,11 +13,9 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.simulation.SslSimulationRobotFeedback.*;
+import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 import static proto.triton.AiIndividualSkills.ChaseBall;
 import static proto.triton.AiIndividualSkills.IndividualSkill;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
 
 public class ChaseBallTest extends Module {
     private HashMap<Integer, RobotFeedback> feedbacks;

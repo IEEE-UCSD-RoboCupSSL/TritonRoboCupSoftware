@@ -31,7 +31,7 @@ public class Vector2d {
 
     public Vector2d unit() {
         float mag = mag();
-        return this.scale(1f /  mag);
+        return this.scale(1f / mag);
     }
 
     public Vector2d add(Vector2d vector) {

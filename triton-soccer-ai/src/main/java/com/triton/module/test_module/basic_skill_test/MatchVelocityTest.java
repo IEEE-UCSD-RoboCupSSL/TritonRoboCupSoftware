@@ -7,16 +7,11 @@ import com.triton.module.Module;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
 import proto.triton.AiBasicSkills;
-import proto.triton.ObjectWithMetadata;
-import proto.vision.MessagesRobocupSslDetection;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
-import static proto.triton.ObjectWithMetadata.*;
 
 public class MatchVelocityTest extends Module {
 

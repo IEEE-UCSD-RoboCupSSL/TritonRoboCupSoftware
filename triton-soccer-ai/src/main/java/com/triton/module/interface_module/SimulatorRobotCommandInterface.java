@@ -17,8 +17,8 @@ import static com.triton.messaging.Exchange.AI_ROBOT_FEEDBACKS;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotControl.RobotCommand;
 import static proto.simulation.SslSimulationRobotControl.RobotControl;
-import static proto.simulation.SslSimulationRobotFeedback.*;
 import static proto.simulation.SslSimulationRobotFeedback.RobotControlResponse;
+import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 
 public class SimulatorRobotCommandInterface extends Module {
     private NetworkConfig networkConfig;

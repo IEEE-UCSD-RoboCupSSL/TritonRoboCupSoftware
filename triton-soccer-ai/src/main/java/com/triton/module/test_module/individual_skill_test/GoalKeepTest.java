@@ -6,20 +6,14 @@ import com.triton.constant.Team;
 import com.triton.module.Module;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
-import proto.triton.AiIndividualSkills;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
-import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.triton.AiIndividualSkills.*;
-import static proto.triton.AiIndividualSkills.CatchBall;
+import static proto.triton.AiIndividualSkills.GoalKeep;
 import static proto.triton.AiIndividualSkills.IndividualSkill;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
 
 public class GoalKeepTest extends Module {
 

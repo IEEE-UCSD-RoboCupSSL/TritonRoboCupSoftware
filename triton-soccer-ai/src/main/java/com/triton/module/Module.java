@@ -72,7 +72,8 @@ public abstract class Module extends Thread {
         consume_channel.exchangeDeclare(exchange.name(), FANOUT);
         String queueName = consume_channel.queueDeclare().getQueue();
         consume_channel.queueBind(queueName, exchange.name(), "");
-        consume_channel.basicConsume(queueName, true, callback, consumerTag -> {});
+        consume_channel.basicConsume(queueName, true, callback, consumerTag -> {
+        });
     }
 
     /**

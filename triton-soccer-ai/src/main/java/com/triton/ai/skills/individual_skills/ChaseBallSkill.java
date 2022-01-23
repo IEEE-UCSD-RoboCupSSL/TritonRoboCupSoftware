@@ -3,7 +3,6 @@ package com.triton.ai.skills.individual_skills;
 import com.triton.module.Module;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static com.triton.messaging.Exchange.AI_BASIC_SKILL;
 import static com.triton.messaging.Exchange.AI_INDIVIDUAL_SKILL;

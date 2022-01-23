@@ -16,7 +16,6 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.config.ConfigPath.DISPLAY_CONFIG;
@@ -28,7 +27,7 @@ import static java.awt.BorderLayout.*;
 import static java.awt.Color.*;
 import static javax.swing.BoxLayout.Y_AXIS;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-import static proto.triton.ObjectWithMetadata.*;
+import static proto.triton.ObjectWithMetadata.Ball;
 
 public class UserInterface extends Module {
     private static final String MAIN_FRAME_TITLE = "Triton Display";
@@ -239,21 +238,21 @@ public class UserInterface extends Module {
             if (ball != null) {
                 float x = ball.getX();
                 float y = ball.getY();
-                float radius = objectConfig.ballRadius;
+                float radius = objectConfig.ballRadius * 1000;
 
                 graphics2D.setColor(MAGENTA);
-                graphics2D.fillArc((int) (x - radius / 2),
-                        (int) (y - radius / 2),
-                        (int) radius,
-                        (int) radius,
+                graphics2D.fillArc((int) (x - radius),
+                        (int) (y - radius),
+                        (int) radius * 2,
+                        (int) radius * 2,
                         0,
                         360);
 
                 graphics2D.setColor(BLACK);
-                graphics2D.drawArc((int) (x - radius / 2),
-                        (int) (y - radius / 2),
-                        (int) radius,
-                        (int) radius,
+                graphics2D.drawArc((int) (x - radius),
+                        (int) (y - radius),
+                        (int) radius * 2,
+                        (int) radius * 2,
                         0,
                         360);
             }
@@ -291,18 +290,18 @@ public class UserInterface extends Module {
             float radius = objectConfig.robotRadius * 1000;
 
             graphics2D.setColor(fillColor);
-            graphics2D.fillArc((int) (x - radius / 2),
-                    (int) (y - radius / 2),
-                    (int) radius,
-                    (int) radius,
+            graphics2D.fillArc((int) (x - radius),
+                    (int) (y - radius),
+                    (int) radius * 2,
+                    (int) radius * 2,
                     0,
                     360);
 
             graphics2D.setColor(outlineColor);
-            graphics2D.drawArc((int) (x - radius / 2),
-                    (int) (y - radius / 2),
-                    (int) radius,
-                    (int) radius,
+            graphics2D.drawArc((int) (x - radius),
+                    (int) (y - radius),
+                    (int) radius * 2,
+                    (int) radius * 2,
                     0,
                     360);
 

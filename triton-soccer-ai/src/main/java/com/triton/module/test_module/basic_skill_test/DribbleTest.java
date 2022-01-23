@@ -5,10 +5,8 @@ import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
 import proto.simulation.SslGcCommon;
-import proto.triton.ObjectWithMetadata;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
@@ -17,7 +15,8 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslGcCommon.RobotId;
 import static proto.simulation.SslSimulationControl.*;
 import static proto.triton.AiBasicSkills.*;
-import static proto.triton.ObjectWithMetadata.*;
+import static proto.triton.ObjectWithMetadata.Ball;
+import static proto.triton.ObjectWithMetadata.Robot;
 
 public class DribbleTest extends Module {
     private Ball ball;
