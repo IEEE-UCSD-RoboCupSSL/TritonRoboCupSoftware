@@ -31,8 +31,6 @@ import static proto.triton.ObjectWithMetadata.Ball;
 
 public class UserInterface extends Module {
     private static final String MAIN_FRAME_TITLE = "Triton Display";
-    private ObjectConfig objectConfig;
-    private DisplayConfig displayConfig;
     private JFrame frame;
     private JPanel northPanel;
     private JPanel southPanel;
@@ -43,13 +41,6 @@ public class UserInterface extends Module {
 
     public UserInterface() throws IOException, TimeoutException {
         super();
-    }
-
-    @Override
-    protected void loadConfig() throws IOException {
-        super.loadConfig();
-        objectConfig = (ObjectConfig) readConfig(OBJECT_CONFIG);
-        displayConfig = (DisplayConfig) readConfig(DISPLAY_CONFIG);
     }
 
     @Override
@@ -214,7 +205,7 @@ public class UserInterface extends Module {
             if (ball != null) {
                 float x = ball.getX();
                 float y = ball.getY();
-                float radius = objectConfig.ballRadius * 1000;
+                float radius = RuntimeConstants.objectConfig.ballRadius * 1000;
 
                 graphics2D.setColor(MAGENTA);
                 graphics2D.fillArc((int) (x - radius),
@@ -263,7 +254,7 @@ public class UserInterface extends Module {
         private void paintBot(Graphics2D graphics2D, ObjectWithMetadata.Robot robot, Color fillColor, Color outlineColor) {
             float x = robot.getX();
             float y = robot.getY();
-            float radius = objectConfig.robotRadius * 1000;
+            float radius = RuntimeConstants.objectConfig.robotRadius * 1000;
 
             graphics2D.setColor(fillColor);
             graphics2D.fillArc((int) (x - radius),
@@ -286,7 +277,7 @@ public class UserInterface extends Module {
             graphics2D.drawLine((int) x, (int) y, (int) (x + radius * Math.cos(orientation)), (int) (y + radius * Math.sin(orientation)));
 
             graphics2D.setColor(WHITE);
-            setFont(new Font(displayConfig.botIdFontName, Font.BOLD, displayConfig.botIdFontSize));
+            setFont(new Font(RuntimeConstants.displayConfig.botIdFontName, Font.BOLD, RuntimeConstants.displayConfig.botIdFontSize));
             AffineTransform orgi = graphics2D.getTransform();
             graphics2D.translate(x, y);
             graphics2D.scale(1, -1);

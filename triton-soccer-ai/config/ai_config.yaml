@@ -1,1 +1,7 @@
   nodeSize: 200
+  kpPos: 0.001
+  kiPos: 0.000000
+  kdPos: 0.0000
+  kpOrientation: 0.5
+  kiOrientation: 0.000000
+  kdOrientation: 0.0000

@@ -4,6 +4,7 @@ import com.rabbitmq.client.Delivery;
 import com.triton.config.AIConfig;
 import com.triton.config.ConfigPath;
 import com.triton.config.ObjectConfig;
+import com.triton.constant.RuntimeConstants;
 import com.triton.helper.Vector2d;
 import com.triton.module.Module;
 import com.triton.search.base.Graph;
@@ -25,22 +26,12 @@ import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class PathfindingModule extends Module {
-    private static ObjectConfig objectConfig;
-    private static AIConfig aiConfig;
-
     private static SSL_GeometryFieldSize field;
     private static HashMap<Integer, Robot> allies;
     private static HashMap<Integer, Robot> foes;
 
     public PathfindingModule() throws IOException, TimeoutException {
         super();
-    }
-
-    @Override
-    protected void loadConfig() throws IOException {
-        super.loadConfig();
-        objectConfig = (ObjectConfig) readConfig(OBJECT_CONFIG);
-        aiConfig = (AIConfig) readConfig(AI_CONFIG);
     }
 
     public static Vector2d findPath(Vector2d from, Vector2d to, Robot ally) {
@@ -57,8 +48,8 @@ public class PathfindingModule extends Module {
         Node2d toNode = null;
         float toMinDist = Float.MAX_VALUE;
 
-        for (float x = (-fieldWidth / 2); x < fieldWidth / 2; x += aiConfig.nodeSize) {
-            for (float y = (-fieldLength / 2); y < fieldLength; y += aiConfig.nodeSize) {
+        for (float x = (-fieldWidth / 2); x < fieldWidth / 2; x += RuntimeConstants.aiConfig.nodeSize) {
+            for (float y = (-fieldLength / 2); y < fieldLength; y += RuntimeConstants.aiConfig.nodeSize) {
                 Vector2d pos = new Vector2d(x, y);
                 Node2d node = new Node2d(pos);
                 nodeMap.put(pos, node);
@@ -77,10 +68,13 @@ public class PathfindingModule extends Module {
             }
         }
 
+        System.out.println("FROM: " + from);
+        System.out.println("FROM NODE: " + fromNode.getPos());
+
         nodeMap.forEach((pos, node) -> {
             Set<Node2d> neighbors = new HashSet<>();
-            for (float offsetX = -aiConfig.nodeSize; offsetX <= aiConfig.nodeSize; offsetX += aiConfig.nodeSize) {
-                for (float offsetY = -aiConfig.nodeSize; offsetY <= aiConfig.nodeSize; offsetY += aiConfig.nodeSize) {
+            for (float offsetX = -RuntimeConstants.aiConfig.nodeSize; offsetX <= RuntimeConstants.aiConfig.nodeSize; offsetX += RuntimeConstants.aiConfig.nodeSize) {
+                for (float offsetY = -RuntimeConstants.aiConfig.nodeSize; offsetY <= RuntimeConstants.aiConfig.nodeSize; offsetY += RuntimeConstants.aiConfig.nodeSize) {
                     if (offsetX == 0 && offsetY == 0)
                         continue;
 
@@ -102,14 +96,15 @@ public class PathfindingModule extends Module {
         RouteFinder<Node2d> routeFinder = new RouteFinder<>(graph, nextNodeScorer, targetScorer);
 
         List<Node2d> route = routeFinder.findRoute(fromNode, toNode);
+
         if (route.size() > 1)
             return route.get(1).getPos();
         return route.get(0).getPos();
     }
 
     private static boolean checkCollision(Vector2d pos, float fieldWidth, float fieldLength, Robot excludeAlly) {
-        float robotCollisionDist = 2 * objectConfig.robotRadius / 1000f;
-        float boundCollisionDist = objectConfig.robotRadius / 1000f;
+        float robotCollisionDist = 2 * RuntimeConstants.objectConfig.robotRadius / 1000f;
+        float boundCollisionDist = RuntimeConstants.objectConfig.robotRadius / 1000f;
 
         for (Robot ally : allies.values()) {
             if (ally.equals(excludeAlly)) continue;

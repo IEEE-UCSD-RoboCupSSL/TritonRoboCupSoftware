@@ -27,11 +27,6 @@ public class TritonBotMessageBuilder extends Module {
     }
 
     @Override
-    protected void loadConfig() throws IOException {
-        super.loadConfig();
-    }
-
-    @Override
     protected void prepare() {
         super.prepare();
         lastCommandTimeStamps = new HashMap<>();

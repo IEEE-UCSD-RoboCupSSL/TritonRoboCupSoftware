@@ -19,7 +19,6 @@ public abstract class Module extends Thread {
 
     public Module() throws IOException, TimeoutException {
         setupChannel();
-        loadConfig();
         prepare();
         declareExchanges();
     }
@@ -33,9 +32,6 @@ public abstract class Module extends Thread {
 
         Connection consume_connection = factory.newConnection();
         consume_channel = consume_connection.createChannel();
-    }
-
-    protected void loadConfig() throws IOException {
     }
 
     protected void prepare() {

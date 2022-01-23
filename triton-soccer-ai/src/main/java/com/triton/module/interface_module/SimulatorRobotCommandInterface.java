@@ -21,19 +21,11 @@ import static proto.simulation.SslSimulationRobotFeedback.RobotControlResponse;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 
 public class SimulatorRobotCommandInterface extends Module {
-    private NetworkConfig networkConfig;
-
     private UDP_Client client;
     private HashMap<Integer, RobotFeedback> feedbacks;
 
     public SimulatorRobotCommandInterface() throws IOException, TimeoutException {
         super();
-    }
-
-    @Override
-    protected void loadConfig() throws IOException {
-        super.loadConfig();
-        networkConfig = (NetworkConfig) readConfig(NETWORK_CONFIG);
     }
 
     @Override
@@ -61,12 +53,12 @@ public class SimulatorRobotCommandInterface extends Module {
 
         switch (RuntimeConstants.team) {
             case BLUE -> {
-                allyControlAddress = networkConfig.simulationRobotControlAddressBlue;
-                allyControlPort = networkConfig.simulationRobotControlPortBlue;
+                allyControlAddress = RuntimeConstants.networkConfig.simulationRobotControlAddressBlue;
+                allyControlPort = RuntimeConstants.networkConfig.simulationRobotControlPortBlue;
             }
             case YELLOW -> {
-                allyControlAddress = networkConfig.simulationRobotControlAddressYellow;
-                allyControlPort = networkConfig.simulationRobotControlPortYellow;
+                allyControlAddress = RuntimeConstants.networkConfig.simulationRobotControlAddressYellow;
+                allyControlPort = RuntimeConstants.networkConfig.simulationRobotControlPortYellow;
             }
             default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
         }

@@ -1,6 +1,7 @@
 package com.triton.module.interface_module;
 
 import com.triton.config.NetworkConfig;
+import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
 import com.triton.networking.UDP_MulticastReceiver;
 
@@ -13,18 +14,10 @@ import static com.triton.messaging.Exchange.AI_VISION_WRAPPER;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class CameraInterface extends Module {
-    private NetworkConfig networkConfig;
-
     private UDP_MulticastReceiver detectionReceiver;
 
     public CameraInterface() throws IOException, TimeoutException {
         super();
-    }
-
-    @Override
-    protected void loadConfig() throws IOException {
-        super.loadConfig();
-        networkConfig = (NetworkConfig) readConfig(NETWORK_CONFIG);
     }
 
     @Override
@@ -50,8 +43,8 @@ public class CameraInterface extends Module {
      */
     private void setupReceiver() throws IOException {
         // Setup a multicast receiver
-        detectionReceiver = new UDP_MulticastReceiver(networkConfig.visionAddress,
-                networkConfig.visionDetectionPort,
+        detectionReceiver = new UDP_MulticastReceiver(RuntimeConstants.networkConfig.visionAddress,
+                RuntimeConstants.networkConfig.visionDetectionPort,
                 this::callbackWrapper);
 
         detectionReceiver.start();

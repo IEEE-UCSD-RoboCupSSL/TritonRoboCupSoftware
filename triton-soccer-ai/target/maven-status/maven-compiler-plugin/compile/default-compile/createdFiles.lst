@@ -223,6 +223,7 @@ com/triton/search/base/RouteFinder.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrameOrBuilder.class
 proto/triton/AiBasicSkills$MatchVelocity$Builder.class
 proto/triton/AiTeamSkills$DefaultNeutral$1.class
+com/triton/helper/PIDControl.class
 proto/simulation/SslVisionDetection.class
 proto/simulation/SslVisionGeometry$Vector2f$1.class
 com/triton/networking/UDP_Server.class

@@ -62,11 +62,6 @@ public class SimulatorControlAudienceConverter extends Module {
     }
 
     @Override
-    protected void loadConfig() throws IOException {
-        super.loadConfig();
-    }
-
-    @Override
     protected void prepare() {
         super.prepare();
     }

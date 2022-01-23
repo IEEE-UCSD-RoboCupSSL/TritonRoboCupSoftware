@@ -25,8 +25,6 @@ public class PathToPointSkill {
         Vector2d nextPoint = PathfindingModule.findPath(from, to, ally);
         if (nextPoint == null) return;
 
-        System.out.println(from);
-
         BasicSkill.Builder moveToPointSkill = BasicSkill.newBuilder();
         moveToPointSkill.setId(id);
         MoveToPoint.Builder moveToPoint = MoveToPoint.newBuilder();

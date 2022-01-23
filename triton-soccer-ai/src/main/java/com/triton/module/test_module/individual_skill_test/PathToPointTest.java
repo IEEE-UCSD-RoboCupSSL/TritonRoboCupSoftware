@@ -58,8 +58,7 @@ public class PathToPointTest extends Module {
             publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
 
             try {
-                Thread.sleep(5000);
-                while (true);
+                Thread.sleep(60000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

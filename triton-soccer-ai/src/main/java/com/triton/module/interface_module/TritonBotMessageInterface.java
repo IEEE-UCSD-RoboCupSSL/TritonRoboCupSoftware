@@ -23,21 +23,11 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 
 public class TritonBotMessageInterface extends Module {
-    private NetworkConfig networkConfig;
-    private GameConfig gameConfig;
-
     private HashMap<Integer, UDP_Client> clientMap;
     private HashMap<Integer, RobotFeedback> feedbacks;
 
     public TritonBotMessageInterface() throws IOException, TimeoutException {
         super();
-    }
-
-    @Override
-    protected void loadConfig() throws IOException {
-        super.loadConfig();
-        networkConfig = (NetworkConfig) readConfig(NETWORK_CONFIG);
-        gameConfig = (GameConfig) readConfig(GAME_CONFIG);
     }
 
     @Override
@@ -61,17 +51,17 @@ public class TritonBotMessageInterface extends Module {
     }
 
     private void setupClients() throws SocketException, UnknownHostException {
-        for (int id = 0; id < gameConfig.numBots; id++) {
+        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
             String serverAddress;
             int serverPort;
             switch (RuntimeConstants.team) {
                 case YELLOW -> {
-                    serverAddress = networkConfig.tritonBotAddressYellow;
-                    serverPort = networkConfig.tritonBotPortBaseYellow + id * networkConfig.tritonBotPortIncr;
+                    serverAddress = RuntimeConstants.networkConfig.tritonBotAddressYellow;
+                    serverPort = RuntimeConstants.networkConfig.tritonBotPortBaseYellow + id * RuntimeConstants.networkConfig.tritonBotPortIncr;
                 }
                 case BLUE -> {
-                    serverAddress = networkConfig.tritonBotAddressBlue;
-                    serverPort = networkConfig.tritonBotPortBaseBlue + id * networkConfig.tritonBotPortIncr;
+                    serverAddress = RuntimeConstants.networkConfig.tritonBotAddressBlue;
+                    serverPort = RuntimeConstants.networkConfig.tritonBotPortBaseBlue + id * RuntimeConstants.networkConfig.tritonBotPortIncr;
                 }
                 default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
             }

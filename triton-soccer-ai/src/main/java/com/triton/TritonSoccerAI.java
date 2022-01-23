@@ -1,5 +1,6 @@
 package com.triton;
 
+import com.triton.config.*;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
@@ -26,6 +27,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
+import static com.triton.config.ConfigPath.*;
+import static com.triton.config.ConfigReader.readConfig;
+
 public class TritonSoccerAI {
     ThreadPoolExecutor executor;
 
@@ -35,6 +39,20 @@ public class TritonSoccerAI {
     }
 
     public static void main(String[] args) {
+        if (parseArgs(args)) return;
+        loadConfigs();
+
+        try {
+            TritonSoccerAI tritonSoccerAI = new TritonSoccerAI();
+            tritonSoccerAI.startModules();
+            if (RuntimeConstants.test)
+                tritonSoccerAI.runTests();
+        } catch (IOException | TimeoutException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static boolean parseArgs(String[] args) {
         Options options = new Options();
         Option teamOption = Option.builder("team")
                 .longOpt("team")
@@ -64,17 +82,17 @@ public class TritonSoccerAI {
         } catch (ParseException e) {
             e.printStackTrace();
             helper.printHelp(" ", options);
-            return;
+            return true;
         }
+        return false;
+    }
 
-        try {
-            TritonSoccerAI tritonSoccerAI = new TritonSoccerAI();
-            tritonSoccerAI.startModules();
-            if (RuntimeConstants.test)
-                tritonSoccerAI.runTests();
-        } catch (IOException | TimeoutException e) {
-            e.printStackTrace();
-        }
+    private static void loadConfigs() {
+        RuntimeConstants.aiConfig = (AIConfig) readConfig(AI_CONFIG);
+        RuntimeConstants.displayConfig = (DisplayConfig) readConfig(DISPLAY_CONFIG);
+        RuntimeConstants.gameConfig = (GameConfig) readConfig(GAME_CONFIG);
+        RuntimeConstants.networkConfig = (NetworkConfig) readConfig(NETWORK_CONFIG);
+        RuntimeConstants.objectConfig = (ObjectConfig) readConfig(OBJECT_CONFIG);
     }
 
     private static Team parseTeam(String teamString) {
