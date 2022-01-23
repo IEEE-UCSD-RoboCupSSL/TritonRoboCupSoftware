@@ -59,6 +59,7 @@ public class PathToPointTest extends Module {
 
             try {
                 Thread.sleep(5000);
+                while (true);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -69,8 +70,8 @@ public class PathToPointTest extends Module {
         IndividualSkill.Builder pathToPointSkill = IndividualSkill.newBuilder();
 
         PathToPoint.Builder pathToPoint = PathToPoint.newBuilder();
-        pathToPoint.setX(1000);
-        pathToPoint.setY(1000);
+        pathToPoint.setX(2000);
+        pathToPoint.setY(2000);
         pathToPoint.setFacePoint(true);
         pathToPointSkill.setPathToPoint(pathToPoint);
 

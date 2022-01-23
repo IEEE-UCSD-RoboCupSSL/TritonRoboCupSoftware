@@ -84,7 +84,9 @@ public class TritonBotMessageInterface extends Module {
 
     private void callbackTritonBotMessage(String s, Delivery delivery) {
         TritonBotMessage message = (TritonBotMessage) simpleDeserialize(delivery.getBody());
-        clientMap.get(message.getId()).addSend(message.toByteArray());
+
+        if (clientMap.containsKey(message.getId()))
+            clientMap.get(message.getId()).addSend(message.toByteArray());
     }
 
     private void callbackTritonBotFeedback(byte[] bytes) {

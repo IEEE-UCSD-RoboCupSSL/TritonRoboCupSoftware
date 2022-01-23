@@ -14,11 +14,11 @@ import static proto.triton.ObjectWithMetadata.Robot;
 public class MoveToPointSkill {
     private static final float kpPos = 0.005f;
     private static final float kiPos = 0.000000f;
-    private static final float kdPos = 0.000f;
+    private static final float kdPos = 0.0001f;
 
     private static final float kpOrientation = 0.5f;
     private static final float kiOrientation = 0.000000f;
-    private static final float kdOrientation = 0.000f;
+    private static final float kdOrientation = 0.0001f;
 
     private static Map<Integer, Long> lastTimestampMap;
     private static Map<Integer, Vector2d> errorSumPosMap;

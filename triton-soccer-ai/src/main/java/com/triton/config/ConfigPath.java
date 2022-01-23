@@ -5,6 +5,7 @@ public enum ConfigPath {
     OBJECT_CONFIG("object_config.yaml", ObjectConfig.class),
     GAME_CONFIG("game_config.yaml", GameConfig.class),
     DISPLAY_CONFIG("display_config.yaml", DisplayConfig.class),
+    AI_CONFIG("ai_config.yaml", AIConfig.class),
     ;
 
     private final String configPath;
