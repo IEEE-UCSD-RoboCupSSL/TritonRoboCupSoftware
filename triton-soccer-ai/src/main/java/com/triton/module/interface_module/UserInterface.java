@@ -288,7 +288,7 @@ public class UserInterface extends Module {
         private void paintBot(Graphics2D graphics2D, ObjectWithMetadata.Robot robot, Color fillColor, Color outlineColor) {
             float x = robot.getX();
             float y = robot.getY();
-            float radius = objectConfig.robotRadius;
+            float radius = objectConfig.robotRadius * 1000;
 
             graphics2D.setColor(fillColor);
             graphics2D.fillArc((int) (x - radius / 2),

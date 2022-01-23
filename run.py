@@ -29,6 +29,9 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 simulator_path = dir_path + "/framework/build/bin"
 simulator = "./simulator-cli"
 
+game_controller_path = dir_path + "/game-controller"
+game_controller = "./ssl-game-controller_v2.13.0_linux_amd64"
+
 triton_soccer_ai_jar_path = dir_path + "/triton-soccer-ai/target"
 triton_soccer_ai_jar = "TritonSoccerAI.jar"
 
@@ -39,8 +42,12 @@ triton_bot_path = dir_path + "/triton-bot/src/main/python"
 triton_bot = "triton_bot.py"
 
 # run cmds
+
 run_cmd([simulator, "-g", "2020B", "--realism", "Realistic"], simulator_path, "tab")
 time.sleep(0.1)
+
+# run_cmd([game_controller, ], game_controller_path, "tab")
+# time.sleep(0.1)
 
 num_bots = 6
 for i in range(num_bots):

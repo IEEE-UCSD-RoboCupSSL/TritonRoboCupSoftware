@@ -21,4 +21,8 @@ public class ObjectConfig {
     public float robotBackRight;
     public float robotBackLeft;
     public float robotFrontLeft;
+
+    public float shootRadius;
+    public float dribblerHeight;
+    public float dribblerWidth;
 }
