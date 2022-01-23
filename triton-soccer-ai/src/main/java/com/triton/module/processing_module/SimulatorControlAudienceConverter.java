@@ -80,9 +80,7 @@ public class SimulatorControlAudienceConverter extends Module {
 
     private void callbackBiasedSimulatorControl(String s, Delivery delivery) {
         SimulatorControl biasedSimulatorControl = (SimulatorControl) simpleDeserialize(delivery.getBody());
-
         SimulatorControl simulatorControl = biasedToAudience(biasedSimulatorControl);
-
         publish(AI_SIMULATOR_CONTROL, simulatorControl);
     }
 }

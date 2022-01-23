@@ -45,19 +45,15 @@ public class IndividualSkillsModule extends Module {
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, Robot> allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
-        this.allies = allies;
+        this.allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
     }
 
     private void callbackFoes(String s, Delivery delivery) {
-        HashMap<Integer, Robot> foes = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
-        this.foes = foes;
+        this.foes = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
     }
 
     private void callbackBalls(String s, Delivery delivery) {
-        Ball ball = (Ball) simpleDeserialize(delivery.getBody());
-
-        this.ball = ball;
+        this.ball = (Ball) simpleDeserialize(delivery.getBody());
     }
 
     private void callbackIndividualSkill(String s, Delivery delivery) {

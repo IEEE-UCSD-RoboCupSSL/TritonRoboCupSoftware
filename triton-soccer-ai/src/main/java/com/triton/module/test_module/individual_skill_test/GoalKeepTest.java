@@ -99,8 +99,6 @@ public class GoalKeepTest extends Module {
     }
 
     private void callbackFeedbacks(String s, Delivery delivery) {
-        HashMap<Integer, RobotFeedback> feedbacks = (HashMap<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
-
-        this.feedbacks = feedbacks;
+        this.feedbacks = (HashMap<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
     }
 }

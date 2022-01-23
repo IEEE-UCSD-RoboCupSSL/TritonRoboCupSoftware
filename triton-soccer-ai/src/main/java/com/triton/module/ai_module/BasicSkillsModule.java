@@ -33,14 +33,11 @@ public class BasicSkillsModule extends Module {
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, Robot> allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
-
-        this.allies = allies;
+        this.allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
     }
 
     private void callbackBasicSkill(String s, Delivery delivery) {
-        BasicSkill basicSkill;
-        basicSkill = (BasicSkill) simpleDeserialize(delivery.getBody());
+        BasicSkill basicSkill = (BasicSkill) simpleDeserialize(delivery.getBody());
 
         int id = basicSkill.getId();
 
