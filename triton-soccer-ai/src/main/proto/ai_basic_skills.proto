@@ -4,15 +4,11 @@ package proto.triton;
 message BasicSkill {
   int32 id = 1;
   oneof command {
-    Stop stop = 2;
-    MatchVelocity match_velocity = 3;
-    MoveToPoint move_to_point = 4;
-    Kick kick = 5;
-    Dribble dribble = 6;
+    MatchVelocity match_velocity = 2;
+    MoveToPoint move_to_point = 3;
+    Kick kick = 4;
+    Dribble dribble = 5;
   }
-}
-
-message Stop {
 }
 
 message MatchVelocity {

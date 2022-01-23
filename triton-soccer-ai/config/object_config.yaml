@@ -12,7 +12,7 @@
   # Max chip kick speed [m/s]
   robotMaxChipKickSpeed : 5
   # Distance from robot center to dribbler [m] (implicitly defines the opening angle and dribbler width)
-  robotCenterToDribbler : 0.089
+  robotCenterToDribbler : 0.09
 
   # Max absolute speed-up acceleration [m/s^2]
   robotAccSpeedupAbsoluteMax: 10
@@ -41,8 +41,8 @@
 
   # The distance [m] from the robot center to the ball, when the ball is as close as possible to the robot.
   # The ball may be a little bit inside the roboter when looking from top, due to the dimensions of the dribbler.
-  shootRadius: 0.067
+  shootRadius: 0.1
   # The height of the dribbling bar from the ground [m]
-  dribblerHeight: 0.04
+  dribblerHeight: 0.1
   # The width of the dribbler itself (where the ball can be controlled), without the mechanical frame [m].
-  dribblerWidth: 0.05
+  dribblerWidth: 0.1

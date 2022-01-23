@@ -39,7 +39,6 @@
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/java/com/triton/ai/skills/basic_skills/MoveToPointSkill.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/java/com/triton/networking/UDP_MulticastReceiver.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/java/com/triton/module/ai_module/IndividualSkillsModule.java
-/home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/java/com/triton/ai/skills/basic_skills/StopSkill.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/java/com/triton/config/DisplayConfig.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/generated-sources/proto/simulation/SslSimulationConfig.java
 /home/duy/Desktop/TritonRoboCupSoftware/triton-soccer-ai/src/main/java/com/triton/ai/skills/basic_skills/DribbleSkill.java

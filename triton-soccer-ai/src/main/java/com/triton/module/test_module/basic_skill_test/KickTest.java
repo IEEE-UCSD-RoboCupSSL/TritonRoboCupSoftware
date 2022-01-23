@@ -61,11 +61,7 @@ public class KickTest extends Module {
             teleportBall.setByForce(false);
             simulatorControl.setTeleportBall(teleportBall);
 
-            try {
-                publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
 
             try {
                 Thread.sleep(2000);
@@ -81,10 +77,6 @@ public class KickTest extends Module {
         kick.setChip(false);
         kickSkill.setKick(kick);
 
-        try {
-            publish(AI_BASIC_SKILL, kickSkill.build());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_BASIC_SKILL, kickSkill.build());
     }
 }

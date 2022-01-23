@@ -63,11 +63,7 @@ public class GoalKeepTest extends Module {
             teleportBall.setByForce(false);
             simulatorControl.setTeleportBall(teleportBall);
 
-            try {
-                publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
 
             try {
                 Thread.sleep(2000);
@@ -83,10 +79,6 @@ public class GoalKeepTest extends Module {
         GoalKeep.Builder goalKeep = GoalKeep.newBuilder();
         goalKeepSkill.setGoalKeep(goalKeep);
 
-        try {
-            publish(AI_INDIVIDUAL_SKILL, goalKeepSkill.build());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_INDIVIDUAL_SKILL, goalKeepSkill.build());
     }
 }

@@ -7,21 +7,14 @@ import com.triton.module.Module;
 import proto.simulation.SslGcCommon;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
-import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslGcCommon.RobotId;
 import static proto.simulation.SslSimulationControl.*;
 import static proto.triton.AiBasicSkills.*;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
 
 public class DribbleTest extends Module {
-    private Ball ball;
-    private HashMap<Integer, Robot> allies;
-
     public DribbleTest() throws IOException, TimeoutException {
         super();
     }
@@ -29,8 +22,7 @@ public class DribbleTest extends Module {
     @Override
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
-        declareConsume(AI_FILTERED_BIASED_BALLS, this::callbackBalls);
-        declareConsume(AI_FILTERED_BIASED_ALLIES, this::callbackAllies);
+        declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
         declarePublish(AI_BIASED_SIMULATOR_CONTROL);
         declarePublish(AI_BASIC_SKILL);
     }
@@ -58,8 +50,8 @@ public class DribbleTest extends Module {
             simulatorControl.addTeleportRobot(teleportRobot);
 
             TeleportBall.Builder teleportBall = TeleportBall.newBuilder();
-            teleportBall.setX(0);
-            teleportBall.setY(500f / 1000f);
+            teleportBall.setX(500f / 1000f);
+            teleportBall.setY(0);
             teleportBall.setZ(0);
             teleportBall.setVx(0);
             teleportBall.setVy(0);
@@ -67,11 +59,7 @@ public class DribbleTest extends Module {
             teleportBall.setByForce(false);
             simulatorControl.setTeleportBall(teleportBall);
 
-            try {
-                publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
 
             try {
                 Thread.sleep(2000);
@@ -81,57 +69,21 @@ public class DribbleTest extends Module {
         }
     }
 
-    private void callbackBalls(String s, Delivery delivery) {
-        Ball ball;
-        try {
-            ball = (Ball) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        this.ball = ball;
-        createCommand();
-    }
-
-    private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, Robot> allies;
-        try {
-            allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        this.allies = allies;
-        createCommand();
-    }
-
-    private void createCommand() {
-        if (ball == null || allies == null) return;
-
+    private void callbackWrapper(String s, Delivery delivery) {
         BasicSkill.Builder dribbleSkill = BasicSkill.newBuilder();
         Dribble.Builder dribble = Dribble.newBuilder();
         dribble.setDribbleOn(true);
         dribbleSkill.setDribble(dribble);
 
-        try {
-            publish(AI_BASIC_SKILL, dribbleSkill.build());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_BASIC_SKILL, dribbleSkill.build());
 
         BasicSkill.Builder matchVelocitySkill = BasicSkill.newBuilder();
         MatchVelocity.Builder matchVelocity = MatchVelocity.newBuilder();
-        matchVelocity.setVx(0);
-        matchVelocity.setVy(1f);
+        matchVelocity.setVx(1f);
+        matchVelocity.setVy(0);
         matchVelocity.setAngular(0);
         matchVelocitySkill.setMatchVelocity(matchVelocity);
 
-        try {
-            publish(AI_BASIC_SKILL, matchVelocitySkill.build());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_BASIC_SKILL, matchVelocitySkill.build());
     }
 }

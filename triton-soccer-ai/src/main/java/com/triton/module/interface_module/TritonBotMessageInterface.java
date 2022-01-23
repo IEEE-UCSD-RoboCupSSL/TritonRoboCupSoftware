@@ -84,12 +84,7 @@ public class TritonBotMessageInterface extends Module {
 
     private void callbackTritonBotMessage(String s, Delivery delivery) {
         TritonBotMessage message;
-        try {
-            message = (TritonBotMessage) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        message = (TritonBotMessage) simpleDeserialize(delivery.getBody());
 
         clientMap.get(message.getId()).addSend(message.toByteArray());
     }
@@ -105,10 +100,6 @@ public class TritonBotMessageInterface extends Module {
         if (feedback == null) return;
         feedbacks.put(feedback.getId(), feedback);
 
-        try {
-            publish(AI_ROBOT_FEEDBACKS, feedbacks);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_ROBOT_FEEDBACKS, feedbacks);
     }
 }

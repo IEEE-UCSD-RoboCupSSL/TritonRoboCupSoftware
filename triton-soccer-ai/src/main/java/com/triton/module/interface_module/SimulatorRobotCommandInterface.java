@@ -78,17 +78,10 @@ public class SimulatorRobotCommandInterface extends Module {
 
     private void callbackRobotCommand(String s, Delivery delivery) {
         RobotCommand robotCommand;
-        try {
-            robotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        robotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
 
         RobotControl.Builder robotControl = RobotControl.newBuilder();
         robotControl.addRobotCommands(robotCommand);
-
-        System.out.println(robotCommand);
 
         client.addSend(robotControl.build().toByteArray());
     }
@@ -105,10 +98,6 @@ public class SimulatorRobotCommandInterface extends Module {
         for (RobotFeedback feedback : response.getFeedbackList())
             feedbacks.put(feedback.getId(), feedback);
 
-        try {
-            publish(AI_ROBOT_FEEDBACKS, feedbacks);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_ROBOT_FEEDBACKS, feedbacks);
     }
 }

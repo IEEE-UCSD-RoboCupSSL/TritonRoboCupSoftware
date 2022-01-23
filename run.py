@@ -43,7 +43,7 @@ triton_bot = "triton_bot.py"
 
 # run cmds
 
-run_cmd([simulator, "-g", "2020B", "--realism", "Realistic"], simulator_path, "tab")
+run_cmd([simulator, "-g", "2020B", "--realism", "None"], simulator_path, "tab")
 time.sleep(0.1)
 
 # run_cmd([game_controller, ], game_controller_path, "tab")

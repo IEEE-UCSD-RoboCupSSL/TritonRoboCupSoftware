@@ -99,11 +99,7 @@ public class SimulatorCommandInterface extends Module {
             simulatorControl.addTeleportRobot(teleportRobot);
         }
 
-        try {
-            publish(AI_SIMULATOR_CONTROL, simulatorControl.build());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_SIMULATOR_CONTROL, simulatorControl.build());
 
         SimulatorConfig.Builder simulatorConfig = SimulatorConfig.newBuilder();
         for (int i = 0; i < 6; i++) {
@@ -149,21 +145,12 @@ public class SimulatorCommandInterface extends Module {
             simulatorConfig.addRobotSpecs(specs);
         }
 
-        try {
-            publish(AI_SIMULATOR_CONFIG, simulatorConfig.build());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_SIMULATOR_CONFIG, simulatorConfig.build());
     }
 
     private void callbackSimulatorControl(String s, Delivery delivery) {
         SimulatorControl simulatorControl;
-        try {
-            simulatorControl = (SimulatorControl) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        simulatorControl = (SimulatorControl) simpleDeserialize(delivery.getBody());
 
         SimulatorCommand.Builder simulatorCommand = SimulatorCommand.newBuilder();
         simulatorCommand.setControl(simulatorControl);
@@ -172,12 +159,7 @@ public class SimulatorCommandInterface extends Module {
 
     private void callbackSimulatorConfig(String s, Delivery delivery) {
         SimulatorConfig simulatorConfig;
-        try {
-            simulatorConfig = (SimulatorConfig) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        simulatorConfig = (SimulatorConfig) simpleDeserialize(delivery.getBody());
 
         SimulatorCommand.Builder simulatorCommand = SimulatorCommand.newBuilder();
         simulatorCommand.setConfig(simulatorConfig);

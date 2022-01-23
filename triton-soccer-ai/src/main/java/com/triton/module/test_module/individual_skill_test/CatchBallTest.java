@@ -67,11 +67,7 @@ public class CatchBallTest extends Module {
             teleportBall.setByForce(false);
             simulatorControl.setTeleportBall(teleportBall);
 
-            try {
-                publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
 
             try {
                 Thread.sleep(3000);
@@ -83,12 +79,7 @@ public class CatchBallTest extends Module {
 
     private void callbackBalls(String s, Delivery delivery) {
         Ball ball;
-        try {
-            ball = (Ball) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        ball = (Ball) simpleDeserialize(delivery.getBody());
 
         this.ball = ball;
         createCommand();
@@ -96,12 +87,7 @@ public class CatchBallTest extends Module {
 
     private void callbackAllies(String s, Delivery delivery) {
         HashMap<Integer, Robot> allies;
-        try {
-            allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
 
         this.allies = allies;
         createCommand();
@@ -113,10 +99,6 @@ public class CatchBallTest extends Module {
         CatchBall.Builder catchBall = CatchBall.newBuilder();
         catchBallSkill.setCatchBall(catchBall);
 
-        try {
-            publish(AI_INDIVIDUAL_SKILL, catchBallSkill.build());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_INDIVIDUAL_SKILL, catchBallSkill.build());
     }
 }

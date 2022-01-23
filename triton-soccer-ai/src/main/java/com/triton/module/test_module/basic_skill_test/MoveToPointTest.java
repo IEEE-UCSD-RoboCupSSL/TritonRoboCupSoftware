@@ -49,11 +49,7 @@ public class MoveToPointTest extends Module {
             teleportRobot.setByForce(false);
             simulatorControl.addTeleportRobot(teleportRobot);
 
-            try {
-                publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
 
             try {
                 Thread.sleep(5000);
@@ -66,15 +62,11 @@ public class MoveToPointTest extends Module {
     private void callbackWrapper(String s, Delivery delivery) {
         BasicSkill.Builder moveToPointSkill = BasicSkill.newBuilder();
         MoveToPoint.Builder moveToPoint = MoveToPoint.newBuilder();
-        moveToPoint.setX(1000);
-        moveToPoint.setY(1000);
+        moveToPoint.setX(2000);
+        moveToPoint.setY(2000);
         moveToPoint.setOrientation((float) Math.PI);
         moveToPointSkill.setMoveToPoint(moveToPoint);
 
-        try {
-            publish(AI_BASIC_SKILL, moveToPointSkill.build());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_BASIC_SKILL, moveToPointSkill.build());
     }
 }

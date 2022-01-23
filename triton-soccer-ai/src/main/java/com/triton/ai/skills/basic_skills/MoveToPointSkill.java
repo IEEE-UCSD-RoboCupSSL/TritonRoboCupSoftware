@@ -2,14 +2,13 @@ package com.triton.ai.skills.basic_skills;
 
 import com.triton.helper.Vector2d;
 import com.triton.module.Module;
-import proto.simulation.SslSimulationRobotControl;
-import proto.triton.AiBasicSkills;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
+import static com.triton.messaging.Exchange.AI_BASIC_SKILL;
+import static proto.triton.AiBasicSkills.*;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class MoveToPointSkill {
@@ -27,7 +26,7 @@ public class MoveToPointSkill {
     private static Map<Integer, Vector2d> lastErrorPosMap;
     private static Map<Integer, Float> lastErrorOrientationMap;
 
-    public static void moveToPointSkill(Module module, int id, AiBasicSkills.MoveToPoint moveToPoint, Robot ally) throws IOException {
+    public static void moveToPointSkill(Module module, int id, MoveToPoint moveToPoint, Robot ally) throws IOException {
         init(id);
 
         if (ally == null) return;
@@ -43,16 +42,15 @@ public class MoveToPointSkill {
         float targetOrientation = moveToPoint.getOrientation();
         float outputAngular = pidOrientation(id, inputOrientation, targetOrientation, timeDiff);
 
-        SslSimulationRobotControl.RobotCommand.Builder robotCommand = SslSimulationRobotControl.RobotCommand.newBuilder();
-        robotCommand.setId(id);
-        SslSimulationRobotControl.RobotMoveCommand.Builder moveCommand = SslSimulationRobotControl.RobotMoveCommand.newBuilder();
-        SslSimulationRobotControl.MoveGlobalVelocity.Builder globalVelocity = SslSimulationRobotControl.MoveGlobalVelocity.newBuilder();
-        globalVelocity.setX(outputVel.x);
-        globalVelocity.setY(outputVel.y);
-        globalVelocity.setAngular(outputAngular);
-        moveCommand.setGlobalVelocity(globalVelocity);
-        robotCommand.setMoveCommand(moveCommand);
-        module.publish(AI_BIASED_ROBOT_COMMAND, robotCommand.build());
+        BasicSkill.Builder matchVelocitySkill = BasicSkill.newBuilder();
+        matchVelocitySkill.setId(id);
+        MatchVelocity.Builder matchVelocity = MatchVelocity.newBuilder();
+        matchVelocity.setVx(outputVel.x);
+        matchVelocity.setVy(outputVel.y);
+        matchVelocity.setAngular(outputAngular);
+        matchVelocitySkill.setMatchVelocity(matchVelocity);
+
+        module.publish(AI_BASIC_SKILL, matchVelocitySkill.build());
 
         lastTimestampMap.put(id, System.currentTimeMillis());
     }

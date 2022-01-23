@@ -55,11 +55,7 @@ public class PathToPointTest extends Module {
             teleportRobot.setByForce(false);
             simulatorControl.addTeleportRobot(teleportRobot);
 
-            try {
-                publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
 
             try {
                 Thread.sleep(5000);
@@ -78,10 +74,6 @@ public class PathToPointTest extends Module {
         pathToPoint.setFacePoint(true);
         pathToPointSkill.setPathToPoint(pathToPoint);
 
-        try {
-            publish(AI_INDIVIDUAL_SKILL, pathToPointSkill.build());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_INDIVIDUAL_SKILL, pathToPointSkill.build());
     }
 }

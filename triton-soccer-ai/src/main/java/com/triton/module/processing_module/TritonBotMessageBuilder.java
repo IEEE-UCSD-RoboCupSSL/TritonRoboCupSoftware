@@ -48,12 +48,7 @@ public class TritonBotMessageBuilder extends Module {
 
     private void callbackWrapper(String s, Delivery delivery) {
         SSL_WrapperPacket wrapper;
-        try {
-            wrapper = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        wrapper = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
 
         List<SSL_DetectionRobot> allies;
         if (RuntimeConstants.team == Team.BLUE)
@@ -65,22 +60,14 @@ public class TritonBotMessageBuilder extends Module {
             TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
             message.setId(ally.getRobotId());
             message.setVision(ally);
-            try {
-                publish(AI_TRITON_BOT_MESSAGE, message.build());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            publish(AI_TRITON_BOT_MESSAGE, message.build());
         }
     }
 
     private void callbackRobotCommand(String s, Delivery delivery) {
         RobotCommand robotCommand;
-        try {
-            robotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        robotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
 
         if (!aggregateRobotCommands.containsKey(robotCommand.getId())) {
             RobotCommand.Builder aggregateRobotCommand = RobotCommand.newBuilder();
@@ -106,11 +93,7 @@ public class TritonBotMessageBuilder extends Module {
         message.setId(robotCommand.getId());
         message.setCommand(aggregateRobotCommand);
 
-        try {
-            publish(AI_TRITON_BOT_MESSAGE, message.build());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_TRITON_BOT_MESSAGE, message.build());
 
         lastCommandTimeStamps.put(robotCommand.getId(), System.currentTimeMillis());
     }

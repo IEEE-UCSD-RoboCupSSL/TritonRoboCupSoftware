@@ -105,12 +105,7 @@ public class UserInterface extends Module {
 
     private void callbackField(String s, Delivery delivery) {
         SSL_GeometryFieldSize field;
-        try {
-            field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
 
         fieldPanel.setField(field);
         frame.repaint();
@@ -118,12 +113,7 @@ public class UserInterface extends Module {
 
     private void callbackBalls(String s, Delivery delivery) {
         Ball ball;
-        try {
-            ball = (Ball) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        ball = (Ball) simpleDeserialize(delivery.getBody());
 
         fieldPanel.setBall(ball);
         frame.repaint();
@@ -131,12 +121,7 @@ public class UserInterface extends Module {
 
     private void callbackAllies(String s, Delivery delivery) {
         HashMap<Integer, ObjectWithMetadata.Robot> allies;
-        try {
-            allies = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        allies = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
 
         fieldPanel.setAllies(allies);
         frame.repaint();
@@ -144,12 +129,7 @@ public class UserInterface extends Module {
 
     private void callbackFoes(String s, Delivery delivery) {
         HashMap<Integer, ObjectWithMetadata.Robot> foes;
-        try {
-            foes = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        foes = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
 
         fieldPanel.setFoes(foes);
         frame.repaint();

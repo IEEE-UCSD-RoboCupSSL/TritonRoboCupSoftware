@@ -49,11 +49,7 @@ public class MatchVelocityTest extends Module {
             teleportRobot.setByForce(false);
             simulatorControl.addTeleportRobot(teleportRobot);
 
-            try {
-                publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
 
             try {
                 Thread.sleep(5000);
@@ -71,10 +67,6 @@ public class MatchVelocityTest extends Module {
         matchVelocity.setAngular((float) (Math.PI * 2 * 1));
         matchVelocitySkill.setMatchVelocity(matchVelocity);
 
-        try {
-            publish(AI_BASIC_SKILL, matchVelocitySkill.build());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_BASIC_SKILL, matchVelocitySkill.build());
     }
 }

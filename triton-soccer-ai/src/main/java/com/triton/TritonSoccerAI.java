@@ -4,8 +4,6 @@ import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
 import com.triton.module.ai_module.*;
-import com.triton.module.debug_module.RobotCommandSource;
-import com.triton.module.debug_module.SimulatorControlSource;
 import com.triton.module.interface_module.CameraInterface;
 import com.triton.module.interface_module.SimulatorCommandInterface;
 import com.triton.module.interface_module.TritonBotMessageInterface;
@@ -89,15 +87,9 @@ public class TritonSoccerAI {
     }
 
     public void startModules() throws IOException, TimeoutException {
-//        startDebugModules();
         startProcessingModules();
         startAI();
         startInterfaceModules();
-    }
-
-    public void startDebugModules() throws IOException, TimeoutException {
-        startModule(new SimulatorControlSource());
-        startModule(new RobotCommandSource());
     }
 
     public void startProcessingModules() throws IOException, TimeoutException {

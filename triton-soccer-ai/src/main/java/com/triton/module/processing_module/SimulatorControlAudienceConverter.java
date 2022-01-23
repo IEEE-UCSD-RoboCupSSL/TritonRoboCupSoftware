@@ -80,18 +80,10 @@ public class SimulatorControlAudienceConverter extends Module {
 
     private void callbackBiasedSimulatorControl(String s, Delivery delivery) {
         SimulatorControl biasedSimulatorControl;
-        try {
-            biasedSimulatorControl = (SimulatorControl) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        biasedSimulatorControl = (SimulatorControl) simpleDeserialize(delivery.getBody());
 
         SimulatorControl simulatorControl = biasedToAudience(biasedSimulatorControl);
-        try {
-            publish(AI_SIMULATOR_CONTROL, simulatorControl);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        publish(AI_SIMULATOR_CONTROL, simulatorControl);
     }
 }

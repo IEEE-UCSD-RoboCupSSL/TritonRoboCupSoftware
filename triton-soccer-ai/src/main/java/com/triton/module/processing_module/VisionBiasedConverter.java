@@ -107,53 +107,39 @@ public class VisionBiasedConverter extends Module {
 
     private void callbackWrapper(String s, Delivery delivery) {
         SSL_WrapperPacket wrapper;
-        try {
-            wrapper = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        wrapper = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
 
-        if (wrapper.hasGeometry() && wrapper.getGeometry().hasField()) {
-            try {
-                publish(AI_BIASED_FIELD, audienceToBiased(wrapper.getGeometry().getField()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        if (wrapper.hasGeometry() && wrapper.getGeometry().hasField())
+            publish(AI_BIASED_FIELD, audienceToBiased(wrapper.getGeometry().getField()));
 
         if (wrapper.hasDetection()) {
-            try {
-                SSL_DetectionFrame detection = wrapper.getDetection();
+            SSL_DetectionFrame detection = wrapper.getDetection();
 
-                ArrayList<SSL_DetectionBall> biasedBalls = new ArrayList<>();
-                for (SSL_DetectionBall ball : detection.getBallsList())
-                    biasedBalls.add(audienceToBiased(ball));
-                publish(AI_BIASED_BALLS, biasedBalls);
+            ArrayList<SSL_DetectionBall> biasedBalls = new ArrayList<>();
+            for (SSL_DetectionBall ball : detection.getBallsList())
+                biasedBalls.add(audienceToBiased(ball));
+            publish(AI_BIASED_BALLS, biasedBalls);
 
-                HashMap<Integer, SSL_DetectionRobot> biasedYellows = new HashMap<>();
-                for (SSL_DetectionRobot robot : detection.getRobotsYellowList())
-                    biasedYellows.put(robot.getRobotId(), audienceToBiased(robot));
+            HashMap<Integer, SSL_DetectionRobot> biasedYellows = new HashMap<>();
+            for (SSL_DetectionRobot robot : detection.getRobotsYellowList())
+                biasedYellows.put(robot.getRobotId(), audienceToBiased(robot));
 
-                HashMap<Integer, SSL_DetectionRobot> biasedBlues = new HashMap<>();
-                for (SSL_DetectionRobot robot : detection.getRobotsBlueList())
-                    biasedBlues.put(robot.getRobotId(), audienceToBiased(robot));
+            HashMap<Integer, SSL_DetectionRobot> biasedBlues = new HashMap<>();
+            for (SSL_DetectionRobot robot : detection.getRobotsBlueList())
+                biasedBlues.put(robot.getRobotId(), audienceToBiased(robot));
 
-                HashMap<Integer, SSL_DetectionRobot> biasedAllies;
-                HashMap<Integer, SSL_DetectionRobot> biasedFoes;
-                if (RuntimeConstants.team == Team.YELLOW) {
-                    biasedAllies = biasedYellows;
-                    biasedFoes = biasedBlues;
-                } else {
-                    biasedAllies = biasedBlues;
-                    biasedFoes = biasedYellows;
-                }
-
-                publish(AI_BIASED_ALLIES, biasedAllies);
-                publish(AI_BIASED_FOES, biasedFoes);
-            } catch (IOException e) {
-                e.printStackTrace();
+            HashMap<Integer, SSL_DetectionRobot> biasedAllies;
+            HashMap<Integer, SSL_DetectionRobot> biasedFoes;
+            if (RuntimeConstants.team == Team.YELLOW) {
+                biasedAllies = biasedYellows;
+                biasedFoes = biasedBlues;
+            } else {
+                biasedAllies = biasedBlues;
+                biasedFoes = biasedYellows;
             }
+
+            publish(AI_BIASED_ALLIES, biasedAllies);
+            publish(AI_BIASED_FOES, biasedFoes);
         }
     }
 }

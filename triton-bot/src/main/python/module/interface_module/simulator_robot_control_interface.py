@@ -52,6 +52,7 @@ class SimulatorRobotControlInterface(Module):
     def callback_local_command(self, ch, method, properties, body):
         local_command = RobotCommand()
         local_command.ParseFromString(body)
+        print(local_command)
         robot_control = RobotControl()
         robot_control.robot_commands.append(local_command)
         self.client.add_send(robot_control.SerializeToString())

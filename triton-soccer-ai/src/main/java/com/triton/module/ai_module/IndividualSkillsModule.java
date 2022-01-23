@@ -39,56 +39,33 @@ public class IndividualSkillsModule extends Module {
 
     private void callbackField(String s, Delivery delivery) {
         SSL_GeometryFieldSize field;
-        try {
-            field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
+
         this.field = field;
     }
 
     private void callbackAllies(String s, Delivery delivery) {
         HashMap<Integer, Robot> allies;
-        try {
-            allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
         this.allies = allies;
     }
 
     private void callbackFoes(String s, Delivery delivery) {
         HashMap<Integer, Robot> foes;
-        try {
-            foes = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        foes = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
         this.foes = foes;
     }
 
     private void callbackBalls(String s, Delivery delivery) {
         Ball ball;
-        try {
-            ball = (Ball) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        ball = (Ball) simpleDeserialize(delivery.getBody());
+
         this.ball = ball;
     }
 
     private void callbackIndividualSkill(String s, Delivery delivery) {
         IndividualSkill individualSkill;
-        try {
-            individualSkill = (IndividualSkill) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        individualSkill = (IndividualSkill) simpleDeserialize(delivery.getBody());
 
         int id = individualSkill.getId();
 

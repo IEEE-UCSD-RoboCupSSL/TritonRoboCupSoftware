@@ -48,12 +48,7 @@ public class FilterModule extends Module {
 
     private void callbackBalls(String s, Delivery delivery) {
         ArrayList<SSL_DetectionBall> balls;
-        try {
-            balls = (ArrayList<SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        balls = (ArrayList<SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
 
         Ball.Builder filteredBall = Ball.newBuilder();
 
@@ -74,21 +69,12 @@ public class FilterModule extends Module {
         filteredBall.setVy(0);
         filteredBall.setVz(0);
 
-        try {
             publish(AI_FILTERED_BIASED_BALLS, filteredBall.build());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void callbackAllies(String s, Delivery delivery) {
         HashMap<Integer, SSL_DetectionRobot> allies;
-        try {
-            allies = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        allies = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
 
         HashMap<Integer, Robot> filteredAllies = new HashMap<>();
         for (SSL_DetectionRobot ally : allies.values()) {
@@ -105,21 +91,12 @@ public class FilterModule extends Module {
             filteredAllies.put(ally.getRobotId(), filteredAlly.build());
         }
 
-        try {
-            publish(AI_FILTERED_BIASED_ALLIES, filteredAllies);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_FILTERED_BIASED_ALLIES, filteredAllies);
     }
 
     private void callbackFoes(String s, Delivery delivery) {
         HashMap<Integer, SSL_DetectionRobot> foes;
-        try {
-            foes = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        foes = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
 
         HashMap<Integer, Robot> filteredFoes = new HashMap<>();
         for (SSL_DetectionRobot foe : foes.values()) {
@@ -136,10 +113,6 @@ public class FilterModule extends Module {
             filteredFoes.put(foe.getRobotId(), filteredFoe.build());
         }
 
-        try {
-            publish(AI_FILTERED_BIASED_FOES, filteredFoes);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        publish(AI_FILTERED_BIASED_FOES, filteredFoes);
     }
 }

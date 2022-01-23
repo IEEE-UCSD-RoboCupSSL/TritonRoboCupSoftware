@@ -24,67 +24,54 @@ public final class AiBasicSkills {
     int getId();
 
     /**
-     * <code>.proto.triton.Stop stop = 2;</code>
-     */
-    boolean hasStop();
-    /**
-     * <code>.proto.triton.Stop stop = 2;</code>
-     */
-    proto.triton.AiBasicSkills.Stop getStop();
-    /**
-     * <code>.proto.triton.Stop stop = 2;</code>
-     */
-    proto.triton.AiBasicSkills.StopOrBuilder getStopOrBuilder();
-
-    /**
-     * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+     * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
      */
     boolean hasMatchVelocity();
     /**
-     * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+     * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
      */
     proto.triton.AiBasicSkills.MatchVelocity getMatchVelocity();
     /**
-     * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+     * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
      */
     proto.triton.AiBasicSkills.MatchVelocityOrBuilder getMatchVelocityOrBuilder();
 
     /**
-     * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+     * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
      */
     boolean hasMoveToPoint();
     /**
-     * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+     * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
      */
     proto.triton.AiBasicSkills.MoveToPoint getMoveToPoint();
     /**
-     * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+     * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
      */
     proto.triton.AiBasicSkills.MoveToPointOrBuilder getMoveToPointOrBuilder();
 
     /**
-     * <code>.proto.triton.Kick kick = 5;</code>
+     * <code>.proto.triton.Kick kick = 4;</code>
      */
     boolean hasKick();
     /**
-     * <code>.proto.triton.Kick kick = 5;</code>
+     * <code>.proto.triton.Kick kick = 4;</code>
      */
     proto.triton.AiBasicSkills.Kick getKick();
     /**
-     * <code>.proto.triton.Kick kick = 5;</code>
+     * <code>.proto.triton.Kick kick = 4;</code>
      */
     proto.triton.AiBasicSkills.KickOrBuilder getKickOrBuilder();
 
     /**
-     * <code>.proto.triton.Dribble dribble = 6;</code>
+     * <code>.proto.triton.Dribble dribble = 5;</code>
      */
     boolean hasDribble();
     /**
-     * <code>.proto.triton.Dribble dribble = 6;</code>
+     * <code>.proto.triton.Dribble dribble = 5;</code>
      */
     proto.triton.AiBasicSkills.Dribble getDribble();
     /**
-     * <code>.proto.triton.Dribble dribble = 6;</code>
+     * <code>.proto.triton.Dribble dribble = 5;</code>
      */
     proto.triton.AiBasicSkills.DribbleOrBuilder getDribbleOrBuilder();
 
@@ -136,22 +123,8 @@ public final class AiBasicSkills {
               break;
             }
             case 18: {
-              proto.triton.AiBasicSkills.Stop.Builder subBuilder = null;
-              if (commandCase_ == 2) {
-                subBuilder = ((proto.triton.AiBasicSkills.Stop) command_).toBuilder();
-              }
-              command_ =
-                  input.readMessage(proto.triton.AiBasicSkills.Stop.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((proto.triton.AiBasicSkills.Stop) command_);
-                command_ = subBuilder.buildPartial();
-              }
-              commandCase_ = 2;
-              break;
-            }
-            case 26: {
               proto.triton.AiBasicSkills.MatchVelocity.Builder subBuilder = null;
-              if (commandCase_ == 3) {
+              if (commandCase_ == 2) {
                 subBuilder = ((proto.triton.AiBasicSkills.MatchVelocity) command_).toBuilder();
               }
               command_ =
@@ -160,12 +133,12 @@ public final class AiBasicSkills {
                 subBuilder.mergeFrom((proto.triton.AiBasicSkills.MatchVelocity) command_);
                 command_ = subBuilder.buildPartial();
               }
-              commandCase_ = 3;
+              commandCase_ = 2;
               break;
             }
-            case 34: {
+            case 26: {
               proto.triton.AiBasicSkills.MoveToPoint.Builder subBuilder = null;
-              if (commandCase_ == 4) {
+              if (commandCase_ == 3) {
                 subBuilder = ((proto.triton.AiBasicSkills.MoveToPoint) command_).toBuilder();
               }
               command_ =
@@ -174,12 +147,12 @@ public final class AiBasicSkills {
                 subBuilder.mergeFrom((proto.triton.AiBasicSkills.MoveToPoint) command_);
                 command_ = subBuilder.buildPartial();
               }
-              commandCase_ = 4;
+              commandCase_ = 3;
               break;
             }
-            case 42: {
+            case 34: {
               proto.triton.AiBasicSkills.Kick.Builder subBuilder = null;
-              if (commandCase_ == 5) {
+              if (commandCase_ == 4) {
                 subBuilder = ((proto.triton.AiBasicSkills.Kick) command_).toBuilder();
               }
               command_ =
@@ -188,12 +161,12 @@ public final class AiBasicSkills {
                 subBuilder.mergeFrom((proto.triton.AiBasicSkills.Kick) command_);
                 command_ = subBuilder.buildPartial();
               }
-              commandCase_ = 5;
+              commandCase_ = 4;
               break;
             }
-            case 50: {
+            case 42: {
               proto.triton.AiBasicSkills.Dribble.Builder subBuilder = null;
-              if (commandCase_ == 6) {
+              if (commandCase_ == 5) {
                 subBuilder = ((proto.triton.AiBasicSkills.Dribble) command_).toBuilder();
               }
               command_ =
@@ -202,7 +175,7 @@ public final class AiBasicSkills {
                 subBuilder.mergeFrom((proto.triton.AiBasicSkills.Dribble) command_);
                 command_ = subBuilder.buildPartial();
               }
-              commandCase_ = 6;
+              commandCase_ = 5;
               break;
             }
             default: {
@@ -241,11 +214,10 @@ public final class AiBasicSkills {
     private java.lang.Object command_;
     public enum CommandCase
         implements com.google.protobuf.Internal.EnumLite {
-      STOP(2),
-      MATCH_VELOCITY(3),
-      MOVE_TO_POINT(4),
-      KICK(5),
-      DRIBBLE(6),
+      MATCH_VELOCITY(2),
+      MOVE_TO_POINT(3),
+      KICK(4),
+      DRIBBLE(5),
       COMMAND_NOT_SET(0);
       private final int value;
       private CommandCase(int value) {
@@ -261,11 +233,10 @@ public final class AiBasicSkills {
 
       public static CommandCase forNumber(int value) {
         switch (value) {
-          case 2: return STOP;
-          case 3: return MATCH_VELOCITY;
-          case 4: return MOVE_TO_POINT;
-          case 5: return KICK;
-          case 6: return DRIBBLE;
+          case 2: return MATCH_VELOCITY;
+          case 3: return MOVE_TO_POINT;
+          case 4: return KICK;
+          case 5: return DRIBBLE;
           case 0: return COMMAND_NOT_SET;
           default: return null;
         }
@@ -290,131 +261,105 @@ public final class AiBasicSkills {
       return id_;
     }
 
-    public static final int STOP_FIELD_NUMBER = 2;
+    public static final int MATCH_VELOCITY_FIELD_NUMBER = 2;
     /**
-     * <code>.proto.triton.Stop stop = 2;</code>
+     * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
      */
-    public boolean hasStop() {
+    public boolean hasMatchVelocity() {
       return commandCase_ == 2;
     }
     /**
-     * <code>.proto.triton.Stop stop = 2;</code>
+     * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
      */
-    public proto.triton.AiBasicSkills.Stop getStop() {
+    public proto.triton.AiBasicSkills.MatchVelocity getMatchVelocity() {
       if (commandCase_ == 2) {
-         return (proto.triton.AiBasicSkills.Stop) command_;
+         return (proto.triton.AiBasicSkills.MatchVelocity) command_;
       }
-      return proto.triton.AiBasicSkills.Stop.getDefaultInstance();
+      return proto.triton.AiBasicSkills.MatchVelocity.getDefaultInstance();
     }
     /**
-     * <code>.proto.triton.Stop stop = 2;</code>
+     * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
      */
-    public proto.triton.AiBasicSkills.StopOrBuilder getStopOrBuilder() {
+    public proto.triton.AiBasicSkills.MatchVelocityOrBuilder getMatchVelocityOrBuilder() {
       if (commandCase_ == 2) {
-         return (proto.triton.AiBasicSkills.Stop) command_;
+         return (proto.triton.AiBasicSkills.MatchVelocity) command_;
       }
-      return proto.triton.AiBasicSkills.Stop.getDefaultInstance();
+      return proto.triton.AiBasicSkills.MatchVelocity.getDefaultInstance();
     }
 
-    public static final int MATCH_VELOCITY_FIELD_NUMBER = 3;
+    public static final int MOVE_TO_POINT_FIELD_NUMBER = 3;
     /**
-     * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+     * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
      */
-    public boolean hasMatchVelocity() {
+    public boolean hasMoveToPoint() {
       return commandCase_ == 3;
     }
     /**
-     * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+     * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
      */
-    public proto.triton.AiBasicSkills.MatchVelocity getMatchVelocity() {
+    public proto.triton.AiBasicSkills.MoveToPoint getMoveToPoint() {
       if (commandCase_ == 3) {
-         return (proto.triton.AiBasicSkills.MatchVelocity) command_;
+         return (proto.triton.AiBasicSkills.MoveToPoint) command_;
       }
-      return proto.triton.AiBasicSkills.MatchVelocity.getDefaultInstance();
+      return proto.triton.AiBasicSkills.MoveToPoint.getDefaultInstance();
     }
     /**
-     * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+     * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
      */
-    public proto.triton.AiBasicSkills.MatchVelocityOrBuilder getMatchVelocityOrBuilder() {
+    public proto.triton.AiBasicSkills.MoveToPointOrBuilder getMoveToPointOrBuilder() {
       if (commandCase_ == 3) {
-         return (proto.triton.AiBasicSkills.MatchVelocity) command_;
+         return (proto.triton.AiBasicSkills.MoveToPoint) command_;
       }
-      return proto.triton.AiBasicSkills.MatchVelocity.getDefaultInstance();
+      return proto.triton.AiBasicSkills.MoveToPoint.getDefaultInstance();
     }
 
-    public static final int MOVE_TO_POINT_FIELD_NUMBER = 4;
+    public static final int KICK_FIELD_NUMBER = 4;
     /**
-     * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+     * <code>.proto.triton.Kick kick = 4;</code>
      */
-    public boolean hasMoveToPoint() {
+    public boolean hasKick() {
       return commandCase_ == 4;
     }
     /**
-     * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+     * <code>.proto.triton.Kick kick = 4;</code>
      */
-    public proto.triton.AiBasicSkills.MoveToPoint getMoveToPoint() {
+    public proto.triton.AiBasicSkills.Kick getKick() {
       if (commandCase_ == 4) {
-         return (proto.triton.AiBasicSkills.MoveToPoint) command_;
+         return (proto.triton.AiBasicSkills.Kick) command_;
       }
-      return proto.triton.AiBasicSkills.MoveToPoint.getDefaultInstance();
+      return proto.triton.AiBasicSkills.Kick.getDefaultInstance();
     }
     /**
-     * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+     * <code>.proto.triton.Kick kick = 4;</code>
      */
-    public proto.triton.AiBasicSkills.MoveToPointOrBuilder getMoveToPointOrBuilder() {
+    public proto.triton.AiBasicSkills.KickOrBuilder getKickOrBuilder() {
       if (commandCase_ == 4) {
-         return (proto.triton.AiBasicSkills.MoveToPoint) command_;
+         return (proto.triton.AiBasicSkills.Kick) command_;
       }
-      return proto.triton.AiBasicSkills.MoveToPoint.getDefaultInstance();
+      return proto.triton.AiBasicSkills.Kick.getDefaultInstance();
     }
 
-    public static final int KICK_FIELD_NUMBER = 5;
+    public static final int DRIBBLE_FIELD_NUMBER = 5;
     /**
-     * <code>.proto.triton.Kick kick = 5;</code>
+     * <code>.proto.triton.Dribble dribble = 5;</code>
      */
-    public boolean hasKick() {
+    public boolean hasDribble() {
       return commandCase_ == 5;
     }
     /**
-     * <code>.proto.triton.Kick kick = 5;</code>
-     */
-    public proto.triton.AiBasicSkills.Kick getKick() {
-      if (commandCase_ == 5) {
-         return (proto.triton.AiBasicSkills.Kick) command_;
-      }
-      return proto.triton.AiBasicSkills.Kick.getDefaultInstance();
-    }
-    /**
-     * <code>.proto.triton.Kick kick = 5;</code>
-     */
-    public proto.triton.AiBasicSkills.KickOrBuilder getKickOrBuilder() {
-      if (commandCase_ == 5) {
-         return (proto.triton.AiBasicSkills.Kick) command_;
-      }
-      return proto.triton.AiBasicSkills.Kick.getDefaultInstance();
-    }
-
-    public static final int DRIBBLE_FIELD_NUMBER = 6;
-    /**
-     * <code>.proto.triton.Dribble dribble = 6;</code>
-     */
-    public boolean hasDribble() {
-      return commandCase_ == 6;
-    }
-    /**
-     * <code>.proto.triton.Dribble dribble = 6;</code>
+     * <code>.proto.triton.Dribble dribble = 5;</code>
      */
     public proto.triton.AiBasicSkills.Dribble getDribble() {
-      if (commandCase_ == 6) {
+      if (commandCase_ == 5) {
          return (proto.triton.AiBasicSkills.Dribble) command_;
       }
       return proto.triton.AiBasicSkills.Dribble.getDefaultInstance();
     }
     /**
-     * <code>.proto.triton.Dribble dribble = 6;</code>
+     * <code>.proto.triton.Dribble dribble = 5;</code>
      */
     public proto.triton.AiBasicSkills.DribbleOrBuilder getDribbleOrBuilder() {
-      if (commandCase_ == 6) {
+      if (commandCase_ == 5) {
          return (proto.triton.AiBasicSkills.Dribble) command_;
       }
       return proto.triton.AiBasicSkills.Dribble.getDefaultInstance();
@@ -438,19 +383,16 @@ public final class AiBasicSkills {
         output.writeInt32(1, id_);
       }
       if (commandCase_ == 2) {
-        output.writeMessage(2, (proto.triton.AiBasicSkills.Stop) command_);
+        output.writeMessage(2, (proto.triton.AiBasicSkills.MatchVelocity) command_);
       }
       if (commandCase_ == 3) {
-        output.writeMessage(3, (proto.triton.AiBasicSkills.MatchVelocity) command_);
+        output.writeMessage(3, (proto.triton.AiBasicSkills.MoveToPoint) command_);
       }
       if (commandCase_ == 4) {
-        output.writeMessage(4, (proto.triton.AiBasicSkills.MoveToPoint) command_);
+        output.writeMessage(4, (proto.triton.AiBasicSkills.Kick) command_);
       }
       if (commandCase_ == 5) {
-        output.writeMessage(5, (proto.triton.AiBasicSkills.Kick) command_);
-      }
-      if (commandCase_ == 6) {
-        output.writeMessage(6, (proto.triton.AiBasicSkills.Dribble) command_);
+        output.writeMessage(5, (proto.triton.AiBasicSkills.Dribble) command_);
       }
       unknownFields.writeTo(output);
     }
@@ -467,23 +409,19 @@ public final class AiBasicSkills {
       }
       if (commandCase_ == 2) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, (proto.triton.AiBasicSkills.Stop) command_);
+          .computeMessageSize(2, (proto.triton.AiBasicSkills.MatchVelocity) command_);
       }
       if (commandCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, (proto.triton.AiBasicSkills.MatchVelocity) command_);
+          .computeMessageSize(3, (proto.triton.AiBasicSkills.MoveToPoint) command_);
       }
       if (commandCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, (proto.triton.AiBasicSkills.MoveToPoint) command_);
+          .computeMessageSize(4, (proto.triton.AiBasicSkills.Kick) command_);
       }
       if (commandCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, (proto.triton.AiBasicSkills.Kick) command_);
-      }
-      if (commandCase_ == 6) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, (proto.triton.AiBasicSkills.Dribble) command_);
+          .computeMessageSize(5, (proto.triton.AiBasicSkills.Dribble) command_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -508,22 +446,18 @@ public final class AiBasicSkills {
       if (!result) return false;
       switch (commandCase_) {
         case 2:
-          result = result && getStop()
-              .equals(other.getStop());
-          break;
-        case 3:
           result = result && getMatchVelocity()
               .equals(other.getMatchVelocity());
           break;
-        case 4:
+        case 3:
           result = result && getMoveToPoint()
               .equals(other.getMoveToPoint());
           break;
-        case 5:
+        case 4:
           result = result && getKick()
               .equals(other.getKick());
           break;
-        case 6:
+        case 5:
           result = result && getDribble()
               .equals(other.getDribble());
           break;
@@ -545,22 +479,18 @@ public final class AiBasicSkills {
       hash = (53 * hash) + getId();
       switch (commandCase_) {
         case 2:
-          hash = (37 * hash) + STOP_FIELD_NUMBER;
-          hash = (53 * hash) + getStop().hashCode();
-          break;
-        case 3:
           hash = (37 * hash) + MATCH_VELOCITY_FIELD_NUMBER;
           hash = (53 * hash) + getMatchVelocity().hashCode();
           break;
-        case 4:
+        case 3:
           hash = (37 * hash) + MOVE_TO_POINT_FIELD_NUMBER;
           hash = (53 * hash) + getMoveToPoint().hashCode();
           break;
-        case 5:
+        case 4:
           hash = (37 * hash) + KICK_FIELD_NUMBER;
           hash = (53 * hash) + getKick().hashCode();
           break;
-        case 6:
+        case 5:
           hash = (37 * hash) + DRIBBLE_FIELD_NUMBER;
           hash = (53 * hash) + getDribble().hashCode();
           break;
@@ -732,34 +662,27 @@ public final class AiBasicSkills {
         proto.triton.AiBasicSkills.BasicSkill result = new proto.triton.AiBasicSkills.BasicSkill(this);
         result.id_ = id_;
         if (commandCase_ == 2) {
-          if (stopBuilder_ == null) {
-            result.command_ = command_;
-          } else {
-            result.command_ = stopBuilder_.build();
-          }
-        }
-        if (commandCase_ == 3) {
           if (matchVelocityBuilder_ == null) {
             result.command_ = command_;
           } else {
             result.command_ = matchVelocityBuilder_.build();
           }
         }
-        if (commandCase_ == 4) {
+        if (commandCase_ == 3) {
           if (moveToPointBuilder_ == null) {
             result.command_ = command_;
           } else {
             result.command_ = moveToPointBuilder_.build();
           }
         }
-        if (commandCase_ == 5) {
+        if (commandCase_ == 4) {
           if (kickBuilder_ == null) {
             result.command_ = command_;
           } else {
             result.command_ = kickBuilder_.build();
           }
         }
-        if (commandCase_ == 6) {
+        if (commandCase_ == 5) {
           if (dribbleBuilder_ == null) {
             result.command_ = command_;
           } else {
@@ -819,10 +742,6 @@ public final class AiBasicSkills {
           setId(other.getId());
         }
         switch (other.getCommandCase()) {
-          case STOP: {
-            mergeStop(other.getStop());
-            break;
-          }
           case MATCH_VELOCITY: {
             mergeMatchVelocity(other.getMatchVelocity());
             break;
@@ -914,167 +833,31 @@ public final class AiBasicSkills {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          proto.triton.AiBasicSkills.Stop, proto.triton.AiBasicSkills.Stop.Builder, proto.triton.AiBasicSkills.StopOrBuilder> stopBuilder_;
+          proto.triton.AiBasicSkills.MatchVelocity, proto.triton.AiBasicSkills.MatchVelocity.Builder, proto.triton.AiBasicSkills.MatchVelocityOrBuilder> matchVelocityBuilder_;
       /**
-       * <code>.proto.triton.Stop stop = 2;</code>
+       * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
        */
-      public boolean hasStop() {
+      public boolean hasMatchVelocity() {
         return commandCase_ == 2;
       }
       /**
-       * <code>.proto.triton.Stop stop = 2;</code>
-       */
-      public proto.triton.AiBasicSkills.Stop getStop() {
-        if (stopBuilder_ == null) {
-          if (commandCase_ == 2) {
-            return (proto.triton.AiBasicSkills.Stop) command_;
-          }
-          return proto.triton.AiBasicSkills.Stop.getDefaultInstance();
-        } else {
-          if (commandCase_ == 2) {
-            return stopBuilder_.getMessage();
-          }
-          return proto.triton.AiBasicSkills.Stop.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.proto.triton.Stop stop = 2;</code>
-       */
-      public Builder setStop(proto.triton.AiBasicSkills.Stop value) {
-        if (stopBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          command_ = value;
-          onChanged();
-        } else {
-          stopBuilder_.setMessage(value);
-        }
-        commandCase_ = 2;
-        return this;
-      }
-      /**
-       * <code>.proto.triton.Stop stop = 2;</code>
-       */
-      public Builder setStop(
-          proto.triton.AiBasicSkills.Stop.Builder builderForValue) {
-        if (stopBuilder_ == null) {
-          command_ = builderForValue.build();
-          onChanged();
-        } else {
-          stopBuilder_.setMessage(builderForValue.build());
-        }
-        commandCase_ = 2;
-        return this;
-      }
-      /**
-       * <code>.proto.triton.Stop stop = 2;</code>
-       */
-      public Builder mergeStop(proto.triton.AiBasicSkills.Stop value) {
-        if (stopBuilder_ == null) {
-          if (commandCase_ == 2 &&
-              command_ != proto.triton.AiBasicSkills.Stop.getDefaultInstance()) {
-            command_ = proto.triton.AiBasicSkills.Stop.newBuilder((proto.triton.AiBasicSkills.Stop) command_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            command_ = value;
-          }
-          onChanged();
-        } else {
-          if (commandCase_ == 2) {
-            stopBuilder_.mergeFrom(value);
-          }
-          stopBuilder_.setMessage(value);
-        }
-        commandCase_ = 2;
-        return this;
-      }
-      /**
-       * <code>.proto.triton.Stop stop = 2;</code>
-       */
-      public Builder clearStop() {
-        if (stopBuilder_ == null) {
-          if (commandCase_ == 2) {
-            commandCase_ = 0;
-            command_ = null;
-            onChanged();
-          }
-        } else {
-          if (commandCase_ == 2) {
-            commandCase_ = 0;
-            command_ = null;
-          }
-          stopBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.proto.triton.Stop stop = 2;</code>
-       */
-      public proto.triton.AiBasicSkills.Stop.Builder getStopBuilder() {
-        return getStopFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.proto.triton.Stop stop = 2;</code>
-       */
-      public proto.triton.AiBasicSkills.StopOrBuilder getStopOrBuilder() {
-        if ((commandCase_ == 2) && (stopBuilder_ != null)) {
-          return stopBuilder_.getMessageOrBuilder();
-        } else {
-          if (commandCase_ == 2) {
-            return (proto.triton.AiBasicSkills.Stop) command_;
-          }
-          return proto.triton.AiBasicSkills.Stop.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.proto.triton.Stop stop = 2;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          proto.triton.AiBasicSkills.Stop, proto.triton.AiBasicSkills.Stop.Builder, proto.triton.AiBasicSkills.StopOrBuilder> 
-          getStopFieldBuilder() {
-        if (stopBuilder_ == null) {
-          if (!(commandCase_ == 2)) {
-            command_ = proto.triton.AiBasicSkills.Stop.getDefaultInstance();
-          }
-          stopBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              proto.triton.AiBasicSkills.Stop, proto.triton.AiBasicSkills.Stop.Builder, proto.triton.AiBasicSkills.StopOrBuilder>(
-                  (proto.triton.AiBasicSkills.Stop) command_,
-                  getParentForChildren(),
-                  isClean());
-          command_ = null;
-        }
-        commandCase_ = 2;
-        onChanged();;
-        return stopBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
-          proto.triton.AiBasicSkills.MatchVelocity, proto.triton.AiBasicSkills.MatchVelocity.Builder, proto.triton.AiBasicSkills.MatchVelocityOrBuilder> matchVelocityBuilder_;
-      /**
-       * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
-       */
-      public boolean hasMatchVelocity() {
-        return commandCase_ == 3;
-      }
-      /**
-       * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+       * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
        */
       public proto.triton.AiBasicSkills.MatchVelocity getMatchVelocity() {
         if (matchVelocityBuilder_ == null) {
-          if (commandCase_ == 3) {
+          if (commandCase_ == 2) {
             return (proto.triton.AiBasicSkills.MatchVelocity) command_;
           }
           return proto.triton.AiBasicSkills.MatchVelocity.getDefaultInstance();
         } else {
-          if (commandCase_ == 3) {
+          if (commandCase_ == 2) {
             return matchVelocityBuilder_.getMessage();
           }
           return proto.triton.AiBasicSkills.MatchVelocity.getDefaultInstance();
         }
       }
       /**
-       * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+       * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
        */
       public Builder setMatchVelocity(proto.triton.AiBasicSkills.MatchVelocity value) {
         if (matchVelocityBuilder_ == null) {
@@ -1086,11 +869,11 @@ public final class AiBasicSkills {
         } else {
           matchVelocityBuilder_.setMessage(value);
         }
-        commandCase_ = 3;
+        commandCase_ = 2;
         return this;
       }
       /**
-       * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+       * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
        */
       public Builder setMatchVelocity(
           proto.triton.AiBasicSkills.MatchVelocity.Builder builderForValue) {
@@ -1100,15 +883,15 @@ public final class AiBasicSkills {
         } else {
           matchVelocityBuilder_.setMessage(builderForValue.build());
         }
-        commandCase_ = 3;
+        commandCase_ = 2;
         return this;
       }
       /**
-       * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+       * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
        */
       public Builder mergeMatchVelocity(proto.triton.AiBasicSkills.MatchVelocity value) {
         if (matchVelocityBuilder_ == null) {
-          if (commandCase_ == 3 &&
+          if (commandCase_ == 2 &&
               command_ != proto.triton.AiBasicSkills.MatchVelocity.getDefaultInstance()) {
             command_ = proto.triton.AiBasicSkills.MatchVelocity.newBuilder((proto.triton.AiBasicSkills.MatchVelocity) command_)
                 .mergeFrom(value).buildPartial();
@@ -1117,26 +900,26 @@ public final class AiBasicSkills {
           }
           onChanged();
         } else {
-          if (commandCase_ == 3) {
+          if (commandCase_ == 2) {
             matchVelocityBuilder_.mergeFrom(value);
           }
           matchVelocityBuilder_.setMessage(value);
         }
-        commandCase_ = 3;
+        commandCase_ = 2;
         return this;
       }
       /**
-       * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+       * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
        */
       public Builder clearMatchVelocity() {
         if (matchVelocityBuilder_ == null) {
-          if (commandCase_ == 3) {
+          if (commandCase_ == 2) {
             commandCase_ = 0;
             command_ = null;
             onChanged();
           }
         } else {
-          if (commandCase_ == 3) {
+          if (commandCase_ == 2) {
             commandCase_ = 0;
             command_ = null;
           }
@@ -1145,32 +928,32 @@ public final class AiBasicSkills {
         return this;
       }
       /**
-       * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+       * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
        */
       public proto.triton.AiBasicSkills.MatchVelocity.Builder getMatchVelocityBuilder() {
         return getMatchVelocityFieldBuilder().getBuilder();
       }
       /**
-       * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+       * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
        */
       public proto.triton.AiBasicSkills.MatchVelocityOrBuilder getMatchVelocityOrBuilder() {
-        if ((commandCase_ == 3) && (matchVelocityBuilder_ != null)) {
+        if ((commandCase_ == 2) && (matchVelocityBuilder_ != null)) {
           return matchVelocityBuilder_.getMessageOrBuilder();
         } else {
-          if (commandCase_ == 3) {
+          if (commandCase_ == 2) {
             return (proto.triton.AiBasicSkills.MatchVelocity) command_;
           }
           return proto.triton.AiBasicSkills.MatchVelocity.getDefaultInstance();
         }
       }
       /**
-       * <code>.proto.triton.MatchVelocity match_velocity = 3;</code>
+       * <code>.proto.triton.MatchVelocity match_velocity = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           proto.triton.AiBasicSkills.MatchVelocity, proto.triton.AiBasicSkills.MatchVelocity.Builder, proto.triton.AiBasicSkills.MatchVelocityOrBuilder> 
           getMatchVelocityFieldBuilder() {
         if (matchVelocityBuilder_ == null) {
-          if (!(commandCase_ == 3)) {
+          if (!(commandCase_ == 2)) {
             command_ = proto.triton.AiBasicSkills.MatchVelocity.getDefaultInstance();
           }
           matchVelocityBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -1180,7 +963,7 @@ public final class AiBasicSkills {
                   isClean());
           command_ = null;
         }
-        commandCase_ = 3;
+        commandCase_ = 2;
         onChanged();;
         return matchVelocityBuilder_;
       }
@@ -1188,29 +971,29 @@ public final class AiBasicSkills {
       private com.google.protobuf.SingleFieldBuilderV3<
           proto.triton.AiBasicSkills.MoveToPoint, proto.triton.AiBasicSkills.MoveToPoint.Builder, proto.triton.AiBasicSkills.MoveToPointOrBuilder> moveToPointBuilder_;
       /**
-       * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+       * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
        */
       public boolean hasMoveToPoint() {
-        return commandCase_ == 4;
+        return commandCase_ == 3;
       }
       /**
-       * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+       * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
        */
       public proto.triton.AiBasicSkills.MoveToPoint getMoveToPoint() {
         if (moveToPointBuilder_ == null) {
-          if (commandCase_ == 4) {
+          if (commandCase_ == 3) {
             return (proto.triton.AiBasicSkills.MoveToPoint) command_;
           }
           return proto.triton.AiBasicSkills.MoveToPoint.getDefaultInstance();
         } else {
-          if (commandCase_ == 4) {
+          if (commandCase_ == 3) {
             return moveToPointBuilder_.getMessage();
           }
           return proto.triton.AiBasicSkills.MoveToPoint.getDefaultInstance();
         }
       }
       /**
-       * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+       * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
        */
       public Builder setMoveToPoint(proto.triton.AiBasicSkills.MoveToPoint value) {
         if (moveToPointBuilder_ == null) {
@@ -1222,11 +1005,11 @@ public final class AiBasicSkills {
         } else {
           moveToPointBuilder_.setMessage(value);
         }
-        commandCase_ = 4;
+        commandCase_ = 3;
         return this;
       }
       /**
-       * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+       * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
        */
       public Builder setMoveToPoint(
           proto.triton.AiBasicSkills.MoveToPoint.Builder builderForValue) {
@@ -1236,15 +1019,15 @@ public final class AiBasicSkills {
         } else {
           moveToPointBuilder_.setMessage(builderForValue.build());
         }
-        commandCase_ = 4;
+        commandCase_ = 3;
         return this;
       }
       /**
-       * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+       * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
        */
       public Builder mergeMoveToPoint(proto.triton.AiBasicSkills.MoveToPoint value) {
         if (moveToPointBuilder_ == null) {
-          if (commandCase_ == 4 &&
+          if (commandCase_ == 3 &&
               command_ != proto.triton.AiBasicSkills.MoveToPoint.getDefaultInstance()) {
             command_ = proto.triton.AiBasicSkills.MoveToPoint.newBuilder((proto.triton.AiBasicSkills.MoveToPoint) command_)
                 .mergeFrom(value).buildPartial();
@@ -1253,26 +1036,26 @@ public final class AiBasicSkills {
           }
           onChanged();
         } else {
-          if (commandCase_ == 4) {
+          if (commandCase_ == 3) {
             moveToPointBuilder_.mergeFrom(value);
           }
           moveToPointBuilder_.setMessage(value);
         }
-        commandCase_ = 4;
+        commandCase_ = 3;
         return this;
       }
       /**
-       * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+       * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
        */
       public Builder clearMoveToPoint() {
         if (moveToPointBuilder_ == null) {
-          if (commandCase_ == 4) {
+          if (commandCase_ == 3) {
             commandCase_ = 0;
             command_ = null;
             onChanged();
           }
         } else {
-          if (commandCase_ == 4) {
+          if (commandCase_ == 3) {
             commandCase_ = 0;
             command_ = null;
           }
@@ -1281,32 +1064,32 @@ public final class AiBasicSkills {
         return this;
       }
       /**
-       * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+       * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
        */
       public proto.triton.AiBasicSkills.MoveToPoint.Builder getMoveToPointBuilder() {
         return getMoveToPointFieldBuilder().getBuilder();
       }
       /**
-       * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+       * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
        */
       public proto.triton.AiBasicSkills.MoveToPointOrBuilder getMoveToPointOrBuilder() {
-        if ((commandCase_ == 4) && (moveToPointBuilder_ != null)) {
+        if ((commandCase_ == 3) && (moveToPointBuilder_ != null)) {
           return moveToPointBuilder_.getMessageOrBuilder();
         } else {
-          if (commandCase_ == 4) {
+          if (commandCase_ == 3) {
             return (proto.triton.AiBasicSkills.MoveToPoint) command_;
           }
           return proto.triton.AiBasicSkills.MoveToPoint.getDefaultInstance();
         }
       }
       /**
-       * <code>.proto.triton.MoveToPoint move_to_point = 4;</code>
+       * <code>.proto.triton.MoveToPoint move_to_point = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           proto.triton.AiBasicSkills.MoveToPoint, proto.triton.AiBasicSkills.MoveToPoint.Builder, proto.triton.AiBasicSkills.MoveToPointOrBuilder> 
           getMoveToPointFieldBuilder() {
         if (moveToPointBuilder_ == null) {
-          if (!(commandCase_ == 4)) {
+          if (!(commandCase_ == 3)) {
             command_ = proto.triton.AiBasicSkills.MoveToPoint.getDefaultInstance();
           }
           moveToPointBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -1316,7 +1099,7 @@ public final class AiBasicSkills {
                   isClean());
           command_ = null;
         }
-        commandCase_ = 4;
+        commandCase_ = 3;
         onChanged();;
         return moveToPointBuilder_;
       }
@@ -1324,29 +1107,29 @@ public final class AiBasicSkills {
       private com.google.protobuf.SingleFieldBuilderV3<
           proto.triton.AiBasicSkills.Kick, proto.triton.AiBasicSkills.Kick.Builder, proto.triton.AiBasicSkills.KickOrBuilder> kickBuilder_;
       /**
-       * <code>.proto.triton.Kick kick = 5;</code>
+       * <code>.proto.triton.Kick kick = 4;</code>
        */
       public boolean hasKick() {
-        return commandCase_ == 5;
+        return commandCase_ == 4;
       }
       /**
-       * <code>.proto.triton.Kick kick = 5;</code>
+       * <code>.proto.triton.Kick kick = 4;</code>
        */
       public proto.triton.AiBasicSkills.Kick getKick() {
         if (kickBuilder_ == null) {
-          if (commandCase_ == 5) {
+          if (commandCase_ == 4) {
             return (proto.triton.AiBasicSkills.Kick) command_;
           }
           return proto.triton.AiBasicSkills.Kick.getDefaultInstance();
         } else {
-          if (commandCase_ == 5) {
+          if (commandCase_ == 4) {
             return kickBuilder_.getMessage();
           }
           return proto.triton.AiBasicSkills.Kick.getDefaultInstance();
         }
       }
       /**
-       * <code>.proto.triton.Kick kick = 5;</code>
+       * <code>.proto.triton.Kick kick = 4;</code>
        */
       public Builder setKick(proto.triton.AiBasicSkills.Kick value) {
         if (kickBuilder_ == null) {
@@ -1358,11 +1141,11 @@ public final class AiBasicSkills {
         } else {
           kickBuilder_.setMessage(value);
         }
-        commandCase_ = 5;
+        commandCase_ = 4;
         return this;
       }
       /**
-       * <code>.proto.triton.Kick kick = 5;</code>
+       * <code>.proto.triton.Kick kick = 4;</code>
        */
       public Builder setKick(
           proto.triton.AiBasicSkills.Kick.Builder builderForValue) {
@@ -1372,15 +1155,15 @@ public final class AiBasicSkills {
         } else {
           kickBuilder_.setMessage(builderForValue.build());
         }
-        commandCase_ = 5;
+        commandCase_ = 4;
         return this;
       }
       /**
-       * <code>.proto.triton.Kick kick = 5;</code>
+       * <code>.proto.triton.Kick kick = 4;</code>
        */
       public Builder mergeKick(proto.triton.AiBasicSkills.Kick value) {
         if (kickBuilder_ == null) {
-          if (commandCase_ == 5 &&
+          if (commandCase_ == 4 &&
               command_ != proto.triton.AiBasicSkills.Kick.getDefaultInstance()) {
             command_ = proto.triton.AiBasicSkills.Kick.newBuilder((proto.triton.AiBasicSkills.Kick) command_)
                 .mergeFrom(value).buildPartial();
@@ -1389,26 +1172,26 @@ public final class AiBasicSkills {
           }
           onChanged();
         } else {
-          if (commandCase_ == 5) {
+          if (commandCase_ == 4) {
             kickBuilder_.mergeFrom(value);
           }
           kickBuilder_.setMessage(value);
         }
-        commandCase_ = 5;
+        commandCase_ = 4;
         return this;
       }
       /**
-       * <code>.proto.triton.Kick kick = 5;</code>
+       * <code>.proto.triton.Kick kick = 4;</code>
        */
       public Builder clearKick() {
         if (kickBuilder_ == null) {
-          if (commandCase_ == 5) {
+          if (commandCase_ == 4) {
             commandCase_ = 0;
             command_ = null;
             onChanged();
           }
         } else {
-          if (commandCase_ == 5) {
+          if (commandCase_ == 4) {
             commandCase_ = 0;
             command_ = null;
           }
@@ -1417,32 +1200,32 @@ public final class AiBasicSkills {
         return this;
       }
       /**
-       * <code>.proto.triton.Kick kick = 5;</code>
+       * <code>.proto.triton.Kick kick = 4;</code>
        */
       public proto.triton.AiBasicSkills.Kick.Builder getKickBuilder() {
         return getKickFieldBuilder().getBuilder();
       }
       /**
-       * <code>.proto.triton.Kick kick = 5;</code>
+       * <code>.proto.triton.Kick kick = 4;</code>
        */
       public proto.triton.AiBasicSkills.KickOrBuilder getKickOrBuilder() {
-        if ((commandCase_ == 5) && (kickBuilder_ != null)) {
+        if ((commandCase_ == 4) && (kickBuilder_ != null)) {
           return kickBuilder_.getMessageOrBuilder();
         } else {
-          if (commandCase_ == 5) {
+          if (commandCase_ == 4) {
             return (proto.triton.AiBasicSkills.Kick) command_;
           }
           return proto.triton.AiBasicSkills.Kick.getDefaultInstance();
         }
       }
       /**
-       * <code>.proto.triton.Kick kick = 5;</code>
+       * <code>.proto.triton.Kick kick = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           proto.triton.AiBasicSkills.Kick, proto.triton.AiBasicSkills.Kick.Builder, proto.triton.AiBasicSkills.KickOrBuilder> 
           getKickFieldBuilder() {
         if (kickBuilder_ == null) {
-          if (!(commandCase_ == 5)) {
+          if (!(commandCase_ == 4)) {
             command_ = proto.triton.AiBasicSkills.Kick.getDefaultInstance();
           }
           kickBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -1452,7 +1235,7 @@ public final class AiBasicSkills {
                   isClean());
           command_ = null;
         }
-        commandCase_ = 5;
+        commandCase_ = 4;
         onChanged();;
         return kickBuilder_;
       }
@@ -1460,29 +1243,29 @@ public final class AiBasicSkills {
       private com.google.protobuf.SingleFieldBuilderV3<
           proto.triton.AiBasicSkills.Dribble, proto.triton.AiBasicSkills.Dribble.Builder, proto.triton.AiBasicSkills.DribbleOrBuilder> dribbleBuilder_;
       /**
-       * <code>.proto.triton.Dribble dribble = 6;</code>
+       * <code>.proto.triton.Dribble dribble = 5;</code>
        */
       public boolean hasDribble() {
-        return commandCase_ == 6;
+        return commandCase_ == 5;
       }
       /**
-       * <code>.proto.triton.Dribble dribble = 6;</code>
+       * <code>.proto.triton.Dribble dribble = 5;</code>
        */
       public proto.triton.AiBasicSkills.Dribble getDribble() {
         if (dribbleBuilder_ == null) {
-          if (commandCase_ == 6) {
+          if (commandCase_ == 5) {
             return (proto.triton.AiBasicSkills.Dribble) command_;
           }
           return proto.triton.AiBasicSkills.Dribble.getDefaultInstance();
         } else {
-          if (commandCase_ == 6) {
+          if (commandCase_ == 5) {
             return dribbleBuilder_.getMessage();
           }
           return proto.triton.AiBasicSkills.Dribble.getDefaultInstance();
         }
       }
       /**
-       * <code>.proto.triton.Dribble dribble = 6;</code>
+       * <code>.proto.triton.Dribble dribble = 5;</code>
        */
       public Builder setDribble(proto.triton.AiBasicSkills.Dribble value) {
         if (dribbleBuilder_ == null) {
@@ -1494,11 +1277,11 @@ public final class AiBasicSkills {
         } else {
           dribbleBuilder_.setMessage(value);
         }
-        commandCase_ = 6;
+        commandCase_ = 5;
         return this;
       }
       /**
-       * <code>.proto.triton.Dribble dribble = 6;</code>
+       * <code>.proto.triton.Dribble dribble = 5;</code>
        */
       public Builder setDribble(
           proto.triton.AiBasicSkills.Dribble.Builder builderForValue) {
@@ -1508,15 +1291,15 @@ public final class AiBasicSkills {
         } else {
           dribbleBuilder_.setMessage(builderForValue.build());
         }
-        commandCase_ = 6;
+        commandCase_ = 5;
         return this;
       }
       /**
-       * <code>.proto.triton.Dribble dribble = 6;</code>
+       * <code>.proto.triton.Dribble dribble = 5;</code>
        */
       public Builder mergeDribble(proto.triton.AiBasicSkills.Dribble value) {
         if (dribbleBuilder_ == null) {
-          if (commandCase_ == 6 &&
+          if (commandCase_ == 5 &&
               command_ != proto.triton.AiBasicSkills.Dribble.getDefaultInstance()) {
             command_ = proto.triton.AiBasicSkills.Dribble.newBuilder((proto.triton.AiBasicSkills.Dribble) command_)
                 .mergeFrom(value).buildPartial();
@@ -1525,26 +1308,26 @@ public final class AiBasicSkills {
           }
           onChanged();
         } else {
-          if (commandCase_ == 6) {
+          if (commandCase_ == 5) {
             dribbleBuilder_.mergeFrom(value);
           }
           dribbleBuilder_.setMessage(value);
         }
-        commandCase_ = 6;
+        commandCase_ = 5;
         return this;
       }
       /**
-       * <code>.proto.triton.Dribble dribble = 6;</code>
+       * <code>.proto.triton.Dribble dribble = 5;</code>
        */
       public Builder clearDribble() {
         if (dribbleBuilder_ == null) {
-          if (commandCase_ == 6) {
+          if (commandCase_ == 5) {
             commandCase_ = 0;
             command_ = null;
             onChanged();
           }
         } else {
-          if (commandCase_ == 6) {
+          if (commandCase_ == 5) {
             commandCase_ = 0;
             command_ = null;
           }
@@ -1553,32 +1336,32 @@ public final class AiBasicSkills {
         return this;
       }
       /**
-       * <code>.proto.triton.Dribble dribble = 6;</code>
+       * <code>.proto.triton.Dribble dribble = 5;</code>
        */
       public proto.triton.AiBasicSkills.Dribble.Builder getDribbleBuilder() {
         return getDribbleFieldBuilder().getBuilder();
       }
       /**
-       * <code>.proto.triton.Dribble dribble = 6;</code>
+       * <code>.proto.triton.Dribble dribble = 5;</code>
        */
       public proto.triton.AiBasicSkills.DribbleOrBuilder getDribbleOrBuilder() {
-        if ((commandCase_ == 6) && (dribbleBuilder_ != null)) {
+        if ((commandCase_ == 5) && (dribbleBuilder_ != null)) {
           return dribbleBuilder_.getMessageOrBuilder();
         } else {
-          if (commandCase_ == 6) {
+          if (commandCase_ == 5) {
             return (proto.triton.AiBasicSkills.Dribble) command_;
           }
           return proto.triton.AiBasicSkills.Dribble.getDefaultInstance();
         }
       }
       /**
-       * <code>.proto.triton.Dribble dribble = 6;</code>
+       * <code>.proto.triton.Dribble dribble = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           proto.triton.AiBasicSkills.Dribble, proto.triton.AiBasicSkills.Dribble.Builder, proto.triton.AiBasicSkills.DribbleOrBuilder> 
           getDribbleFieldBuilder() {
         if (dribbleBuilder_ == null) {
-          if (!(commandCase_ == 6)) {
+          if (!(commandCase_ == 5)) {
             command_ = proto.triton.AiBasicSkills.Dribble.getDefaultInstance();
           }
           dribbleBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -1588,7 +1371,7 @@ public final class AiBasicSkills {
                   isClean());
           command_ = null;
         }
-        commandCase_ = 6;
+        commandCase_ = 5;
         onChanged();;
         return dribbleBuilder_;
       }
@@ -1640,418 +1423,6 @@ public final class AiBasicSkills {
 
     @java.lang.Override
     public proto.triton.AiBasicSkills.BasicSkill getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface StopOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.triton.Stop)
-      com.google.protobuf.MessageOrBuilder {
-  }
-  /**
-   * Protobuf type {@code proto.triton.Stop}
-   */
-  public  static final class Stop extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.triton.Stop)
-      StopOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use Stop.newBuilder() to construct.
-    private Stop(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private Stop() {
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private Stop(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return proto.triton.AiBasicSkills.internal_static_proto_triton_Stop_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return proto.triton.AiBasicSkills.internal_static_proto_triton_Stop_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              proto.triton.AiBasicSkills.Stop.class, proto.triton.AiBasicSkills.Stop.Builder.class);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof proto.triton.AiBasicSkills.Stop)) {
-        return super.equals(obj);
-      }
-      proto.triton.AiBasicSkills.Stop other = (proto.triton.AiBasicSkills.Stop) obj;
-
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static proto.triton.AiBasicSkills.Stop parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static proto.triton.AiBasicSkills.Stop parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static proto.triton.AiBasicSkills.Stop parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static proto.triton.AiBasicSkills.Stop parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static proto.triton.AiBasicSkills.Stop parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static proto.triton.AiBasicSkills.Stop parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static proto.triton.AiBasicSkills.Stop parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static proto.triton.AiBasicSkills.Stop parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static proto.triton.AiBasicSkills.Stop parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static proto.triton.AiBasicSkills.Stop parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static proto.triton.AiBasicSkills.Stop parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static proto.triton.AiBasicSkills.Stop parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(proto.triton.AiBasicSkills.Stop prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code proto.triton.Stop}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.triton.Stop)
-        proto.triton.AiBasicSkills.StopOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return proto.triton.AiBasicSkills.internal_static_proto_triton_Stop_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return proto.triton.AiBasicSkills.internal_static_proto_triton_Stop_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                proto.triton.AiBasicSkills.Stop.class, proto.triton.AiBasicSkills.Stop.Builder.class);
-      }
-
-      // Construct using proto.triton.AiBasicSkills.Stop.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return proto.triton.AiBasicSkills.internal_static_proto_triton_Stop_descriptor;
-      }
-
-      @java.lang.Override
-      public proto.triton.AiBasicSkills.Stop getDefaultInstanceForType() {
-        return proto.triton.AiBasicSkills.Stop.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public proto.triton.AiBasicSkills.Stop build() {
-        proto.triton.AiBasicSkills.Stop result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public proto.triton.AiBasicSkills.Stop buildPartial() {
-        proto.triton.AiBasicSkills.Stop result = new proto.triton.AiBasicSkills.Stop(this);
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof proto.triton.AiBasicSkills.Stop) {
-          return mergeFrom((proto.triton.AiBasicSkills.Stop)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(proto.triton.AiBasicSkills.Stop other) {
-        if (other == proto.triton.AiBasicSkills.Stop.getDefaultInstance()) return this;
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        proto.triton.AiBasicSkills.Stop parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (proto.triton.AiBasicSkills.Stop) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:proto.triton.Stop)
-    }
-
-    // @@protoc_insertion_point(class_scope:proto.triton.Stop)
-    private static final proto.triton.AiBasicSkills.Stop DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new proto.triton.AiBasicSkills.Stop();
-    }
-
-    public static proto.triton.AiBasicSkills.Stop getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<Stop>
-        PARSER = new com.google.protobuf.AbstractParser<Stop>() {
-      @java.lang.Override
-      public Stop parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Stop(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<Stop> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<Stop> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public proto.triton.AiBasicSkills.Stop getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -4239,11 +3610,6 @@ public final class AiBasicSkills {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_proto_triton_BasicSkill_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_triton_Stop_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_triton_Stop_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_proto_triton_MatchVelocity_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -4272,19 +3638,17 @@ public final class AiBasicSkills {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025ai_basic_skills.proto\022\014proto.triton\"\200\002" +
-      "\n\nBasicSkill\022\n\n\002id\030\001 \001(\005\022\"\n\004stop\030\002 \001(\0132\022" +
-      ".proto.triton.StopH\000\0225\n\016match_velocity\030\003" +
-      " \001(\0132\033.proto.triton.MatchVelocityH\000\0222\n\rm" +
-      "ove_to_point\030\004 \001(\0132\031.proto.triton.MoveTo" +
-      "PointH\000\022\"\n\004kick\030\005 \001(\0132\022.proto.triton.Kic" +
-      "kH\000\022(\n\007dribble\030\006 \001(\0132\025.proto.triton.Drib" +
-      "bleH\000B\t\n\007command\"\006\n\004Stop\"8\n\rMatchVelocit" +
-      "y\022\n\n\002vx\030\001 \001(\002\022\n\n\002vy\030\002 \001(\002\022\017\n\007angular\030\003 \001" +
-      "(\002\"8\n\013MoveToPoint\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022" +
-      "\023\n\013orientation\030\003 \001(\002\"\024\n\004Kick\022\014\n\004chip\030\001 \001" +
-      "(\010\"\035\n\007Dribble\022\022\n\ndribble_on\030\001 \001(\010b\006proto" +
-      "3"
+      "\n\025ai_basic_skills.proto\022\014proto.triton\"\334\001" +
+      "\n\nBasicSkill\022\n\n\002id\030\001 \001(\005\0225\n\016match_veloci" +
+      "ty\030\002 \001(\0132\033.proto.triton.MatchVelocityH\000\022" +
+      "2\n\rmove_to_point\030\003 \001(\0132\031.proto.triton.Mo" +
+      "veToPointH\000\022\"\n\004kick\030\004 \001(\0132\022.proto.triton" +
+      ".KickH\000\022(\n\007dribble\030\005 \001(\0132\025.proto.triton." +
+      "DribbleH\000B\t\n\007command\"8\n\rMatchVelocity\022\n\n" +
+      "\002vx\030\001 \001(\002\022\n\n\002vy\030\002 \001(\002\022\017\n\007angular\030\003 \001(\002\"8" +
+      "\n\013MoveToPoint\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\023\n\013o" +
+      "rientation\030\003 \001(\002\"\024\n\004Kick\022\014\n\004chip\030\001 \001(\010\"\035" +
+      "\n\007Dribble\022\022\n\ndribble_on\030\001 \001(\010b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4303,33 +3667,27 @@ public final class AiBasicSkills {
     internal_static_proto_triton_BasicSkill_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_BasicSkill_descriptor,
-        new java.lang.String[] { "Id", "Stop", "MatchVelocity", "MoveToPoint", "Kick", "Dribble", "Command", });
-    internal_static_proto_triton_Stop_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_proto_triton_Stop_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_triton_Stop_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "Id", "MatchVelocity", "MoveToPoint", "Kick", "Dribble", "Command", });
     internal_static_proto_triton_MatchVelocity_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(1);
     internal_static_proto_triton_MatchVelocity_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_MatchVelocity_descriptor,
         new java.lang.String[] { "Vx", "Vy", "Angular", });
     internal_static_proto_triton_MoveToPoint_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_proto_triton_MoveToPoint_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_MoveToPoint_descriptor,
         new java.lang.String[] { "X", "Y", "Orientation", });
     internal_static_proto_triton_Kick_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_proto_triton_Kick_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_Kick_descriptor,
         new java.lang.String[] { "Chip", });
     internal_static_proto_triton_Dribble_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_proto_triton_Dribble_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_Dribble_descriptor,

@@ -66,11 +66,7 @@ public class ChaseBallTest extends Module {
             teleportBall.setByForce(false);
             simulatorControl.setTeleportBall(teleportBall);
 
-            try {
-                publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
 
             try {
                 Thread.sleep(5000);
@@ -81,29 +77,21 @@ public class ChaseBallTest extends Module {
     }
 
     private void callbackWrapper(String s, Delivery delivery) {
-        IndividualSkill.Builder chaseBallSkill = IndividualSkill.newBuilder();
-        chaseBallSkill.setId(0);
-        ChaseBall.Builder chaseBall = ChaseBall.newBuilder();
-        chaseBallSkill.setChaseBall(chaseBall);
-
-        if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact())
+        if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
             System.out.println("contact");
+        } else {
+            IndividualSkill.Builder chaseBallSkill = IndividualSkill.newBuilder();
+            chaseBallSkill.setId(0);
+            ChaseBall.Builder chaseBall = ChaseBall.newBuilder();
+            chaseBallSkill.setChaseBall(chaseBall);
 
-        try {
             publish(AI_INDIVIDUAL_SKILL, chaseBallSkill.build());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
     private void callbackFeedbacks(String s, Delivery delivery) {
         HashMap<Integer, RobotFeedback> feedbacks;
-        try {
-            feedbacks = (HashMap<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        feedbacks = (HashMap<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
 
         this.feedbacks = feedbacks;
     }

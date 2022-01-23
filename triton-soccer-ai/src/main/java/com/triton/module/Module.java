@@ -72,7 +72,15 @@ public abstract class Module extends Thread {
         consume_channel.exchangeDeclare(exchange.name(), FANOUT);
         String queueName = consume_channel.queueDeclare().getQueue();
         consume_channel.queueBind(queueName, exchange.name(), "");
-        consume_channel.basicConsume(queueName, true, callback, consumerTag -> {
+
+        DeliverCallback wrappedCallback = (s, delivery) -> {
+            try {
+                callback.handle(s, delivery);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
+        consume_channel.basicConsume(queueName, true, wrappedCallback, consumerTag -> {
         });
     }
 
@@ -83,9 +91,14 @@ public abstract class Module extends Thread {
      * @param object   the object to send
      * @throws IOException
      */
-    public void publish(Exchange exchange, Object object) throws IOException {
-        if (publish_channel.isOpen())
-            publish_channel.basicPublish(exchange.name(), "", null, simpleSerialize(object));
+    public void publish(Exchange exchange, Object object) {
+        if (publish_channel.isOpen()) {
+            try {
+                publish_channel.basicPublish(exchange.name(), "", null, simpleSerialize(object));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
