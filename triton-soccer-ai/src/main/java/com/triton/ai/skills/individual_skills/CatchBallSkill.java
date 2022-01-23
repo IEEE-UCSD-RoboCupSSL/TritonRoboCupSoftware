@@ -12,7 +12,7 @@ import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class CatchBallSkill {
-    public static void catchBallSkill(Module module, int id, CatchBall catchBall, HashMap<Integer, Robot> allies, Ball ball) throws IOException {
+    public static void catchBallSkill(Module module, int id, CatchBall catchBall, Ball ball, HashMap<Integer, Robot> allies) throws IOException {
         if (allies == null || allies.get(id) == null) return;
         Robot ally = allies.get(id);
 

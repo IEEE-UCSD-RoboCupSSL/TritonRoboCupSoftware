@@ -149,8 +149,7 @@ public class SimulatorCommandInterface extends Module {
     }
 
     private void callbackSimulatorControl(String s, Delivery delivery) {
-        SimulatorControl simulatorControl;
-        simulatorControl = (SimulatorControl) simpleDeserialize(delivery.getBody());
+        SimulatorControl simulatorControl = (SimulatorControl) simpleDeserialize(delivery.getBody());
 
         SimulatorCommand.Builder simulatorCommand = SimulatorCommand.newBuilder();
         simulatorCommand.setControl(simulatorControl);
@@ -158,8 +157,7 @@ public class SimulatorCommandInterface extends Module {
     }
 
     private void callbackSimulatorConfig(String s, Delivery delivery) {
-        SimulatorConfig simulatorConfig;
-        simulatorConfig = (SimulatorConfig) simpleDeserialize(delivery.getBody());
+        SimulatorConfig simulatorConfig = (SimulatorConfig) simpleDeserialize(delivery.getBody());
 
         SimulatorCommand.Builder simulatorCommand = SimulatorCommand.newBuilder();
         simulatorCommand.setConfig(simulatorConfig);

@@ -42,6 +42,7 @@ proto/simulation/SslVisionGeometry$Vector2f.class
 proto/simulation/SslSimulationRobotControl$RobotControlOrBuilder.class
 com/triton/config/DisplayConfig.class
 proto/triton/AiTeamSkills$AggressiveNeutral.class
+com/triton/module/processing_module/PathfindingModule.class
 proto/triton/AiBasicSkills$BasicSkill$1.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldCircularArc$1.class
 proto/simulation/SslSimulationSynchronous$SimulationSyncRequest$1.class
@@ -89,7 +90,6 @@ proto/simulation/SslSimulationRobotControl$MoveWheelVelocity$Builder.class
 com/triton/config/ObjectConfig.class
 proto/triton/AiTeamSkills$DefaultNeutral.class
 proto/simulation/SslSimulationControl$SimulatorResponse.class
-proto/triton/AiIndividualSkills$DribbleBall$TargetOrientationCase.class
 com/triton/config/ConfigPath.class
 proto/simulation/SslVisionGeometry$Vector2fOrBuilder.class
 proto/triton/AiIndividualSkills$1.class
@@ -110,6 +110,7 @@ proto/simulation/SslVisionGeometry$Vector2f$Builder.class
 proto/triton/AiTeamSkills$AggressiveOffense.class
 proto/simulation/SslVisionGeometry$SSL_FieldLineSegment.class
 proto/triton/AiIndividualSkills$CatchBall$1.class
+com/triton/module/test_module/individual_skill_test/DribbleBallTest.class
 com/triton/test/Test.class
 proto/vision/MessagesRobocupSslRefboxLog.class
 proto/vision/MessagesRobocupSslDetectionTracked$KickedBall.class
@@ -418,11 +419,9 @@ proto/triton/AiIndividualSkills$Juke$Builder.class
 proto/simulation/SslSimulationConfig$RobotWheelAngles.class
 proto/simulation/SslSimulationControl$SimulatorCommandOrBuilder.class
 proto/triton/AiBasicSkills$KickOrBuilder.class
-proto/triton/AiIndividualSkills$PathToPoint$TargetOrientationCase.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedRobot$1.class
 proto/simulation/SslVisionGeometry$SSL_GeometryModels.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionBall$Builder.class
-com/triton/ai/skills/individual_skills/PathToPointSkill$1.class
 proto/triton/AiBasicSkills$BasicSkillOrBuilder.class
 proto/simulation/SslSimulationRobotControl$MoveGlobalVelocity$Builder.class
 proto/vision/MessagesRobocupSslRefboxLog$Refbox_Log$1.class

@@ -53,8 +53,7 @@ public class RobotCommandAudienceConverter extends Module {
     }
 
     private void callbackBiasedRobotCommand(String s, Delivery delivery) {
-        RobotCommand biasedRobotCommand;
-        biasedRobotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
+        RobotCommand biasedRobotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
 
         RobotCommand robotCommand = biasedToAudience(biasedRobotCommand);
 

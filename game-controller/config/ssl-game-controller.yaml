@@ -1,13 +1,13 @@
 network:
   publish-address: 224.5.23.1:10003
   publish-nif: ""
-  vision-address: 224.5.23.2:10006
+  vision-address: 224.5.23.2:10020
   tracker-address: 224.5.23.2:10010
   skip-interfaces: []
 game:
   yellow-card-duration: 2m0s
   yellow-card-bot-removal-time: 10s
-  default-division: DIV_A
+  default-division: DIV_B
   normal:
     half-duration: 5m0s
     half-time-duration: 5m0s

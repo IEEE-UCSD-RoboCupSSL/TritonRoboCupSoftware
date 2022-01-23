@@ -78,16 +78,14 @@ public class CatchBallTest extends Module {
     }
 
     private void callbackBalls(String s, Delivery delivery) {
-        Ball ball;
-        ball = (Ball) simpleDeserialize(delivery.getBody());
+        Ball ball = (Ball) simpleDeserialize(delivery.getBody());
 
         this.ball = ball;
         createCommand();
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, Robot> allies;
-        allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
+        HashMap<Integer, Robot> allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
 
         this.allies = allies;
         createCommand();

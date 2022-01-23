@@ -2945,11 +2945,19 @@ public final class AiIndividualSkills {
     float getOrientation();
 
     /**
-     * <code>bool face_point = 4;</code>
+     * <code>float face_x = 4;</code>
+     */
+    float getFaceX();
+
+    /**
+     * <code>float face_y = 5;</code>
+     */
+    float getFaceY();
+
+    /**
+     * <code>bool face_point = 6;</code>
      */
     boolean getFacePoint();
-
-    public proto.triton.AiIndividualSkills.PathToPoint.TargetOrientationCase getTargetOrientationCase();
   }
   /**
    * Protobuf type {@code proto.triton.PathToPoint}
@@ -2966,6 +2974,10 @@ public final class AiIndividualSkills {
     private PathToPoint() {
       x_ = 0F;
       y_ = 0F;
+      orientation_ = 0F;
+      faceX_ = 0F;
+      faceY_ = 0F;
+      facePoint_ = false;
     }
 
     @java.lang.Override
@@ -3003,13 +3015,23 @@ public final class AiIndividualSkills {
               break;
             }
             case 29: {
-              targetOrientationCase_ = 3;
-              targetOrientation_ = input.readFloat();
+
+              orientation_ = input.readFloat();
               break;
             }
-            case 32: {
-              targetOrientationCase_ = 4;
-              targetOrientation_ = input.readBool();
+            case 37: {
+
+              faceX_ = input.readFloat();
+              break;
+            }
+            case 45: {
+
+              faceY_ = input.readFloat();
+              break;
+            }
+            case 48: {
+
+              facePoint_ = input.readBool();
               break;
             }
             default: {
@@ -3044,44 +3066,6 @@ public final class AiIndividualSkills {
               proto.triton.AiIndividualSkills.PathToPoint.class, proto.triton.AiIndividualSkills.PathToPoint.Builder.class);
     }
 
-    private int targetOrientationCase_ = 0;
-    private java.lang.Object targetOrientation_;
-    public enum TargetOrientationCase
-        implements com.google.protobuf.Internal.EnumLite {
-      ORIENTATION(3),
-      FACE_POINT(4),
-      TARGETORIENTATION_NOT_SET(0);
-      private final int value;
-      private TargetOrientationCase(int value) {
-        this.value = value;
-      }
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static TargetOrientationCase valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static TargetOrientationCase forNumber(int value) {
-        switch (value) {
-          case 3: return ORIENTATION;
-          case 4: return FACE_POINT;
-          case 0: return TARGETORIENTATION_NOT_SET;
-          default: return null;
-        }
-      }
-      public int getNumber() {
-        return this.value;
-      }
-    };
-
-    public TargetOrientationCase
-    getTargetOrientationCase() {
-      return TargetOrientationCase.forNumber(
-          targetOrientationCase_);
-    }
-
     public static final int X_FIELD_NUMBER = 1;
     private float x_;
     /**
@@ -3101,25 +3085,39 @@ public final class AiIndividualSkills {
     }
 
     public static final int ORIENTATION_FIELD_NUMBER = 3;
+    private float orientation_;
     /**
      * <code>float orientation = 3;</code>
      */
     public float getOrientation() {
-      if (targetOrientationCase_ == 3) {
-        return (java.lang.Float) targetOrientation_;
-      }
-      return 0F;
+      return orientation_;
     }
 
-    public static final int FACE_POINT_FIELD_NUMBER = 4;
+    public static final int FACE_X_FIELD_NUMBER = 4;
+    private float faceX_;
     /**
-     * <code>bool face_point = 4;</code>
+     * <code>float face_x = 4;</code>
+     */
+    public float getFaceX() {
+      return faceX_;
+    }
+
+    public static final int FACE_Y_FIELD_NUMBER = 5;
+    private float faceY_;
+    /**
+     * <code>float face_y = 5;</code>
+     */
+    public float getFaceY() {
+      return faceY_;
+    }
+
+    public static final int FACE_POINT_FIELD_NUMBER = 6;
+    private boolean facePoint_;
+    /**
+     * <code>bool face_point = 6;</code>
      */
     public boolean getFacePoint() {
-      if (targetOrientationCase_ == 4) {
-        return (java.lang.Boolean) targetOrientation_;
-      }
-      return false;
+      return facePoint_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -3142,13 +3140,17 @@ public final class AiIndividualSkills {
       if (y_ != 0F) {
         output.writeFloat(2, y_);
       }
-      if (targetOrientationCase_ == 3) {
-        output.writeFloat(
-            3, (float)((java.lang.Float) targetOrientation_));
+      if (orientation_ != 0F) {
+        output.writeFloat(3, orientation_);
       }
-      if (targetOrientationCase_ == 4) {
-        output.writeBool(
-            4, (boolean)((java.lang.Boolean) targetOrientation_));
+      if (faceX_ != 0F) {
+        output.writeFloat(4, faceX_);
+      }
+      if (faceY_ != 0F) {
+        output.writeFloat(5, faceY_);
+      }
+      if (facePoint_ != false) {
+        output.writeBool(6, facePoint_);
       }
       unknownFields.writeTo(output);
     }
@@ -3167,15 +3169,21 @@ public final class AiIndividualSkills {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(2, y_);
       }
-      if (targetOrientationCase_ == 3) {
+      if (orientation_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(
-              3, (float)((java.lang.Float) targetOrientation_));
+          .computeFloatSize(3, orientation_);
       }
-      if (targetOrientationCase_ == 4) {
+      if (faceX_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(
-              4, (boolean)((java.lang.Boolean) targetOrientation_));
+          .computeFloatSize(4, faceX_);
+      }
+      if (faceY_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(5, faceY_);
+      }
+      if (facePoint_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(6, facePoint_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3201,23 +3209,20 @@ public final class AiIndividualSkills {
           java.lang.Float.floatToIntBits(getY())
           == java.lang.Float.floatToIntBits(
               other.getY()));
-      result = result && getTargetOrientationCase().equals(
-          other.getTargetOrientationCase());
-      if (!result) return false;
-      switch (targetOrientationCase_) {
-        case 3:
-          result = result && (
-              java.lang.Float.floatToIntBits(getOrientation())
-              == java.lang.Float.floatToIntBits(
-                  other.getOrientation()));
-          break;
-        case 4:
-          result = result && (getFacePoint()
-              == other.getFacePoint());
-          break;
-        case 0:
-        default:
-      }
+      result = result && (
+          java.lang.Float.floatToIntBits(getOrientation())
+          == java.lang.Float.floatToIntBits(
+              other.getOrientation()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getFaceX())
+          == java.lang.Float.floatToIntBits(
+              other.getFaceX()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getFaceY())
+          == java.lang.Float.floatToIntBits(
+              other.getFaceY()));
+      result = result && (getFacePoint()
+          == other.getFacePoint());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -3235,20 +3240,18 @@ public final class AiIndividualSkills {
       hash = (37 * hash) + Y_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getY());
-      switch (targetOrientationCase_) {
-        case 3:
-          hash = (37 * hash) + ORIENTATION_FIELD_NUMBER;
-          hash = (53 * hash) + java.lang.Float.floatToIntBits(
-              getOrientation());
-          break;
-        case 4:
-          hash = (37 * hash) + FACE_POINT_FIELD_NUMBER;
-          hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-              getFacePoint());
-          break;
-        case 0:
-        default:
-      }
+      hash = (37 * hash) + ORIENTATION_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getOrientation());
+      hash = (37 * hash) + FACE_X_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getFaceX());
+      hash = (37 * hash) + FACE_Y_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getFaceY());
+      hash = (37 * hash) + FACE_POINT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getFacePoint());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3386,8 +3389,14 @@ public final class AiIndividualSkills {
 
         y_ = 0F;
 
-        targetOrientationCase_ = 0;
-        targetOrientation_ = null;
+        orientation_ = 0F;
+
+        faceX_ = 0F;
+
+        faceY_ = 0F;
+
+        facePoint_ = false;
+
         return this;
       }
 
@@ -3416,13 +3425,10 @@ public final class AiIndividualSkills {
         proto.triton.AiIndividualSkills.PathToPoint result = new proto.triton.AiIndividualSkills.PathToPoint(this);
         result.x_ = x_;
         result.y_ = y_;
-        if (targetOrientationCase_ == 3) {
-          result.targetOrientation_ = targetOrientation_;
-        }
-        if (targetOrientationCase_ == 4) {
-          result.targetOrientation_ = targetOrientation_;
-        }
-        result.targetOrientationCase_ = targetOrientationCase_;
+        result.orientation_ = orientation_;
+        result.faceX_ = faceX_;
+        result.faceY_ = faceY_;
+        result.facePoint_ = facePoint_;
         onBuilt();
         return result;
       }
@@ -3477,18 +3483,17 @@ public final class AiIndividualSkills {
         if (other.getY() != 0F) {
           setY(other.getY());
         }
-        switch (other.getTargetOrientationCase()) {
-          case ORIENTATION: {
-            setOrientation(other.getOrientation());
-            break;
-          }
-          case FACE_POINT: {
-            setFacePoint(other.getFacePoint());
-            break;
-          }
-          case TARGETORIENTATION_NOT_SET: {
-            break;
-          }
+        if (other.getOrientation() != 0F) {
+          setOrientation(other.getOrientation());
+        }
+        if (other.getFaceX() != 0F) {
+          setFaceX(other.getFaceX());
+        }
+        if (other.getFaceY() != 0F) {
+          setFaceY(other.getFaceY());
+        }
+        if (other.getFacePoint() != false) {
+          setFacePoint(other.getFacePoint());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -3518,21 +3523,6 @@ public final class AiIndividualSkills {
         }
         return this;
       }
-      private int targetOrientationCase_ = 0;
-      private java.lang.Object targetOrientation_;
-      public TargetOrientationCase
-          getTargetOrientationCase() {
-        return TargetOrientationCase.forNumber(
-            targetOrientationCase_);
-      }
-
-      public Builder clearTargetOrientation() {
-        targetOrientationCase_ = 0;
-        targetOrientation_ = null;
-        onChanged();
-        return this;
-      }
-
 
       private float x_ ;
       /**
@@ -3586,21 +3576,19 @@ public final class AiIndividualSkills {
         return this;
       }
 
+      private float orientation_ ;
       /**
        * <code>float orientation = 3;</code>
        */
       public float getOrientation() {
-        if (targetOrientationCase_ == 3) {
-          return (java.lang.Float) targetOrientation_;
-        }
-        return 0F;
+        return orientation_;
       }
       /**
        * <code>float orientation = 3;</code>
        */
       public Builder setOrientation(float value) {
-        targetOrientationCase_ = 3;
-        targetOrientation_ = value;
+        
+        orientation_ = value;
         onChanged();
         return this;
       }
@@ -3608,41 +3596,87 @@ public final class AiIndividualSkills {
        * <code>float orientation = 3;</code>
        */
       public Builder clearOrientation() {
-        if (targetOrientationCase_ == 3) {
-          targetOrientationCase_ = 0;
-          targetOrientation_ = null;
-          onChanged();
-        }
+        
+        orientation_ = 0F;
+        onChanged();
         return this;
       }
 
+      private float faceX_ ;
       /**
-       * <code>bool face_point = 4;</code>
+       * <code>float face_x = 4;</code>
        */
-      public boolean getFacePoint() {
-        if (targetOrientationCase_ == 4) {
-          return (java.lang.Boolean) targetOrientation_;
-        }
-        return false;
+      public float getFaceX() {
+        return faceX_;
       }
       /**
-       * <code>bool face_point = 4;</code>
+       * <code>float face_x = 4;</code>
        */
-      public Builder setFacePoint(boolean value) {
-        targetOrientationCase_ = 4;
-        targetOrientation_ = value;
+      public Builder setFaceX(float value) {
+        
+        faceX_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>bool face_point = 4;</code>
+       * <code>float face_x = 4;</code>
+       */
+      public Builder clearFaceX() {
+        
+        faceX_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float faceY_ ;
+      /**
+       * <code>float face_y = 5;</code>
+       */
+      public float getFaceY() {
+        return faceY_;
+      }
+      /**
+       * <code>float face_y = 5;</code>
+       */
+      public Builder setFaceY(float value) {
+        
+        faceY_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float face_y = 5;</code>
+       */
+      public Builder clearFaceY() {
+        
+        faceY_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private boolean facePoint_ ;
+      /**
+       * <code>bool face_point = 6;</code>
+       */
+      public boolean getFacePoint() {
+        return facePoint_;
+      }
+      /**
+       * <code>bool face_point = 6;</code>
+       */
+      public Builder setFacePoint(boolean value) {
+        
+        facePoint_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool face_point = 6;</code>
        */
       public Builder clearFacePoint() {
-        if (targetOrientationCase_ == 4) {
-          targetOrientationCase_ = 0;
-          targetOrientation_ = null;
-          onChanged();
-        }
+        
+        facePoint_ = false;
+        onChanged();
         return this;
       }
       @java.lang.Override
@@ -4954,11 +4988,19 @@ public final class AiIndividualSkills {
     float getOrientation();
 
     /**
-     * <code>bool face_point = 4;</code>
+     * <code>float face_x = 4;</code>
+     */
+    float getFaceX();
+
+    /**
+     * <code>float face_y = 5;</code>
+     */
+    float getFaceY();
+
+    /**
+     * <code>bool face_point = 6;</code>
      */
     boolean getFacePoint();
-
-    public proto.triton.AiIndividualSkills.DribbleBall.TargetOrientationCase getTargetOrientationCase();
   }
   /**
    * Protobuf type {@code proto.triton.DribbleBall}
@@ -4975,6 +5017,10 @@ public final class AiIndividualSkills {
     private DribbleBall() {
       x_ = 0F;
       y_ = 0F;
+      orientation_ = 0F;
+      faceX_ = 0F;
+      faceY_ = 0F;
+      facePoint_ = false;
     }
 
     @java.lang.Override
@@ -5012,13 +5058,23 @@ public final class AiIndividualSkills {
               break;
             }
             case 29: {
-              targetOrientationCase_ = 3;
-              targetOrientation_ = input.readFloat();
+
+              orientation_ = input.readFloat();
               break;
             }
-            case 32: {
-              targetOrientationCase_ = 4;
-              targetOrientation_ = input.readBool();
+            case 37: {
+
+              faceX_ = input.readFloat();
+              break;
+            }
+            case 45: {
+
+              faceY_ = input.readFloat();
+              break;
+            }
+            case 48: {
+
+              facePoint_ = input.readBool();
               break;
             }
             default: {
@@ -5053,44 +5109,6 @@ public final class AiIndividualSkills {
               proto.triton.AiIndividualSkills.DribbleBall.class, proto.triton.AiIndividualSkills.DribbleBall.Builder.class);
     }
 
-    private int targetOrientationCase_ = 0;
-    private java.lang.Object targetOrientation_;
-    public enum TargetOrientationCase
-        implements com.google.protobuf.Internal.EnumLite {
-      ORIENTATION(3),
-      FACE_POINT(4),
-      TARGETORIENTATION_NOT_SET(0);
-      private final int value;
-      private TargetOrientationCase(int value) {
-        this.value = value;
-      }
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static TargetOrientationCase valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static TargetOrientationCase forNumber(int value) {
-        switch (value) {
-          case 3: return ORIENTATION;
-          case 4: return FACE_POINT;
-          case 0: return TARGETORIENTATION_NOT_SET;
-          default: return null;
-        }
-      }
-      public int getNumber() {
-        return this.value;
-      }
-    };
-
-    public TargetOrientationCase
-    getTargetOrientationCase() {
-      return TargetOrientationCase.forNumber(
-          targetOrientationCase_);
-    }
-
     public static final int X_FIELD_NUMBER = 1;
     private float x_;
     /**
@@ -5110,25 +5128,39 @@ public final class AiIndividualSkills {
     }
 
     public static final int ORIENTATION_FIELD_NUMBER = 3;
+    private float orientation_;
     /**
      * <code>float orientation = 3;</code>
      */
     public float getOrientation() {
-      if (targetOrientationCase_ == 3) {
-        return (java.lang.Float) targetOrientation_;
-      }
-      return 0F;
+      return orientation_;
     }
 
-    public static final int FACE_POINT_FIELD_NUMBER = 4;
+    public static final int FACE_X_FIELD_NUMBER = 4;
+    private float faceX_;
     /**
-     * <code>bool face_point = 4;</code>
+     * <code>float face_x = 4;</code>
+     */
+    public float getFaceX() {
+      return faceX_;
+    }
+
+    public static final int FACE_Y_FIELD_NUMBER = 5;
+    private float faceY_;
+    /**
+     * <code>float face_y = 5;</code>
+     */
+    public float getFaceY() {
+      return faceY_;
+    }
+
+    public static final int FACE_POINT_FIELD_NUMBER = 6;
+    private boolean facePoint_;
+    /**
+     * <code>bool face_point = 6;</code>
      */
     public boolean getFacePoint() {
-      if (targetOrientationCase_ == 4) {
-        return (java.lang.Boolean) targetOrientation_;
-      }
-      return false;
+      return facePoint_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -5151,13 +5183,17 @@ public final class AiIndividualSkills {
       if (y_ != 0F) {
         output.writeFloat(2, y_);
       }
-      if (targetOrientationCase_ == 3) {
-        output.writeFloat(
-            3, (float)((java.lang.Float) targetOrientation_));
+      if (orientation_ != 0F) {
+        output.writeFloat(3, orientation_);
       }
-      if (targetOrientationCase_ == 4) {
-        output.writeBool(
-            4, (boolean)((java.lang.Boolean) targetOrientation_));
+      if (faceX_ != 0F) {
+        output.writeFloat(4, faceX_);
+      }
+      if (faceY_ != 0F) {
+        output.writeFloat(5, faceY_);
+      }
+      if (facePoint_ != false) {
+        output.writeBool(6, facePoint_);
       }
       unknownFields.writeTo(output);
     }
@@ -5176,15 +5212,21 @@ public final class AiIndividualSkills {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(2, y_);
       }
-      if (targetOrientationCase_ == 3) {
+      if (orientation_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(
-              3, (float)((java.lang.Float) targetOrientation_));
+          .computeFloatSize(3, orientation_);
       }
-      if (targetOrientationCase_ == 4) {
+      if (faceX_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(
-              4, (boolean)((java.lang.Boolean) targetOrientation_));
+          .computeFloatSize(4, faceX_);
+      }
+      if (faceY_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(5, faceY_);
+      }
+      if (facePoint_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(6, facePoint_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -5210,23 +5252,20 @@ public final class AiIndividualSkills {
           java.lang.Float.floatToIntBits(getY())
           == java.lang.Float.floatToIntBits(
               other.getY()));
-      result = result && getTargetOrientationCase().equals(
-          other.getTargetOrientationCase());
-      if (!result) return false;
-      switch (targetOrientationCase_) {
-        case 3:
-          result = result && (
-              java.lang.Float.floatToIntBits(getOrientation())
-              == java.lang.Float.floatToIntBits(
-                  other.getOrientation()));
-          break;
-        case 4:
-          result = result && (getFacePoint()
-              == other.getFacePoint());
-          break;
-        case 0:
-        default:
-      }
+      result = result && (
+          java.lang.Float.floatToIntBits(getOrientation())
+          == java.lang.Float.floatToIntBits(
+              other.getOrientation()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getFaceX())
+          == java.lang.Float.floatToIntBits(
+              other.getFaceX()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getFaceY())
+          == java.lang.Float.floatToIntBits(
+              other.getFaceY()));
+      result = result && (getFacePoint()
+          == other.getFacePoint());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -5244,20 +5283,18 @@ public final class AiIndividualSkills {
       hash = (37 * hash) + Y_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getY());
-      switch (targetOrientationCase_) {
-        case 3:
-          hash = (37 * hash) + ORIENTATION_FIELD_NUMBER;
-          hash = (53 * hash) + java.lang.Float.floatToIntBits(
-              getOrientation());
-          break;
-        case 4:
-          hash = (37 * hash) + FACE_POINT_FIELD_NUMBER;
-          hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-              getFacePoint());
-          break;
-        case 0:
-        default:
-      }
+      hash = (37 * hash) + ORIENTATION_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getOrientation());
+      hash = (37 * hash) + FACE_X_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getFaceX());
+      hash = (37 * hash) + FACE_Y_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getFaceY());
+      hash = (37 * hash) + FACE_POINT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getFacePoint());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -5395,8 +5432,14 @@ public final class AiIndividualSkills {
 
         y_ = 0F;
 
-        targetOrientationCase_ = 0;
-        targetOrientation_ = null;
+        orientation_ = 0F;
+
+        faceX_ = 0F;
+
+        faceY_ = 0F;
+
+        facePoint_ = false;
+
         return this;
       }
 
@@ -5425,13 +5468,10 @@ public final class AiIndividualSkills {
         proto.triton.AiIndividualSkills.DribbleBall result = new proto.triton.AiIndividualSkills.DribbleBall(this);
         result.x_ = x_;
         result.y_ = y_;
-        if (targetOrientationCase_ == 3) {
-          result.targetOrientation_ = targetOrientation_;
-        }
-        if (targetOrientationCase_ == 4) {
-          result.targetOrientation_ = targetOrientation_;
-        }
-        result.targetOrientationCase_ = targetOrientationCase_;
+        result.orientation_ = orientation_;
+        result.faceX_ = faceX_;
+        result.faceY_ = faceY_;
+        result.facePoint_ = facePoint_;
         onBuilt();
         return result;
       }
@@ -5486,18 +5526,17 @@ public final class AiIndividualSkills {
         if (other.getY() != 0F) {
           setY(other.getY());
         }
-        switch (other.getTargetOrientationCase()) {
-          case ORIENTATION: {
-            setOrientation(other.getOrientation());
-            break;
-          }
-          case FACE_POINT: {
-            setFacePoint(other.getFacePoint());
-            break;
-          }
-          case TARGETORIENTATION_NOT_SET: {
-            break;
-          }
+        if (other.getOrientation() != 0F) {
+          setOrientation(other.getOrientation());
+        }
+        if (other.getFaceX() != 0F) {
+          setFaceX(other.getFaceX());
+        }
+        if (other.getFaceY() != 0F) {
+          setFaceY(other.getFaceY());
+        }
+        if (other.getFacePoint() != false) {
+          setFacePoint(other.getFacePoint());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5527,21 +5566,6 @@ public final class AiIndividualSkills {
         }
         return this;
       }
-      private int targetOrientationCase_ = 0;
-      private java.lang.Object targetOrientation_;
-      public TargetOrientationCase
-          getTargetOrientationCase() {
-        return TargetOrientationCase.forNumber(
-            targetOrientationCase_);
-      }
-
-      public Builder clearTargetOrientation() {
-        targetOrientationCase_ = 0;
-        targetOrientation_ = null;
-        onChanged();
-        return this;
-      }
-
 
       private float x_ ;
       /**
@@ -5595,21 +5619,19 @@ public final class AiIndividualSkills {
         return this;
       }
 
+      private float orientation_ ;
       /**
        * <code>float orientation = 3;</code>
        */
       public float getOrientation() {
-        if (targetOrientationCase_ == 3) {
-          return (java.lang.Float) targetOrientation_;
-        }
-        return 0F;
+        return orientation_;
       }
       /**
        * <code>float orientation = 3;</code>
        */
       public Builder setOrientation(float value) {
-        targetOrientationCase_ = 3;
-        targetOrientation_ = value;
+        
+        orientation_ = value;
         onChanged();
         return this;
       }
@@ -5617,41 +5639,87 @@ public final class AiIndividualSkills {
        * <code>float orientation = 3;</code>
        */
       public Builder clearOrientation() {
-        if (targetOrientationCase_ == 3) {
-          targetOrientationCase_ = 0;
-          targetOrientation_ = null;
-          onChanged();
-        }
+        
+        orientation_ = 0F;
+        onChanged();
         return this;
       }
 
+      private float faceX_ ;
       /**
-       * <code>bool face_point = 4;</code>
+       * <code>float face_x = 4;</code>
        */
-      public boolean getFacePoint() {
-        if (targetOrientationCase_ == 4) {
-          return (java.lang.Boolean) targetOrientation_;
-        }
-        return false;
+      public float getFaceX() {
+        return faceX_;
       }
       /**
-       * <code>bool face_point = 4;</code>
+       * <code>float face_x = 4;</code>
        */
-      public Builder setFacePoint(boolean value) {
-        targetOrientationCase_ = 4;
-        targetOrientation_ = value;
+      public Builder setFaceX(float value) {
+        
+        faceX_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>bool face_point = 4;</code>
+       * <code>float face_x = 4;</code>
+       */
+      public Builder clearFaceX() {
+        
+        faceX_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float faceY_ ;
+      /**
+       * <code>float face_y = 5;</code>
+       */
+      public float getFaceY() {
+        return faceY_;
+      }
+      /**
+       * <code>float face_y = 5;</code>
+       */
+      public Builder setFaceY(float value) {
+        
+        faceY_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float face_y = 5;</code>
+       */
+      public Builder clearFaceY() {
+        
+        faceY_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private boolean facePoint_ ;
+      /**
+       * <code>bool face_point = 6;</code>
+       */
+      public boolean getFacePoint() {
+        return facePoint_;
+      }
+      /**
+       * <code>bool face_point = 6;</code>
+       */
+      public Builder setFacePoint(boolean value) {
+        
+        facePoint_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool face_point = 6;</code>
        */
       public Builder clearFacePoint() {
-        if (targetOrientationCase_ == 4) {
-          targetOrientationCase_ = 0;
-          targetOrientation_ = null;
-          onChanged();
-        }
+        
+        facePoint_ = false;
+        onChanged();
         return this;
       }
       @java.lang.Override
@@ -7014,14 +7082,15 @@ public final class AiIndividualSkills {
       "ton.DribbleBallH\000\022$\n\005shoot\030\010 \001(\0132\023.proto" +
       ".triton.ShootH\000\022$\n\005steal\030\t \001(\0132\023.proto.t" +
       "riton.StealH\000\022\"\n\004juke\030\n \001(\0132\022.proto.trit" +
-      "on.JukeH\000B\t\n\007command\"\n\n\010GoalKeep\"f\n\013Path" +
-      "ToPoint\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\025\n\013orienta" +
-      "tion\030\003 \001(\002H\000\022\024\n\nface_point\030\004 \001(\010H\000B\024\n\022ta" +
-      "rget_orientation\"\013\n\tChaseBall\"\013\n\tCatchBa" +
-      "ll\"\021\n\017KickBallToPoint\"f\n\013DribbleBall\022\t\n\001" +
-      "x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\025\n\013orientation\030\003 \001(\002H" +
-      "\000\022\024\n\nface_point\030\004 \001(\010H\000B\024\n\022target_orient" +
-      "ation\"\007\n\005Shoot\"\007\n\005Steal\"\006\n\004Jukeb\006proto3"
+      "on.JukeH\000B\t\n\007command\"\n\n\010GoalKeep\"l\n\013Path" +
+      "ToPoint\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\023\n\013orienta" +
+      "tion\030\003 \001(\002\022\016\n\006face_x\030\004 \001(\002\022\016\n\006face_y\030\005 \001" +
+      "(\002\022\022\n\nface_point\030\006 \001(\010\"\013\n\tChaseBall\"\013\n\tC" +
+      "atchBall\"\021\n\017KickBallToPoint\"l\n\013DribbleBa" +
+      "ll\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\023\n\013orientation\030" +
+      "\003 \001(\002\022\016\n\006face_x\030\004 \001(\002\022\016\n\006face_y\030\005 \001(\002\022\022\n" +
+      "\nface_point\030\006 \001(\010\"\007\n\005Shoot\"\007\n\005Steal\"\006\n\004J" +
+      "ukeb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -7052,7 +7121,7 @@ public final class AiIndividualSkills {
     internal_static_proto_triton_PathToPoint_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_PathToPoint_descriptor,
-        new java.lang.String[] { "X", "Y", "Orientation", "FacePoint", "TargetOrientation", });
+        new java.lang.String[] { "X", "Y", "Orientation", "FaceX", "FaceY", "FacePoint", });
     internal_static_proto_triton_ChaseBall_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_proto_triton_ChaseBall_fieldAccessorTable = new
@@ -7076,7 +7145,7 @@ public final class AiIndividualSkills {
     internal_static_proto_triton_DribbleBall_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_DribbleBall_descriptor,
-        new java.lang.String[] { "X", "Y", "Orientation", "FacePoint", "TargetOrientation", });
+        new java.lang.String[] { "X", "Y", "Orientation", "FaceX", "FaceY", "FacePoint", });
     internal_static_proto_triton_Shoot_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_proto_triton_Shoot_fieldAccessorTable = new

@@ -14,8 +14,7 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
-import static proto.triton.AiIndividualSkills.ChaseBall;
-import static proto.triton.AiIndividualSkills.IndividualSkill;
+import static proto.triton.AiIndividualSkills.*;
 
 public class ChaseBallTest extends Module {
     private HashMap<Integer, RobotFeedback> feedbacks;
@@ -49,16 +48,16 @@ public class ChaseBallTest extends Module {
                 robotId.setTeam(SslGcCommon.Team.BLUE);
             robotId.setId(0);
             teleportRobot.setId(robotId);
-            teleportRobot.setX(0 / 1000f);
-            teleportRobot.setY(0 / 1000f);
+            teleportRobot.setX(0);
+            teleportRobot.setY(0);
             teleportRobot.setOrientation((float) (Math.PI / 2));
             teleportRobot.setPresent(true);
             teleportRobot.setByForce(false);
             simulatorControl.addTeleportRobot(teleportRobot);
 
             SslSimulationControl.TeleportBall.Builder teleportBall = SslSimulationControl.TeleportBall.newBuilder();
-            teleportBall.setX(0);
-            teleportBall.setY(0);
+            teleportBall.setX(-1000f / 1000f);
+            teleportBall.setY(-1000f / 1000f);
             teleportBall.setZ(0);
             teleportBall.setVx(0);
             teleportBall.setVy(0);
@@ -69,7 +68,7 @@ public class ChaseBallTest extends Module {
             publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
 
             try {
-                Thread.sleep(5000);
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -79,19 +78,25 @@ public class ChaseBallTest extends Module {
     private void callbackWrapper(String s, Delivery delivery) {
         if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
             System.out.println("contact");
+            IndividualSkill.Builder pathToPointSkill = IndividualSkill.newBuilder();
+            pathToPointSkill.setId(0);
+            PathToPoint.Builder pathToPoint = PathToPoint.newBuilder();
+            pathToPoint.setX(1000);
+            pathToPoint.setY(1000);
+            pathToPoint.setOrientation((float) Math.PI);
+            pathToPointSkill.setPathToPoint(pathToPoint);
+            publish(AI_INDIVIDUAL_SKILL, pathToPointSkill.build());
         } else {
             IndividualSkill.Builder chaseBallSkill = IndividualSkill.newBuilder();
             chaseBallSkill.setId(0);
             ChaseBall.Builder chaseBall = ChaseBall.newBuilder();
             chaseBallSkill.setChaseBall(chaseBall);
-
             publish(AI_INDIVIDUAL_SKILL, chaseBallSkill.build());
         }
     }
 
     private void callbackFeedbacks(String s, Delivery delivery) {
-        HashMap<Integer, RobotFeedback> feedbacks;
-        feedbacks = (HashMap<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+        HashMap<Integer, RobotFeedback> feedbacks = (HashMap<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
 
         this.feedbacks = feedbacks;
     }

@@ -106,8 +106,7 @@ public class VisionBiasedConverter extends Module {
     }
 
     private void callbackWrapper(String s, Delivery delivery) {
-        SSL_WrapperPacket wrapper;
-        wrapper = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
+        SSL_WrapperPacket wrapper = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
 
         if (wrapper.hasGeometry() && wrapper.getGeometry().hasField())
             publish(AI_BIASED_FIELD, audienceToBiased(wrapper.getGeometry().getField()));

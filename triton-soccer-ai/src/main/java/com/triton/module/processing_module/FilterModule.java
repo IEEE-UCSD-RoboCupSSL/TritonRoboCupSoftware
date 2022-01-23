@@ -47,8 +47,9 @@ public class FilterModule extends Module {
     }
 
     private void callbackBalls(String s, Delivery delivery) {
-        ArrayList<SSL_DetectionBall> balls;
-        balls = (ArrayList<SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
+        ArrayList<SSL_DetectionBall> balls = (ArrayList<SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
+
+        if (balls.size() == 0) return;
 
         Ball.Builder filteredBall = Ball.newBuilder();
 
@@ -69,12 +70,11 @@ public class FilterModule extends Module {
         filteredBall.setVy(0);
         filteredBall.setVz(0);
 
-            publish(AI_FILTERED_BIASED_BALLS, filteredBall.build());
+        publish(AI_FILTERED_BIASED_BALLS, filteredBall.build());
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, SSL_DetectionRobot> allies;
-        allies = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
+        HashMap<Integer, SSL_DetectionRobot> allies = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
 
         HashMap<Integer, Robot> filteredAllies = new HashMap<>();
         for (SSL_DetectionRobot ally : allies.values()) {
@@ -95,8 +95,7 @@ public class FilterModule extends Module {
     }
 
     private void callbackFoes(String s, Delivery delivery) {
-        HashMap<Integer, SSL_DetectionRobot> foes;
-        foes = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
+        HashMap<Integer, SSL_DetectionRobot> foes = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
 
         HashMap<Integer, Robot> filteredFoes = new HashMap<>();
         for (SSL_DetectionRobot foe : foes.values()) {

@@ -8,14 +8,20 @@ import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
+import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
+import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
+import static proto.triton.AiBasicSkills.BasicSkill;
+import static proto.triton.AiBasicSkills.Kick;
 import static proto.triton.AiIndividualSkills.GoalKeep;
 import static proto.triton.AiIndividualSkills.IndividualSkill;
 
 public class GoalKeepTest extends Module {
+    HashMap<Integer, RobotFeedback> feedbacks;
 
     public GoalKeepTest() throws IOException, TimeoutException {
         super();
@@ -25,6 +31,7 @@ public class GoalKeepTest extends Module {
     protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
+        declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
         declarePublish(AI_BIASED_SIMULATOR_CONTROL);
         declarePublish(AI_INDIVIDUAL_SKILL);
     }
@@ -78,7 +85,22 @@ public class GoalKeepTest extends Module {
         goalKeepSkill.setId(0);
         GoalKeep.Builder goalKeep = GoalKeep.newBuilder();
         goalKeepSkill.setGoalKeep(goalKeep);
-
         publish(AI_INDIVIDUAL_SKILL, goalKeepSkill.build());
+
+        if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
+            System.out.println("contact");
+            BasicSkill.Builder kickSkill = BasicSkill.newBuilder();
+            kickSkill.setId(0);
+            Kick.Builder kick = Kick.newBuilder();
+            kick.setChip(false);
+            kickSkill.setKick(kick);
+            publish(AI_BASIC_SKILL, kickSkill.build());
+        }
+    }
+
+    private void callbackFeedbacks(String s, Delivery delivery) {
+        HashMap<Integer, RobotFeedback> feedbacks = (HashMap<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+
+        this.feedbacks = feedbacks;
     }
 }

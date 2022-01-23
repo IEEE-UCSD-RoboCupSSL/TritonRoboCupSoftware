@@ -43,11 +43,12 @@ triton_bot = "triton_bot.py"
 
 # run cmds
 
-run_cmd([simulator, "-g", "2020B", "--realism", "None"], simulator_path, "tab")
+# run_cmd([simulator, "-g", "2020B", "--realism", "Realistic"], simulator_path, "tab")
+run_cmd([simulator, "-g", "2020B", "--realism", "RC2021"], simulator_path, "tab")
 time.sleep(0.1)
 
-# run_cmd([game_controller, ], game_controller_path, "tab")
-# time.sleep(0.1)
+run_cmd([game_controller, ], game_controller_path, "tab")
+time.sleep(0.1)
 
 num_bots = 6
 for i in range(num_bots):
@@ -61,6 +62,3 @@ if (args.test == 'True'):
 else:
     run_cmd(["java", "-jar", triton_soccer_ai_jar, "--team", "yellow"], triton_soccer_ai_jar_path, "tab")
     time.sleep(0.1)
-
-# run_cmd(["python", triton_soccer_ai_py, "--team", "yellow"], triton_soccer_ai_py_path, "tab")
-# time.sleep(0.1)

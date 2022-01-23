@@ -13,10 +13,7 @@ import com.triton.module.test_module.basic_skill_test.DribbleTest;
 import com.triton.module.test_module.basic_skill_test.KickTest;
 import com.triton.module.test_module.basic_skill_test.MatchVelocityTest;
 import com.triton.module.test_module.basic_skill_test.MoveToPointTest;
-import com.triton.module.test_module.individual_skill_test.CatchBallTest;
-import com.triton.module.test_module.individual_skill_test.ChaseBallTest;
-import com.triton.module.test_module.individual_skill_test.GoalKeepTest;
-import com.triton.module.test_module.individual_skill_test.PathToPointTest;
+import com.triton.module.test_module.individual_skill_test.*;
 import com.triton.module.test_module.misc_test.AStarSearchTest;
 import com.triton.test.Test;
 import org.apache.commons.cli.*;
@@ -138,6 +135,7 @@ public class TritonSoccerAI {
                 case CHASE_BALL -> startModule(new ChaseBallTest(), testModules);
                 case CATCH_BALL -> startModule(new CatchBallTest(), testModules);
                 case GOAL_KEEP -> startModule(new GoalKeepTest(), testModules);
+                case DRIBBLE_BALL -> startModule(new DribbleBallTest(), testModules);
                 case A_STAR_SEARCH -> startModule(new AStarSearchTest(), testModules);
                 default -> System.out.println("Test not found.");
             }

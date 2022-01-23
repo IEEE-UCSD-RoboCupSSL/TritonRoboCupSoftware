@@ -1,11 +1,11 @@
 package com.triton.ai.skills.individual_skills;
 
 import com.triton.helper.Vector2d;
-import com.triton.messaging.Exchange;
 import com.triton.module.Module;
 
 import java.io.IOException;
 
+import static com.triton.messaging.Exchange.AI_INDIVIDUAL_SKILL;
 import static proto.triton.AiIndividualSkills.*;
 
 public class DribbleBallSkill {
@@ -22,9 +22,10 @@ public class DribbleBallSkill {
         pathToPoint.setX(allyTargetPos.x);
         pathToPoint.setY(allyTargetPos.y);
         pathToPoint.setOrientation(dribbleBall.getOrientation());
-
+        pathToPoint.setFaceX(dribbleBall.getFaceX());
+        pathToPoint.setFaceY(dribbleBall.getFaceY());
+        pathToPoint.setFacePoint(dribbleBall.getFacePoint());
         pathToPointSkill.setPathToPoint(pathToPoint);
-
-        module.publish(Exchange.AI_BASIC_SKILL, pathToPointSkill.build());
+        module.publish(AI_INDIVIDUAL_SKILL, pathToPointSkill.build());
     }
 }

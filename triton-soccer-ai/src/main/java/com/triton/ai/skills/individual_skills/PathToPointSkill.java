@@ -20,19 +20,18 @@ public class PathToPointSkill {
 
         BasicSkill.Builder moveToPointSkill = BasicSkill.newBuilder();
         moveToPointSkill.setId(id);
-
         MoveToPoint.Builder moveToPoint = MoveToPoint.newBuilder();
         // TODO Add Pathfinding
+
+
         moveToPoint.setX(pathToPoint.getX());
         moveToPoint.setY(pathToPoint.getY());
-        switch (pathToPoint.getTargetOrientationCase()) {
-            case ORIENTATION -> moveToPoint.setOrientation(pathToPoint.getOrientation());
-            case FACE_POINT -> {
-                if (pathToPoint.getFacePoint()) {
-                    float targetOrientation = (float) Math.atan2(pathToPoint.getY() - ally.getY(), pathToPoint.getX() - ally.getX());
-                    moveToPoint.setOrientation(targetOrientation);
-                }
-            }
+
+        if (pathToPoint.getFacePoint()) {
+            float targetOrientation = (float) Math.atan2(pathToPoint.getFaceY() - ally.getY(), pathToPoint.getFaceX() - ally.getX());
+            moveToPoint.setOrientation(targetOrientation);
+        } else {
+            moveToPoint.setOrientation(pathToPoint.getOrientation());
         }
         moveToPointSkill.setMoveToPoint(moveToPoint);
 

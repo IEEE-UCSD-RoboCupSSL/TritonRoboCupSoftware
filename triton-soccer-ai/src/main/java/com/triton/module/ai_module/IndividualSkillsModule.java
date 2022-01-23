@@ -45,36 +45,32 @@ public class IndividualSkillsModule extends Module {
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, Robot> allies;
-        allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
+        HashMap<Integer, Robot> allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
         this.allies = allies;
     }
 
     private void callbackFoes(String s, Delivery delivery) {
-        HashMap<Integer, Robot> foes;
-        foes = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
+        HashMap<Integer, Robot> foes = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
         this.foes = foes;
     }
 
     private void callbackBalls(String s, Delivery delivery) {
-        Ball ball;
-        ball = (Ball) simpleDeserialize(delivery.getBody());
+        Ball ball = (Ball) simpleDeserialize(delivery.getBody());
 
         this.ball = ball;
     }
 
     private void callbackIndividualSkill(String s, Delivery delivery) {
-        IndividualSkill individualSkill;
-        individualSkill = (IndividualSkill) simpleDeserialize(delivery.getBody());
+        IndividualSkill individualSkill = (IndividualSkill) simpleDeserialize(delivery.getBody());
 
         int id = individualSkill.getId();
 
         try {
             switch (individualSkill.getCommandCase()) {
-                case GOAL_KEEP -> GoalKeepSkill.goalKeepSkill(this, id, individualSkill.getGoalKeep(), field, allies, ball);
+                case GOAL_KEEP -> GoalKeepSkill.goalKeepSkill(this, id, individualSkill.getGoalKeep(), field, ball, allies);
                 case PATH_TO_POINT -> PathToPointSkill.pathFindToPointSkill(this, id, individualSkill.getPathToPoint(), allies);
-                case CHASE_BALL -> ChaseBallSkill.chaseBallSkill(this, id, individualSkill.getChaseBall(), ball);
-                case CATCH_BALL -> CatchBallSkill.catchBallSkill(this, id, individualSkill.getCatchBall(), allies, ball);
+                case CHASE_BALL -> ChaseBallSkill.chaseBallSkill(this, id, individualSkill.getChaseBall(), ball, allies);
+                case CATCH_BALL -> CatchBallSkill.catchBallSkill(this, id, individualSkill.getCatchBall(), ball, allies);
                 case KICK_BALL_TO_POINT -> KickBallToPointSkill.kickBallToPointSkill(this, id, individualSkill.getKickBallToPoint());
                 case DRIBBLE_BALL -> DribbleBallSkill.dribbleBallSkill(this, id, individualSkill.getDribbleBall(), 1, 1);
                 case SHOOT -> ShootSkill.shootSkill(this, id, individualSkill.getShoot());

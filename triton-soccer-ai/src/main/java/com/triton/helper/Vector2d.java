@@ -29,7 +29,7 @@ public class Vector2d {
         return (float) Math.atan2(y, x);
     }
 
-    public Vector2d unit() {
+    public Vector2d norm() {
         float mag = mag();
         return this.scale(1f / mag);
     }

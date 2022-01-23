@@ -9,6 +9,7 @@ public enum Test {
     CHASE_BALL("Test the ability of robots to follow the ball."),
     CATCH_BALL("Test the ability of robots to catch the ball."),
     GOAL_KEEP("Test the ability of robots to keep the goal."),
+    DRIBBLE_BALL("Test the ability of robots to dribble the ball to a specific position."),
     A_STAR_SEARCH("Test A*."),
     ;
 

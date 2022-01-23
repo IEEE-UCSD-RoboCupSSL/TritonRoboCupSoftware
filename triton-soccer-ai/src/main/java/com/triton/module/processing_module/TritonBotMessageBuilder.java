@@ -18,7 +18,7 @@ import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class TritonBotMessageBuilder extends Module {
-    private static final long commandDelay = 1;
+    private static final long commandDelay = 0;
     private HashMap<Integer, Long> lastCommandTimeStamps;
     private HashMap<Integer, RobotCommand.Builder> aggregateRobotCommands;
 
@@ -47,8 +47,7 @@ public class TritonBotMessageBuilder extends Module {
     }
 
     private void callbackWrapper(String s, Delivery delivery) {
-        SSL_WrapperPacket wrapper;
-        wrapper = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
+        SSL_WrapperPacket wrapper = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
 
         List<SSL_DetectionRobot> allies;
         if (RuntimeConstants.team == Team.BLUE)
@@ -66,8 +65,7 @@ public class TritonBotMessageBuilder extends Module {
     }
 
     private void callbackRobotCommand(String s, Delivery delivery) {
-        RobotCommand robotCommand;
-        robotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
+        RobotCommand robotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
 
         if (!aggregateRobotCommands.containsKey(robotCommand.getId())) {
             RobotCommand.Builder aggregateRobotCommand = RobotCommand.newBuilder();
