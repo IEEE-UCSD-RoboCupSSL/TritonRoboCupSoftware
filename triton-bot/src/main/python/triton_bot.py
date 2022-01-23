@@ -23,7 +23,7 @@ class TritonBot:
         TritonBotMessageProcessor().start()
         VisionFilter().start()
         RobotCommandGlobalToLocalProcessor().start()
-        RobotCommandLocalToWheelProcessor().start()
+        # RobotCommandLocalToWheelProcessor().start()
 
         AI_Interface().start()
         SimulatorRobotControlInterface().start()

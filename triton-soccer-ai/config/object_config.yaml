@@ -23,9 +23,9 @@
   # Max angular brake acceleration [rad/s^2]
   robotAccBrakeAngularMax : 10
   # Max absolute velocity [m/s]
-  robotVelAbsoluteMax : 10
+  robotVelAbsoluteMax : 5
   # Max angular velocity [rad/s]
-  robotVelAngularMax : 10
+  robotVelAngularMax : 5
 
   # Robot wheel angle configuration
   # all angles are relative to looking forward,
