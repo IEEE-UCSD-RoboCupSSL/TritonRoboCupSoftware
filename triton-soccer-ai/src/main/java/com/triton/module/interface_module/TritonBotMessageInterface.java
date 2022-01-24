@@ -88,8 +88,8 @@ public class TritonBotMessageInterface extends Module {
         }
 
         if (feedback == null) return;
-        feedbacks.put(feedback.getId(), feedback);
 
+        feedbacks.put(feedback.getId(), feedback);
         publish(AI_ROBOT_FEEDBACKS, feedbacks);
     }
 }

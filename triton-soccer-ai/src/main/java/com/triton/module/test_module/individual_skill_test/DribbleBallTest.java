@@ -46,7 +46,7 @@ public class DribbleBallTest extends Module {
                 robotId.setTeam(SslGcCommon.Team.YELLOW);
             else
                 robotId.setTeam(SslGcCommon.Team.BLUE);
-            robotId.setId(0);
+            robotId.setId(1);
             teleportRobot.setId(robotId);
             teleportRobot.setX(0);
             teleportRobot.setY(0);
@@ -79,7 +79,7 @@ public class DribbleBallTest extends Module {
         if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
             System.out.println("contact");
             IndividualSkill.Builder dribbleBallSkill = IndividualSkill.newBuilder();
-            dribbleBallSkill.setId(0);
+            dribbleBallSkill.setId(1);
             DribbleBall.Builder dribbleBall = DribbleBall.newBuilder();
             dribbleBall.setX(1000);
             dribbleBall.setY(1000);
@@ -90,7 +90,7 @@ public class DribbleBallTest extends Module {
             publish(AI_INDIVIDUAL_SKILL, dribbleBallSkill.build());
         } else {
             IndividualSkill.Builder chaseBallSkill = IndividualSkill.newBuilder();
-            chaseBallSkill.setId(0);
+            chaseBallSkill.setId(1);
             ChaseBall.Builder chaseBall = ChaseBall.newBuilder();
             chaseBallSkill.setChaseBall(chaseBall);
             publish(AI_INDIVIDUAL_SKILL, chaseBallSkill.build());

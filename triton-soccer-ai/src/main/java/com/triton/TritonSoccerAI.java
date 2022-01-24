@@ -5,7 +5,6 @@ import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
 import com.triton.module.ai_module.core.*;
-import com.triton.module.ai_module.helper.PathfindingModule;
 import com.triton.module.interface_module.CameraInterface;
 import com.triton.module.interface_module.SimulatorCommandInterface;
 import com.triton.module.interface_module.TritonBotMessageInterface;
@@ -117,9 +116,6 @@ public class TritonSoccerAI {
     }
 
     public void startAI() throws IOException, TimeoutException {
-        // helper ai modules
-        startModule(new PathfindingModule());
-
         // core ai modules
         startModule(new OverviewModule());
         startModule(new StrategyModule());

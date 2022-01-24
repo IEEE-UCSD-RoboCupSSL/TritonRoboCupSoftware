@@ -1,10 +1,11 @@
 package com.triton.module.interface_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.config.DisplayConfig;
-import com.triton.config.ObjectConfig;
 import com.triton.constant.RuntimeConstants;
+import com.triton.helper.Vector2d;
 import com.triton.module.Module;
+import com.triton.search.node2d.Node2d;
+import com.triton.search.node2d.PathfindField;
 import proto.triton.ObjectWithMetadata;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldCircularArc;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldLineSegment;
@@ -15,18 +16,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.config.ConfigPath.DISPLAY_CONFIG;
-import static com.triton.config.ConfigPath.OBJECT_CONFIG;
-import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static java.awt.BorderLayout.*;
 import static java.awt.Color.*;
 import static javax.swing.BoxLayout.Y_AXIS;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import static proto.triton.AiDebugInfo.*;
 import static proto.triton.ObjectWithMetadata.Ball;
 
 public class UserInterface extends Module {
@@ -92,33 +93,36 @@ public class UserInterface extends Module {
         declareConsume(AI_FILTERED_BIASED_BALLS, this::callbackBalls);
         declareConsume(AI_FILTERED_BIASED_ALLIES, this::callbackAllies);
         declareConsume(AI_FILTERED_BIASED_FOES, this::callbackFoes);
+        declareConsume(AI_DEBUG, this::callbackDebug);
     }
 
     private void callbackField(String s, Delivery delivery) {
         SSL_GeometryFieldSize field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
-
         fieldPanel.setField(field);
-        frame.repaint();
+        fieldPanel.repaint();
     }
 
     private void callbackBalls(String s, Delivery delivery) {
         Ball ball = (Ball) simpleDeserialize(delivery.getBody());
-
         fieldPanel.setBall(ball);
-        frame.repaint();
+        fieldPanel.repaint();
     }
 
     private void callbackAllies(String s, Delivery delivery) {
         HashMap<Integer, ObjectWithMetadata.Robot> allies = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
-
         fieldPanel.setAllies(allies);
-        frame.repaint();
+        fieldPanel.repaint();
     }
 
     private void callbackFoes(String s, Delivery delivery) {
         HashMap<Integer, ObjectWithMetadata.Robot> foes = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
-
         fieldPanel.setFoes(foes);
+        fieldPanel.repaint();
+    }
+
+    private void callbackDebug(String s, Delivery delivery) {
+        Debug debug = (Debug) simpleDeserialize(delivery.getBody());
+        fieldPanel.addDebug(debug);
         frame.repaint();
     }
 
@@ -127,13 +131,19 @@ public class UserInterface extends Module {
         private Ball ball;
         private HashMap<Integer, ObjectWithMetadata.Robot> allies;
         private HashMap<Integer, ObjectWithMetadata.Robot> foes;
+        private ArrayList<Debug> debug;
+        private HashMap<Integer, DebugPath> alliesPaths;
+
+        public FieldPanel() {
+            debug = new ArrayList<>();
+            alliesPaths = new HashMap<>();
+        }
 
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
 
             Graphics2D graphics2D = (Graphics2D) g;
-
             try {
                 paintField(graphics2D);
             } catch (IOException e) {
@@ -141,16 +151,17 @@ public class UserInterface extends Module {
             }
         }
 
-        private void paintField(Graphics2D graphics2D) throws IOException {
+        private synchronized void paintField(Graphics2D graphics2D) throws IOException {
             if (field == null) return;
 
-            transformGraphics(graphics2D, field);
-            paintGeometry(graphics2D, field);
-            paintBall(graphics2D, ball);
-            paintBots(graphics2D, allies, foes);
+            transformGraphics(graphics2D);
+            paintGeometry(graphics2D);
+            paintBall(graphics2D);
+            paintBots(graphics2D);
+            paintDebug(graphics2D);
         }
 
-        private void transformGraphics(Graphics2D graphics2D, SSL_GeometryFieldSize field) {
+        private void transformGraphics(Graphics2D graphics2D) {
             int totalFieldWidth = field.getFieldWidth() + 2 * field.getBoundaryWidth();
             int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2 + 2 * field.getBoundaryWidth();
 
@@ -167,7 +178,7 @@ public class UserInterface extends Module {
             graphics2D.translate(totalFieldWidth / 2, -totalFieldLength / 2);
         }
 
-        private void paintGeometry(Graphics2D graphics2D, SSL_GeometryFieldSize field) {
+        private void paintGeometry(Graphics2D graphics2D) {
             int totalFieldWidth = field.getFieldWidth() + 2 * field.getBoundaryWidth();
             int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2 + 2 * field.getBoundaryWidth();
 
@@ -201,7 +212,7 @@ public class UserInterface extends Module {
             }
         }
 
-        private void paintBall(Graphics2D graphics2D, Ball ball) {
+        private void paintBall(Graphics2D graphics2D) {
             if (ball != null) {
                 float x = ball.getX();
                 float y = ball.getY();
@@ -225,7 +236,7 @@ public class UserInterface extends Module {
             }
         }
 
-        private void paintBots(Graphics2D graphics2D, HashMap<Integer, ObjectWithMetadata.Robot> allies, HashMap<Integer, ObjectWithMetadata.Robot> foes) {
+        private void paintBots(Graphics2D graphics2D) {
             if (allies != null) {
                 for (ObjectWithMetadata.Robot ally : allies.values()) {
                     Color fillColor;
@@ -285,6 +296,60 @@ public class UserInterface extends Module {
             graphics2D.setTransform(orgi);
         }
 
+        private void paintDebug(Graphics2D graphics2D) {
+//            PathfindField pathfindField = new PathfindField(field);
+
+//            Map<Vector2d, Node2d> nodeMap = pathfindField.getNodeMap();
+//            nodeMap.forEach((pos, node) -> {
+//                if (node.isObstacle())
+//                    paintNode(graphics2D, node, RED);
+//                else
+//                    paintNode(graphics2D, node, BLACK);
+//            });
+
+            alliesPaths.forEach((id, path) -> {
+                List<DebugVector> nodes = path.getNodesList();
+                graphics2D.setColor(YELLOW);
+                for (int i = 1; i < nodes.size(); i++) {
+                    DebugVector prevNode = nodes.get(i - 1);
+                    DebugVector currentNode = nodes.get(i);
+                    graphics2D.drawLine((int) prevNode.getX(),
+                            (int) prevNode.getY(),
+                            (int) currentNode.getX(),
+                            (int) currentNode.getY());
+                }
+
+                DebugVector fromPos = path.getFromPos();
+                DebugVector toPos = path.getToPos();
+                DebugVector nextPos = path.getNextPos();
+                graphics2D.setColor(GREEN);
+                graphics2D.drawLine((int) fromPos.getX(),
+                        (int) fromPos.getY(),
+                        (int) nextPos.getX(),
+                        (int) nextPos.getY());
+
+                graphics2D.setColor(RED);
+                graphics2D.drawLine((int) nextPos.getX(),
+                        (int) nextPos.getY(),
+                        (int) toPos.getX(),
+                        (int) toPos.getY());
+            });
+        }
+
+        private void paintNode(Graphics2D graphics2D, Node2d node, Color color) {
+            graphics2D.setColor(color);
+
+            float x = node.getPos().x;
+            float y = node.getPos().y;
+            float radius = RuntimeConstants.aiConfig.nodeRadius;
+            graphics2D.drawArc((int) (x - radius),
+                    (int) (y - radius),
+                    (int) radius * 2,
+                    (int) radius * 2,
+                    0,
+                    360);
+        }
+
         public void setField(SSL_GeometryFieldSize field) {
             this.field = field;
         }
@@ -299,6 +364,14 @@ public class UserInterface extends Module {
 
         public void setFoes(HashMap<Integer, ObjectWithMetadata.Robot> foes) {
             this.foes = foes;
+        }
+
+        public synchronized void addDebug(Debug debug) {
+            this.debug.add(debug);
+            if (debug.hasPath()) {
+                DebugPath path = debug.getPath();
+                alliesPaths.put(path.getId(), path);
+            }
         }
     }
 }

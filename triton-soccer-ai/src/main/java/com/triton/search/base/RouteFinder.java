@@ -13,7 +13,7 @@ public class RouteFinder<T extends GraphNode> {
         this.targetScorer = targetScorer;
     }
 
-    public List<T> findRoute(T from, T to) {
+    public List<T> findRoute(T from, T to) throws IllegalStateException {
         Queue<RouteNode> openSet = new PriorityQueue<>();
         Map<T, RouteNode<T>> allNodes = new HashMap<>();
 
@@ -27,15 +27,8 @@ public class RouteFinder<T extends GraphNode> {
             RouteNode<T> next = openSet.poll();
 
             // if we find a match, calculate the route by moving backwards
-            if (next.getCurrent().equals(to)) {
-                List<T> route = new ArrayList<>();
-                RouteNode<T> current = next;
-                do {
-                    route.add(0, current.getCurrent());
-                    current = allNodes.get(current.getPrevious());
-                } while (current != null);
-                return route;
-            }
+            if (next.getCurrent().equals(to))
+                return walkback(allNodes, next);
 
             // else, do this for all the nodes connected to this node
             graph.getConnections(next.getCurrent()).forEach(connection -> {
@@ -58,5 +51,15 @@ public class RouteFinder<T extends GraphNode> {
         }
 
         throw new IllegalStateException("No route found");
+    }
+
+    private List<T> walkback(Map<T, RouteNode<T>> allNodes, RouteNode<T> to) {
+        List<T> route = new ArrayList<>();
+        RouteNode<T> current = to;
+        do {
+            route.add(0, current.getCurrent());
+            current = allNodes.get(current.getPrevious());
+        } while (current != null);
+        return route;
     }
 }

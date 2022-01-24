@@ -23,6 +23,7 @@ public class GoalKeepSkill {
         module.publish(Exchange.AI_BASIC_SKILL, dribbleSkill.build());
 
         IndividualSkill.Builder pathToPointSkill = IndividualSkill.newBuilder();
+        pathToPointSkill.setId(id);
         PathToPoint.Builder pathToPoint = PathToPoint.newBuilder();
         float xMin = -1000f;
         float xMax = 1000f;

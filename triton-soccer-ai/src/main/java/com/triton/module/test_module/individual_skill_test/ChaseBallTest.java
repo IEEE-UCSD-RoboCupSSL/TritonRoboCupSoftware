@@ -37,61 +37,40 @@ public class ChaseBallTest extends Module {
     public void run() {
         super.run();
 
-        while (!isInterrupted()) {
-            SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
+        SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
 
-            SslSimulationControl.TeleportRobot.Builder teleportRobot = SslSimulationControl.TeleportRobot.newBuilder();
-            SslGcCommon.RobotId.Builder robotId = SslGcCommon.RobotId.newBuilder();
-            if (RuntimeConstants.team == Team.YELLOW)
-                robotId.setTeam(SslGcCommon.Team.YELLOW);
-            else
-                robotId.setTeam(SslGcCommon.Team.BLUE);
-            robotId.setId(0);
-            teleportRobot.setId(robotId);
-            teleportRobot.setX(0);
-            teleportRobot.setY(0);
-            teleportRobot.setOrientation((float) (Math.PI / 2));
-            teleportRobot.setPresent(true);
-            teleportRobot.setByForce(false);
-            simulatorControl.addTeleportRobot(teleportRobot);
+        SslSimulationControl.TeleportBall.Builder teleportBall = SslSimulationControl.TeleportBall.newBuilder();
+        teleportBall.setX(-1000f / 1000f);
+        teleportBall.setY(-1000f / 1000f);
+        teleportBall.setZ(0);
+        teleportBall.setVx(0);
+        teleportBall.setVy(0);
+        teleportBall.setVz(0);
+        teleportBall.setByForce(false);
+        simulatorControl.setTeleportBall(teleportBall);
 
-            SslSimulationControl.TeleportBall.Builder teleportBall = SslSimulationControl.TeleportBall.newBuilder();
-            teleportBall.setX(-1000f / 1000f);
-            teleportBall.setY(-1000f / 1000f);
-            teleportBall.setZ(0);
-            teleportBall.setVx(0);
-            teleportBall.setVy(0);
-            teleportBall.setVz(0);
-            teleportBall.setByForce(false);
-            simulatorControl.setTeleportBall(teleportBall);
-
-            publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 
     private void callbackWrapper(String s, Delivery delivery) {
-        if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
-            System.out.println("contact");
-            IndividualSkill.Builder pathToPointSkill = IndividualSkill.newBuilder();
-            pathToPointSkill.setId(0);
-            PathToPoint.Builder pathToPoint = PathToPoint.newBuilder();
-            pathToPoint.setX(1000);
-            pathToPoint.setY(1000);
-            pathToPoint.setOrientation((float) Math.PI);
-            pathToPointSkill.setPathToPoint(pathToPoint);
-            publish(AI_INDIVIDUAL_SKILL, pathToPointSkill.build());
-        } else {
-            IndividualSkill.Builder chaseBallSkill = IndividualSkill.newBuilder();
-            chaseBallSkill.setId(0);
-            ChaseBall.Builder chaseBall = ChaseBall.newBuilder();
-            chaseBallSkill.setChaseBall(chaseBall);
-            publish(AI_INDIVIDUAL_SKILL, chaseBallSkill.build());
+        for (int id = 0; id < 6; id++) {
+            if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
+                System.out.println("contact");
+                IndividualSkill.Builder pathToPointSkill = IndividualSkill.newBuilder();
+                pathToPointSkill.setId(id);
+                PathToPoint.Builder pathToPoint = PathToPoint.newBuilder();
+                pathToPoint.setX(1000);
+                pathToPoint.setY(1000);
+                pathToPoint.setOrientation((float) Math.PI);
+                pathToPointSkill.setPathToPoint(pathToPoint);
+                publish(AI_INDIVIDUAL_SKILL, pathToPointSkill.build());
+            } else {
+                IndividualSkill.Builder chaseBallSkill = IndividualSkill.newBuilder();
+                chaseBallSkill.setId(id);
+                ChaseBall.Builder chaseBall = ChaseBall.newBuilder();
+                chaseBallSkill.setChaseBall(chaseBall);
+                publish(AI_INDIVIDUAL_SKILL, chaseBallSkill.build());
+            }
         }
     }
 

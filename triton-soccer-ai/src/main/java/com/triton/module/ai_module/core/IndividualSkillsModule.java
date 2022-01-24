@@ -5,6 +5,7 @@ import com.triton.ai.skills.individual_skills.*;
 import com.triton.module.Module;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
@@ -58,13 +59,12 @@ public class IndividualSkillsModule extends Module {
 
     private void callbackIndividualSkill(String s, Delivery delivery) {
         IndividualSkill individualSkill = (IndividualSkill) simpleDeserialize(delivery.getBody());
-
         int id = individualSkill.getId();
 
         try {
             switch (individualSkill.getCommandCase()) {
                 case GOAL_KEEP -> GoalKeepSkill.goalKeepSkill(this, id, individualSkill.getGoalKeep(), field, ball, allies);
-                case PATH_TO_POINT -> PathToPointSkill.pathFindToPointSkill(this, id, individualSkill.getPathToPoint(), allies);
+                case PATH_TO_POINT -> PathToPointSkill.pathFindToPointSkill(this, id, individualSkill.getPathToPoint(), field, allies, foes);
                 case CHASE_BALL -> ChaseBallSkill.chaseBallSkill(this, id, individualSkill.getChaseBall(), ball, allies);
                 case CATCH_BALL -> CatchBallSkill.catchBallSkill(this, id, individualSkill.getCatchBall(), ball, allies);
                 case KICK_BALL_TO_POINT -> KickBallToPointSkill.kickBallToPointSkill(this, id, individualSkill.getKickBallToPoint());

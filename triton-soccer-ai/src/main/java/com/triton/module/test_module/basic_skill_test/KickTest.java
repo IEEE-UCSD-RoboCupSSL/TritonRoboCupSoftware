@@ -42,7 +42,7 @@ public class KickTest extends Module {
                 robotId.setTeam(SslGcCommon.Team.YELLOW);
             else
                 robotId.setTeam(SslGcCommon.Team.BLUE);
-            robotId.setId(0);
+            robotId.setId(1);
             teleportRobot.setId(robotId);
             teleportRobot.setX(0);
             teleportRobot.setY(0);

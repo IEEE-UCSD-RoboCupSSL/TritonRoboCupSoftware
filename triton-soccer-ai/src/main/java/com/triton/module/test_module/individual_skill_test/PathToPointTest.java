@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
+import static com.triton.helper.CreateMessage.createTeleportRobot;
 import static com.triton.messaging.Exchange.*;
+import static proto.simulation.SslSimulationControl.*;
 import static proto.triton.AiIndividualSkills.IndividualSkill;
 import static proto.triton.AiIndividualSkills.PathToPoint;
 
@@ -38,22 +40,14 @@ public class PathToPointTest extends Module {
         super.run();
 
         while (!isInterrupted()) {
-            SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
+            SimulatorControl.Builder simulatorControl = SimulatorControl.newBuilder();
 
-            SslSimulationControl.TeleportRobot.Builder teleportRobot = SslSimulationControl.TeleportRobot.newBuilder();
-            SslGcCommon.RobotId.Builder robotId = SslGcCommon.RobotId.newBuilder();
-            if (RuntimeConstants.team == Team.YELLOW)
-                robotId.setTeam(SslGcCommon.Team.YELLOW);
-            else
-                robotId.setTeam(SslGcCommon.Team.BLUE);
-            robotId.setId(0);
-            teleportRobot.setId(robotId);
-            teleportRobot.setX(0);
-            teleportRobot.setY(0);
-            teleportRobot.setOrientation((float) (Math.PI / 2));
-            teleportRobot.setPresent(true);
-            teleportRobot.setByForce(false);
-            simulatorControl.addTeleportRobot(teleportRobot);
+            simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 0, 0, -2000, 0));
+            simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 1, -400, 0, 0));
+            simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 2, -200, 0, 0));
+            simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 3, 0, 0, 0));
+            simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 4, 200, 0, 0));
+            simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 5, 400, 0, 0));
 
             publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
 
@@ -66,14 +60,15 @@ public class PathToPointTest extends Module {
     }
 
     private void callbackWrapper(String s, Delivery delivery) {
-        IndividualSkill.Builder pathToPointSkill = IndividualSkill.newBuilder();
-
-        PathToPoint.Builder pathToPoint = PathToPoint.newBuilder();
-        pathToPoint.setX(2000);
-        pathToPoint.setY(2000);
-        pathToPoint.setFacePoint(true);
-        pathToPointSkill.setPathToPoint(pathToPoint);
-
-        publish(AI_INDIVIDUAL_SKILL, pathToPointSkill.build());
+        for (int i = 0; i < 1; i++) {
+            IndividualSkill.Builder pathToPointSkill = IndividualSkill.newBuilder();
+            pathToPointSkill.setId(i);
+            PathToPoint.Builder pathToPoint = PathToPoint.newBuilder();
+            pathToPoint.setX(0);
+            pathToPoint.setY(3000);
+            pathToPoint.setFacePoint(true);
+            pathToPointSkill.setPathToPoint(pathToPoint);
+            publish(AI_INDIVIDUAL_SKILL, pathToPointSkill.build());
+        }
     }
 }

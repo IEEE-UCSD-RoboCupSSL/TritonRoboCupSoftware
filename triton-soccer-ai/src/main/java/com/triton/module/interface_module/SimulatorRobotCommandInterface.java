@@ -31,7 +31,6 @@ public class SimulatorRobotCommandInterface extends Module {
     @Override
     protected void prepare() {
         super.prepare();
-
         feedbacks = new HashMap<>();
 
         try {

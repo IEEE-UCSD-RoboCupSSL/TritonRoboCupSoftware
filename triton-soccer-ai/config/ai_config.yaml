@@ -1,4 +1,7 @@
-  nodeSize: 200
+  nodeRadius: 100
+  nodeSafety: 10
+  pathfindExtend: 1000
+
   kpPos: 0.001
   kiPos: 0.000000
   kdPos: 0.0000

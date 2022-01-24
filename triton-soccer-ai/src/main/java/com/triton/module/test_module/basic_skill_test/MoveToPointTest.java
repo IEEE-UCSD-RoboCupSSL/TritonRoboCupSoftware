@@ -40,7 +40,7 @@ public class MoveToPointTest extends Module {
                 robotId.setTeam(SslGcCommon.Team.YELLOW);
             else
                 robotId.setTeam(SslGcCommon.Team.BLUE);
-            robotId.setId(0);
+            robotId.setId(1);
             teleportRobot.setId(robotId);
             teleportRobot.setX(0);
             teleportRobot.setY(0);
@@ -61,6 +61,7 @@ public class MoveToPointTest extends Module {
 
     private void callbackWrapper(String s, Delivery delivery) {
         BasicSkill.Builder moveToPointSkill = BasicSkill.newBuilder();
+        moveToPointSkill.setId(1);
         MoveToPoint.Builder moveToPoint = MoveToPoint.newBuilder();
         moveToPoint.setX(2000);
         moveToPoint.setY(2000);

@@ -51,7 +51,7 @@ public class GoalKeepTest extends Module {
                 robotId.setTeam(SslGcCommon.Team.YELLOW);
             else
                 robotId.setTeam(SslGcCommon.Team.BLUE);
-            robotId.setId(0);
+            robotId.setId(1);
             teleportRobot.setId(robotId);
             teleportRobot.setX(0);
             teleportRobot.setY(-4000f / 1000f);
@@ -82,15 +82,15 @@ public class GoalKeepTest extends Module {
 
     private void callbackWrapper(String s, Delivery delivery) {
         IndividualSkill.Builder goalKeepSkill = IndividualSkill.newBuilder();
-        goalKeepSkill.setId(0);
+        goalKeepSkill.setId(1);
         GoalKeep.Builder goalKeep = GoalKeep.newBuilder();
         goalKeepSkill.setGoalKeep(goalKeep);
         publish(AI_INDIVIDUAL_SKILL, goalKeepSkill.build());
 
-        if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
+        if (feedbacks != null && feedbacks.containsKey(1) && feedbacks.get(1).getDribblerBallContact()) {
             System.out.println("contact");
             BasicSkill.Builder kickSkill = BasicSkill.newBuilder();
-            kickSkill.setId(0);
+            kickSkill.setId(1);
             Kick.Builder kick = Kick.newBuilder();
             kick.setChip(false);
             kickSkill.setKick(kick);

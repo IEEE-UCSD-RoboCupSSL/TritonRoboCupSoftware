@@ -36,4 +36,6 @@ public enum Exchange {
     AI_COORDINATED_SKILL,
     AI_INDIVIDUAL_SKILL,
     AI_BASIC_SKILL,
+
+    AI_DEBUG,
 }

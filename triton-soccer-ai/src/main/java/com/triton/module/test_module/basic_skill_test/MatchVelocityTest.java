@@ -40,7 +40,7 @@ public class MatchVelocityTest extends Module {
                 robotId.setTeam(SslGcCommon.Team.YELLOW);
             else
                 robotId.setTeam(SslGcCommon.Team.BLUE);
-            robotId.setId(0);
+            robotId.setId(1);
             teleportRobot.setId(robotId);
             teleportRobot.setX(0);
             teleportRobot.setY(0);
@@ -61,6 +61,7 @@ public class MatchVelocityTest extends Module {
 
     private void callbackWrapper(String s, Delivery delivery) {
         AiBasicSkills.BasicSkill.Builder matchVelocitySkill = AiBasicSkills.BasicSkill.newBuilder();
+        matchVelocitySkill.setId(1);
         AiBasicSkills.MatchVelocity.Builder matchVelocity = AiBasicSkills.MatchVelocity.newBuilder();
         matchVelocity.setVx(2);
         matchVelocity.setVy(-2);

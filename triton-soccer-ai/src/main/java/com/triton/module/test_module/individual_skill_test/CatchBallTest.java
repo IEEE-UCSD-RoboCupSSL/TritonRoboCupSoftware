@@ -48,7 +48,7 @@ public class CatchBallTest extends Module {
                 robotId.setTeam(SslGcCommon.Team.YELLOW);
             else
                 robotId.setTeam(SslGcCommon.Team.BLUE);
-            robotId.setId(0);
+            robotId.setId(1);
             teleportRobot.setId(robotId);
             teleportRobot.setX(-1000f / 1000f);
             teleportRobot.setY(-4000f / 1000f);
@@ -89,7 +89,7 @@ public class CatchBallTest extends Module {
 
     private void createCommand() {
         IndividualSkill.Builder catchBallSkill = IndividualSkill.newBuilder();
-        catchBallSkill.setId(0);
+        catchBallSkill.setId(1);
         CatchBall.Builder catchBall = CatchBall.newBuilder();
         catchBallSkill.setCatchBall(catchBall);
 
