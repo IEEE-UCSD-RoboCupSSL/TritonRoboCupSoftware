@@ -36,6 +36,12 @@ public abstract class Module extends Thread {
         factory = new ConnectionFactory();
         factory.setHost(CONNECTION_FACTORY_HOST);
         factory.setRequestedHeartbeat(10);
+
+        Connection publish_connection = factory.newConnection();
+        publish_channel = publish_connection.createChannel();
+
+        Connection consume_connection = factory.newConnection();
+        consume_channel = consume_connection.createChannel();
     }
 
     protected void prepare() {
@@ -52,10 +58,6 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     public void declarePublish(Exchange exchange) throws IOException, TimeoutException {
-        if (publish_channel == null) {
-            Connection publish_connection = factory.newConnection();
-            publish_channel = publish_connection.createChannel();
-        }
         publish_channel.exchangeDeclare(exchange.name() + RuntimeConstants.team.name(), FANOUT);
     }
 
@@ -68,14 +70,10 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     public void declareConsume(Exchange exchange, DeliverCallback callback) throws IOException, TimeoutException {
-        if (consume_channel == null) {
-            Connection consume_connection = factory.newConnection();
-            consume_channel = consume_connection.createChannel();
-        }
         consume_channel.exchangeDeclare(exchange.name() + RuntimeConstants.team.name(), FANOUT);
 
         Map<String, Object> args = new HashMap<>();
-        args.put("x-message-ttl", 10000);
+        args.put("x-message-ttl", 1000);
         args.put("x-expires", 1000);
 //        args.put("x-max-length", 1);
         String queueName = consume_channel.queueDeclare("",
@@ -126,10 +124,8 @@ public abstract class Module extends Thread {
     public void interrupt() {
         super.interrupt();
         try {
-            if (consume_channel != null)
-                consume_channel.close();
-            if (publish_channel != null)
-                publish_channel.close();
+            consume_channel.close();
+            publish_channel.close();
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }

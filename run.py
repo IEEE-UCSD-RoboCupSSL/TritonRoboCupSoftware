@@ -4,7 +4,7 @@ import os
 import time
 import argparse
 
-os.system("sudo rabbitmqctl set_policy expiry \".*\" \'{\"expires\":1000}\' --apply-to queues")
+# os.system("sudo rabbitmqctl set_policy expiry \".*\" \'{\"expires\":1000}\' --apply-to queues")
 
 parser = argparse.ArgumentParser(description="Run programs.")
 parser.add_argument('--test', choices=('True', 'False'))

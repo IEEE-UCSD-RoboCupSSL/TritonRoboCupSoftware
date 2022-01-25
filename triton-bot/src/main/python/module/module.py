@@ -59,8 +59,9 @@ class Module(Thread):
         else:
             body = pickle.dumps(object)
 
+        properties = pika.BasicProperties(expiration='1000')
         self.publish_channel.basic_publish(
-            exchange=exchange.name + str(RuntimeConstants.team) + str(RuntimeConstants.id), routing_key='', body=body)
+            exchange=exchange.name + str(RuntimeConstants.team) + str(RuntimeConstants.id), routing_key='', properties=properties, body=body)
     
     def consume(self):
         self.consume_channel.start_consuming()
