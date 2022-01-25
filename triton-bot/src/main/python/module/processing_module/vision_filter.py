@@ -14,10 +14,13 @@ class VisionFilter(Module):
     def prepare(self):
         super().prepare()
 
-    def declare_exchanges(self):
-        super().declare_exchanges()
-        self.declare_consume(Exchange.TB_RAW_VISION, self.callback_vision)
+    def declare_publishes(self):
+        super().declare_publishes()
         self.declare_publish(Exchange.TB_VSION)
+
+    def declare_consumes(self):
+        super().declare_consumes()
+        self.declare_consume(Exchange.TB_RAW_VISION, self.callback_vision)
 
     def run(self):
         super().run()

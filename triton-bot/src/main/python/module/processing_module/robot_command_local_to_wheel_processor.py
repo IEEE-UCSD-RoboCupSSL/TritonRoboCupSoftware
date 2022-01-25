@@ -17,10 +17,13 @@ class RobotCommandLocalToWheelProcessor(Module):
     def prepare(self):
         super().prepare()
 
-    def declare_exchanges(self):
-        super().declare_exchanges()
-        self.declare_consume(exchange=Exchange.TB_LOCAL_COMMAND, callback=self.callback_local_command)
+    def declare_publishes(self):
+        super().declare_publishes()
         self.declare_publish(exchange=Exchange.TB_WHEEL_COMMAND)
+
+    def declare_consumes(self):
+        super().declare_consumes()
+        self.declare_consume(exchange=Exchange.TB_LOCAL_COMMAND, callback=self.callback_local_command)
 
     def run(self):
         super().run()

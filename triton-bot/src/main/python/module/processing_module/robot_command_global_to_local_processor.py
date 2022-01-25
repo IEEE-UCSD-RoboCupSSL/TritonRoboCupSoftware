@@ -19,12 +19,15 @@ class RobotCommandGlobalToLocalProcessor(Module):
     def prepare(self):
         super().prepare()
 
-    def declare_exchanges(self):
-        super().declare_exchanges()
-        self.declare_consume(exchange=Exchange.TB_VSION, callback=self.callback_vision)
-        self.declare_consume(exchange=Exchange.TB_GLOBAL_COMMAND, callback=self.callback_global_command)
+    def declare_publishes(self):
+        super().declare_publishes()
         self.declare_publish(exchange=Exchange.TB_LOCAL_COMMAND)
         self.declare_publish(exchange=Exchange.TB_MESSAGE)
+
+    def declare_consumes(self):
+        super().declare_consumes()
+        self.declare_consume(exchange=Exchange.TB_VSION, callback=self.callback_vision)
+        self.declare_consume(exchange=Exchange.TB_GLOBAL_COMMAND, callback=self.callback_global_command)
 
     def run(self):
         super().run()

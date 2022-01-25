@@ -26,8 +26,8 @@ class SimulatorRobotControlInterface(Module):
         super().prepare()
         self.setup_client()
 
-    def declare_exchanges(self):
-        super().declare_exchanges()
+    def declare_consumes(self):
+        super().declare_consumes()
         self.declare_consume(exchange=Exchange.TB_LOCAL_COMMAND,
                              callback=self.callback_local_command)
 

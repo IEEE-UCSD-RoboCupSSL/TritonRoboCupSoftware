@@ -40,7 +40,6 @@ parser.add_argument('--team', type=str, required=True)
 parser.add_argument('--id', type=int, required=True)
 args = parser.parse_args()
 
-
 team = parseTeam(args.team)
 if (team == None):
     print("Unable to parse team.")

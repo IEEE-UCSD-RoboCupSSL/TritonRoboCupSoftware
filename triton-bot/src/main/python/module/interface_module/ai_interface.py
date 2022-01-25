@@ -31,10 +31,13 @@ class AI_Interface(Module):
         
         self.setup_client()
 
-    def declare_exchanges(self):
-        super().declare_exchanges()
-        self.declare_consume(exchange=Exchange.TB_FEEDBACK, callback=self.callback_feedback)
+    def declare_publishes(self):
+        super().declare_publishes()
         self.declare_publish(exchange=Exchange.TB_MESSAGE)
+
+    def declare_consumes(self):
+        super().declare_consumes()
+        self.declare_consume(exchange=Exchange.TB_FEEDBACK, callback=self.callback_feedback)
 
     def run(self):
         super().run()

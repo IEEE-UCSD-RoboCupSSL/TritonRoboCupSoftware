@@ -101,30 +101,35 @@ public class UserInterface extends Module {
     }
 
     private void callbackField(String s, Delivery delivery) {
+//        if (true) return;
         SSL_GeometryFieldSize field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
         fieldPanel.setField(field);
         fieldPanel.repaint();
     }
 
     private void callbackBall(String s, Delivery delivery) {
+//        if (true) return;
         Ball ball = (Ball) simpleDeserialize(delivery.getBody());
         fieldPanel.setBall(ball);
         fieldPanel.repaint();
     }
 
     private void callbackAllies(String s, Delivery delivery) {
+//        if (true) return;
         HashMap<Integer, ObjectWithMetadata.Robot> allies = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         fieldPanel.setAllies(allies);
 //        fieldPanel.repaint();
     }
 
     private void callbackFoes(String s, Delivery delivery) {
+//        if (true) return;
         HashMap<Integer, ObjectWithMetadata.Robot> foes = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         fieldPanel.setFoes(foes);
 //        fieldPanel.repaint();
     }
 
     private void callbackDebug(String s, Delivery delivery) {
+//        if (true) return;
         Debug debug = (Debug) simpleDeserialize(delivery.getBody());
         fieldPanel.addDebug(debug);
     }

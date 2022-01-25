@@ -35,6 +35,7 @@ public abstract class Module extends Thread {
     private void setupChannel() throws IOException, TimeoutException {
         factory = new ConnectionFactory();
         factory.setHost(CONNECTION_FACTORY_HOST);
+        factory.setRequestedHeartbeat(10);
     }
 
     protected void prepare() {
@@ -74,7 +75,8 @@ public abstract class Module extends Thread {
         consume_channel.exchangeDeclare(exchange.name() + RuntimeConstants.team.name(), FANOUT);
 
         Map<String, Object> args = new HashMap<>();
-//        args.put("x-message-ttl", 10000);
+        args.put("x-message-ttl", 10000);
+        args.put("x-expires", 1000);
 //        args.put("x-max-length", 1);
         String queueName = consume_channel.queueDeclare("",
                 false,
@@ -87,7 +89,7 @@ public abstract class Module extends Thread {
         DeliverCallback wrappedCallback = (s, delivery) -> {
             try {
                 long timeDiff = new Date().getTime() - delivery.getProperties().getTimestamp().getTime();
-                if (timeDiff > 1000) {
+                if (timeDiff > 2000) {
                     System.out.println(exchange);
                     System.out.println(this.getClass());
                 } else {

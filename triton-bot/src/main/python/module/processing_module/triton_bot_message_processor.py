@@ -18,13 +18,16 @@ class TritonBotMessageProcessor(Module):
     def prepare(self):
         super().prepare()
 
-    def declare_exchanges(self):
-        super().declare_exchanges()
-        self.declare_consume(Exchange.TB_MESSAGE, self.callback_message)
+    def declare_publishes(self):
+        super().declare_publishes()
         self.declare_publish(Exchange.TB_RAW_VISION)
         self.declare_publish(Exchange.TB_GLOBAL_COMMAND)
         self.declare_publish(Exchange.TB_LOCAL_COMMAND)
         self.declare_publish(Exchange.TB_WHEEL_COMMAND)
+
+    def declare_consumes(self):
+        super().declare_consumes()
+        self.declare_consume(Exchange.TB_MESSAGE, self.callback_message)
 
     def run(self):
         super().run()
