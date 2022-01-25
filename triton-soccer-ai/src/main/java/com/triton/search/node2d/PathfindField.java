@@ -9,8 +9,8 @@ import org.apache.commons.collections4.iterators.ReverseListIterator;
 
 import java.util.*;
 
-import static proto.triton.ObjectWithMetadata.*;
-import static proto.vision.MessagesRobocupSslGeometry.*;
+import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class PathfindField {
     SSL_GeometryFieldSize field;
@@ -21,7 +21,19 @@ public class PathfindField {
 
     public PathfindField(SSL_GeometryFieldSize field) {
         this.field = field;
+        generateNodeMap();
+        generateConnections();
+    }
 
+    public static Node2d getNearestNode(Map<Vector2d, Node2d> nodeMap, Vector2d pos) {
+        float nodeSpacing = RuntimeConstants.aiConfig.nodeRadius * 2;
+        float nearestX = Math.round(pos.x / nodeSpacing) * nodeSpacing;
+        float nearestY = Math.round(pos.y / nodeSpacing) * nodeSpacing;
+        Vector2d nearestPos = new Vector2d(nearestX, nearestY);
+        return nodeMap.get(nearestPos);
+    }
+
+    public void generateNodeMap() {
         Map<Vector2d, Node2d> nodeMap = new HashMap<>();
 
         float pathfindFieldWidth = field.getFieldWidth() / 2f + RuntimeConstants.aiConfig.pathfindExtend;
@@ -51,38 +63,57 @@ public class PathfindField {
         this.nodeMap = nodeMap;
     }
 
-    public void updateConnections(HashMap<Integer, Robot> allies, HashMap<Integer, Robot> foes, Robot excludeAlly) {
-        this.allies = allies;
-        this.foes = foes;
-        this.excludeAlly = excludeAlly;
-
+    public void generateConnections() {
         float nodeSpacing = RuntimeConstants.aiConfig.nodeRadius * 2;
         Map<Node2d, Set<Node2d>> connections = new HashMap<>();
         nodeMap.forEach((pos, node) -> {
             Set<Node2d> neighbors = new HashSet<>();
             connections.put(node, neighbors);
 
-            if (checkCollision(pos)) {
-                node.setObstacle(true);
-            }
-
             for (float offsetX = -nodeSpacing; offsetX <= nodeSpacing; offsetX += nodeSpacing) {
                 for (float offsetY = -nodeSpacing; offsetY <= nodeSpacing; offsetY += nodeSpacing) {
-                    if (offsetX == 0 && offsetY == 0)
+                    if (offsetX + offsetY == 0 || offsetX == 0 && offsetY == 0)
                         continue;
 
                     Vector2d offset = new Vector2d(offsetX, offsetY);
                     Vector2d neighborPos = pos.add(offset);
 
-                    if (!nodeMap.containsKey(neighborPos)) continue;
-
-                    Node2d neighbor = nodeMap.get(neighborPos);
-                    neighbor.setObstacle(checkCollision(neighborPos));
-                    neighbors.add(neighbor);
+                    if (nodeMap.containsKey(neighborPos)) {
+                        Node2d neighbor = nodeMap.get(neighborPos);
+                        neighbors.add(neighbor);
+                    }
                 }
             }
         });
         this.connections = connections;
+    }
+
+    public void updateObstacles(HashMap<Integer, Robot> allies, HashMap<Integer, Robot> foes, Robot excludeAlly) {
+        this.allies = allies;
+        this.foes = foes;
+        this.excludeAlly = excludeAlly;
+
+        float nodeSpacing = RuntimeConstants.aiConfig.nodeRadius * 2;
+        nodeMap.forEach((pos, node) -> {
+            if (checkCollision(pos))
+                node.setObstacle(true);
+
+            for (float offsetX = -nodeSpacing; offsetX <= nodeSpacing; offsetX += nodeSpacing) {
+                for (float offsetY = -nodeSpacing; offsetY <= nodeSpacing; offsetY += nodeSpacing) {
+                    if (offsetX + offsetY == 0 || offsetX == 0 && offsetY == 0)
+                        continue;
+
+                    Vector2d offset = new Vector2d(offsetX, offsetY);
+                    Vector2d neighborPos = pos.add(offset);
+
+                    if (nodeMap.containsKey(neighborPos)) {
+                        Node2d neighbor = nodeMap.get(neighborPos);
+                        if (checkCollision(neighborPos))
+                            neighbor.setObstacle(true);
+                    }
+                }
+            }
+        });
     }
 
     public List<Node2d> findRoute(Vector2d from, Vector2d to) {
@@ -116,8 +147,8 @@ public class PathfindField {
         return route;
     }
 
-    public Vector2d findNextPos(Vector2d from, Vector2d to) {
-        return findNextPosInRoute(findRoute(from, to));
+    public Vector2d findNext(Vector2d from, Vector2d to) {
+        return findNext(findRoute(from, to));
     }
 
     public boolean checkCollision(Vector2d pos) {
@@ -150,7 +181,7 @@ public class PathfindField {
     }
 
     public boolean checkCollision(Vector2d from, Vector2d to) {
-        Vector2d step = to.sub(from).norm().scale(RuntimeConstants.aiConfig.nodeRadius);
+        Vector2d step = to.sub(from).norm().scale(RuntimeConstants.aiConfig.nodeRadius / 2);
         Vector2d current = from;
         while (current.dist(to) > RuntimeConstants.aiConfig.nodeRadius) {
             if (checkCollision(current))
@@ -160,7 +191,7 @@ public class PathfindField {
         return false;
     }
 
-    public Vector2d findNextPosInRoute(List<Node2d> route) {
+    public Vector2d findNext(List<Node2d> route) {
         Node2d fromNode = route.get(0);
         ReverseListIterator<Node2d> reverseListIterator = new ReverseListIterator<>(route);
         while (reverseListIterator.hasNext()) {
@@ -169,14 +200,6 @@ public class PathfindField {
                 return toNode.getPos();
         }
         return route.get(1).getPos();
-    }
-
-    public static Node2d getNearestNode(Map<Vector2d, Node2d> nodeMap, Vector2d pos) {
-        float nodeSpacing = RuntimeConstants.aiConfig.nodeRadius * 2;
-        float nearestX = Math.round(pos.x / nodeSpacing) * nodeSpacing;
-        float nearestY = Math.round(pos.y / nodeSpacing) * nodeSpacing;
-        Vector2d nearestPos = new Vector2d(nearestX, nearestY);
-        return nodeMap.get(nearestPos);
     }
 
     public Map<Vector2d, Node2d> getNodeMap() {

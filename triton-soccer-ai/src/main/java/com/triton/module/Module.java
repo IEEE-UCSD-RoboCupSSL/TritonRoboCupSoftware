@@ -4,7 +4,6 @@ import com.rabbitmq.client.*;
 import com.triton.messaging.Exchange;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,16 +11,21 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.SimpleSerialize.simpleSerialize;
 
-public abstract class Module extends Thread {
+public abstract class Module {
     private static final String CONNECTION_FACTORY_HOST = "localhost";
     private static final String FANOUT = "fanout";
+
     private Channel publish_channel;
     private Channel consume_channel;
 
-    public Module() throws IOException, TimeoutException {
-        setupChannel();
-        prepare();
-        declareExchanges();
+    public Module() {
+        try {
+            setupChannel();
+            prepare();
+            declareExchanges();
+        } catch (IOException | TimeoutException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setupChannel() throws IOException, TimeoutException {
@@ -40,11 +44,8 @@ public abstract class Module extends Thread {
 
     /**
      * Override to declare exchanges.
-     *
-     * @throws IOException
-     * @throws TimeoutException
      */
-    protected void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException {
     }
 
     /**
@@ -66,23 +67,9 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     protected void declareConsume(Exchange exchange, DeliverCallback callback) throws IOException {
-        declareConsume(exchange, callback, 1000);
-    }
-
-    /**
-     * Declares an exchange to consume from. The messageConsumer function will be called when an message is received
-     * from the exchange.
-     *
-     * @param exchange the exchange to consume from
-     * @param callback the function to call once a message is received
-     * @param timeToLive how long in ms until a message expires
-     * @throws IOException
-     */
-    protected void declareConsume(Exchange exchange, DeliverCallback callback, long timeToLive) throws IOException {
         consume_channel.exchangeDeclare(exchange.name(), FANOUT);
 
         Map<String, Object> args = new HashMap<>();
-        args.put("x-message-ttl", timeToLive);
         String queueName = consume_channel.queueDeclare("",
                 false,
                 false,
@@ -93,10 +80,6 @@ public abstract class Module extends Thread {
 
         DeliverCallback wrappedCallback = (s, delivery) -> {
             try {
-                Date timestamp = delivery.getProperties().getTimestamp();
-                Date currentTimeStamp = new Date();
-                long timeDiff =  currentTimeStamp.getTime() - timestamp.getTime();
-                if (timeDiff < timeToLive)
                 callback.handle(s, delivery);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -129,9 +112,7 @@ public abstract class Module extends Thread {
         }
     }
 
-    @Override
-    public void interrupt() {
-        super.interrupt();
+    public void shutdown() {
         try {
             consume_channel.close();
             publish_channel.close();

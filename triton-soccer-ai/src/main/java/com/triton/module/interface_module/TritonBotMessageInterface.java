@@ -1,8 +1,6 @@
 package com.triton.module.interface_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.config.GameConfig;
-import com.triton.config.NetworkConfig;
 import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
 import com.triton.networking.UDP_Client;
@@ -14,9 +12,6 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.config.ConfigPath.GAME_CONFIG;
-import static com.triton.config.ConfigPath.NETWORK_CONFIG;
-import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.AI_ROBOT_FEEDBACKS;
 import static com.triton.messaging.Exchange.AI_TRITON_BOT_MESSAGE;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
@@ -26,7 +21,7 @@ public class TritonBotMessageInterface extends Module {
     private HashMap<Integer, UDP_Client> clientMap;
     private HashMap<Integer, RobotFeedback> feedbacks;
 
-    public TritonBotMessageInterface() throws IOException, TimeoutException {
+    public TritonBotMessageInterface() {
         super();
     }
 
@@ -45,7 +40,7 @@ public class TritonBotMessageInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException {
         super.declareExchanges();
         declareConsume(AI_TRITON_BOT_MESSAGE, this::callbackTritonBotMessage);
     }

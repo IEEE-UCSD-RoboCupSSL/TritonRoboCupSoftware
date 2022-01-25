@@ -2,10 +2,8 @@ package com.triton.module.interface_module;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
-import com.triton.helper.Vector2d;
 import com.triton.module.Module;
 import com.triton.search.node2d.Node2d;
-import com.triton.search.node2d.PathfindField;
 import proto.triton.ObjectWithMetadata;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldCircularArc;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldLineSegment;
@@ -40,7 +38,7 @@ public class UserInterface extends Module {
     private JPanel centerPanel;
     private FieldPanel fieldPanel;
 
-    public UserInterface() throws IOException, TimeoutException {
+    public UserInterface() {
         super();
     }
 
@@ -87,12 +85,12 @@ public class UserInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException {
         super.declareExchanges();
         declareConsume(AI_BIASED_FIELD, this::callbackField);
-        declareConsume(AI_FILTERED_BIASED_BALLS, this::callbackBalls);
-        declareConsume(AI_FILTERED_BIASED_ALLIES, this::callbackAllies);
-        declareConsume(AI_FILTERED_BIASED_FOES, this::callbackFoes);
+        declareConsume(AI_FILTERED_BALL, this::callbackBall);
+        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
+        declareConsume(AI_FILTERED_FOES, this::callbackFoes);
         declareConsume(AI_DEBUG, this::callbackDebug);
     }
 
@@ -102,7 +100,7 @@ public class UserInterface extends Module {
         fieldPanel.repaint();
     }
 
-    private void callbackBalls(String s, Delivery delivery) {
+    private void callbackBall(String s, Delivery delivery) {
         Ball ball = (Ball) simpleDeserialize(delivery.getBody());
         fieldPanel.setBall(ball);
         fieldPanel.repaint();
@@ -131,8 +129,8 @@ public class UserInterface extends Module {
         private Ball ball;
         private HashMap<Integer, ObjectWithMetadata.Robot> allies;
         private HashMap<Integer, ObjectWithMetadata.Robot> foes;
-        private ArrayList<Debug> debug;
-        private HashMap<Integer, DebugPath> alliesPaths;
+        private final ArrayList<Debug> debug;
+        private final HashMap<Integer, DebugPath> alliesPaths;
 
         public FieldPanel() {
             debug = new ArrayList<>();

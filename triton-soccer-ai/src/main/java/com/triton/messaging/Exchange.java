@@ -14,9 +14,9 @@ public enum Exchange {
     AI_BIASED_FOES,
 
     // Camera data processed into a biased team perspective, then filtered to reduce noise
-    AI_FILTERED_BIASED_BALLS,
-    AI_FILTERED_BIASED_ALLIES,
-    AI_FILTERED_BIASED_FOES,
+    AI_FILTERED_BALL,
+    AI_FILTERED_ALLIES,
+    AI_FILTERED_FOES,
 
     // Commands sent from our team perspective
     AI_BIASED_SIMULATOR_CONTROL,
@@ -30,12 +30,6 @@ public enum Exchange {
 
     // Commands sent to triton bot
     AI_TRITON_BOT_MESSAGE,  // A combined message sent to a triton bot containing vision and commands for that triton bot
-
-    AI_STRATEGY,
-    AI_TEAM_SKILL,
-    AI_COORDINATED_SKILL,
-    AI_INDIVIDUAL_SKILL,
-    AI_BASIC_SKILL,
 
     AI_DEBUG,
 }

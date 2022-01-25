@@ -1,6 +1,5 @@
 package com.triton.module.interface_module;
 
-import com.triton.config.NetworkConfig;
 import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
 import com.triton.networking.UDP_MulticastReceiver;
@@ -8,15 +7,13 @@ import com.triton.networking.UDP_MulticastReceiver;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.config.ConfigPath.NETWORK_CONFIG;
-import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.AI_VISION_WRAPPER;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class CameraInterface extends Module {
     private UDP_MulticastReceiver detectionReceiver;
 
-    public CameraInterface() throws IOException, TimeoutException {
+    public CameraInterface() {
         super();
     }
 
@@ -31,7 +28,7 @@ public class CameraInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException {
         super.declareExchanges();
         declarePublish(AI_VISION_WRAPPER);
     }

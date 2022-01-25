@@ -2,8 +2,6 @@ package com.triton.module.interface_module;
 
 import com.google.protobuf.Any;
 import com.rabbitmq.client.Delivery;
-import com.triton.config.NetworkConfig;
-import com.triton.config.ObjectConfig;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
@@ -14,9 +12,6 @@ import proto.simulation.SslSimulationConfig.SimulatorConfig;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.config.ConfigPath.NETWORK_CONFIG;
-import static com.triton.config.ConfigPath.OBJECT_CONFIG;
-import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.AI_SIMULATOR_CONFIG;
 import static com.triton.messaging.Exchange.AI_SIMULATOR_CONTROL;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
@@ -29,8 +24,9 @@ import static sslsim.SslSimulationCustomErforceRobotSpec.RobotSpecErForce;
 public class SimulatorCommandInterface extends Module {
     private UDP_Client client;
 
-    public SimulatorCommandInterface() throws IOException, TimeoutException {
+    public SimulatorCommandInterface() {
         super();
+        setupSimulator();
     }
 
     @Override
@@ -45,17 +41,10 @@ public class SimulatorCommandInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException {
         super.declareExchanges();
         declareConsume(AI_SIMULATOR_CONTROL, this::callbackSimulatorControl);
         declareConsume(AI_SIMULATOR_CONFIG, this::callbackSimulatorConfig);
-    }
-
-    @Override
-    public void run() {
-        super.run();
-
-        setupSimulator();
     }
 
     private void setupClient() throws IOException {

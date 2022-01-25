@@ -22,7 +22,7 @@ import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class VisionBiasedConverter extends Module {
 
-    public VisionBiasedConverter() throws IOException, TimeoutException {
+    public VisionBiasedConverter() {
         super();
     }
 
@@ -96,7 +96,7 @@ public class VisionBiasedConverter extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException {
         super.declareExchanges();
         declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
         declarePublish(AI_BIASED_FIELD);

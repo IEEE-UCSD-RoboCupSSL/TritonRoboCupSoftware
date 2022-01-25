@@ -1,6 +1,5 @@
 package com.triton.helper;
 
-import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;

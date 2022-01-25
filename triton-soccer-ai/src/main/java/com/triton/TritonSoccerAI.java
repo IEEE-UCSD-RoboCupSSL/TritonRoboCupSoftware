@@ -4,7 +4,8 @@ import com.triton.config.*;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
-import com.triton.module.ai_module.core.*;
+import com.triton.module.TestModule;
+import com.triton.module.ai_module.AIModule;
 import com.triton.module.interface_module.CameraInterface;
 import com.triton.module.interface_module.SimulatorCommandInterface;
 import com.triton.module.interface_module.TritonBotMessageInterface;
@@ -19,36 +20,31 @@ import com.triton.module.test_module.misc_test.AStarSearchTest;
 import com.triton.test.Test;
 import org.apache.commons.cli.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static com.triton.config.ConfigPath.*;
 import static com.triton.config.ConfigReader.readConfig;
 
 public class TritonSoccerAI {
-    ThreadPoolExecutor executor;
+    private final ArrayList<Module> modules;
 
     public TritonSoccerAI() {
         super();
-        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(100);
+        modules = new ArrayList<>();
     }
 
     public static void main(String[] args) {
         if (parseArgs(args)) return;
         loadConfigs();
 
-        try {
-            TritonSoccerAI tritonSoccerAI = new TritonSoccerAI();
-            tritonSoccerAI.startModules();
-            if (RuntimeConstants.test)
-                tritonSoccerAI.runTests();
-        } catch (IOException | TimeoutException e) {
-            e.printStackTrace();
-        }
+        TritonSoccerAI tritonSoccerAI = new TritonSoccerAI();
+        tritonSoccerAI.startModules();
+        if (RuntimeConstants.test)
+            tritonSoccerAI.runTests();
     }
 
     private static boolean parseArgs(String[] args) {
@@ -101,40 +97,35 @@ public class TritonSoccerAI {
         return Team.YELLOW;
     }
 
-    public void startModules() throws IOException, TimeoutException {
+    public void startModules() {
         startProcessingModules();
         startAI();
         startInterfaceModules();
     }
 
-    public void startProcessingModules() throws IOException, TimeoutException {
-        startModule(new VisionBiasedConverter());
-        startModule(new FilterModule());
-        startModule(new SimulatorControlAudienceConverter());
-        startModule(new RobotCommandAudienceConverter());
-        startModule(new TritonBotMessageBuilder());
+    public void startProcessingModules() {
+        startModule(new VisionBiasedConverter(), modules);
+        startModule(new FilterModule(), modules);
+        startModule(new SimulatorControlAudienceConverter(), modules);
+        startModule(new RobotCommandAudienceConverter(), modules);
+        startModule(new TritonBotMessageBuilder(), modules);
     }
 
-    public void startAI() throws IOException, TimeoutException {
+    public void startAI() {
         // core ai modules
-        startModule(new OverviewModule());
-        startModule(new StrategyModule());
-        startModule(new TeamSkillsModule());
-        startModule(new CoordinatedSkillsModule());
-        startModule(new IndividualSkillsModule());
-        startModule(new BasicSkillsModule());
+        startModule(new AIModule(), modules);
     }
 
-    public void startInterfaceModules() throws IOException, TimeoutException {
-        startModule(new CameraInterface());
-        startModule(new SimulatorCommandInterface());
-//        startModule(new SimulatorRobotCommandInterface());
-        startModule(new TritonBotMessageInterface());
-        startModule(new UserInterface());
+    public void startInterfaceModules() {
+        startModule(new CameraInterface(), modules);
+        startModule(new SimulatorCommandInterface(), modules);
+//        startModule(new SimulatorRobotCommandInterface(), modules);
+        startModule(new TritonBotMessageInterface(), modules);
+        startModule(new UserInterface(), modules);
     }
 
-    private void runTests() throws IOException, TimeoutException {
-        ArrayList<Module> testModules = new ArrayList<>();
+    private void runTests() {
+        ArrayList<TestModule> testModules = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -146,26 +137,24 @@ public class TritonSoccerAI {
             Test test = parseTest(scanner.nextLine());
 
             switch (test) {
-                case KICK -> startModule(new KickTest(), testModules);
-                case DRIBBLE -> startModule(new DribbleTest(), testModules);
-                case MATCH_VELOCITY -> startModule(new MatchVelocityTest(), testModules);
-                case MOVE_TO_POINT -> startModule(new MoveToPointTest(), testModules);
-                case PATH_TO_POINT -> startModule(new PathToPointTest(), testModules);
-                case CHASE_BALL -> startModule(new ChaseBallTest(), testModules);
-                case CATCH_BALL -> startModule(new CatchBallTest(), testModules);
-                case GOAL_KEEP -> startModule(new GoalKeepTest(), testModules);
-                case DRIBBLE_BALL -> startModule(new DribbleBallTest(), testModules);
-                case A_STAR_SEARCH -> startModule(new AStarSearchTest(), testModules);
+                case KICK -> startTestModule(new KickTest(), testModules);
+                case DRIBBLE -> startTestModule(new DribbleTest(), testModules);
+                case MATCH_VELOCITY -> startTestModule(new MatchVelocityTest(), testModules);
+                case MOVE_TO_POINT -> startTestModule(new MoveToPointTest(), testModules);
+                case PATH_TO_POINT -> startTestModule(new PathToPointTest(), testModules);
+                case CHASE_BALL -> startTestModule(new ChaseBallTest(), testModules);
+                case CATCH_BALL -> startTestModule(new CatchBallTest(), testModules);
+                case GOAL_KEEP -> startTestModule(new GoalKeepTest(), testModules);
+                case DRIBBLE_BALL -> startTestModule(new DribbleBallTest(), testModules);
+                case A_STAR_SEARCH -> startTestModule(new AStarSearchTest(), testModules);
                 default -> System.out.println("Test not found.");
             }
 
             while (!testModules.isEmpty()) {
                 System.out.print("Running test, type 'q' to stop:\t");
                 if (scanner.nextLine().equals("q")) {
-                    for (Module module : testModules) {
-                        executor.remove(module);
-                        module.interrupt();
-                    }
+                    for (Module module : testModules)
+                        module.shutdown();
                     testModules.clear();
                 }
             }
@@ -181,12 +170,12 @@ public class TritonSoccerAI {
         return null;
     }
 
-    public void startModule(Module module) {
-        executor.execute(module);
+    public void startModule(Module module, ArrayList<Module> modules) {
+        modules.add(module);
     }
 
-    public void startModule(Module module, ArrayList<Module> modules) {
-        executor.execute(module);
+    public void startTestModule(TestModule module, ArrayList<TestModule> modules) {
         modules.add(module);
+        module.run();
     }
 }

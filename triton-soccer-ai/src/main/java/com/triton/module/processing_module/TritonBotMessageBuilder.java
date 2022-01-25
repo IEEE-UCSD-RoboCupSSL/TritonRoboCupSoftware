@@ -22,7 +22,7 @@ public class TritonBotMessageBuilder extends Module {
     private HashMap<Integer, Long> lastCommandTimeStamps;
     private HashMap<Integer, RobotCommand.Builder> aggregateRobotCommands;
 
-    public TritonBotMessageBuilder() throws IOException, TimeoutException {
+    public TritonBotMessageBuilder() {
         super();
     }
 
@@ -34,7 +34,7 @@ public class TritonBotMessageBuilder extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException {
         super.declareExchanges();
         declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
         declareConsume(AI_ROBOT_COMMAND, this::callbackRobotCommand);

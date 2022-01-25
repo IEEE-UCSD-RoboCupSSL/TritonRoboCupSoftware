@@ -1,7 +1,6 @@
 package com.triton.module.interface_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.config.NetworkConfig;
 import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
 import com.triton.networking.UDP_Client;
@@ -10,8 +9,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.config.ConfigPath.NETWORK_CONFIG;
-import static com.triton.config.ConfigReader.readConfig;
 import static com.triton.messaging.Exchange.AI_ROBOT_COMMAND;
 import static com.triton.messaging.Exchange.AI_ROBOT_FEEDBACKS;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
@@ -24,7 +21,7 @@ public class SimulatorRobotCommandInterface extends Module {
     private UDP_Client client;
     private HashMap<Integer, RobotFeedback> feedbacks;
 
-    public SimulatorRobotCommandInterface() throws IOException, TimeoutException {
+    public SimulatorRobotCommandInterface() {
         super();
     }
 
@@ -41,7 +38,7 @@ public class SimulatorRobotCommandInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException {
         super.declareExchanges();
         declareConsume(AI_ROBOT_COMMAND, this::callbackRobotCommand);
     }

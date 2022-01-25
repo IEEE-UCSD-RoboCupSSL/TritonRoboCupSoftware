@@ -1,44 +1,36 @@
 package com.triton.module.test_module.individual_skill_test;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
-import com.triton.constant.Team;
+import com.triton.helper.Vector2d;
 import com.triton.module.Module;
-import proto.simulation.SslGcCommon;
+import com.triton.module.TestModule;
+import com.triton.module.ai_module.skills.individual_skills.ChaseBallSkill;
+import com.triton.module.ai_module.skills.individual_skills.PathToPointSkill;
 import proto.simulation.SslSimulationControl;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.messaging.Exchange.*;
+import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
+import static com.triton.messaging.Exchange.AI_ROBOT_FEEDBACKS;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
-import static proto.triton.AiIndividualSkills.*;
 
-public class ChaseBallTest extends Module {
+public class ChaseBallTest extends TestModule {
     private HashMap<Integer, RobotFeedback> feedbacks;
 
-    public ChaseBallTest() throws IOException, TimeoutException {
+    public ChaseBallTest() {
         super();
+        setupTest();
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
-        declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
-        declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
-
-        declarePublish(AI_BIASED_SIMULATOR_CONTROL);
-        declarePublish(AI_INDIVIDUAL_SKILL);
-    }
-
-    @Override
-    public void run() {
-        super.run();
-
+    protected void setupTest() {
         SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
-
         SslSimulationControl.TeleportBall.Builder teleportBall = SslSimulationControl.TeleportBall.newBuilder();
         teleportBall.setX(-1000f / 1000f);
         teleportBall.setY(-1000f / 1000f);
@@ -48,33 +40,29 @@ public class ChaseBallTest extends Module {
         teleportBall.setVz(0);
         teleportBall.setByForce(false);
         simulatorControl.setTeleportBall(teleportBall);
-
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 
-    private void callbackWrapper(String s, Delivery delivery) {
-        for (int id = 0; id < 6; id++) {
-            if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
-                System.out.println("contact");
-                IndividualSkill.Builder pathToPointSkill = IndividualSkill.newBuilder();
-                pathToPointSkill.setId(id);
-                PathToPoint.Builder pathToPoint = PathToPoint.newBuilder();
-                pathToPoint.setX(1000);
-                pathToPoint.setY(1000);
-                pathToPoint.setOrientation((float) Math.PI);
-                pathToPointSkill.setPathToPoint(pathToPoint);
-                publish(AI_INDIVIDUAL_SKILL, pathToPointSkill.build());
-            } else {
-                IndividualSkill.Builder chaseBallSkill = IndividualSkill.newBuilder();
-                chaseBallSkill.setId(id);
-                ChaseBall.Builder chaseBall = ChaseBall.newBuilder();
-                chaseBallSkill.setChaseBall(chaseBall);
-                publish(AI_INDIVIDUAL_SKILL, chaseBallSkill.build());
-            }
-        }
+    @Override
+    protected void declareExchanges() throws IOException {
+        super.declareExchanges();
+        declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
+        declarePublish(AI_BIASED_SIMULATOR_CONTROL);
     }
 
     private void callbackFeedbacks(String s, Delivery delivery) {
         this.feedbacks = (HashMap<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+    }
+
+    @Override
+    public void run() {
+        for (int id = 0; id < 6; id++) {
+            if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
+                System.out.println("contact");
+                PathToPointSkill pathToPointSkill = new PathToPointSkill(id, new Vector2d(1000, 1000), (float) Math.PI);
+            } else {
+                ChaseBallSkill chaseBallSkill = new ChaseBallSkill(id);
+            }
+        }
     }
 }

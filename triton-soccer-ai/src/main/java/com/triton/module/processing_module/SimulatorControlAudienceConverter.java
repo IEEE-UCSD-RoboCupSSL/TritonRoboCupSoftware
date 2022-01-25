@@ -14,7 +14,7 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationControl.*;
 
 public class SimulatorControlAudienceConverter extends Module {
-    public SimulatorControlAudienceConverter() throws IOException, TimeoutException {
+    public SimulatorControlAudienceConverter() {
         super();
     }
 
@@ -67,7 +67,7 @@ public class SimulatorControlAudienceConverter extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException {
         super.declareExchanges();
         declareConsume(AI_BIASED_SIMULATOR_CONTROL, this::callbackBiasedSimulatorControl);
         declarePublish(AI_SIMULATOR_CONTROL);

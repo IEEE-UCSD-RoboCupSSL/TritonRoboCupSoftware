@@ -1,12 +1,15 @@
 package com.triton.module.processing_module;
 
 import com.rabbitmq.client.Delivery;
+import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
@@ -21,29 +24,75 @@ public class FilterModule extends Module {
     private HashMap<Integer, LinkedList<SSL_DetectionRobot>> aggregatedAllies;
     private HashMap<Integer, LinkedList<SSL_DetectionRobot>> aggregatedFoes;
 
-    public FilterModule() throws IOException, TimeoutException {
+    private Ball filteredBall;
+    private HashMap<Integer, Robot> filteredAllies;
+    private HashMap<Integer, Robot> filteredFoes;
+
+    public FilterModule() {
         super();
+        publishDefaults();
     }
 
     @Override
     protected void prepare() {
         super.prepare();
-
         aggregatedBalls = new LinkedList<>();
         aggregatedAllies = new HashMap<>();
         aggregatedFoes = new HashMap<>();
+
+        filteredBall = Ball.getDefaultInstance();
+        filteredAllies = new HashMap<>();
+        filteredFoes = new HashMap<>();
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
+    protected void declareExchanges() throws IOException {
         super.declareExchanges();
         declareConsume(AI_BIASED_BALLS, this::callbackBalls);
         declareConsume(AI_BIASED_ALLIES, this::callbackAllies);
         declareConsume(AI_BIASED_FOES, this::callbackFoes);
 
-        declarePublish(AI_FILTERED_BIASED_BALLS);
-        declarePublish(AI_FILTERED_BIASED_ALLIES);
-        declarePublish(AI_FILTERED_BIASED_FOES);
+        declarePublish(AI_FILTERED_BALL);
+        declarePublish(AI_FILTERED_ALLIES);
+        declarePublish(AI_FILTERED_FOES);
+    }
+
+    private void publishDefaults() {
+        Ball.Builder ball = Ball.newBuilder();
+        ball.setX(0);
+        ball.setY(0);
+        ball.setZ(0);
+        ball.setVx(0);
+        ball.setVy(0);
+        ball.setVz(0);
+        filteredBall = ball.build();
+        publish(AI_FILTERED_BALL, filteredBall);
+
+        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
+            Robot.Builder filteredAlly = Robot.newBuilder();
+            filteredAlly.setId(id);
+            filteredAlly.setX(0);
+            filteredAlly.setY(0);
+            filteredAlly.setOrientation(0);
+            filteredAlly.setVx(0);
+            filteredAlly.setVy(0);
+            filteredAlly.setAngular(0);
+            filteredAllies.put(id, filteredAlly.build());
+        }
+        publish(AI_FILTERED_ALLIES, filteredAllies);
+
+        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
+            Robot.Builder filteredFoe = Robot.newBuilder();
+            filteredFoe.setId(id);
+            filteredFoe.setX(0);
+            filteredFoe.setY(0);
+            filteredFoe.setOrientation(0);
+            filteredFoe.setVx(0);
+            filteredFoe.setVy(0);
+            filteredFoe.setAngular(0);
+            filteredFoes.put(id, filteredFoe.build());
+        }
+        publish(AI_FILTERED_FOES, filteredFoes);
     }
 
     private void callbackBalls(String s, Delivery delivery) {
@@ -70,14 +119,16 @@ public class FilterModule extends Module {
         filteredBall.setVy(0);
         filteredBall.setVz(0);
 
-        publish(AI_FILTERED_BIASED_BALLS, filteredBall.build());
+        this.filteredBall = filteredBall.build();
+        publish(AI_FILTERED_BALL, this.filteredBall);
     }
 
     private void callbackAllies(String s, Delivery delivery) {
         HashMap<Integer, SSL_DetectionRobot> allies = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
 
-        HashMap<Integer, Robot> filteredAllies = new HashMap<>();
         for (SSL_DetectionRobot ally : allies.values()) {
+            if (ally.getRobotId() > RuntimeConstants.gameConfig.numBots - 1) continue;
+
             Robot.Builder filteredAlly = Robot.newBuilder();
             filteredAlly.setId(ally.getRobotId());
             filteredAlly.setX(ally.getX());
@@ -90,15 +141,15 @@ public class FilterModule extends Module {
 
             filteredAllies.put(ally.getRobotId(), filteredAlly.build());
         }
-
-        publish(AI_FILTERED_BIASED_ALLIES, filteredAllies);
+        publish(AI_FILTERED_ALLIES, filteredAllies);
     }
 
     private void callbackFoes(String s, Delivery delivery) {
         HashMap<Integer, SSL_DetectionRobot> foes = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
 
-        HashMap<Integer, Robot> filteredFoes = new HashMap<>();
         for (SSL_DetectionRobot foe : foes.values()) {
+            if (foe.getRobotId() > RuntimeConstants.gameConfig.numBots - 1) continue;
+
             Robot.Builder filteredFoe = Robot.newBuilder();
             filteredFoe.setId(foe.getRobotId());
             filteredFoe.setX(foe.getX());
@@ -111,7 +162,6 @@ public class FilterModule extends Module {
 
             filteredFoes.put(foe.getRobotId(), filteredFoe.build());
         }
-
-        publish(AI_FILTERED_BIASED_FOES, filteredFoes);
+        publish(AI_FILTERED_FOES, filteredFoes);
     }
 }
