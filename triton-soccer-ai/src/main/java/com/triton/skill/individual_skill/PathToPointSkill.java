@@ -1,6 +1,6 @@
 package com.triton.skill.individual_skill;
 
-import com.triton.helper.Vector2d;
+import com.triton.util.Vector2d;
 import com.triton.module.Module;
 import com.triton.search.node2d.Node2d;
 import com.triton.search.node2d.PathfindField;
@@ -20,12 +20,10 @@ public class PathToPointSkill extends Skill {
     private Vector2d pos;
     private float orientation;
     private Vector2d facePos;
-
     private SSL_GeometryFieldSize field;
     private HashMap<Integer, Robot> allies;
     private HashMap<Integer, Robot> foes;
 
-    private MoveToPointSkill moveToPointSkill;
     private PathfindField pathfindField;
 
     public PathToPointSkill(Module module,
@@ -36,7 +34,12 @@ public class PathToPointSkill extends Skill {
                             HashMap<Integer, Robot> allies,
                             HashMap<Integer, Robot> foes) {
         super(module);
-        update(ally, pos, orientation, field, allies, foes);
+        this.ally = ally;
+        this.pos = pos;
+        this.orientation = orientation;
+        this.field = field;
+        this.allies = allies;
+        this.foes = foes;
     }
 
     public PathToPointSkill(Module module,
@@ -47,29 +50,6 @@ public class PathToPointSkill extends Skill {
                             HashMap<Integer, Robot> allies,
                             HashMap<Integer, Robot> foes) {
         super(module);
-        update(ally, pos, facePos, field, allies, foes);
-    }
-
-    public void update(Robot ally,
-                       Vector2d pos,
-                       float orientation,
-                       SSL_GeometryFieldSize field,
-                       HashMap<Integer, Robot> allies,
-                       HashMap<Integer, Robot> foes) {
-        this.ally = ally;
-        this.pos = pos;
-        this.orientation = orientation;
-        this.field = field;
-        this.allies = allies;
-        this.foes = foes;
-    }
-
-    public void update(Robot ally,
-                       Vector2d pos,
-                       Vector2d facePos,
-                       SSL_GeometryFieldSize field,
-                       HashMap<Integer, Robot> allies,
-                       HashMap<Integer, Robot> foes) {
         this.ally = ally;
         this.pos = pos;
         this.facePos = facePos;
@@ -84,7 +64,6 @@ public class PathToPointSkill extends Skill {
             pathfindField = new PathfindField(field);
 
         pathfindField.updateObstacles(allies, foes, ally);
-
         Vector2d from = new Vector2d(ally.getX(), ally.getY());
         List<Node2d> route = pathfindField.findRoute(from, pos);
         Vector2d next = pathfindField.findNext(route);
@@ -92,12 +71,8 @@ public class PathToPointSkill extends Skill {
         if (facePos != null)
             orientation = (float) Math.atan2(facePos.y - ally.getY(), facePos.x - ally.getX());
 
-        if (moveToPointSkill == null) {
-            moveToPointSkill = new MoveToPointSkill(module, ally, next, orientation);
-            scheduleSkill(moveToPointSkill);
-        } else {
-            moveToPointSkill.update(ally, next, orientation);
-        }
+        MoveToPointSkill moveToPointSkill = new MoveToPointSkill(module, ally, next, orientation);
+        moveToPointSkill.start();
 
         publishDebug(route, from, pos, next);
     }

@@ -14,10 +14,6 @@ public class KickSkill extends Skill {
 
     public KickSkill(Module module, Robot ally, boolean kickOn, boolean chip) {
         super(module);
-        update(ally, kickOn, chip);
-    }
-
-    public void update(Robot ally, boolean kickOn, boolean chip) {
         this.ally = ally;
         this.kickOn = kickOn;
         this.chip = chip;

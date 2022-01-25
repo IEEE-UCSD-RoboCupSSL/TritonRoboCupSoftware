@@ -1,4 +1,4 @@
-package com.triton.helper;
+package com.triton.util;
 
 public class PIDControl {
     private final float kp;

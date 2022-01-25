@@ -1,6 +1,6 @@
 package com.triton.module.test_module.misc_test;
 
-import com.triton.helper.Vector2d;
+import com.triton.util.Vector2d;
 import com.triton.module.TestRunner;
 import com.triton.search.base.Graph;
 import com.triton.search.base.RouteFinder;

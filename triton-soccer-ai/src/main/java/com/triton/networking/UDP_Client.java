@@ -7,7 +7,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 
-public class UDP_Client implements Runnable {
+public class UDP_Client extends Thread {
     private static final int BUF_SIZE = 9999;
     public final int serverPort;
     private final InetAddress serverAddress;
@@ -28,22 +28,22 @@ public class UDP_Client implements Runnable {
 
         socket = new DatagramSocket();
         socket.setSoTimeout(timeout);
-        sendQueue = new LinkedBlockingQueue<>();
+        sendQueue = new LinkedBlockingQueue<>(5);
     }
 
     @Override
     public void run() {
-        receive(send());
+        while (!isInterrupted()) {
+            receive(send());
+        }
     }
 
     private boolean send() {
-        byte[] bytes = sendQueue.poll();
-        if (bytes == null) return false;
-
-        DatagramPacket packet = new DatagramPacket(bytes, bytes.length, serverAddress, serverPort);
         try {
+            byte[] bytes = sendQueue.take();
+            DatagramPacket packet = new DatagramPacket(bytes, bytes.length, serverAddress, serverPort);
             socket.send(packet);
-        } catch (IOException e) {
+        } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
         return true;
@@ -73,6 +73,8 @@ public class UDP_Client implements Runnable {
     }
 
     public void addSend(byte[] bytes) {
+        if (sendQueue.remainingCapacity() == 0)
+            sendQueue.poll();
         sendQueue.add(bytes);
     }
 }

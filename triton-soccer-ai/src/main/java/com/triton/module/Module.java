@@ -75,7 +75,6 @@ public abstract class Module extends Thread {
         Map<String, Object> args = new HashMap<>();
         args.put("x-message-ttl", 1000);
         args.put("x-expires", 1000);
-//        args.put("x-max-length", 1);
         String queueName = consume_channel.queueDeclare("",
                 false,
                 false,

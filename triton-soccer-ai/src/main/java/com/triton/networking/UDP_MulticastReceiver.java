@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.*;
 import java.util.function.Consumer;
 
-public class UDP_MulticastReceiver implements Runnable {
+public class UDP_MulticastReceiver extends Thread {
     private static final String NETWORK_INTERFACE = "bge0";
     private static final int PACKET_BUFFER_SIZE = 9999;
 
@@ -25,18 +25,19 @@ public class UDP_MulticastReceiver implements Runnable {
 
     @Override
     public void run() {
-        DatagramPacket packet = new DatagramPacket(buf, buf.length);
-
-        try {
-            socket.receive(packet);
-            ByteArrayInputStream stream = new ByteArrayInputStream(packet.getData(),
-                    packet.getOffset(),
-                    packet.getLength());
-            byte[] bytes = stream.readAllBytes();
-            stream.close();
-            callbackPacket.accept(bytes);
-        } catch (Exception e) {
-            e.printStackTrace();
+        while (!isInterrupted()) {
+            DatagramPacket packet = new DatagramPacket(buf, buf.length);
+            try {
+                socket.receive(packet);
+                ByteArrayInputStream stream = new ByteArrayInputStream(packet.getData(),
+                        packet.getOffset(),
+                        packet.getLength());
+                byte[] bytes = stream.readAllBytes();
+                stream.close();
+                callbackPacket.accept(bytes);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

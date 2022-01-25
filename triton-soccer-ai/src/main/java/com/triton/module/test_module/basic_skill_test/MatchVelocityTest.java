@@ -3,7 +3,7 @@ package com.triton.module.test_module.basic_skill_test;
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.helper.Vector2d;
+import com.triton.util.Vector2d;
 import com.triton.module.TestRunner;
 import com.triton.skill.basic_skill.MatchVelocitySkill;
 import proto.simulation.SslGcCommon;
@@ -21,8 +21,6 @@ import static proto.triton.ObjectWithMetadata.Robot;
 
 public class MatchVelocityTest extends TestRunner {
     private HashMap<Integer, Robot> allies;
-
-    private MatchVelocitySkill matchVelocitySkill;
 
     public MatchVelocityTest() {
         super();
@@ -67,9 +65,7 @@ public class MatchVelocityTest extends TestRunner {
     public void run() {
         if (allies == null) return;
 
-        if (matchVelocitySkill == null) {
-            matchVelocitySkill = new MatchVelocitySkill(this, allies.get(1), new Vector2d(0, 0), 0.25f);
-            scheduleSkill(matchVelocitySkill);
-        }
+        MatchVelocitySkill matchVelocitySkill = new MatchVelocitySkill(this, allies.get(1), new Vector2d(0, 2), 4f);
+        matchVelocitySkill.start();
     }
 }

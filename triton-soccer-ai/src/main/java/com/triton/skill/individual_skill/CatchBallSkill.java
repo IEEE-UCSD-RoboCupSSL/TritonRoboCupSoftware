@@ -1,6 +1,6 @@
 package com.triton.skill.individual_skill;
 
-import com.triton.helper.Vector2d;
+import com.triton.util.Vector2d;
 import com.triton.module.Module;
 import com.triton.skill.Skill;
 import com.triton.skill.basic_skill.DribbleSkill;
@@ -26,16 +26,7 @@ public class CatchBallSkill extends Skill {
                           HashMap<Integer, Robot> allies,
                           HashMap<Integer, Robot> foes) {
         super(module);
-        update(ally, field, ball, allies, foes);
-    }
-
-    public void update(Robot ally,
-                       SSL_GeometryFieldSize field,
-                       Ball ball,
-                       HashMap<Integer, Robot> allies,
-                       HashMap<Integer, Robot> foes) {
         this.ally = ally;
-
         this.field = field;
         this.ball = ball;
         this.allies = allies;
@@ -53,6 +44,9 @@ public class CatchBallSkill extends Skill {
         Vector2d targetPos = ballPos.add(offset);
 
         PathToPointSkill pathToPointSkill = new PathToPointSkill(module, ally, targetPos, ballPos, field, allies, foes);
+        pathToPointSkill.start();
+
         DribbleSkill dribbleSkill = new DribbleSkill(module, ally, true);
+        dribbleSkill.start();
     }
 }

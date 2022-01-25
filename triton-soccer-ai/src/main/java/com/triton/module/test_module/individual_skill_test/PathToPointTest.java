@@ -1,8 +1,9 @@
 package com.triton.module.test_module.individual_skill_test;
 
 import com.rabbitmq.client.Delivery;
+import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.helper.Vector2d;
+import com.triton.util.Vector2d;
 import com.triton.module.TestRunner;
 import com.triton.skill.individual_skill.PathToPointSkill;
 
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.helper.CreateMessage.createTeleportRobot;
+import static com.triton.util.CreateMessage.createTeleportRobot;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationControl.SimulatorControl;
@@ -20,8 +21,6 @@ import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class PathToPointTest extends TestRunner {
-    private final HashMap<Integer, PathToPointSkill> pathToPointSkills;
-
     private SSL_GeometryFieldSize field;
     private Ball ball;
     private HashMap<Integer, Robot> allies;
@@ -29,7 +28,6 @@ public class PathToPointTest extends TestRunner {
 
     public PathToPointTest() {
         super();
-        pathToPointSkills = new HashMap<>();
         scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
     }
 
@@ -79,47 +77,28 @@ public class PathToPointTest extends TestRunner {
     public void run() {
         if (field == null || ball == null || allies == null || foes == null) return;
 
-//        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
-        for (int id = 1; id < 2; id++) {
-            if (!pathToPointSkills.containsKey(id)) {
-                PathToPointSkill pathToPointSkill;
-                if (id == 1) {
-                    pathToPointSkill = new PathToPointSkill(this,
-                            allies.get(id),
-                            new Vector2d(0, 2000),
-                            new Vector2d(0, 2000),
-                            field,
-                            allies,
-                            foes);
-                } else {
-                    pathToPointSkill = new PathToPointSkill(this,
-                            allies.get(id),
-                            new Vector2d(0, -2000),
-                            new Vector2d(0, -2000),
-                            field,
-                            allies,
-                            foes);
-                }
-                scheduleSkill(pathToPointSkill);
-                pathToPointSkills.put(id, pathToPointSkill);
+        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
+            if (id != 1 && id != 0 && id != 2) continue;
+
+            PathToPointSkill pathToPointSkill;
+            if (id == 1) {
+                pathToPointSkill = new PathToPointSkill(this,
+                        allies.get(id),
+                        new Vector2d(0, 2000),
+                        new Vector2d(0, 2000),
+                        field,
+                        allies,
+                        foes);
             } else {
-                PathToPointSkill pathToPointSkill = pathToPointSkills.get(id);
-                if (id == 1) {
-                    pathToPointSkill.update(allies.get(id),
-                            new Vector2d(0, 2000),
-                            new Vector2d(0, 2000),
-                            field,
-                            allies,
-                            foes);
-                } else {
-                    pathToPointSkill.update(allies.get(id),
-                            new Vector2d(0, -2000),
-                            new Vector2d(0, -2000),
-                            field,
-                            allies,
-                            foes);
-                }
+                pathToPointSkill = new PathToPointSkill(this,
+                        allies.get(id),
+                        new Vector2d(0, -2000),
+                        new Vector2d(0, -2000),
+                        field,
+                        allies,
+                        foes);
             }
+            pathToPointSkill.start();
         }
     }
 }

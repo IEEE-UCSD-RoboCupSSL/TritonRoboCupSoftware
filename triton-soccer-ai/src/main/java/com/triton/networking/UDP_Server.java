@@ -8,7 +8,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.function.Function;
 
-public class UDP_Server implements Runnable {
+public class UDP_Server extends Thread {
     private static final int BUF_SIZE = 9999;
 
     private final int serverPort;
@@ -29,22 +29,20 @@ public class UDP_Server implements Runnable {
 
     @Override
     public void run() {
-        send(receive());
+        while (!isInterrupted()) {
+            send(receive());
+        }
     }
 
     private byte[] receive() {
-        byte[] buf = new byte[BUF_SIZE];
-        DatagramPacket packet = new DatagramPacket(buf, buf.length);
         try {
+            byte[] buf = new byte[BUF_SIZE];
+            DatagramPacket packet = new DatagramPacket(buf, buf.length);
             socket.receive(packet);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        clientAddress = packet.getAddress();
-        clientPort = packet.getPort();
+            clientAddress = packet.getAddress();
+            clientPort = packet.getPort();
 
-        try {
             ByteArrayInputStream stream = new ByteArrayInputStream(packet.getData(),
                     packet.getOffset(),
                     packet.getLength());

@@ -1,7 +1,7 @@
 package com.triton.module.processing_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.helper.ConvertCoordinate;
+import com.triton.util.ConvertCoordinate;
 import com.triton.module.Module;
 
 import java.io.IOException;

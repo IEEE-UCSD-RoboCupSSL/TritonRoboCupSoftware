@@ -18,8 +18,7 @@ public class CameraInterface extends Module {
 
     public CameraInterface() {
         super();
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(detectionReceiver, 0, 10, TimeUnit.MILLISECONDS);
+        detectionReceiver.start();
     }
 
     @Override

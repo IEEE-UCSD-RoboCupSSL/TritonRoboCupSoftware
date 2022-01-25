@@ -26,6 +26,7 @@ public class SimulatorRobotCommandInterface extends Module {
 
     public SimulatorRobotCommandInterface() {
         super();
+        client.start();
     }
 
     @Override
@@ -66,8 +67,6 @@ public class SimulatorRobotCommandInterface extends Module {
         }
 
         client = new UDP_Client(allyControlAddress, allyControlPort, this::callbackRobotControlResponse, 10);
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(client, 0, 10, TimeUnit.MILLISECONDS);
     }
 
 
@@ -93,5 +92,11 @@ public class SimulatorRobotCommandInterface extends Module {
             feedbacks.put(feedback.getId(), feedback);
 
         publish(AI_ROBOT_FEEDBACKS, feedbacks);
+    }
+
+    @Override
+    public void interrupt() {
+        super.interrupt();
+        client.interrupt();
     }
 }

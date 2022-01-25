@@ -16,7 +16,7 @@ import com.triton.module.test_module.basic_skill_test.MatchVelocityTest;
 import com.triton.module.test_module.basic_skill_test.MoveToPointTest;
 import com.triton.module.test_module.individual_skill_test.*;
 import com.triton.module.test_module.misc_test.AStarSearchTest;
-import com.triton.test.Test;
+import com.triton.util.Test;
 import org.apache.commons.cli.*;
 
 import java.util.ArrayList;

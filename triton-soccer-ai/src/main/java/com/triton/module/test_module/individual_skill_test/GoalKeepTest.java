@@ -27,9 +27,6 @@ public class GoalKeepTest extends TestRunner {
     private HashMap<Integer, Robot> allies;
     private HashMap<Integer, RobotFeedback> feedbacks;
 
-    private GoalKeepSkill goalKeepSkill;
-    private KickSkill kickSkill;
-
     public GoalKeepTest() {
         super();
     }
@@ -100,18 +97,13 @@ public class GoalKeepTest extends TestRunner {
     public void run() {
         if (field == null || ball == null || allies == null) return;
 
-        if (goalKeepSkill == null) {
-            goalKeepSkill = new GoalKeepSkill(this, allies.get(1), field, ball);
-            scheduleSkill(goalKeepSkill);
-        }
+        GoalKeepSkill goalKeepSkill = new GoalKeepSkill(this, allies.get(1), field, ball);
+        goalKeepSkill.start();
 
         if (feedbacks != null && feedbacks.containsKey(1) && feedbacks.get(1).getDribblerBallContact()) {
             System.out.println("contact");
-
-            if (kickSkill == null) {
-                kickSkill = new KickSkill(this, allies.get(1), true, false);
-                scheduleSkill(kickSkill);
-            }
+            KickSkill kickSkill = new KickSkill(this, allies.get(1), true, false);
+            kickSkill.start();
         }
     }
 }

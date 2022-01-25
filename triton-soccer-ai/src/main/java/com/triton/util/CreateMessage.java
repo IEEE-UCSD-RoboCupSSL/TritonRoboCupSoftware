@@ -1,4 +1,4 @@
-package com.triton.helper;
+package com.triton.util;
 
 import com.triton.constant.Team;
 import proto.simulation.SslGcCommon;

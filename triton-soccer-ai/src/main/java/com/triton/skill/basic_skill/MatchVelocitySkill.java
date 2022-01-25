@@ -1,6 +1,6 @@
 package com.triton.skill.basic_skill;
 
-import com.triton.helper.Vector2d;
+import com.triton.util.Vector2d;
 import com.triton.module.Module;
 import com.triton.skill.Skill;
 import proto.simulation.SslSimulationRobotControl;
@@ -15,10 +15,6 @@ public class MatchVelocitySkill extends Skill {
 
     public MatchVelocitySkill(Module module, Robot ally, Vector2d vel, float angular) {
         super(module);
-        update(ally, vel, angular);
-    }
-
-    public void update(Robot ally, Vector2d vel, float angular) {
         this.ally = ally;
         this.vel = vel;
         this.angular = angular;

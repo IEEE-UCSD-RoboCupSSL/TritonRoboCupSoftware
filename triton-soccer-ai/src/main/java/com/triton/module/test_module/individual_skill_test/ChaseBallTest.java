@@ -1,7 +1,7 @@
 package com.triton.module.test_module.individual_skill_test;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.helper.Vector2d;
+import com.triton.util.Vector2d;
 import com.triton.module.TestRunner;
 import com.triton.skill.individual_skill.ChaseBallSkill;
 import com.triton.skill.individual_skill.PathToPointSkill;
@@ -19,8 +19,6 @@ import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class ChaseBallTest extends TestRunner {
-    private final HashMap<Integer, PathToPointSkill> pathToPointSkills;
-    private final HashMap<Integer, ChaseBallSkill> chaseBallSkills;
     private SSL_GeometryFieldSize field;
     private Ball ball;
     private HashMap<Integer, Robot> allies;
@@ -29,8 +27,6 @@ public class ChaseBallTest extends TestRunner {
 
     public ChaseBallTest() {
         super();
-        pathToPointSkills = new HashMap<>();
-        chaseBallSkills = new HashMap<>();
         setupTest();
     }
 
@@ -90,25 +86,17 @@ public class ChaseBallTest extends TestRunner {
         for (int id = 0; id < 6; id++) {
             if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
                 System.out.println("contact");
-                if (pathToPointSkills.get(id) == null) {
-                    PathToPointSkill pathToPointSkill = new PathToPointSkill(this,
-                            allies.get(id),
-                            new Vector2d(1000, 1000),
-                            (float) Math.PI,
-                            field,
-                            allies,
-                            foes);
-                    scheduleSkill(pathToPointSkill);
-                    pathToPointSkills.put(id, pathToPointSkill);
-                    chaseBallSkills.put(id, null);
-                }
+                PathToPointSkill pathToPointSkill = new PathToPointSkill(this,
+                        allies.get(id),
+                        new Vector2d(1000, 1000),
+                        (float) Math.PI,
+                        field,
+                        allies,
+                        foes);
+                pathToPointSkill.start();
             } else {
-                if (chaseBallSkills.get(id) == null) {
-                    ChaseBallSkill chaseBallSkill = new ChaseBallSkill(this, allies.get(id), field, ball, allies, foes);
-                    scheduleSkill(chaseBallSkill);
-                    chaseBallSkills.put(id, chaseBallSkill);
-                    pathToPointSkills.put(id, null);
-                }
+                ChaseBallSkill chaseBallSkill = new ChaseBallSkill(this, allies.get(id), field, ball, allies, foes);
+                chaseBallSkill.start();
             }
         }
     }

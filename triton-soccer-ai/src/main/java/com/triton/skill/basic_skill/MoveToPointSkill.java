@@ -1,8 +1,8 @@
 package com.triton.skill.basic_skill;
 
 import com.triton.constant.RuntimeConstants;
-import com.triton.helper.PIDControl;
-import com.triton.helper.Vector2d;
+import com.triton.util.PIDControl;
+import com.triton.util.Vector2d;
 import com.triton.module.Module;
 import com.triton.skill.Skill;
 
@@ -19,7 +19,9 @@ public class MoveToPointSkill extends Skill {
 
     public MoveToPointSkill(Module module, Robot ally, Vector2d pos, float orientation) {
         super(module);
-        update(ally, pos, orientation);
+        this.ally = ally;
+        this.pos = pos;
+        this.orientation = orientation;
 
         pidControlX = new PIDControl(RuntimeConstants.aiConfig.kpPos,
                 RuntimeConstants.aiConfig.kiPos,
@@ -32,12 +34,6 @@ public class MoveToPointSkill extends Skill {
                 RuntimeConstants.aiConfig.kdOrientation);
     }
 
-    public void update(Robot ally, Vector2d pos, float orientation) {
-        this.ally = ally;
-        this.pos = pos;
-        this.orientation = orientation;
-    }
-
     @Override
     public void run() {
         long timestamp = System.currentTimeMillis();
@@ -46,11 +42,7 @@ public class MoveToPointSkill extends Skill {
         float angular = pidControlOrientation.compute(orientation, ally.getOrientation(), timestamp);
         Vector2d vel = new Vector2d(velX, velY);
 
-        if (matchVelocitySkill == null) {
-            matchVelocitySkill = new MatchVelocitySkill(module, ally, vel, angular);
-            scheduleSkill(matchVelocitySkill);
-        } else {
-            matchVelocitySkill.update(ally, vel, angular);
-        }
+        matchVelocitySkill = new MatchVelocitySkill(module, ally, vel, angular);
+        matchVelocitySkill.start();
     }
 }

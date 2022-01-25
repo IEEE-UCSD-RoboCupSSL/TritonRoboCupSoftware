@@ -21,8 +21,6 @@ import static proto.triton.ObjectWithMetadata.Robot;
 public class KickTest extends TestRunner {
     private HashMap<Integer, Robot> allies;
 
-    private KickSkill kickSkill;
-
     public KickTest() {
         super();
     }
@@ -77,9 +75,7 @@ public class KickTest extends TestRunner {
     public void run() {
         if (allies == null) return;
 
-        if (kickSkill == null) {
-            kickSkill = new KickSkill(this, allies.get(1), true, false);
-            scheduleSkill(kickSkill);
-        }
+        KickSkill kickSkill = new KickSkill(this, allies.get(1), true, false);
+        kickSkill.start();
     }
 }

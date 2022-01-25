@@ -21,7 +21,7 @@ import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class TritonBotMessageBuilder extends Module {
     private static final long VISION_INTERVAL = 0;
-    private static final long COMMAND_INTERVAL = 10;
+    private static final long COMMAND_INTERVAL = 0;
 
     private HashMap<Integer, Date> visionTimestamps;
     private HashMap<Integer, Date> commandTimestamps;

@@ -1,7 +1,7 @@
 package com.triton.skill.individual_skill;
 
 import com.triton.constant.RuntimeConstants;
-import com.triton.helper.Vector2d;
+import com.triton.util.Vector2d;
 import com.triton.module.Module;
 import com.triton.skill.Skill;
 
@@ -95,5 +95,6 @@ public class DribbleBallSkill extends Skill {
             pathToPointSkill = new PathToPointSkill(module, ally, allyTargetPos, orientation, field, allies, foes);
         else
             pathToPointSkill = new PathToPointSkill(module, ally, allyTargetPos, facePos, field, allies, foes);
+        pathToPointSkill.start();
     }
 }

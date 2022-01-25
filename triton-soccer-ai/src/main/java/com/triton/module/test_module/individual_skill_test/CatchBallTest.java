@@ -24,8 +24,6 @@ public class CatchBallTest extends TestRunner {
     private HashMap<Integer, Robot> allies;
     private HashMap<Integer, Robot> foes;
 
-    private CatchBallSkill catchBallSkill;
-
     public CatchBallTest() {
         super();
     }
@@ -95,9 +93,7 @@ public class CatchBallTest extends TestRunner {
     public void run() {
         if (field == null || ball == null || allies == null || foes == null) return;
 
-        if (catchBallSkill == null) {
-            catchBallSkill = new CatchBallSkill(this, allies.get(1), field, ball, allies, foes);
-            scheduleSkill(catchBallSkill);
-        }
+        CatchBallSkill catchBallSkill = new CatchBallSkill(this, allies.get(1), field, ball, allies, foes);
+        catchBallSkill.start();
     }
 }

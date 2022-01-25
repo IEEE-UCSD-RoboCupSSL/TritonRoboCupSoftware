@@ -21,16 +21,13 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 
 public class TritonBotMessageInterface extends Module {
-    private final ScheduledExecutorService executor;
     private HashMap<Integer, UDP_Client> clientMap;
     private HashMap<Integer, RobotFeedback> feedbacks;
 
     public TritonBotMessageInterface() {
         super();
-
-        executor = Executors.newScheduledThreadPool(1);
         clientMap.forEach((id, client) -> {
-            executor.scheduleAtFixedRate(client, 0, 10, TimeUnit.MILLISECONDS);
+            client.start();
         });
     }
 
@@ -102,6 +99,8 @@ public class TritonBotMessageInterface extends Module {
     @Override
     public void interrupt() {
         super.interrupt();
-        executor.shutdown();
+        clientMap.forEach((id, client) -> {
+            client.interrupt();
+        });
     }
 }

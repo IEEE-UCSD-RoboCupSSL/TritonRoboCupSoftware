@@ -1,7 +1,7 @@
 package com.triton.search.node2d;
 
 import com.triton.constant.RuntimeConstants;
-import com.triton.helper.Vector2d;
+import com.triton.util.Vector2d;
 import com.triton.search.base.Graph;
 import com.triton.search.base.RouteFinder;
 import com.triton.search.base.Scorer;

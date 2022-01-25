@@ -30,6 +30,7 @@ public class SimulatorCommandInterface extends Module {
     public SimulatorCommandInterface() {
         super();
         setupSimulator();
+        client.start();
     }
 
     @Override
@@ -60,8 +61,6 @@ public class SimulatorCommandInterface extends Module {
                 RuntimeConstants.networkConfig.simulationCommandPort,
                 this::callbackSimulatorResponse,
                 10);
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(client, 0, 10, TimeUnit.MILLISECONDS);
     }
 
     private void setupSimulator() {
@@ -159,5 +158,11 @@ public class SimulatorCommandInterface extends Module {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void interrupt() {
+        super.interrupt();
+        client.interrupt();
     }
 }

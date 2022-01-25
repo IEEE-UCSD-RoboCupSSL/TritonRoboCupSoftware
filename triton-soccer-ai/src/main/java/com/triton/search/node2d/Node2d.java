@@ -1,6 +1,6 @@
 package com.triton.search.node2d;
 
-import com.triton.helper.Vector2d;
+import com.triton.util.Vector2d;
 import com.triton.search.base.GraphNode;
 
 public class Node2d implements GraphNode {

@@ -13,10 +13,6 @@ public class DribbleSkill extends Skill {
 
     public DribbleSkill(Module module, Robot ally, boolean dribbleOn) {
         super(module);
-        update(ally, dribbleOn);
-    }
-
-    public void update(Robot ally, boolean dribbleOn) {
         this.ally = ally;
         this.dribbleOn = dribbleOn;
     }

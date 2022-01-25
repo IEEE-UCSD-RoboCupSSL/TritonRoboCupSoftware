@@ -19,6 +19,7 @@ proto/simulation/SslSimulationConfig$RobotSpecsOrBuilder.class
 proto/simulation/SslSimulationConfig$SimulatorConfig.class
 proto/simulation/SslSimulationConfig$RobotSpecs$1.class
 proto/simulation/SslSimulationControl$1.class
+com/triton/util/CreateMessage.class
 proto/simulation/SslVisionGeometry$SSL_GeometryFieldSize.class
 proto/simulation/SslSimulationControl$TeleportBallOrBuilder.class
 proto/simulation/SslSimulationControl$SimulatorControlOrBuilder.class
@@ -32,12 +33,14 @@ proto/simulation/SslVisionGeometry$Vector2f.class
 proto/simulation/SslSimulationRobotControl$RobotControlOrBuilder.class
 com/triton/config/DisplayConfig.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldCircularArc$1.class
+com/triton/util/Test.class
 com/triton/module/ai_module/AIModule.class
 proto/simulation/SslSimulationSynchronous$SimulationSyncRequest$1.class
 com/triton/constant/RuntimeConstants.class
 proto/simulation/SslVisionGeometry$SSL_GeometryModels$1.class
 proto/simulation/SslVisionDetection$SSL_DetectionFrame.class
 com/triton/module/test_module/individual_skill_test/ChaseBallTest.class
+com/triton/util/PIDControl.class
 proto/triton/AiDebugInfo$DebugVectorOrBuilder.class
 proto/triton/AiDebugInfo$Debug.class
 proto/simulation/SslVisionGeometry$SSL_FieldLineSegment$Builder.class
@@ -60,7 +63,6 @@ proto/simulation/SslSimulationRobotControl$RobotMoveCommandOrBuilder.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedRobot$Builder.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryModels.class
 proto/triton/AiDebugInfo$1.class
-com/triton/helper/Vector2d.class
 proto/triton/ObjectWithMetadata$RobotOrBuilder.class
 com/triton/module/Module.class
 proto/simulation/SslSimulationRobotControl$MoveWheelVelocity$Builder.class
@@ -82,7 +84,6 @@ com/triton/module/test_module/individual_skill_test/PathToPointTest.class
 proto/simulation/SslVisionGeometry$Vector2f$Builder.class
 proto/simulation/SslVisionGeometry$SSL_FieldLineSegment.class
 com/triton/module/test_module/individual_skill_test/DribbleBallTest.class
-com/triton/test/Test.class
 proto/vision/MessagesRobocupSslRefboxLog.class
 proto/vision/MessagesRobocupSslDetectionTracked$KickedBall.class
 proto/vision/MessagesRobocupSslDetectionTracked$Vector3$Builder.class
@@ -158,7 +159,6 @@ proto/simulation/SslVisionGeometry$SSL_FieldCircularArc.class
 proto/simulation/SslSimulationControl$SimulatorCommand$1.class
 com/triton/search/base/RouteFinder.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrameOrBuilder.class
-com/triton/helper/PIDControl.class
 proto/simulation/SslVisionDetection.class
 proto/simulation/SslVisionGeometry$Vector2f$1.class
 com/triton/networking/UDP_Server.class
@@ -209,7 +209,7 @@ proto/vision/MessagesRobocupSslRefboxLog$Refbox_Log.class
 proto/simulation/SslSimulationSynchronous$SimulationSyncResponseOrBuilder.class
 proto/vision/MessagesRobocupSslDetection.class
 proto/simulation/SslVisionGeometry$SSL_BallModelStraightTwoPhaseOrBuilder.class
-com/triton/helper/CreateMessage.class
+com/triton/util/ConvertCoordinate.class
 proto/triton/AiDebugInfo$DebugPath.class
 com/triton/messaging/SimpleSerialize.class
 com/triton/search/node1d/Value1dScorer.class
@@ -298,7 +298,6 @@ proto/vision/MessagesRobocupSslRefboxLog$Log_Frame$1.class
 proto/triton/AiDebugInfo$DebugVector.class
 proto/triton/ObjectWithMetadata$Robot.class
 proto/simulation/SslGcCommon$1.class
-com/triton/helper/ConvertCoordinate.class
 com/triton/module/processing_module/RobotCommandAudienceConverter.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedBallOrBuilder.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionFrame$1.class
@@ -341,6 +340,7 @@ proto/vision/MessagesRobocupSslGeometry$SSL_FieldCircularArc.class
 proto/vision/MessagesRobocupSslDetectionTracked$1.class
 proto/simulation/SslVisionGeometry.class
 proto/simulation/SslSimulationConfig$RealismConfigOrBuilder.class
+com/triton/util/Vector2d.class
 proto/simulation/SslSimulationRobotFeedback$RobotFeedbackOrBuilder.class
 proto/simulation/SslVisionGeometry$SSL_FieldCircularArcOrBuilder.class
 proto/vision/MessagesRobocupSslGeometry$Vector2f.class

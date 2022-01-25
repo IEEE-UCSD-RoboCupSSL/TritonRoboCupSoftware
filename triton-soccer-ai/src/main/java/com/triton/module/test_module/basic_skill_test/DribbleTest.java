@@ -3,7 +3,7 @@ package com.triton.module.test_module.basic_skill_test;
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.helper.Vector2d;
+import com.triton.util.Vector2d;
 import com.triton.module.TestRunner;
 import com.triton.skill.basic_skill.DribbleSkill;
 import com.triton.skill.basic_skill.MatchVelocitySkill;
@@ -22,9 +22,6 @@ import static proto.triton.ObjectWithMetadata.Robot;
 
 public class DribbleTest extends TestRunner {
     private HashMap<Integer, Robot> allies;
-
-    private MatchVelocitySkill matchVelocitySkill;
-    private DribbleSkill dribbleSkill;
 
     public DribbleTest() {
         super();
@@ -80,14 +77,10 @@ public class DribbleTest extends TestRunner {
     public void run() {
         if (allies == null) return;
 
-        if (matchVelocitySkill == null) {
-            matchVelocitySkill = new MatchVelocitySkill(this, allies.get(1), new Vector2d(1, 0), 0);
-            scheduleSkill(matchVelocitySkill);
-        }
+        MatchVelocitySkill matchVelocitySkill = new MatchVelocitySkill(this, allies.get(1), new Vector2d(1, 0), 0);
+        matchVelocitySkill.start();
 
-        if (dribbleSkill == null) {
-            dribbleSkill = new DribbleSkill(this, allies.get(1), true);
-            scheduleSkill(dribbleSkill);
-        }
+        DribbleSkill dribbleSkill = new DribbleSkill(this, allies.get(1), true);
+        dribbleSkill.start();
     }
 }

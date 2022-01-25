@@ -3,7 +3,7 @@ package com.triton.module.test_module.basic_skill_test;
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.helper.Vector2d;
+import com.triton.util.Vector2d;
 import com.triton.module.TestRunner;
 import com.triton.skill.basic_skill.MoveToPointSkill;
 import proto.simulation.SslGcCommon;
@@ -21,8 +21,6 @@ import static proto.triton.ObjectWithMetadata.Robot;
 
 public class MoveToPointTest extends TestRunner {
     private HashMap<Integer, Robot> allies;
-
-    private MoveToPointSkill moveToPointSkill;
 
     public MoveToPointTest() {
         super();
@@ -69,11 +67,7 @@ public class MoveToPointTest extends TestRunner {
     public void run() {
         if (allies == null) return;
 
-        if (moveToPointSkill == null) {
-            moveToPointSkill = new MoveToPointSkill(this, allies.get(1), new Vector2d(2000, 2000), (float) Math.PI);
-            scheduleSkill(moveToPointSkill);
-        } else {
-            moveToPointSkill.update(allies.get(1), new Vector2d(2000, 2000), (float) Math.PI);
-        }
+        MoveToPointSkill moveToPointSkill = new MoveToPointSkill(this, allies.get(1), new Vector2d(2000, 2000), (float) Math.PI);
+        moveToPointSkill.start();
     }
 }

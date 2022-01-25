@@ -1,4 +1,4 @@
-package com.triton.test;
+package com.triton.util;
 
 public enum Test {
     KICK("Test the ability of robots to kick the ball."),
