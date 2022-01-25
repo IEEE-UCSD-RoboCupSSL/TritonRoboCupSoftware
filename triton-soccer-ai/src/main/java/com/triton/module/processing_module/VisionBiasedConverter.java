@@ -96,7 +96,7 @@ public class VisionBiasedConverter extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
         declarePublish(AI_BIASED_FIELD);

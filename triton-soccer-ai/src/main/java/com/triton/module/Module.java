@@ -11,9 +11,11 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.SimpleSerialize.simpleSerialize;
 
-public abstract class Module {
+public abstract class Module extends Thread {
     private static final String CONNECTION_FACTORY_HOST = "localhost";
     private static final String FANOUT = "fanout";
+
+    private ConnectionFactory factory;
 
     private Channel publish_channel;
     private Channel consume_channel;
@@ -29,14 +31,8 @@ public abstract class Module {
     }
 
     private void setupChannel() throws IOException, TimeoutException {
-        ConnectionFactory factory = new ConnectionFactory();
+        factory = new ConnectionFactory();
         factory.setHost(CONNECTION_FACTORY_HOST);
-
-        Connection publish_connection = factory.newConnection();
-        publish_channel = publish_connection.createChannel();
-
-        Connection consume_connection = factory.newConnection();
-        consume_channel = consume_connection.createChannel();
     }
 
     protected void prepare() {
@@ -45,7 +41,7 @@ public abstract class Module {
     /**
      * Override to declare exchanges.
      */
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
     }
 
     /**
@@ -54,7 +50,11 @@ public abstract class Module {
      * @param exchange the exchange
      * @throws IOException
      */
-    protected void declarePublish(Exchange exchange) throws IOException {
+    public void declarePublish(Exchange exchange) throws IOException, TimeoutException {
+        if (publish_channel == null) {
+            Connection publish_connection = factory.newConnection();
+            publish_channel = publish_connection.createChannel();
+        }
         publish_channel.exchangeDeclare(exchange.name(), FANOUT);
     }
 
@@ -66,10 +66,16 @@ public abstract class Module {
      * @param callback the function to call once a message is received
      * @throws IOException
      */
-    protected void declareConsume(Exchange exchange, DeliverCallback callback) throws IOException {
+    public void declareConsume(Exchange exchange, DeliverCallback callback) throws IOException, TimeoutException {
+        if (consume_channel == null) {
+            Connection consume_connection = factory.newConnection();
+            consume_channel = consume_connection.createChannel();
+        }
         consume_channel.exchangeDeclare(exchange.name(), FANOUT);
 
         Map<String, Object> args = new HashMap<>();
+        args.put("x-message-ttl", 1000);
+        args.put("x-max-length", 10);
         String queueName = consume_channel.queueDeclare("",
                 false,
                 false,
@@ -80,6 +86,12 @@ public abstract class Module {
 
         DeliverCallback wrappedCallback = (s, delivery) -> {
             try {
+                long timeDiff = new Date().getTime() - delivery.getProperties().getTimestamp().getTime();
+                if (timeDiff > 3000) {
+                    System.out.println(exchange);
+                    System.out.println(this.getClass());
+                }
+
                 callback.handle(s, delivery);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -112,10 +124,14 @@ public abstract class Module {
         }
     }
 
-    public void shutdown() {
+    @Override
+    public void interrupt() {
+        super.interrupt();
         try {
-            consume_channel.close();
-            publish_channel.close();
+            if (consume_channel != null)
+                consume_channel.close();
+            if (publish_channel != null)
+                publish_channel.close();
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }

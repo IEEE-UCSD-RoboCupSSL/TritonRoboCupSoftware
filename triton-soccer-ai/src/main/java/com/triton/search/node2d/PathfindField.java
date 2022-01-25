@@ -96,11 +96,11 @@ public class PathfindField {
         float nodeSpacing = RuntimeConstants.aiConfig.nodeRadius * 2;
         nodeMap.forEach((pos, node) -> {
             if (checkCollision(pos))
-                node.setObstacle(true);
+                node.setObstacle(100000);
 
             for (float offsetX = -nodeSpacing; offsetX <= nodeSpacing; offsetX += nodeSpacing) {
                 for (float offsetY = -nodeSpacing; offsetY <= nodeSpacing; offsetY += nodeSpacing) {
-                    if (offsetX + offsetY == 0 || offsetX == 0 && offsetY == 0)
+                    if (offsetX == 0 && offsetY == 0)
                         continue;
 
                     Vector2d offset = new Vector2d(offsetX, offsetY);
@@ -109,7 +109,7 @@ public class PathfindField {
                     if (nodeMap.containsKey(neighborPos)) {
                         Node2d neighbor = nodeMap.get(neighborPos);
                         if (checkCollision(neighborPos))
-                            neighbor.setObstacle(true);
+                            neighbor.setObstacle(100000);
                     }
                 }
             }
@@ -123,7 +123,7 @@ public class PathfindField {
         RouteFinder<Node2d> routeFinder = new RouteFinder<>(graph, nextNodeScorer, targetScorer);
 
         Node2d fromNode = getNearestNode(nodeMap, from);
-        fromNode.setObstacle(false);
+        fromNode.setObstacle(100000);
         Node2d toNode = getNearestNode(nodeMap, to);
 
         if (fromNode == null) {
@@ -154,7 +154,8 @@ public class PathfindField {
     public boolean checkCollision(Vector2d pos) {
         if (field == null || allies == null || foes == null) return true;
 
-        float nodeCollisionDist = 2 * RuntimeConstants.aiConfig.nodeRadius + 2 * RuntimeConstants.aiConfig.nodeSafety;
+        float nodeCollisionDist;
+        nodeCollisionDist = 2 * RuntimeConstants.aiConfig.nodeRadius + RuntimeConstants.aiConfig.nodeSafety;
         float boundCollisionDist = RuntimeConstants.objectConfig.robotRadius / 1000f + nodeCollisionDist;
         float robotCollisionDist = 2 * RuntimeConstants.objectConfig.robotRadius / 1000f + nodeCollisionDist;
 
@@ -181,7 +182,7 @@ public class PathfindField {
     }
 
     public boolean checkCollision(Vector2d from, Vector2d to) {
-        Vector2d step = to.sub(from).norm().scale(RuntimeConstants.aiConfig.nodeRadius / 2);
+        Vector2d step = to.sub(from).norm().scale(RuntimeConstants.aiConfig.nodeRadius);
         Vector2d current = from;
         while (current.dist(to) > RuntimeConstants.aiConfig.nodeRadius) {
             if (checkCollision(current))

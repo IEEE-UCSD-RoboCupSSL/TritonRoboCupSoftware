@@ -8,6 +8,9 @@ import com.triton.module.Module;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
@@ -18,23 +21,32 @@ import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class TritonBotMessageBuilder extends Module {
-    private static final long commandDelay = 0;
-    private HashMap<Integer, Long> lastCommandTimeStamps;
     private HashMap<Integer, RobotCommand.Builder> aggregateRobotCommands;
 
     public TritonBotMessageBuilder() {
         super();
+
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(this::publishCommand, 0, 100, TimeUnit.MILLISECONDS);
     }
 
     @Override
     protected void prepare() {
         super.prepare();
-        lastCommandTimeStamps = new HashMap<>();
         aggregateRobotCommands = new HashMap<>();
     }
 
+    private void publishCommand() {
+        aggregateRobotCommands.forEach((id, aggregateRobotCommand) -> {
+            TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
+            message.setId(id);
+            message.setCommand(aggregateRobotCommand);
+            publish(AI_TRITON_BOT_MESSAGE, message.build());
+        });
+    }
+
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
         declareConsume(AI_ROBOT_COMMAND, this::callbackRobotCommand);
@@ -77,17 +89,6 @@ public class TritonBotMessageBuilder extends Module {
             aggregateRobotCommand.setKickAngle(robotCommand.getKickAngle());
         if (robotCommand.hasDribblerSpeed())
             aggregateRobotCommand.setDribblerSpeed(robotCommand.getDribblerSpeed());
-
-        if (lastCommandTimeStamps.containsKey(robotCommand.getId()) &&
-                ((System.currentTimeMillis() - lastCommandTimeStamps.get(robotCommand.getId())) < commandDelay))
-            return;
-
-        TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
-        message.setId(robotCommand.getId());
-        message.setCommand(aggregateRobotCommand);
-
-        publish(AI_TRITON_BOT_MESSAGE, message.build());
-
-        lastCommandTimeStamps.put(robotCommand.getId(), System.currentTimeMillis());
+        aggregateRobotCommands.put(robotCommand.getId(), aggregateRobotCommand);
     }
 }

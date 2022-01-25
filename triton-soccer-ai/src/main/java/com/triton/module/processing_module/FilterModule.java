@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
@@ -30,7 +31,17 @@ public class FilterModule extends Module {
 
     public FilterModule() {
         super();
-        publishDefaults();
+        initDefaults();
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(this::run, 0, 10, TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        publish(AI_FILTERED_BALL, this.filteredBall);
+        publish(AI_FILTERED_ALLIES, filteredAllies);
+        publish(AI_FILTERED_FOES, filteredFoes);
     }
 
     @Override
@@ -46,7 +57,7 @@ public class FilterModule extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declareConsume(AI_BIASED_BALLS, this::callbackBalls);
         declareConsume(AI_BIASED_ALLIES, this::callbackAllies);
@@ -57,7 +68,7 @@ public class FilterModule extends Module {
         declarePublish(AI_FILTERED_FOES);
     }
 
-    private void publishDefaults() {
+    private void initDefaults() {
         Ball.Builder ball = Ball.newBuilder();
         ball.setX(0);
         ball.setY(0);
@@ -66,7 +77,6 @@ public class FilterModule extends Module {
         ball.setVy(0);
         ball.setVz(0);
         filteredBall = ball.build();
-        publish(AI_FILTERED_BALL, filteredBall);
 
         for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
             Robot.Builder filteredAlly = Robot.newBuilder();
@@ -79,7 +89,6 @@ public class FilterModule extends Module {
             filteredAlly.setAngular(0);
             filteredAllies.put(id, filteredAlly.build());
         }
-        publish(AI_FILTERED_ALLIES, filteredAllies);
 
         for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
             Robot.Builder filteredFoe = Robot.newBuilder();
@@ -92,7 +101,6 @@ public class FilterModule extends Module {
             filteredFoe.setAngular(0);
             filteredFoes.put(id, filteredFoe.build());
         }
-        publish(AI_FILTERED_FOES, filteredFoes);
     }
 
     private void callbackBalls(String s, Delivery delivery) {
@@ -114,13 +122,11 @@ public class FilterModule extends Module {
         filteredBall.setX(x / balls.size());
         filteredBall.setY(y / balls.size());
         filteredBall.setZ(z / balls.size());
-
         filteredBall.setVx(0);
         filteredBall.setVy(0);
         filteredBall.setVz(0);
 
         this.filteredBall = filteredBall.build();
-        publish(AI_FILTERED_BALL, this.filteredBall);
     }
 
     private void callbackAllies(String s, Delivery delivery) {
@@ -128,20 +134,16 @@ public class FilterModule extends Module {
 
         for (SSL_DetectionRobot ally : allies.values()) {
             if (ally.getRobotId() > RuntimeConstants.gameConfig.numBots - 1) continue;
-
             Robot.Builder filteredAlly = Robot.newBuilder();
             filteredAlly.setId(ally.getRobotId());
             filteredAlly.setX(ally.getX());
             filteredAlly.setY(ally.getY());
             filteredAlly.setOrientation(ally.getOrientation());
-
             filteredAlly.setVx(0);
             filteredAlly.setVy(0);
             filteredAlly.setAngular(0);
-
             filteredAllies.put(ally.getRobotId(), filteredAlly.build());
         }
-        publish(AI_FILTERED_ALLIES, filteredAllies);
     }
 
     private void callbackFoes(String s, Delivery delivery) {
@@ -149,19 +151,15 @@ public class FilterModule extends Module {
 
         for (SSL_DetectionRobot foe : foes.values()) {
             if (foe.getRobotId() > RuntimeConstants.gameConfig.numBots - 1) continue;
-
             Robot.Builder filteredFoe = Robot.newBuilder();
             filteredFoe.setId(foe.getRobotId());
             filteredFoe.setX(foe.getX());
             filteredFoe.setY(foe.getY());
             filteredFoe.setOrientation(foe.getOrientation());
-
             filteredFoe.setVx(0);
             filteredFoe.setVy(0);
             filteredFoe.setAngular(0);
-
             filteredFoes.put(foe.getRobotId(), filteredFoe.build());
         }
-        publish(AI_FILTERED_FOES, filteredFoes);
     }
 }

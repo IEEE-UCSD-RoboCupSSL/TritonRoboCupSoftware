@@ -9,7 +9,11 @@ import proto.triton.TritonBotCommunication.TritonBotMessage;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_ROBOT_FEEDBACKS;
@@ -40,9 +44,10 @@ public class TritonBotMessageInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declareConsume(AI_TRITON_BOT_MESSAGE, this::callbackTritonBotMessage);
+        declarePublish(AI_ROBOT_FEEDBACKS);
     }
 
     private void setupClients() throws SocketException, UnknownHostException {
@@ -62,7 +67,9 @@ public class TritonBotMessageInterface extends Module {
             }
 
             UDP_Client client = new UDP_Client(serverAddress, serverPort, this::callbackTritonBotFeedback, 10);
-            client.start();
+            ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+            scheduledExecutorService.scheduleAtFixedRate(client, 0, 10, TimeUnit.MILLISECONDS);
+
             clientMap.put(id, client);
         }
     }

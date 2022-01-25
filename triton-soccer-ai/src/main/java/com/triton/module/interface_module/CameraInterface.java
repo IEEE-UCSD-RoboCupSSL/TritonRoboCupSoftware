@@ -5,6 +5,9 @@ import com.triton.module.Module;
 import com.triton.networking.UDP_MulticastReceiver;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_VISION_WRAPPER;
@@ -28,7 +31,7 @@ public class CameraInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declarePublish(AI_VISION_WRAPPER);
     }
@@ -44,7 +47,8 @@ public class CameraInterface extends Module {
                 RuntimeConstants.networkConfig.visionDetectionPort,
                 this::callbackWrapper);
 
-        detectionReceiver.start();
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(detectionReceiver, 0, 10, TimeUnit.MILLISECONDS);
     }
 
     /**

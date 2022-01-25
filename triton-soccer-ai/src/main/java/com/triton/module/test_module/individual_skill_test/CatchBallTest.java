@@ -1,26 +1,43 @@
 package com.triton.module.test_module.individual_skill_test;
 
+import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.module.TestModule;
-import com.triton.module.ai_module.skills.individual_skills.CatchBallSkill;
+import com.triton.module.TestRunner;
+import com.triton.skill.individual_skill.CatchBallSkill;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
+import proto.triton.ObjectWithMetadata;
+import proto.vision.MessagesRobocupSslGeometry;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
+import static com.triton.messaging.Exchange.*;
+import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
+import static proto.triton.ObjectWithMetadata.*;
+import static proto.vision.MessagesRobocupSslGeometry.*;
 
-public class CatchBallTest extends TestModule {
+public class CatchBallTest extends TestRunner {
+    private SSL_GeometryFieldSize field;
+    private Ball ball;
+    private HashMap<Integer, Robot> allies;
+    private HashMap<Integer, Robot> foes;
+
+    private CatchBallSkill catchBallSkill;
 
     public CatchBallTest() {
         super();
     }
 
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
+        declareConsume(AI_BIASED_FIELD, this::callbackField);
+        declareConsume(AI_FILTERED_BALL, this::callbackBalls);
+        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
+        declareConsume(AI_FILTERED_FOES, this::callbackFoes);
         declarePublish(AI_BIASED_SIMULATOR_CONTROL);
     }
 
@@ -56,8 +73,29 @@ public class CatchBallTest extends TestModule {
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 
+    private void callbackField(String s, Delivery delivery) {
+        field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
+    }
+
+    private void callbackBalls(String s, Delivery delivery) {
+        ball = (Ball) simpleDeserialize(delivery.getBody());
+    }
+
+    private void callbackAllies(String s, Delivery delivery) {
+        allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
+    }
+
+    private void callbackFoes(String s, Delivery delivery) {
+        foes = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
+    }
+
     @Override
     public void run() {
-        CatchBallSkill catchBallSkill = new CatchBallSkill(1);
+        if (field == null || ball == null || allies == null || foes == null) return;
+
+        if (catchBallSkill == null) {
+            catchBallSkill = new CatchBallSkill(this, allies.get(1), field, ball, allies, foes);
+            scheduleSkill(catchBallSkill);
+        }
     }
 }

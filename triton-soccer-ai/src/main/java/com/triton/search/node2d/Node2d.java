@@ -5,22 +5,22 @@ import com.triton.search.base.GraphNode;
 
 public class Node2d implements GraphNode {
     private final Vector2d pos;
-    private boolean obstacle;
+    private double obstacle;
 
     public Node2d(Vector2d pos) {
         this.pos = pos;
-        this.obstacle = false;
+        this.obstacle = 0;
     }
 
     public Vector2d getPos() {
         return pos;
     }
 
-    public boolean isObstacle() {
+    public double getObstacle() {
         return obstacle;
     }
 
-    public void setObstacle(boolean obstacle) {
+    public void setObstacle(double obstacle) {
         this.obstacle = obstacle;
     }
 }

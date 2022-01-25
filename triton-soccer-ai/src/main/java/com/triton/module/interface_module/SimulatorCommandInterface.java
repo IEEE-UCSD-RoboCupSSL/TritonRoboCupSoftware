@@ -10,6 +10,9 @@ import proto.simulation.SslSimulationConfig;
 import proto.simulation.SslSimulationConfig.SimulatorConfig;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_SIMULATOR_CONFIG;
@@ -41,10 +44,12 @@ public class SimulatorCommandInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declareConsume(AI_SIMULATOR_CONTROL, this::callbackSimulatorControl);
         declareConsume(AI_SIMULATOR_CONFIG, this::callbackSimulatorConfig);
+        declarePublish(AI_SIMULATOR_CONTROL);
+        declarePublish(AI_SIMULATOR_CONFIG);
     }
 
     private void setupClient() throws IOException {
@@ -52,7 +57,8 @@ public class SimulatorCommandInterface extends Module {
                 RuntimeConstants.networkConfig.simulationCommandPort,
                 this::callbackSimulatorResponse,
                 10);
-        client.start();
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(client, 0, 10, TimeUnit.MILLISECONDS);
     }
 
     private void setupSimulator() {

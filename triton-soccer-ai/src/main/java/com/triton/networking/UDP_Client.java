@@ -7,7 +7,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 
-public class UDP_Client extends Thread {
+public class UDP_Client implements Runnable {
     private static final int BUF_SIZE = 9999;
     public final int serverPort;
     private final InetAddress serverAddress;
@@ -33,11 +33,7 @@ public class UDP_Client extends Thread {
 
     @Override
     public void run() {
-        super.run();
-
-        while (true) {
-            receive(send());
-        }
+        receive(send());
     }
 
     private boolean send() {

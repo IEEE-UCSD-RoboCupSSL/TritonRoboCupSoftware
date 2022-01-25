@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
@@ -85,7 +88,7 @@ public class UserInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declareConsume(AI_BIASED_FIELD, this::callbackField);
         declareConsume(AI_FILTERED_BALL, this::callbackBall);
@@ -109,19 +112,18 @@ public class UserInterface extends Module {
     private void callbackAllies(String s, Delivery delivery) {
         HashMap<Integer, ObjectWithMetadata.Robot> allies = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         fieldPanel.setAllies(allies);
-        fieldPanel.repaint();
+//        fieldPanel.repaint();
     }
 
     private void callbackFoes(String s, Delivery delivery) {
         HashMap<Integer, ObjectWithMetadata.Robot> foes = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         fieldPanel.setFoes(foes);
-        fieldPanel.repaint();
+//        fieldPanel.repaint();
     }
 
     private void callbackDebug(String s, Delivery delivery) {
         Debug debug = (Debug) simpleDeserialize(delivery.getBody());
         fieldPanel.addDebug(debug);
-        frame.repaint();
     }
 
     private class FieldPanel extends JPanel {
@@ -348,19 +350,19 @@ public class UserInterface extends Module {
                     360);
         }
 
-        public void setField(SSL_GeometryFieldSize field) {
+        public synchronized void setField(SSL_GeometryFieldSize field) {
             this.field = field;
         }
 
-        public void setBall(Ball ball) {
+        public synchronized void setBall(Ball ball) {
             this.ball = ball;
         }
 
-        public void setAllies(HashMap<Integer, ObjectWithMetadata.Robot> allies) {
+        public synchronized void setAllies(HashMap<Integer, ObjectWithMetadata.Robot> allies) {
             this.allies = allies;
         }
 
-        public void setFoes(HashMap<Integer, ObjectWithMetadata.Robot> foes) {
+        public synchronized void setFoes(HashMap<Integer, ObjectWithMetadata.Robot> foes) {
             this.foes = foes;
         }
 

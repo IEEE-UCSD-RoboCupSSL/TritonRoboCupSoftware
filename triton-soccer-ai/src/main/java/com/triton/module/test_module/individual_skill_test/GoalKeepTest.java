@@ -3,34 +3,58 @@ package com.triton.module.test_module.individual_skill_test;
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.module.TestModule;
-import com.triton.module.ai_module.skills.basic_skills.KickSkill;
-import com.triton.module.ai_module.skills.individual_skills.GoalKeepSkill;
+import com.triton.module.TestRunner;
+import com.triton.skill.basic_skill.KickSkill;
+import com.triton.skill.individual_skill.GoalKeepSkill;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
+import proto.triton.ObjectWithMetadata;
+import proto.vision.MessagesRobocupSslGeometry;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
-import static com.triton.messaging.Exchange.AI_ROBOT_FEEDBACKS;
+import static com.triton.messaging.Exchange.*;
+import static com.triton.messaging.Exchange.AI_FILTERED_BALL;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
+import static proto.triton.ObjectWithMetadata.*;
 
-public class GoalKeepTest extends TestModule {
-    HashMap<Integer, RobotFeedback> feedbacks;
+public class GoalKeepTest extends TestRunner {
+    private MessagesRobocupSslGeometry.SSL_GeometryFieldSize field;
+    private Ball ball;
+    private HashMap<Integer, Robot> allies;
+    private HashMap<Integer, RobotFeedback> feedbacks;
+
+    private GoalKeepSkill goalKeepSkill;
+    private KickSkill kickSkill;
 
     public GoalKeepTest() {
         super();
     }
 
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
+        declareConsume(AI_BIASED_FIELD, this::callbackField);
+        declareConsume(AI_FILTERED_BALL, this::callbackBalls);
+        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
         declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
         declarePublish(AI_BIASED_SIMULATOR_CONTROL);
+    }
+
+    private void callbackField(String s, Delivery delivery) {
+        field = (MessagesRobocupSslGeometry.SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
+    }
+
+    private void callbackBalls(String s, Delivery delivery) {
+        ball = (Ball) simpleDeserialize(delivery.getBody());
+    }
+
+    private void callbackAllies(String s, Delivery delivery) {
+        allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
     }
 
     private void callbackFeedbacks(String s, Delivery delivery) {
@@ -72,11 +96,20 @@ public class GoalKeepTest extends TestModule {
 
     @Override
     public void run() {
-        GoalKeepSkill goalKeepSkill = new GoalKeepSkill(1);
+        if (field == null || ball == null || allies == null) return;
+
+        if (goalKeepSkill == null) {
+            goalKeepSkill = new GoalKeepSkill(this, allies.get(1), field, ball);
+            scheduleSkill(goalKeepSkill);
+        }
 
         if (feedbacks != null && feedbacks.containsKey(1) && feedbacks.get(1).getDribblerBallContact()) {
             System.out.println("contact");
-            KickSkill kickSkill = new KickSkill(1, true, false);
+
+            if (kickSkill == null) {
+                kickSkill = new KickSkill(this, allies.get(1), true, false);
+                scheduleSkill(kickSkill);
+            }
         }
     }
 }

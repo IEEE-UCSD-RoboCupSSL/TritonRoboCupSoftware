@@ -67,7 +67,7 @@ public class SimulatorControlAudienceConverter extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declareConsume(AI_BIASED_SIMULATOR_CONTROL, this::callbackBiasedSimulatorControl);
         declarePublish(AI_SIMULATOR_CONTROL);

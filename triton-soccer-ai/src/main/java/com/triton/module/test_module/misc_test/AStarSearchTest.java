@@ -1,7 +1,8 @@
 package com.triton.module.test_module.misc_test;
 
 import com.triton.helper.Vector2d;
-import com.triton.module.TestModule;
+import com.triton.module.SkillRunner;
+import com.triton.module.TestRunner;
 import com.triton.search.base.Graph;
 import com.triton.search.base.RouteFinder;
 import com.triton.search.base.Scorer;
@@ -10,7 +11,7 @@ import com.triton.search.node2d.Node2d;
 
 import java.util.*;
 
-public class AStarSearchTest extends TestModule {
+public class AStarSearchTest extends TestRunner {
 
     public AStarSearchTest() {
         super();

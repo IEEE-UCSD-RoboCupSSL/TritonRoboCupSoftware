@@ -1,19 +1,28 @@
 package com.triton.module.test_module.basic_skill_test;
 
+import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.helper.Vector2d;
-import com.triton.module.TestModule;
-import com.triton.module.ai_module.skills.basic_skills.MatchVelocitySkill;
+import com.triton.module.TestRunner;
+import com.triton.skill.basic_skill.MatchVelocitySkill;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
+import proto.triton.ObjectWithMetadata;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
+import static com.triton.messaging.Exchange.AI_FILTERED_ALLIES;
+import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
+import static proto.triton.ObjectWithMetadata.*;
 
-public class MatchVelocityTest extends TestModule {
+public class MatchVelocityTest extends TestRunner {
+    private HashMap<Integer, Robot> allies;
+
     private MatchVelocitySkill matchVelocitySkill;
 
     public MatchVelocityTest() {
@@ -22,8 +31,9 @@ public class MatchVelocityTest extends TestModule {
     }
 
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
+        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
         declarePublish(AI_BIASED_SIMULATOR_CONTROL);
     }
 
@@ -47,12 +57,16 @@ public class MatchVelocityTest extends TestModule {
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 
+    private void callbackAllies(String s, Delivery delivery) {
+        allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
+    }
+
     @Override
     public void run() {
-        Vector2d vel = new Vector2d(1, -1);
+        if (allies == null) return;
 
         if (matchVelocitySkill == null) {
-            matchVelocitySkill = new MatchVelocitySkill(1, vel, 1);
+            matchVelocitySkill = new MatchVelocitySkill(this, allies.get(1), new Vector2d(1, -1), 1);
             scheduleSkill(matchVelocitySkill);
         }
     }

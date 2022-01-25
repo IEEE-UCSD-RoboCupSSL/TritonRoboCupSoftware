@@ -46,7 +46,7 @@ public class RobotCommandAudienceConverter extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declareConsume(AI_BIASED_ROBOT_COMMAND, this::callbackBiasedRobotCommand);
         declarePublish(AI_ROBOT_COMMAND);

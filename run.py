@@ -4,6 +4,9 @@ import os
 import time
 import argparse
 
+# os.system("sudo rabbitmqctl stop_app")
+# os.system("sudo rabbitmqctl start_app")
+
 parser = argparse.ArgumentParser(description="Run programs.")
 parser.add_argument('--test', choices=('True', 'False'))
 args = parser.parse_args()

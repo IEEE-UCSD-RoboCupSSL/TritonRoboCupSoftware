@@ -4,7 +4,8 @@ import com.triton.config.*;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
-import com.triton.module.TestModule;
+import com.triton.module.SkillRunner;
+import com.triton.module.TestRunner;
 import com.triton.module.ai_module.AIModule;
 import com.triton.module.interface_module.CameraInterface;
 import com.triton.module.interface_module.SimulatorCommandInterface;
@@ -22,6 +23,7 @@ import org.apache.commons.cli.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -125,7 +127,7 @@ public class TritonSoccerAI {
     }
 
     private void runTests() {
-        ArrayList<TestModule> testModules = new ArrayList<>();
+        ArrayList<Module> testRunners = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -137,25 +139,26 @@ public class TritonSoccerAI {
             Test test = parseTest(scanner.nextLine());
 
             switch (test) {
-                case KICK -> startTestModule(new KickTest(), testModules);
-                case DRIBBLE -> startTestModule(new DribbleTest(), testModules);
-                case MATCH_VELOCITY -> startTestModule(new MatchVelocityTest(), testModules);
-                case MOVE_TO_POINT -> startTestModule(new MoveToPointTest(), testModules);
-                case PATH_TO_POINT -> startTestModule(new PathToPointTest(), testModules);
-                case CHASE_BALL -> startTestModule(new ChaseBallTest(), testModules);
-                case CATCH_BALL -> startTestModule(new CatchBallTest(), testModules);
-                case GOAL_KEEP -> startTestModule(new GoalKeepTest(), testModules);
-                case DRIBBLE_BALL -> startTestModule(new DribbleBallTest(), testModules);
-                case A_STAR_SEARCH -> startTestModule(new AStarSearchTest(), testModules);
+                case KICK -> startModule(new KickTest(), testRunners);
+                case DRIBBLE -> startModule(new DribbleTest(), testRunners);
+                case MATCH_VELOCITY -> startModule(new MatchVelocityTest(), testRunners);
+                case MOVE_TO_POINT -> startModule(new MoveToPointTest(), testRunners);
+                case PATH_TO_POINT -> startModule(new PathToPointTest(), testRunners);
+                case CHASE_BALL -> startModule(new ChaseBallTest(), testRunners);
+                case CATCH_BALL -> startModule(new CatchBallTest(), testRunners);
+                case GOAL_KEEP -> startModule(new GoalKeepTest(), testRunners);
+                case DRIBBLE_BALL -> startModule(new DribbleBallTest(), testRunners);
+                case A_STAR_SEARCH -> startModule(new AStarSearchTest(), testRunners);
                 default -> System.out.println("Test not found.");
             }
 
-            while (!testModules.isEmpty()) {
+            while (!testRunners.isEmpty()) {
                 System.out.print("Running test, type 'q' to stop:\t");
                 if (scanner.nextLine().equals("q")) {
-                    for (Module module : testModules)
-                        module.shutdown();
-                    testModules.clear();
+                    testRunners.forEach(testRunner -> {
+                        testRunner.interrupt();
+                    });
+                    testRunners.clear();
                 }
             }
         }
@@ -171,11 +174,7 @@ public class TritonSoccerAI {
     }
 
     public void startModule(Module module, ArrayList<Module> modules) {
+        module.start();
         modules.add(module);
-    }
-
-    public void startTestModule(TestModule module, ArrayList<TestModule> modules) {
-        modules.add(module);
-        module.run();
     }
 }

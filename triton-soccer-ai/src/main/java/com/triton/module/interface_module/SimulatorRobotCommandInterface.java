@@ -7,6 +7,9 @@ import com.triton.networking.UDP_Client;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_ROBOT_COMMAND;
@@ -38,7 +41,7 @@ public class SimulatorRobotCommandInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException, TimeoutException {
         super.declareExchanges();
         declareConsume(AI_ROBOT_COMMAND, this::callbackRobotCommand);
     }
@@ -60,7 +63,8 @@ public class SimulatorRobotCommandInterface extends Module {
         }
 
         client = new UDP_Client(allyControlAddress, allyControlPort, this::callbackRobotControlResponse, 10);
-        client.start();
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(client, 0, 10, TimeUnit.MILLISECONDS);
     }
 
 

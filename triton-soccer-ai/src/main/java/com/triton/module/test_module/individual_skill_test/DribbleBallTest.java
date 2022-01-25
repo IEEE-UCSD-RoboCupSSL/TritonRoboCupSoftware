@@ -3,7 +3,8 @@ package com.triton.module.test_module.individual_skill_test;
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.module.TestModule;
+import com.triton.module.SkillRunner;
+import com.triton.module.TestRunner;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
 
@@ -16,7 +17,7 @@ import static com.triton.messaging.Exchange.AI_ROBOT_FEEDBACKS;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 
-public class DribbleBallTest extends TestModule {
+public class DribbleBallTest extends TestRunner {
     private HashMap<Integer, RobotFeedback> feedbacks;
 
     public DribbleBallTest() {
@@ -24,7 +25,7 @@ public class DribbleBallTest extends TestModule {
     }
 
     @Override
-    protected void declareExchanges() throws IOException {
+    protected void declareExchanges() throws IOException, TimeoutException {
         super.declareExchanges();
         declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
         declarePublish(AI_BIASED_SIMULATOR_CONTROL);
