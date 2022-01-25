@@ -6,33 +6,36 @@ import com.triton.constant.Team;
 import com.triton.module.Module;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotControl.RobotCommand;
 import static proto.triton.TritonBotCommunication.TritonBotMessage;
+import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class TritonBotMessageBuilder extends Module {
+    private static final long VISION_INTERVAL = 0;
+    private static final long COMMAND_INTERVAL = 10;
+
+    private HashMap<Integer, Date> visionTimestamps;
+    private HashMap<Integer, Date> commandTimestamps;
     private HashMap<Integer, RobotCommand.Builder> aggregateRobotCommands;
 
     public TritonBotMessageBuilder() {
         super();
-
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(this::publishCommand, 0, 100, TimeUnit.MILLISECONDS);
     }
 
     @Override
     protected void prepare() {
         super.prepare();
+        visionTimestamps = new HashMap<>();
+        commandTimestamps = new HashMap<>();
         aggregateRobotCommands = new HashMap<>();
     }
 
@@ -46,29 +49,38 @@ public class TritonBotMessageBuilder extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
-        declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
-        declareConsume(AI_ROBOT_COMMAND, this::callbackRobotCommand);
+    protected void declarePublishes() throws IOException, TimeoutException {
         declarePublish(AI_TRITON_BOT_MESSAGE);
     }
 
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
+        declareConsume(AI_ROBOT_COMMAND, this::callbackRobotCommand);
+    }
+
     private void callbackWrapper(String s, Delivery delivery) {
-        SSL_WrapperPacket wrapper = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
+        SSL_WrapperPacket wrapperPacket = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
+        SSL_DetectionFrame frame = wrapperPacket.getDetection();
 
         List<SSL_DetectionRobot> allies;
         if (RuntimeConstants.team == Team.BLUE)
-            allies = wrapper.getDetection().getRobotsBlueList();
+            allies = frame.getRobotsBlueList();
         else
-            allies = wrapper.getDetection().getRobotsYellowList();
+            allies = frame.getRobotsYellowList();
 
-        for (SSL_DetectionRobot ally : allies) {
-            TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
-            message.setId(ally.getRobotId());
-            message.setVision(ally);
-
-            publish(AI_TRITON_BOT_MESSAGE, message.build());
-        }
+        allies.forEach(ally -> {
+            Date timestamp = visionTimestamps.getOrDefault(ally.getRobotId(), new Date(0));
+            Date currentTimestamp = new Date();
+            long timestampDifference = currentTimestamp.getTime() - timestamp.getTime();
+            if (timestampDifference > VISION_INTERVAL) {
+                TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
+                message.setId(ally.getRobotId());
+                message.setVision(ally);
+                publish(AI_TRITON_BOT_MESSAGE, message.build());
+                commandTimestamps.put(ally.getRobotId(), currentTimestamp);
+            }
+        });
     }
 
     private void callbackRobotCommand(String s, Delivery delivery) {
@@ -90,5 +102,13 @@ public class TritonBotMessageBuilder extends Module {
         if (robotCommand.hasDribblerSpeed())
             aggregateRobotCommand.setDribblerSpeed(robotCommand.getDribblerSpeed());
         aggregateRobotCommands.put(robotCommand.getId(), aggregateRobotCommand);
+
+        Date timestamp = commandTimestamps.getOrDefault(aggregateRobotCommand.getId(), new Date(0));
+        Date currentTimestamp = new Date();
+        long timestampDifference = currentTimestamp.getTime() - timestamp.getTime();
+        if (timestampDifference > COMMAND_INTERVAL) {
+            publishCommand();
+            commandTimestamps.put(aggregateRobotCommand.getId(), currentTimestamp);
+        }
     }
 }

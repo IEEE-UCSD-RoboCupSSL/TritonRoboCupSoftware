@@ -8,7 +8,6 @@ import com.triton.module.TestRunner;
 import com.triton.skill.basic_skill.MatchVelocitySkill;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
-import proto.triton.ObjectWithMetadata;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -18,7 +17,7 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
 import static com.triton.messaging.Exchange.AI_FILTERED_ALLIES;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.triton.ObjectWithMetadata.*;
+import static proto.triton.ObjectWithMetadata.Robot;
 
 public class MatchVelocityTest extends TestRunner {
     private HashMap<Integer, Robot> allies;
@@ -27,14 +26,17 @@ public class MatchVelocityTest extends TestRunner {
 
     public MatchVelocityTest() {
         super();
-        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
+        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
-        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
+    protected void declarePublishes() throws IOException, TimeoutException {
         declarePublish(AI_BIASED_SIMULATOR_CONTROL);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
     }
 
     @Override
@@ -66,7 +68,7 @@ public class MatchVelocityTest extends TestRunner {
         if (allies == null) return;
 
         if (matchVelocitySkill == null) {
-            matchVelocitySkill = new MatchVelocitySkill(this, allies.get(1), new Vector2d(1, -1), 1);
+            matchVelocitySkill = new MatchVelocitySkill(this, allies.get(1), new Vector2d(0, 0), 0.25f);
             scheduleSkill(matchVelocitySkill);
         }
     }

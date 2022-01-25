@@ -9,14 +9,12 @@ import com.triton.skill.Skill;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class MoveToPointSkill extends Skill {
-    private Robot ally;
-    private Vector2d pos;
-    private float orientation;
-
     private final PIDControl pidControlX;
     private final PIDControl pidControlY;
     private final PIDControl pidControlOrientation;
-
+    private Robot ally;
+    private Vector2d pos;
+    private float orientation;
     private MatchVelocitySkill matchVelocitySkill;
 
     public MoveToPointSkill(Module module, Robot ally, Vector2d pos, float orientation) {

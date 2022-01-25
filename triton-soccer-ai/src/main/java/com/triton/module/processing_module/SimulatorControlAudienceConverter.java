@@ -67,10 +67,13 @@ public class SimulatorControlAudienceConverter extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
-        declareConsume(AI_BIASED_SIMULATOR_CONTROL, this::callbackBiasedSimulatorControl);
+    protected void declarePublishes() throws IOException, TimeoutException {
         declarePublish(AI_SIMULATOR_CONTROL);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_BIASED_SIMULATOR_CONTROL, this::callbackBiasedSimulatorControl);
     }
 
     private void callbackBiasedSimulatorControl(String s, Delivery delivery) {

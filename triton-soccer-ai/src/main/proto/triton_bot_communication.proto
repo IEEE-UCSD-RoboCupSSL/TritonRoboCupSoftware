@@ -11,7 +11,3 @@ message TritonBotMessage {
     proto.simulation.RobotCommand command = 3;
   }
 }
-
-message TritonBotResponse {
-  int32 id = 1;
-}

@@ -2,16 +2,16 @@ package com.triton.skill.individual_skill;
 
 import com.triton.helper.Vector2d;
 import com.triton.module.Module;
-import com.triton.skill.Skill;
-import com.triton.skill.basic_skill.MoveToPointSkill;
 import com.triton.search.node2d.Node2d;
 import com.triton.search.node2d.PathfindField;
+import com.triton.skill.Skill;
+import com.triton.skill.basic_skill.MoveToPointSkill;
 import proto.triton.AiDebugInfo;
 
 import java.util.HashMap;
 import java.util.List;
 
-import static com.triton.messaging.Exchange.*;
+import static com.triton.messaging.Exchange.AI_DEBUG;
 import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
@@ -51,11 +51,11 @@ public class PathToPointSkill extends Skill {
     }
 
     public void update(Robot ally,
-                        Vector2d pos,
-                        float orientation,
-                        SSL_GeometryFieldSize field,
-                        HashMap<Integer, Robot> allies,
-                        HashMap<Integer, Robot> foes) {
+                       Vector2d pos,
+                       float orientation,
+                       SSL_GeometryFieldSize field,
+                       HashMap<Integer, Robot> allies,
+                       HashMap<Integer, Robot> foes) {
         this.ally = ally;
         this.pos = pos;
         this.orientation = orientation;
@@ -65,11 +65,11 @@ public class PathToPointSkill extends Skill {
     }
 
     public void update(Robot ally,
-                        Vector2d pos,
-                        Vector2d facePos,
-                        SSL_GeometryFieldSize field,
-                        HashMap<Integer, Robot> allies,
-                        HashMap<Integer, Robot> foes) {
+                       Vector2d pos,
+                       Vector2d facePos,
+                       SSL_GeometryFieldSize field,
+                       HashMap<Integer, Robot> allies,
+                       HashMap<Integer, Robot> foes) {
         this.ally = ally;
         this.pos = pos;
         this.facePos = facePos;

@@ -7,8 +7,6 @@ import com.triton.module.TestRunner;
 import com.triton.skill.individual_skill.CatchBallSkill;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
-import proto.triton.ObjectWithMetadata;
-import proto.vision.MessagesRobocupSslGeometry;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,8 +14,9 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.triton.ObjectWithMetadata.*;
-import static proto.vision.MessagesRobocupSslGeometry.*;
+import static proto.triton.ObjectWithMetadata.Ball;
+import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class CatchBallTest extends TestRunner {
     private SSL_GeometryFieldSize field;
@@ -32,13 +31,16 @@ public class CatchBallTest extends TestRunner {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
+    protected void declarePublishes() throws IOException, TimeoutException {
+        declarePublish(AI_BIASED_SIMULATOR_CONTROL);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
         declareConsume(AI_BIASED_FIELD, this::callbackField);
         declareConsume(AI_FILTERED_BALL, this::callbackBalls);
         declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
         declareConsume(AI_FILTERED_FOES, this::callbackFoes);
-        declarePublish(AI_BIASED_SIMULATOR_CONTROL);
     }
 
     @Override

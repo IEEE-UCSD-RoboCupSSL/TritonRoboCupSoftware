@@ -96,13 +96,16 @@ public class VisionBiasedConverter extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
-        declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
+    protected void declarePublishes() throws IOException, TimeoutException {
         declarePublish(AI_BIASED_FIELD);
         declarePublish(AI_BIASED_BALLS);
         declarePublish(AI_BIASED_ALLIES);
         declarePublish(AI_BIASED_FOES);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
     }
 
     private void callbackWrapper(String s, Delivery delivery) {

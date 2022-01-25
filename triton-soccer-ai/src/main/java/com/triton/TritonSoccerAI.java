@@ -4,8 +4,6 @@ import com.triton.config.*;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
-import com.triton.module.SkillRunner;
-import com.triton.module.TestRunner;
 import com.triton.module.ai_module.AIModule;
 import com.triton.module.interface_module.CameraInterface;
 import com.triton.module.interface_module.SimulatorCommandInterface;
@@ -23,10 +21,6 @@ import org.apache.commons.cli.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static com.triton.config.ConfigPath.*;
 import static com.triton.config.ConfigReader.readConfig;
@@ -137,6 +131,11 @@ public class TritonSoccerAI {
 
             System.out.print("Choose a test:\t");
             Test test = parseTest(scanner.nextLine());
+
+            if (test == null) {
+                System.out.println("Test not found. Try again.");
+                continue;
+            }
 
             switch (test) {
                 case KICK -> startModule(new KickTest(), testRunners);

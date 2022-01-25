@@ -1715,12 +1715,11 @@ public final class ObjectWithMetadata {
   static {
     java.lang.String[] descriptorData = {
       "\n\032object_with_metadata.proto\022\014proto.trit" +
-      "on\032$messages_robocup_ssl_detection.proto" +
-      "\"K\n\004Ball\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\022\t\n\001z\030\004 \001(" +
-      "\002\022\n\n\002vx\030\005 \001(\002\022\n\n\002vy\030\006 \001(\002\022\n\n\002vz\030\007 \001(\002\"g\n" +
-      "\005Robot\022\n\n\002id\030\001 \001(\005\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002" +
-      "\022\023\n\013orientation\030\004 \001(\002\022\n\n\002vx\030\005 \001(\002\022\n\n\002vy\030" +
-      "\006 \001(\002\022\017\n\007angular\030\007 \001(\002b\006proto3"
+      "on\"K\n\004Ball\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\022\t\n\001z\030\004 " +
+      "\001(\002\022\n\n\002vx\030\005 \001(\002\022\n\n\002vy\030\006 \001(\002\022\n\n\002vz\030\007 \001(\002\"" +
+      "g\n\005Robot\022\n\n\002id\030\001 \001(\005\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001" +
+      "(\002\022\023\n\013orientation\030\004 \001(\002\022\n\n\002vx\030\005 \001(\002\022\n\n\002v" +
+      "y\030\006 \001(\002\022\017\n\007angular\030\007 \001(\002b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1733,7 +1732,6 @@ public final class ObjectWithMetadata {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          proto.vision.MessagesRobocupSslDetection.getDescriptor(),
         }, assigner);
     internal_static_proto_triton_Ball_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -1747,7 +1745,6 @@ public final class ObjectWithMetadata {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_Robot_descriptor,
         new java.lang.String[] { "Id", "X", "Y", "Orientation", "Vx", "Vy", "Angular", });
-    proto.vision.MessagesRobocupSslDetection.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

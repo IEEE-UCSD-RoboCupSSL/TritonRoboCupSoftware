@@ -3,7 +3,6 @@ package com.triton.module.test_module.individual_skill_test;
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.module.SkillRunner;
 import com.triton.module.TestRunner;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
@@ -25,10 +24,13 @@ public class DribbleBallTest extends TestRunner {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
-        declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
+    protected void declarePublishes() throws IOException, TimeoutException {
         declarePublish(AI_BIASED_SIMULATOR_CONTROL);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
     }
 
     private void callbackFeedbacks(String s, Delivery delivery) {

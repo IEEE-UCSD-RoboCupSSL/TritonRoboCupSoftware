@@ -44,12 +44,15 @@ public class SimulatorCommandInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
-        declareConsume(AI_SIMULATOR_CONTROL, this::callbackSimulatorControl);
-        declareConsume(AI_SIMULATOR_CONFIG, this::callbackSimulatorConfig);
+    protected void declarePublishes() throws IOException, TimeoutException {
         declarePublish(AI_SIMULATOR_CONTROL);
         declarePublish(AI_SIMULATOR_CONFIG);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_SIMULATOR_CONTROL, this::callbackSimulatorControl);
+        declareConsume(AI_SIMULATOR_CONFIG, this::callbackSimulatorConfig);
     }
 
     private void setupClient() throws IOException {

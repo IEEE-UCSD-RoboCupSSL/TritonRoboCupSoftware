@@ -18,6 +18,8 @@ public class CameraInterface extends Module {
 
     public CameraInterface() {
         super();
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(detectionReceiver, 0, 10, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -31,9 +33,12 @@ public class CameraInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
+    protected void declarePublishes() throws IOException, TimeoutException {
         declarePublish(AI_VISION_WRAPPER);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
     }
 
     /**
@@ -46,9 +51,6 @@ public class CameraInterface extends Module {
         detectionReceiver = new UDP_MulticastReceiver(RuntimeConstants.networkConfig.visionAddress,
                 RuntimeConstants.networkConfig.visionDetectionPort,
                 this::callbackWrapper);
-
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(detectionReceiver, 0, 10, TimeUnit.MILLISECONDS);
     }
 
     /**

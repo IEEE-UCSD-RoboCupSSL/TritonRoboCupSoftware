@@ -9,9 +9,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public abstract class Skill extends Thread {
+    private final ArrayList<Skill> subskills;
+    private final ScheduledExecutorService executor;
     protected Module module;
-    private ArrayList<Skill> subskills;
-    private ScheduledExecutorService executor;
 
     public Skill(Module module) {
         this.module = module;

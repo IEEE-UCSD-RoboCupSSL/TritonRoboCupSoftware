@@ -18,7 +18,7 @@ import static com.triton.messaging.Exchange.AI_FILTERED_ALLIES;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslGcCommon.RobotId;
 import static proto.simulation.SslSimulationControl.*;
-import static proto.triton.ObjectWithMetadata.*;
+import static proto.triton.ObjectWithMetadata.Robot;
 
 public class DribbleTest extends TestRunner {
     private HashMap<Integer, Robot> allies;
@@ -31,10 +31,13 @@ public class DribbleTest extends TestRunner {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
-        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
+    protected void declarePublishes() throws IOException, TimeoutException {
         declarePublish(AI_BIASED_SIMULATOR_CONTROL);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
     }
 
     @Override

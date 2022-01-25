@@ -4,6 +4,7 @@ import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
 import com.triton.search.node2d.Node2d;
+import com.triton.search.node2d.PathfindField;
 import proto.triton.ObjectWithMetadata;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldCircularArc;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldLineSegment;
@@ -17,10 +18,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
@@ -88,8 +88,11 @@ public class UserInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
+    protected void declarePublishes() throws IOException, TimeoutException {
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
         declareConsume(AI_BIASED_FIELD, this::callbackField);
         declareConsume(AI_FILTERED_BALL, this::callbackBall);
         declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
@@ -127,15 +130,27 @@ public class UserInterface extends Module {
     }
 
     private class FieldPanel extends JPanel {
+        private final ArrayList<Debug> debug;
+        private final HashMap<Integer, DebugPath> alliesPaths;
+        private final ReadWriteLock fieldLock;
+        private final ReadWriteLock ballLock;
+        private final ReadWriteLock alliesLock;
+        private final ReadWriteLock foesLock;
+        private final ReadWriteLock debugLock;
         private SSL_GeometryFieldSize field;
         private Ball ball;
         private HashMap<Integer, ObjectWithMetadata.Robot> allies;
         private HashMap<Integer, ObjectWithMetadata.Robot> foes;
-        private final ArrayList<Debug> debug;
-        private final HashMap<Integer, DebugPath> alliesPaths;
 
         public FieldPanel() {
             debug = new ArrayList<>();
+
+            fieldLock = new ReentrantReadWriteLock();
+            ballLock = new ReentrantReadWriteLock();
+            alliesLock = new ReentrantReadWriteLock();
+            foesLock = new ReentrantReadWriteLock();
+            debugLock = new ReentrantReadWriteLock();
+
             alliesPaths = new HashMap<>();
         }
 
@@ -154,16 +169,44 @@ public class UserInterface extends Module {
         private synchronized void paintField(Graphics2D graphics2D) throws IOException {
             if (field == null) return;
 
-            transformGraphics(graphics2D);
-            paintGeometry(graphics2D);
-            paintBall(graphics2D);
-            paintBots(graphics2D);
-            paintDebug(graphics2D);
+            fieldLock.readLock().lock();
+            try {
+                transformGraphics(graphics2D);
+                paintGeometry(graphics2D);
+            } finally {
+                fieldLock.readLock().unlock();
+            }
+
+            ballLock.readLock().lock();
+            try {
+                paintBall(graphics2D);
+            } finally {
+                ballLock.readLock().unlock();
+            }
+
+            alliesLock.readLock().lock();
+            foesLock.readLock().lock();
+            try {
+                paintBots(graphics2D);
+            } finally {
+                alliesLock.readLock().unlock();
+                foesLock.readLock().unlock();
+            }
+
+            debugLock.readLock().lock();
+            try {
+                paintDebug(graphics2D);
+            } finally {
+                debugLock.readLock().unlock();
+            }
         }
 
         private void transformGraphics(Graphics2D graphics2D) {
-            int totalFieldWidth = field.getFieldWidth() + 2 * field.getBoundaryWidth();
-            int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2 + 2 * field.getBoundaryWidth();
+            int totalFieldWidth;
+            int totalFieldLength;
+
+            totalFieldWidth = field.getFieldWidth() + 2 * field.getBoundaryWidth();
+            totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2 + 2 * field.getBoundaryWidth();
 
             float xScale = (float) getParent().getWidth() / totalFieldWidth;
             float yScale = (float) getParent().getHeight() / totalFieldLength;
@@ -181,6 +224,7 @@ public class UserInterface extends Module {
         private void paintGeometry(Graphics2D graphics2D) {
             int totalFieldWidth = field.getFieldWidth() + 2 * field.getBoundaryWidth();
             int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2 + 2 * field.getBoundaryWidth();
+
 
             graphics2D.setColor(DARK_GRAY);
             graphics2D.fillRect(-totalFieldWidth / 2, -totalFieldLength / 2, totalFieldWidth, totalFieldLength);
@@ -297,11 +341,19 @@ public class UserInterface extends Module {
         }
 
         private void paintDebug(Graphics2D graphics2D) {
-//            PathfindField pathfindField = new PathfindField(field);
+            PathfindField pathfindField = new PathfindField(field);
 
 //            Map<Vector2d, Node2d> nodeMap = pathfindField.getNodeMap();
+//            alliesLock.readLock().lock();
+//            foesLock.readLock().lock();
+//            try {
+//                pathfindField.updateObstacles(allies, foes, null);
+//            } finally {
+//                alliesLock.readLock().unlock();
+//                foesLock.readLock().unlock();
+//            }
 //            nodeMap.forEach((pos, node) -> {
-//                if (node.isObstacle())
+//                if (node.getObstacle() > 0)
 //                    paintNode(graphics2D, node, RED);
 //                else
 //                    paintNode(graphics2D, node, BLACK);
@@ -350,27 +402,52 @@ public class UserInterface extends Module {
                     360);
         }
 
-        public synchronized void setField(SSL_GeometryFieldSize field) {
-            this.field = field;
+        public void setField(SSL_GeometryFieldSize field) {
+            fieldLock.writeLock().lock();
+            try {
+                this.field = field;
+            } finally {
+                fieldLock.writeLock().unlock();
+            }
         }
 
-        public synchronized void setBall(Ball ball) {
-            this.ball = ball;
+        public void setBall(Ball ball) {
+            ballLock.writeLock().lock();
+            try {
+                this.ball = ball;
+            } finally {
+                ballLock.writeLock().unlock();
+            }
         }
 
-        public synchronized void setAllies(HashMap<Integer, ObjectWithMetadata.Robot> allies) {
-            this.allies = allies;
+        public void setAllies(HashMap<Integer, ObjectWithMetadata.Robot> allies) {
+            foesLock.writeLock().lock();
+            try {
+                this.allies = allies;
+            } finally {
+                foesLock.writeLock().unlock();
+            }
         }
 
-        public synchronized void setFoes(HashMap<Integer, ObjectWithMetadata.Robot> foes) {
-            this.foes = foes;
+        public void setFoes(HashMap<Integer, ObjectWithMetadata.Robot> foes) {
+            foesLock.writeLock().lock();
+            try {
+                this.foes = foes;
+            } finally {
+                foesLock.writeLock().unlock();
+            }
         }
 
-        public synchronized void addDebug(Debug debug) {
-            this.debug.add(debug);
-            if (debug.hasPath()) {
-                DebugPath path = debug.getPath();
-                alliesPaths.put(path.getId(), path);
+        public void addDebug(Debug debug) {
+            debugLock.writeLock().lock();
+            try {
+                this.debug.add(debug);
+                if (debug.hasPath()) {
+                    DebugPath path = debug.getPath();
+                    alliesPaths.put(path.getId(), path);
+                }
+            } finally {
+                debugLock.writeLock().unlock();
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.triton.module;
 
 import com.rabbitmq.client.*;
+import com.triton.constant.RuntimeConstants;
 import com.triton.messaging.Exchange;
 
 import java.io.IOException;
@@ -24,7 +25,8 @@ public abstract class Module extends Thread {
         try {
             setupChannel();
             prepare();
-            declareExchanges();
+            declarePublishes();
+            declareConsumes();
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }
@@ -38,11 +40,9 @@ public abstract class Module extends Thread {
     protected void prepare() {
     }
 
-    /**
-     * Override to declare exchanges.
-     */
-    protected void declareExchanges() throws IOException, TimeoutException {
-    }
+    protected abstract void declarePublishes() throws IOException, TimeoutException;
+
+    protected abstract void declareConsumes() throws IOException, TimeoutException;
 
     /**
      * Declares an exchange to publish to
@@ -55,7 +55,7 @@ public abstract class Module extends Thread {
             Connection publish_connection = factory.newConnection();
             publish_channel = publish_connection.createChannel();
         }
-        publish_channel.exchangeDeclare(exchange.name(), FANOUT);
+        publish_channel.exchangeDeclare(exchange.name() + RuntimeConstants.team.name(), FANOUT);
     }
 
     /**
@@ -71,28 +71,28 @@ public abstract class Module extends Thread {
             Connection consume_connection = factory.newConnection();
             consume_channel = consume_connection.createChannel();
         }
-        consume_channel.exchangeDeclare(exchange.name(), FANOUT);
+        consume_channel.exchangeDeclare(exchange.name() + RuntimeConstants.team.name(), FANOUT);
 
         Map<String, Object> args = new HashMap<>();
-        args.put("x-message-ttl", 1000);
-        args.put("x-max-length", 10);
+//        args.put("x-message-ttl", 10000);
+//        args.put("x-max-length", 1);
         String queueName = consume_channel.queueDeclare("",
                 false,
                 false,
                 false,
                 args).getQueue();
-        consume_channel.queueBind(queueName, exchange.name(), "");
+        consume_channel.queueBind(queueName, exchange.name() + RuntimeConstants.team.name(), "");
         consume_channel.queuePurge(queueName);
 
         DeliverCallback wrappedCallback = (s, delivery) -> {
             try {
                 long timeDiff = new Date().getTime() - delivery.getProperties().getTimestamp().getTime();
-                if (timeDiff > 3000) {
+                if (timeDiff > 1000) {
                     System.out.println(exchange);
                     System.out.println(this.getClass());
+                } else {
+                    callback.handle(s, delivery);
                 }
-
-                callback.handle(s, delivery);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -111,13 +111,9 @@ public abstract class Module extends Thread {
     public void publish(Exchange exchange, Object object) {
         Date date = new Date();
         AMQP.BasicProperties properties = new AMQP.BasicProperties.Builder().timestamp(date).build();
-        publish(exchange, object, properties);
-    }
-
-    public void publish(Exchange exchange, Object object, AMQP.BasicProperties properties) {
         if (publish_channel.isOpen()) {
             try {
-                publish_channel.basicPublish(exchange.name(), "", properties, simpleSerialize(object));
+                publish_channel.basicPublish(exchange.name() + RuntimeConstants.team.name(), "", properties, simpleSerialize(object));
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -8,7 +8,6 @@ import com.triton.skill.basic_skill.KickSkill;
 import com.triton.skill.individual_skill.GoalKeepSkill;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
-import proto.triton.ObjectWithMetadata;
 import proto.vision.MessagesRobocupSslGeometry;
 
 import java.io.IOException;
@@ -17,10 +16,10 @@ import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
-import static com.triton.messaging.Exchange.AI_FILTERED_BALL;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
-import static proto.triton.ObjectWithMetadata.*;
+import static proto.triton.ObjectWithMetadata.Ball;
+import static proto.triton.ObjectWithMetadata.Robot;
 
 public class GoalKeepTest extends TestRunner {
     private MessagesRobocupSslGeometry.SSL_GeometryFieldSize field;
@@ -36,13 +35,16 @@ public class GoalKeepTest extends TestRunner {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
+    protected void declarePublishes() throws IOException, TimeoutException {
+        declarePublish(AI_BIASED_SIMULATOR_CONTROL);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
         declareConsume(AI_BIASED_FIELD, this::callbackField);
         declareConsume(AI_FILTERED_BALL, this::callbackBalls);
         declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
         declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
-        declarePublish(AI_BIASED_SIMULATOR_CONTROL);
     }
 
     private void callbackField(String s, Delivery delivery) {

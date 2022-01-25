@@ -21,10 +21,10 @@ import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 
 public class FilterModule extends Module {
+    ScheduledExecutorService executor;
     private LinkedList<ArrayList<SSL_DetectionBall>> aggregatedBalls;
     private HashMap<Integer, LinkedList<SSL_DetectionRobot>> aggregatedAllies;
     private HashMap<Integer, LinkedList<SSL_DetectionRobot>> aggregatedFoes;
-
     private Ball filteredBall;
     private HashMap<Integer, Robot> filteredAllies;
     private HashMap<Integer, Robot> filteredFoes;
@@ -32,14 +32,14 @@ public class FilterModule extends Module {
     public FilterModule() {
         super();
         initDefaults();
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(this::run, 0, 10, TimeUnit.MILLISECONDS);
+        executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(this::run, 0, 10, TimeUnit.MILLISECONDS);
     }
 
     @Override
     public void run() {
         super.run();
-        publish(AI_FILTERED_BALL, this.filteredBall);
+        publish(AI_FILTERED_BALL, filteredBall);
         publish(AI_FILTERED_ALLIES, filteredAllies);
         publish(AI_FILTERED_FOES, filteredFoes);
     }
@@ -57,15 +57,17 @@ public class FilterModule extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
-        declareConsume(AI_BIASED_BALLS, this::callbackBalls);
-        declareConsume(AI_BIASED_ALLIES, this::callbackAllies);
-        declareConsume(AI_BIASED_FOES, this::callbackFoes);
-
+    protected void declarePublishes() throws IOException, TimeoutException {
         declarePublish(AI_FILTERED_BALL);
         declarePublish(AI_FILTERED_ALLIES);
         declarePublish(AI_FILTERED_FOES);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_BIASED_BALLS, this::callbackBalls);
+        declareConsume(AI_BIASED_ALLIES, this::callbackAllies);
+        declareConsume(AI_BIASED_FOES, this::callbackFoes);
     }
 
     private void initDefaults() {
@@ -161,5 +163,11 @@ public class FilterModule extends Module {
             filteredFoe.setAngular(0);
             filteredFoes.put(foe.getRobotId(), filteredFoe.build());
         }
+    }
+
+    @Override
+    public void interrupt() {
+        super.interrupt();
+        executor.shutdown();
     }
 }

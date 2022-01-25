@@ -1,4 +1,5 @@
 from math import degrees
+from re import L
 from config.config_path import ConfigPath
 from config.config_reader import read_config
 from constant.runtime_constants import RuntimeConstants
@@ -59,5 +60,6 @@ class AI_Interface(Module):
     def callback_message(self, bytes):
         message = TritonBotMessage()
         message.ParseFromString(bytes)
+
         self.publish(exchange=Exchange.TB_MESSAGE, object=message)
         return self.feedback.SerializeToString()

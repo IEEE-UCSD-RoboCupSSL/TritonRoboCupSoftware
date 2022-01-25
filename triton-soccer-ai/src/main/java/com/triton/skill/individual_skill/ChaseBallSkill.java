@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
-import static proto.vision.MessagesRobocupSslGeometry.*;
+import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class ChaseBallSkill extends Skill {
     private PathToPointSkill pathToPointSkill;

@@ -47,6 +47,7 @@ class SimulatorRobotControlInterface(Module):
             server_address=ally_control_address,
             server_port=ally_control_port,
             callback=self.callback_robot_control_response)
+
         self.client.start()
 
     def callback_local_command(self, ch, method, properties, body):

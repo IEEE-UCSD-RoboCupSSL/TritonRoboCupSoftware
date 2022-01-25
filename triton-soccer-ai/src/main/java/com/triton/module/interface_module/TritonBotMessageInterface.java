@@ -9,7 +9,6 @@ import proto.triton.TritonBotCommunication.TritonBotMessage;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -22,11 +21,17 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 
 public class TritonBotMessageInterface extends Module {
+    private final ScheduledExecutorService executor;
     private HashMap<Integer, UDP_Client> clientMap;
     private HashMap<Integer, RobotFeedback> feedbacks;
 
     public TritonBotMessageInterface() {
         super();
+
+        executor = Executors.newScheduledThreadPool(1);
+        clientMap.forEach((id, client) -> {
+            executor.scheduleAtFixedRate(client, 0, 10, TimeUnit.MILLISECONDS);
+        });
     }
 
     @Override
@@ -44,10 +49,13 @@ public class TritonBotMessageInterface extends Module {
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
-        declareConsume(AI_TRITON_BOT_MESSAGE, this::callbackTritonBotMessage);
+    protected void declarePublishes() throws IOException, TimeoutException {
         declarePublish(AI_ROBOT_FEEDBACKS);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_TRITON_BOT_MESSAGE, this::callbackTritonBotMessage);
     }
 
     private void setupClients() throws SocketException, UnknownHostException {
@@ -67,16 +75,12 @@ public class TritonBotMessageInterface extends Module {
             }
 
             UDP_Client client = new UDP_Client(serverAddress, serverPort, this::callbackTritonBotFeedback, 10);
-            ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-            scheduledExecutorService.scheduleAtFixedRate(client, 0, 10, TimeUnit.MILLISECONDS);
-
             clientMap.put(id, client);
         }
     }
 
     private void callbackTritonBotMessage(String s, Delivery delivery) {
         TritonBotMessage message = (TritonBotMessage) simpleDeserialize(delivery.getBody());
-
         if (clientMap.containsKey(message.getId()))
             clientMap.get(message.getId()).addSend(message.toByteArray());
     }
@@ -93,5 +97,11 @@ public class TritonBotMessageInterface extends Module {
 
         feedbacks.put(feedback.getId(), feedback);
         publish(AI_ROBOT_FEEDBACKS, feedbacks);
+    }
+
+    @Override
+    public void interrupt() {
+        super.interrupt();
+        executor.shutdown();
     }
 }

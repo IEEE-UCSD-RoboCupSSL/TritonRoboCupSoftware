@@ -6,7 +6,7 @@ import com.triton.skill.Skill;
 import proto.simulation.SslSimulationRobotControl;
 
 import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
-import static proto.triton.ObjectWithMetadata.*;
+import static proto.triton.ObjectWithMetadata.Robot;
 
 public class MatchVelocitySkill extends Skill {
     private Robot ally;

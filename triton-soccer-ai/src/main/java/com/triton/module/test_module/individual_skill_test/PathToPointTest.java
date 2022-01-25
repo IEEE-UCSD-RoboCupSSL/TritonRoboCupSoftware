@@ -1,53 +1,53 @@
 package com.triton.module.test_module.individual_skill_test;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.helper.Vector2d;
 import com.triton.module.TestRunner;
 import com.triton.skill.individual_skill.PathToPointSkill;
-import proto.triton.ObjectWithMetadata;
-import proto.vision.MessagesRobocupSslGeometry;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.helper.CreateMessage.createTeleportRobot;
 import static com.triton.messaging.Exchange.*;
-import static com.triton.messaging.Exchange.AI_FILTERED_ALLIES;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationControl.SimulatorControl;
-import static proto.triton.ObjectWithMetadata.*;
+import static proto.triton.ObjectWithMetadata.Ball;
+import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class PathToPointTest extends TestRunner {
-    private MessagesRobocupSslGeometry.SSL_GeometryFieldSize field;
+    private final HashMap<Integer, PathToPointSkill> pathToPointSkills;
+
+    private SSL_GeometryFieldSize field;
     private Ball ball;
     private HashMap<Integer, Robot> allies;
     private HashMap<Integer, Robot> foes;
 
-    HashMap<Integer, PathToPointSkill> pathToPointSkills;
-
     public PathToPointTest() {
         super();
         pathToPointSkills = new HashMap<>();
-        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
+        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override
-    protected void declareExchanges() throws IOException, TimeoutException {
-        super.declareExchanges();
+    protected void declarePublishes() throws IOException, TimeoutException {
+        declarePublish(AI_BIASED_SIMULATOR_CONTROL);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
         declareConsume(AI_BIASED_FIELD, this::callbackField);
         declareConsume(AI_FILTERED_BALL, this::callbackBalls);
         declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
         declareConsume(AI_FILTERED_FOES, this::callbackFoes);
-        declarePublish(AI_BIASED_SIMULATOR_CONTROL);
     }
 
     private void callbackField(String s, Delivery delivery) {
-        field = (MessagesRobocupSslGeometry.SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
+        field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
     }
 
     private void callbackBalls(String s, Delivery delivery) {
@@ -79,7 +79,8 @@ public class PathToPointTest extends TestRunner {
     public void run() {
         if (field == null || ball == null || allies == null || foes == null) return;
 
-        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
+//        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
+        for (int id = 1; id < 2; id++) {
             if (!pathToPointSkills.containsKey(id)) {
                 PathToPointSkill pathToPointSkill;
                 if (id == 1) {

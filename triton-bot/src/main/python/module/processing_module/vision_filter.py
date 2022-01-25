@@ -1,3 +1,4 @@
+from generated_sources.proto.object_with_metadata_pb2 import Robot
 from generated_sources.proto.messages_robocup_ssl_detection_pb2 import SSL_DetectionRobot
 from messaging.exchange import Exchange
 from module.module import Module

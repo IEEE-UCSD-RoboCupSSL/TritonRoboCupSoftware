@@ -37,11 +37,11 @@ class Module(Thread):
 
     def declare_publish(self, exchange):
         self.publish_channel.exchange_declare(
-            exchange=exchange.name + str(RuntimeConstants.id), exchange_type=Module.FANOUT)
+            exchange=exchange.name + str(RuntimeConstants.team) + str(RuntimeConstants.id), exchange_type=Module.FANOUT)
 
     def declare_consume(self, exchange, callback):
         self.consume_channel.exchange_declare(
-            exchange=exchange.name + str(RuntimeConstants.id), exchange_type=Module.FANOUT)
+            exchange=exchange.name + str(RuntimeConstants.team) + str(RuntimeConstants.id), exchange_type=Module.FANOUT)
 
         queue_name = self.consume_channel.queue_declare(
             queue='', exclusive=True).method.queue

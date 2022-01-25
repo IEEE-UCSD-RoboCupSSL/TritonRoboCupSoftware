@@ -8,8 +8,8 @@ import com.triton.skill.basic_skill.DribbleSkill;
 import com.triton.skill.basic_skill.MoveToPointSkill;
 
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.triton.ObjectWithMetadata.*;
 import static proto.triton.ObjectWithMetadata.Ball;
+import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class GoalKeepSkill extends Skill {
