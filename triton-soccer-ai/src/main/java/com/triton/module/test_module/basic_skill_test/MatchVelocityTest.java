@@ -76,7 +76,7 @@ public class MatchVelocityTest extends TestRunner {
     protected void execute() {
         if (allies == null) return;
 
-        MatchVelocitySkill matchVelocitySkill = new MatchVelocitySkill(this, allies.get(1), new Vector2d(0, 2), 4f);
+        MatchVelocitySkill matchVelocitySkill = new MatchVelocitySkill(this, allies.get(1), new Vector2d(0, 2), 2f);
         matchVelocitySkill.start();
     }
 }

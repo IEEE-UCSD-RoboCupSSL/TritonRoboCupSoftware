@@ -88,7 +88,7 @@ public abstract class Module extends Thread {
         DeliverCallback wrappedCallback = (s, delivery) -> {
             try {
                 long timeDiff = new Date().getTime() - delivery.getProperties().getTimestamp().getTime();
-                if (timeDiff > 2000) {
+                if (timeDiff > 10000) {
                     System.out.println("RabbitMQ Bottleneck Warning: " + timeDiff + " ms");
                     System.out.println("Class: " + this.getClass());
                     System.out.println("Exchange: " + exchange.name());

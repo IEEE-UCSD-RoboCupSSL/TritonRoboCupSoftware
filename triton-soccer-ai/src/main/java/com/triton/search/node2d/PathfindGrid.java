@@ -98,8 +98,12 @@ public class PathfindGrid {
 
         allies.forEach((id, ally) -> {
             if (ally == excludeAlly) return;
-            Vector2d pos = new Vector2d(ally.getX(), ally.getY());
-            Set<Node2d> nearestNodes = getNearestNodes(pos, aiConfig.getRobotCollisionDist());
+            Vector2d allyPos = new Vector2d(ally.getX(), ally.getY());
+            Vector2d allyVel = new Vector2d(ally.getVx(), ally.getVy());
+            Vector2d pos = allyPos.add(allyVel.scale(aiConfig.collisionExtrapolation));
+            float collisionDist = aiConfig.getRobotCollisionDist()
+                    + aiConfig.collisionSpeedScale * allyVel.mag();
+            Set<Node2d> nearestNodes = getNearestNodes(pos, collisionDist);
             nearestNodes.forEach(node -> {
                 float dist = node.getPos().dist(pos);
                 node.updatePenalty(aiConfig.obstacleScale * (aiConfig.getRobotCollisionDist() / dist));
@@ -107,9 +111,13 @@ public class PathfindGrid {
             });
         });
 
-        foes.forEach((id, ally) -> {
-            Vector2d pos = new Vector2d(ally.getX(), ally.getY());
-            Set<Node2d> nearestNodes = getNearestNodes(pos, aiConfig.getRobotCollisionDist());
+        foes.forEach((id, foe) -> {
+            Vector2d foePos = new Vector2d(foe.getX(), foe.getY());
+            Vector2d foeVel = new Vector2d(foe.getVx(), foe.getVy());
+            Vector2d pos = foePos.add(foeVel.scale(aiConfig.collisionExtrapolation));
+            float collisionDist = aiConfig.getRobotCollisionDist()
+                    + aiConfig.collisionSpeedScale * foeVel.mag();
+            Set<Node2d> nearestNodes = getNearestNodes(pos, collisionDist);
             nearestNodes.forEach(node -> {
                 float dist = node.getPos().dist(pos);
                 node.updatePenalty(aiConfig.obstacleScale * (aiConfig.getRobotCollisionDist() / dist));

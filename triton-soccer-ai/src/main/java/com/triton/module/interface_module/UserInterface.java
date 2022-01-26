@@ -34,7 +34,7 @@ import static proto.triton.AiDebugInfo.*;
 import static proto.triton.ObjectWithMetadata.Ball;
 
 public class UserInterface extends Module {
-    private static final String MAIN_FRAME_TITLE = "Triton Display";
+    private static final String MAIN_FRAME_TITLE = "Triton Soccer AI";
     private JFrame frame;
     private JPanel northPanel;
     private JPanel southPanel;
@@ -104,25 +104,21 @@ public class UserInterface extends Module {
     private void callbackField(String s, Delivery delivery) {
         SSL_GeometryFieldSize field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
         fieldPanel.setField(field);
-        fieldPanel.repaint();
     }
 
     private void callbackBall(String s, Delivery delivery) {
         Ball ball = (Ball) simpleDeserialize(delivery.getBody());
         fieldPanel.setBall(ball);
-        fieldPanel.repaint();
     }
 
     private void callbackAllies(String s, Delivery delivery) {
         Map<Integer, ObjectWithMetadata.Robot> allies = (Map<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         fieldPanel.setAllies(allies);
-        fieldPanel.repaint();
     }
 
     private void callbackFoes(String s, Delivery delivery) {
         Map<Integer, ObjectWithMetadata.Robot> foes = (Map<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         fieldPanel.setFoes(foes);
-        fieldPanel.repaint();
     }
 
     private void callbackDebug(String s, Delivery delivery) {
@@ -170,8 +166,6 @@ public class UserInterface extends Module {
         }
 
         private synchronized void paintField(Graphics2D graphics2D) throws IOException {
-            if (field == null) return;
-
             fieldLock.readLock().lock();
             try {
                 transformGraphics(graphics2D);
@@ -188,11 +182,16 @@ public class UserInterface extends Module {
             }
 
             alliesLock.readLock().lock();
-            foesLock.readLock().lock();
             try {
-                paintBots(graphics2D);
+                paintAllies(graphics2D);
             } finally {
                 alliesLock.readLock().unlock();
+            }
+
+            foesLock.readLock().lock();
+            try {
+                paintFoes(graphics2D);
+            } finally {
                 foesLock.readLock().unlock();
             }
 
@@ -205,6 +204,8 @@ public class UserInterface extends Module {
         }
 
         private void transformGraphics(Graphics2D graphics2D) {
+            if (field == null) return;
+
             int totalFieldWidth;
             int totalFieldLength;
 
@@ -230,6 +231,8 @@ public class UserInterface extends Module {
         }
 
         private void paintGeometry(Graphics2D graphics2D) {
+            if (field == null) return;
+
             int totalFieldWidth = field.getFieldWidth()
                     + 2 * field.getBoundaryWidth()
                     + 2 * displayConfig.fieldExtend;
@@ -270,66 +273,70 @@ public class UserInterface extends Module {
         }
 
         private void paintBall(Graphics2D graphics2D) {
-            if (ball != null) {
-                float radius = objectConfig.ballRadius * 1000;
+            if (ball == null) return;
 
-                graphics2D.setColor(MAGENTA);
-                graphics2D.fillArc((int) (ball.getX() - radius),
-                        (int) (ball.getY() - radius),
+            float radius = objectConfig.ballRadius * 1000;
+
+            graphics2D.setColor(MAGENTA);
+            graphics2D.fillArc((int) (ball.getX() - radius),
+                    (int) (ball.getY() - radius),
+                    (int) radius * 2,
+                    (int) radius * 2,
+                    0,
+                    360);
+
+            graphics2D.setColor(BLACK);
+            graphics2D.drawArc((int) (ball.getX() - radius),
+                    (int) (ball.getY() - radius),
+                    (int) radius * 2,
+                    (int) radius * 2,
+                    0,
+                    360);
+
+            if (displayConfig.showVelocity) {
+                float predictedX = ball.getX() + ball.getVx();
+                float predictedY = ball.getY() + ball.getVy();
+                graphics2D.setColor(WHITE);
+                graphics2D.drawArc((int) (predictedX - radius),
+                        (int) (predictedY - radius),
                         (int) radius * 2,
                         (int) radius * 2,
                         0,
                         360);
-
-                graphics2D.setColor(BLACK);
-                graphics2D.drawArc((int) (ball.getX() - radius),
-                        (int) (ball.getY() - radius),
-                        (int) radius * 2,
-                        (int) radius * 2,
-                        0,
-                        360);
-
-                if (displayConfig.showVelocity) {
-                    float predictedX = ball.getX() + ball.getVx();
-                    float predictedY = ball.getY() + ball.getVy();
-                    graphics2D.setColor(WHITE);
-                    graphics2D.drawArc((int) (predictedX - radius),
-                            (int) (predictedY - radius),
-                            (int) radius * 2,
-                            (int) radius * 2,
-                            0,
-                            360);
-                }
             }
         }
 
-        private void paintBots(Graphics2D graphics2D) {
-            if (allies != null) {
-                for (ObjectWithMetadata.Robot ally : allies.values()) {
-                    Color fillColor;
-                    switch (team) {
-                        case YELLOW -> fillColor = ORANGE;
-                        case BLUE -> fillColor = BLUE;
-                        default -> throw new IllegalStateException("Unexpected value: " + team);
-                    }
-                    paintBot(graphics2D, ally, fillColor, GREEN);
-                }
-            }
+        private void paintAllies(Graphics2D graphics2D) {
+            if (allies == null) return;
 
-            if (foes != null) {
-                for (ObjectWithMetadata.Robot foe : foes.values()) {
-                    Color fillColor;
-                    switch (team) {
-                        case YELLOW -> fillColor = BLUE;
-                        case BLUE -> fillColor = ORANGE;
-                        default -> throw new IllegalStateException("Unexpected value: " + team);
-                    }
-                    paintBot(graphics2D, foe, fillColor, RED);
+            for (ObjectWithMetadata.Robot ally : allies.values()) {
+                Color fillColor;
+                switch (team) {
+                    case YELLOW -> fillColor = ORANGE;
+                    case BLUE -> fillColor = BLUE;
+                    default -> throw new IllegalStateException("Unexpected value: " + team);
                 }
+                paintRobot(graphics2D, ally, fillColor, GREEN);
+            }
+        }
+
+        private void paintFoes(Graphics2D graphics2D) {
+            if (foes == null) return;
+
+            for (ObjectWithMetadata.Robot foe : foes.values()) {
+                Color fillColor;
+                switch (team) {
+                    case YELLOW -> fillColor = BLUE;
+                    case BLUE -> fillColor = ORANGE;
+                    default -> throw new IllegalStateException("Unexpected value: " + team);
+                }
+                paintRobot(graphics2D, foe, fillColor, RED);
             }
         }
 
         private void paintDebug(Graphics2D graphics2D) {
+            if (allies == null || foes == null) return;
+
             if (pathfindGrid == null)
                 pathfindGrid = new PathfindGrid(field);
 
@@ -392,7 +399,7 @@ public class UserInterface extends Module {
             });
         }
 
-        private void paintBot(Graphics2D graphics2D, ObjectWithMetadata.Robot robot, Color fillColor, Color outlineColor) {
+        private void paintRobot(Graphics2D graphics2D, ObjectWithMetadata.Robot robot, Color fillColor, Color outlineColor) {
             float radius = objectConfig.robotRadius * 1000;
 
             graphics2D.setColor(fillColor);

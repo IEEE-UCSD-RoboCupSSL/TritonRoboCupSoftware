@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
@@ -19,6 +20,8 @@ import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 
 public class FilterModule extends Module {
+    private static final long DEFAULT_PUBLISH_PERIOD = 10;
+
     private Ball filteredBall;
     private Map<Integer, Robot> filteredAllies;
     private Map<Integer, Robot> filteredFoes;
@@ -31,6 +34,13 @@ public class FilterModule extends Module {
     public void run() {
         super.run();
         initDefaults();
+        executor.scheduleAtFixedRate(this::publishFilteredObjects, 0, DEFAULT_PUBLISH_PERIOD, TimeUnit.MILLISECONDS);
+    }
+
+    private void publishFilteredObjects() {
+        publish(AI_FILTERED_BALL, filteredBall);
+        publish(AI_FILTERED_ALLIES, filteredAllies);
+        publish(AI_FILTERED_FOES, filteredFoes);
     }
 
     private void initDefaults() {
@@ -71,10 +81,6 @@ public class FilterModule extends Module {
             filteredFoe.setAngular(0);
             filteredFoes.put(id, filteredFoe.build());
         }
-
-        publish(AI_FILTERED_BALL, filteredBall);
-        publish(AI_FILTERED_ALLIES, filteredAllies);
-        publish(AI_FILTERED_FOES, filteredFoes);
     }
 
     @Override
@@ -130,7 +136,6 @@ public class FilterModule extends Module {
         filteredBall.setVz(vz);
 
         this.filteredBall = filteredBall.build();
-        publish(AI_FILTERED_BALL, this.filteredBall);
     }
 
     private void callbackAllies(String s, Delivery delivery) {
@@ -143,7 +148,6 @@ public class FilterModule extends Module {
                 filteredAllies.put(ally.getRobotId(), filteredAlly);
             }
         }
-        publish(AI_FILTERED_ALLIES, filteredAllies);
     }
 
     private void callbackFoes(String s, Delivery delivery) {
@@ -156,7 +160,6 @@ public class FilterModule extends Module {
                 filteredFoes.put(foe.getRobotId(), filteredFoe);
             }
         }
-        publish(AI_FILTERED_FOES, filteredFoes);
     }
 
     private Robot createFilteredRobot(long timestamp, SSL_DetectionRobot robot, Robot lastRobot) {

@@ -77,13 +77,12 @@ public class PathToPointTest extends TestRunner {
     @Override
     protected void setupTest() {
         SimulatorControl.Builder simulatorControl = SimulatorControl.newBuilder();
+        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 0, -300, -2000, 0));
         simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 1, 0, -2000, 0));
-
-        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 0, -600, 0, 0));
-        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 2, -300, 0, 0));
-        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 3, 0, 0, 0));
-        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 4, 300, 0, 0));
-        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 5, 600, 0, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 2, 300, -2000, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 3, -300, 2000, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 4, 0, 2000, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 5, 300, 2000, 0));
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 
@@ -95,24 +94,62 @@ public class PathToPointTest extends TestRunner {
             if (!pathfindGrids.containsKey(id))
                 pathfindGrids.put(id, new PathfindGrid(field));
 
-            PathToPointSkill pathToPointSkill;
-            if (id == 1) {
-                pathToPointSkill = new PathToPointSkill(this,
-                        allies.get(id),
-                        new Vector2d(0, 2000),
-                        new Vector2d(0, 2000),
-                        pathfindGrids.get(id),
-                        allies,
-                        foes);
-            } else {
-                pathToPointSkill = new PathToPointSkill(this,
-                        allies.get(id),
-                        new Vector2d(0, -2000),
-                        new Vector2d(0, -2000),
-                        pathfindGrids.get(id),
-                        allies,
-                        foes);
-            }
+            PathToPointSkill pathToPointSkill = switch (id) {
+                case 0 -> {
+                    yield new PathToPointSkill(this,
+                            allies.get(id),
+                            new Vector2d(-300, 2000),
+                            new Vector2d(-300, 2000),
+                            pathfindGrids.get(id),
+                            allies,
+                            foes);
+                }
+                case 1 -> {
+                    yield new PathToPointSkill(this,
+                            allies.get(id),
+                            new Vector2d(0, 2000),
+                            new Vector2d(0, 2000),
+                            pathfindGrids.get(id),
+                            allies,
+                            foes);
+                }
+                case 2 -> {
+                    yield new PathToPointSkill(this,
+                            allies.get(id),
+                            new Vector2d(300, 2000),
+                            new Vector2d(300, 2000),
+                            pathfindGrids.get(id),
+                            allies,
+                            foes);
+                }
+                case 3 -> {
+                    yield new PathToPointSkill(this,
+                            allies.get(id),
+                            new Vector2d(-300, -2000),
+                            new Vector2d(-300, -2000),
+                            pathfindGrids.get(id),
+                            allies,
+                            foes);
+                }
+                case 4 -> {
+                    yield new PathToPointSkill(this,
+                            allies.get(id),
+                            new Vector2d(0, -2000),
+                            new Vector2d(0, -2000),
+                            pathfindGrids.get(id),
+                            allies,
+                            foes);
+                }
+                default -> {
+                    yield new PathToPointSkill(this,
+                            allies.get(id),
+                            new Vector2d(300, -2000),
+                            new Vector2d(300, -2000),
+                            pathfindGrids.get(id),
+                            allies,
+                            foes);
+                }
+            };
             pathToPointSkill.start();
         }
     }

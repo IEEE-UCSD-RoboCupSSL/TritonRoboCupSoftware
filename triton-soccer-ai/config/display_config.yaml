@@ -3,10 +3,10 @@ fieldExtend: 500
 robotIdFontName: TimesRoman
 robotIdFontSize: 150
 
-showVelocity: true
+showVelocity: false
 
-showNodeGrid: false
+showNodeGrid: true
 showOnlyObstacles: true
 showRoute: true
-showNext: true
+showNext: false
 showTo: false

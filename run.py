@@ -44,9 +44,9 @@ triton_bot_path = dir_path + "/triton-bot/src/main/python"
 triton_bot = "triton_bot.py"
 
 # run cmds
-
-# run_cmd([simulator, "-g", "2020B", "--realism", "Realistic"], simulator_path, "tab")
+# run_cmd([simulator, "-g", "2020B", "--realism", "None"], simulator_path, "tab")
 run_cmd([simulator, "-g", "2020B", "--realism", "RC2021"], simulator_path, "tab")
+
 time.sleep(0.1)
 
 run_cmd([game_controller, ], game_controller_path, "tab")

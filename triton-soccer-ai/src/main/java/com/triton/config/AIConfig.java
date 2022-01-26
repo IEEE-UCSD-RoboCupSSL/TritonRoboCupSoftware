@@ -8,6 +8,8 @@ public class AIConfig {
     public float robotSafety;
     public double obstacleScale;
     public float gridExtend;
+    public float collisionSpeedScale;
+    public float collisionExtrapolation;
 
     public float kpPos;
     public float kiPos;
@@ -22,17 +24,13 @@ public class AIConfig {
 
     public float getBoundCollisionDist() {
         return objectConfig.objectToCameraFactor * objectConfig.robotRadius
-                + getNodeCollisionDist()
-                + 2 * boundSafety;
-    }
-
-    public float getNodeCollisionDist() {
-        return 2 * nodeRadius;
+                + nodeRadius
+                + boundSafety;
     }
 
     public float getRobotCollisionDist() {
         return 2 * objectConfig.objectToCameraFactor * objectConfig.robotRadius
-                + getNodeCollisionDist()
-                + 2 * robotSafety;
+                + nodeRadius
+                + robotSafety;
     }
 }

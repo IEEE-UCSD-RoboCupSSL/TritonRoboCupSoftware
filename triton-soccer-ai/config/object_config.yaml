@@ -19,11 +19,11 @@
   robotCenterToDribbler : 0.078
 
   # Max absolute speed-up acceleration [m/s^2]
-  robotAccSpeedupAbsoluteMax: 5
+  robotAccSpeedupAbsoluteMax: 10
   # Max angular speed-up acceleration [rad/s^2]
   robotAccSpeedupAngularMax : 40
   # Max absolute brake acceleration [m/s^2]
-  robotAccBrakeAbsoluteMax : 5
+  robotAccBrakeAbsoluteMax : 10
   # Max angular brake acceleration [rad/s^2]
   robotAccBrakeAngularMax : 40
   # Max absolute velocity [m/s]
