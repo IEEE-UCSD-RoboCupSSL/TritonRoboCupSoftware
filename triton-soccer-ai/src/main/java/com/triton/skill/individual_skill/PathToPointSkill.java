@@ -9,11 +9,11 @@ import com.triton.util.Vector2d;
 import proto.triton.AiDebugInfo;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import static com.triton.messaging.Exchange.AI_DEBUG;
 import static proto.triton.ObjectWithMetadata.Robot;
-import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class PathToPointSkill extends Skill {
     private final Robot ally;
@@ -21,8 +21,8 @@ public class PathToPointSkill extends Skill {
     private final HashMap<Integer, Robot> allies;
     private final HashMap<Integer, Robot> foes;
     private final PathfindGrid pathfindGrid;
-    private float orientation;
-    private Vector2d facePos;
+    private final float orientation;
+    private final Vector2d facePos;
 
     public PathToPointSkill(Module module,
                             Robot ally,
@@ -35,6 +35,7 @@ public class PathToPointSkill extends Skill {
         this.ally = ally;
         this.pos = pos;
         this.orientation = orientation;
+        this.facePos = null;
         this.pathfindGrid = pathfindGrid;
         this.allies = allies;
         this.foes = foes;
@@ -50,6 +51,7 @@ public class PathToPointSkill extends Skill {
         super(module);
         this.ally = ally;
         this.pos = pos;
+        this.orientation = 0;
         this.facePos = facePos;
         this.pathfindGrid = pathfindGrid;
         this.allies = allies;
@@ -60,13 +62,17 @@ public class PathToPointSkill extends Skill {
     public void run() {
         pathfindGrid.updateObstacles(allies, foes, ally);
         Vector2d from = new Vector2d(ally.getX(), ally.getY());
-        List<Node2d> route = pathfindGrid.findRoute(from, pos);
+        LinkedList<Node2d> route = pathfindGrid.findRoute(from, pos);
         Vector2d next = pathfindGrid.findNext(route);
 
-        if (facePos != null)
-            orientation = (float) Math.atan2(facePos.y - ally.getY(), facePos.x - ally.getX());
+        float targetOrientation;
+        if (facePos != null) {
+            targetOrientation = (float) Math.atan2(facePos.y - ally.getY(), facePos.x - ally.getX());
+        } else {
+            targetOrientation = orientation;
+        }
 
-        MoveToPointSkill moveToPointSkill = new MoveToPointSkill(module, ally, next, orientation);
+        MoveToPointSkill moveToPointSkill = new MoveToPointSkill(module, ally, next, targetOrientation);
         moveToPointSkill.start();
 
         publishDebug(route, from, pos, next);

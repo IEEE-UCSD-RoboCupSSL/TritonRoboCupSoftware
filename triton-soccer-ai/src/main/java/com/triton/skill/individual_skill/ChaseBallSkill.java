@@ -10,11 +10,9 @@ import java.util.HashMap;
 
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
-import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class ChaseBallSkill extends Skill {
     private final Robot ally;
-    private final SSL_GeometryFieldSize field;
     private final Ball ball;
     private final HashMap<Integer, Robot> allies;
     private final HashMap<Integer, Robot> foes;
@@ -23,14 +21,12 @@ public class ChaseBallSkill extends Skill {
     public ChaseBallSkill(Module module,
                           Robot ally,
                           PathfindGrid pathfindGrid,
-                          SSL_GeometryFieldSize field,
                           Ball ball,
                           HashMap<Integer, Robot> allies,
                           HashMap<Integer, Robot> foes) {
         super(module);
         this.ally = ally;
         this.pathfindGrid = pathfindGrid;
-        this.field = field;
         this.ball = ball;
         this.allies = allies;
         this.foes = foes;

@@ -40,6 +40,7 @@ com/triton/constant/RuntimeConstants.class
 proto/simulation/SslVisionGeometry$SSL_GeometryModels$1.class
 proto/simulation/SslVisionDetection$SSL_DetectionFrame.class
 com/triton/module/test_module/individual_skill_test/ChaseBallTest.class
+com/triton/skill/coordinated_skill/PassSkill.class
 com/triton/util/PIDControl.class
 proto/triton/AiDebugInfo$DebugVectorOrBuilder.class
 proto/triton/AiDebugInfo$Debug.class

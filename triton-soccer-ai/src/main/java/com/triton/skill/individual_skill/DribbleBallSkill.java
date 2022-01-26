@@ -10,36 +10,31 @@ import java.util.HashMap;
 import static com.triton.constant.RuntimeConstants.objectConfig;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
-import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class DribbleBallSkill extends Skill {
     private final Robot ally;
     private final Vector2d pos;
     private final PathfindGrid pathfindGrid;
-    private final SSL_GeometryFieldSize field;
     private final Ball ball;
     private final HashMap<Integer, Robot> allies;
     private final HashMap<Integer, Robot> foes;
-    private float orientation;
-    private Vector2d facePos;
+    private final float orientation;
+    private final Vector2d facePos;
 
     public DribbleBallSkill(Module module,
                             Robot ally,
                             Vector2d pos,
                             float orientation,
                             PathfindGrid pathfindGrid,
-                            SSL_GeometryFieldSize field,
                             Ball ball,
                             HashMap<Integer, Robot> allies,
                             HashMap<Integer, Robot> foes) {
         super(module);
-
         this.ally = ally;
         this.pos = pos;
         this.orientation = orientation;
+        this.facePos = null;
         this.pathfindGrid = pathfindGrid;
-
-        this.field = field;
         this.ball = ball;
         this.allies = allies;
         this.foes = foes;
@@ -50,18 +45,15 @@ public class DribbleBallSkill extends Skill {
                             Vector2d pos,
                             Vector2d facePos,
                             PathfindGrid pathfindGrid,
-                            SSL_GeometryFieldSize field,
                             Ball ball,
                             HashMap<Integer, Robot> allies,
                             HashMap<Integer, Robot> foes) {
         super(module);
-
         this.ally = ally;
         this.pos = pos;
+        this.orientation = 0;
         this.facePos = facePos;
         this.pathfindGrid = pathfindGrid;
-
-        this.field = field;
         this.ball = ball;
         this.allies = allies;
         this.foes = foes;

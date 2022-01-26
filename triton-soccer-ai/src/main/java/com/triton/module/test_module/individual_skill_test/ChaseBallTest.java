@@ -112,7 +112,6 @@ public class ChaseBallTest extends TestRunner {
                 ChaseBallSkill chaseBallSkill = new ChaseBallSkill(this,
                         allies.get(id),
                         pathfindGrids.get(id),
-                        field,
                         ball,
                         allies,
                         foes);

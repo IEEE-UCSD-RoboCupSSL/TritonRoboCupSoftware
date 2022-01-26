@@ -82,7 +82,7 @@ public class PathfindGrid {
      * @param foes        list of foes
      * @param excludeAlly an ally that is not counted as an obstacle
      */
-    public void updateObstacles(HashMap<Integer, Robot> allies, HashMap<Integer, Robot> foes, Robot excludeAlly) {
+    public synchronized void updateObstacles(HashMap<Integer, Robot> allies, HashMap<Integer, Robot> foes, Robot excludeAlly) {
         this.allies = allies;
         this.foes = foes;
         this.excludeAlly = excludeAlly;
@@ -90,30 +90,13 @@ public class PathfindGrid {
         obstacles.forEach(node -> node.setPenalty(0));
         obstacles.clear();
 
-        float gridMaxX = field.getFieldWidth() / 2f
-                + 2 * aiConfig.gridExtend;
-        float gridMaxY = field.getFieldLength() / 2f
-                + 2 * aiConfig.gridExtend;
-
-        for (float x = 0; x < gridMaxX; x += aiConfig.getNodeSpacing()) {
-            for (float y = 0; y < gridMaxY; y += aiConfig.getNodeSpacing()) {
-                for (int xMul = -1; xMul < 2; xMul += 2) {
-                    for (int yMul = -1; yMul < 2; yMul += 2) {
-                        float posX = xMul * x;
-                        float posY = yMul * y;
-
-                        Vector2d pos = new Vector2d(posX, posY);
-                        Node2d node = getNearestNode(pos);
-                        float dist = getDistanceFromBound(node.getPos());
-
-                        if (node.getPenalty() == 0 && dist > 0) {
-                            node.setPenalty(aiConfig.obstacleScale * dist);
-                            obstacles.add(node);
-                        }
-                    }
-                }
+        nodeMap.forEach((pos, node) -> {
+            float dist = getDistanceFromBound(node.getPos());
+            if (node.getPenalty() == 0 && dist > 0) {
+                node.setPenalty(aiConfig.obstacleScale * dist);
+                obstacles.add(node);
             }
-        }
+        });
 
         allies.forEach((id, ally) -> {
             if (ally == excludeAlly) return;
@@ -260,37 +243,36 @@ public class PathfindGrid {
     /**
      * Find a route between two points
      *
-     * @param from point to start from
-     * @param to   point to end at
+     * @param fromPos point to start from
+     * @param toPos   point to end at
      * @return a route between two points
      */
-    public List<Node2d> findRoute(Vector2d from, Vector2d to) {
+    public LinkedList<Node2d> findRoute(Vector2d fromPos, Vector2d toPos) {
         Graph<Node2d> graph = new Graph<>(new HashSet<>(nodeMap.values()), connections);
         Scorer<Node2d> nextNodeScorer = new Euclidean2dScorer();
         Scorer<Node2d> targetScorer = new Euclidean2dScorer();
         RouteFinder<Node2d> routeFinder = new RouteFinder<>(graph, nextNodeScorer, targetScorer);
 
-        Node2d fromNode = getNearestNode(from);
-        Node2d toNode = getNearestNode(to);
+        Node2d from = getNearestNode(fromPos);
+        Node2d to = getNearestNode(toPos);
 
-        if (fromNode == null) {
+        if (from == null) {
             System.out.println("From node not on field.");
             return null;
-        } else if (toNode == null) {
+        } else if (to == null) {
             System.out.println("To node not on field.");
             return null;
         }
 
-        List<Node2d> route;
+        LinkedList<Node2d> route;
         try {
-            route = routeFinder.findRoute(fromNode, toNode);
+            route = routeFinder.findRoute(from, to);
         } catch (IllegalStateException e) {
-            route = new ArrayList<>();
-            route.add(fromNode);
-            return route;
+            route = new LinkedList<>();
+            route.addLast(from);
         }
 
-        route.add(new Node2d(to));
+        route.addLast(new Node2d(toPos));
         return route;
     }
 
@@ -312,15 +294,15 @@ public class PathfindGrid {
      * @param route the route
      * @return the next point given a route
      */
-    public Vector2d findNext(List<Node2d> route) {
-        Node2d fromNode = route.get(0);
-        double threshold = fromNode.getPenalty();
+    public Vector2d findNext(LinkedList<Node2d> route) {
+        Node2d from = route.getFirst();
+        double threshold = from.getPenalty();
 
         ReverseListIterator<Node2d> reverseListIterator = new ReverseListIterator<>(route);
         while (reverseListIterator.hasNext()) {
-            Node2d toNode = reverseListIterator.next();
-            if (!checkObstacle(fromNode.getPos(), toNode.getPos(), threshold))
-                return toNode.getPos();
+            Node2d to = reverseListIterator.next();
+            if (!checkObstacle(from.getPos(), to.getPos(), threshold))
+                return to.getPos();
         }
 
         throw new IllegalStateException();
