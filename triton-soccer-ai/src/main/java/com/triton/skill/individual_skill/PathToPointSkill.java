@@ -18,25 +18,24 @@ import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 public class PathToPointSkill extends Skill {
     private final Robot ally;
     private final Vector2d pos;
-    private final SSL_GeometryFieldSize field;
     private final HashMap<Integer, Robot> allies;
     private final HashMap<Integer, Robot> foes;
+    private final PathfindGrid pathfindGrid;
     private float orientation;
     private Vector2d facePos;
-    private PathfindGrid pathfindGrid;
 
     public PathToPointSkill(Module module,
                             Robot ally,
                             Vector2d pos,
                             float orientation,
-                            SSL_GeometryFieldSize field,
+                            PathfindGrid pathfindGrid,
                             HashMap<Integer, Robot> allies,
                             HashMap<Integer, Robot> foes) {
         super(module);
         this.ally = ally;
         this.pos = pos;
         this.orientation = orientation;
-        this.field = field;
+        this.pathfindGrid = pathfindGrid;
         this.allies = allies;
         this.foes = foes;
     }
@@ -45,23 +44,20 @@ public class PathToPointSkill extends Skill {
                             Robot ally,
                             Vector2d pos,
                             Vector2d facePos,
-                            SSL_GeometryFieldSize field,
+                            PathfindGrid pathfindGrid,
                             HashMap<Integer, Robot> allies,
                             HashMap<Integer, Robot> foes) {
         super(module);
         this.ally = ally;
         this.pos = pos;
         this.facePos = facePos;
-        this.field = field;
+        this.pathfindGrid = pathfindGrid;
         this.allies = allies;
         this.foes = foes;
     }
 
     @Override
     public void run() {
-        if (pathfindGrid == null)
-            pathfindGrid = new PathfindGrid(field);
-
         pathfindGrid.updateObstacles(allies, foes, ally);
         Vector2d from = new Vector2d(ally.getX(), ally.getY());
         List<Node2d> route = pathfindGrid.findRoute(from, pos);

@@ -12,7 +12,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.constant.RuntimeConstants.*;
+import static com.triton.constant.RuntimeConstants.objectConfig;
+import static com.triton.constant.RuntimeConstants.team;
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
 import static com.triton.messaging.Exchange.AI_FILTERED_ALLIES;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;

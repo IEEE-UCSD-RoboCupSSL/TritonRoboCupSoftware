@@ -2,6 +2,7 @@ package com.triton.module.test_module.individual_skill_test;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.module.TestRunner;
+import com.triton.search.node2d.PathfindGrid;
 import com.triton.skill.individual_skill.ChaseBallSkill;
 import com.triton.skill.individual_skill.PathToPointSkill;
 import com.triton.util.Vector2d;
@@ -9,6 +10,7 @@ import proto.simulation.SslSimulationControl;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.RuntimeConstants.objectConfig;
@@ -20,6 +22,8 @@ import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class ChaseBallTest extends TestRunner {
+    private Map<Integer, PathfindGrid> pathfindGrids;
+
     private SSL_GeometryFieldSize field;
     private Ball ball;
     private HashMap<Integer, Robot> allies;
@@ -29,6 +33,12 @@ public class ChaseBallTest extends TestRunner {
     public ChaseBallTest() {
         super();
         setupTest();
+    }
+
+    @Override
+    protected void prepare() {
+        super.prepare();
+        pathfindGrids = new HashMap<>();
     }
 
     @Override
@@ -85,18 +95,27 @@ public class ChaseBallTest extends TestRunner {
         if (field == null || ball == null || allies == null || foes == null) return;
 
         for (int id = 0; id < 6; id++) {
+            if (!pathfindGrids.containsKey(id))
+                pathfindGrids.put(id, new PathfindGrid(field));
+
             if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
                 System.out.println("contact");
                 PathToPointSkill pathToPointSkill = new PathToPointSkill(this,
                         allies.get(id),
                         new Vector2d(1000, 1000),
                         (float) Math.PI,
-                        field,
+                        pathfindGrids.get(id),
                         allies,
                         foes);
                 pathToPointSkill.start();
             } else {
-                ChaseBallSkill chaseBallSkill = new ChaseBallSkill(this, allies.get(id), field, ball, allies, foes);
+                ChaseBallSkill chaseBallSkill = new ChaseBallSkill(this,
+                        allies.get(id),
+                        pathfindGrids.get(id),
+                        field,
+                        ball,
+                        allies,
+                        foes);
                 chaseBallSkill.start();
             }
         }

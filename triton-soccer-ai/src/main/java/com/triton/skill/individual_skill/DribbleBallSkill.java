@@ -1,7 +1,7 @@
 package com.triton.skill.individual_skill;
 
-import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
+import com.triton.search.node2d.PathfindGrid;
 import com.triton.skill.Skill;
 import com.triton.util.Vector2d;
 
@@ -13,50 +13,31 @@ import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class DribbleBallSkill extends Skill {
-    private Robot ally;
-    private Vector2d pos;
+    private final Robot ally;
+    private final Vector2d pos;
+    private final PathfindGrid pathfindGrid;
+    private final SSL_GeometryFieldSize field;
+    private final Ball ball;
+    private final HashMap<Integer, Robot> allies;
+    private final HashMap<Integer, Robot> foes;
     private float orientation;
     private Vector2d facePos;
-
-    private SSL_GeometryFieldSize field;
-    private Ball ball;
-    private HashMap<Integer, Robot> allies;
-    private HashMap<Integer, Robot> foes;
 
     public DribbleBallSkill(Module module,
                             Robot ally,
                             Vector2d pos,
                             float orientation,
+                            PathfindGrid pathfindGrid,
                             SSL_GeometryFieldSize field,
                             Ball ball,
                             HashMap<Integer, Robot> allies,
                             HashMap<Integer, Robot> foes) {
         super(module);
-        update(ally, pos, orientation, field, ball, allies, foes);
-    }
 
-    public DribbleBallSkill(Module module,
-                            Robot ally,
-                            Vector2d pos,
-                            Vector2d facePos,
-                            SSL_GeometryFieldSize field,
-                            Ball ball,
-                            HashMap<Integer, Robot> allies,
-                            HashMap<Integer, Robot> foes) {
-        super(module);
-        update(ally, pos, facePos, field, ball, allies, foes);
-    }
-
-    private void update(Robot ally,
-                        Vector2d pos,
-                        float orientation,
-                        SSL_GeometryFieldSize field,
-                        Ball ball,
-                        HashMap<Integer, Robot> allies,
-                        HashMap<Integer, Robot> foes) {
         this.ally = ally;
         this.pos = pos;
         this.orientation = orientation;
+        this.pathfindGrid = pathfindGrid;
 
         this.field = field;
         this.ball = ball;
@@ -64,16 +45,21 @@ public class DribbleBallSkill extends Skill {
         this.foes = foes;
     }
 
-    private void update(Robot ally,
-                        Vector2d pos,
-                        Vector2d facePos,
-                        SSL_GeometryFieldSize field,
-                        Ball ball,
-                        HashMap<Integer, Robot> allies,
-                        HashMap<Integer, Robot> foes) {
+    public DribbleBallSkill(Module module,
+                            Robot ally,
+                            Vector2d pos,
+                            Vector2d facePos,
+                            PathfindGrid pathfindGrid,
+                            SSL_GeometryFieldSize field,
+                            Ball ball,
+                            HashMap<Integer, Robot> allies,
+                            HashMap<Integer, Robot> foes) {
+        super(module);
+
         this.ally = ally;
         this.pos = pos;
         this.facePos = facePos;
+        this.pathfindGrid = pathfindGrid;
 
         this.field = field;
         this.ball = ball;
@@ -94,9 +80,21 @@ public class DribbleBallSkill extends Skill {
 
         PathToPointSkill pathToPointSkill;
         if (facePos == null)
-            pathToPointSkill = new PathToPointSkill(module, ally, allyTargetPos, orientation, field, allies, foes);
+            pathToPointSkill = new PathToPointSkill(module,
+                    ally,
+                    allyTargetPos,
+                    orientation,
+                    pathfindGrid,
+                    allies,
+                    foes);
         else
-            pathToPointSkill = new PathToPointSkill(module, ally, allyTargetPos, facePos, field, allies, foes);
+            pathToPointSkill = new PathToPointSkill(module,
+                    ally,
+                    allyTargetPos,
+                    facePos,
+                    pathfindGrid,
+                    allies,
+                    foes);
         pathToPointSkill.start();
     }
 }

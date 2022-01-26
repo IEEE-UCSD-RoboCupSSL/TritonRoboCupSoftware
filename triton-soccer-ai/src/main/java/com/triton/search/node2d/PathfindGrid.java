@@ -8,7 +8,7 @@ import org.apache.commons.collections4.iterators.ReverseListIterator;
 
 import java.util.*;
 
-import static com.triton.constant.RuntimeConstants.*;
+import static com.triton.constant.RuntimeConstants.aiConfig;
 import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
@@ -77,8 +77,9 @@ public class PathfindGrid {
 
     /**
      * Set obstacle value on nodes.
-     * @param allies list of allies
-     * @param foes list of foes
+     *
+     * @param allies      list of allies
+     * @param foes        list of foes
      * @param excludeAlly an ally that is not counted as an obstacle
      */
     public void updateObstacles(HashMap<Integer, Robot> allies, HashMap<Integer, Robot> foes, Robot excludeAlly) {
@@ -138,6 +139,7 @@ public class PathfindGrid {
 
     /**
      * Returns the minimum distance from a point to the nearest bound, 0 if the point is not out of bounds
+     *
      * @param pos the point
      * @return the minimum distance from a point to the nearest bound, 0 if the point is not out of bounds
      */
@@ -163,6 +165,7 @@ public class PathfindGrid {
 
     /**
      * Returns the obstacle value of the node nearest to a point
+     *
      * @param pos the point
      * @return the obstacle value of the node nearest to a point
      */
@@ -174,8 +177,9 @@ public class PathfindGrid {
 
     /**
      * Returns the largest obstacle value between two points
+     *
      * @param from the first point
-     * @param to the second point
+     * @param to   the second point
      * @return the largest obstacle value between two points
      */
     public double getMaxObstacle(Vector2d from, Vector2d to) {
@@ -193,8 +197,9 @@ public class PathfindGrid {
 
     /**
      * Returns whether any obstacle value between two points is larger than a threshold
-     * @param from the first point
-     * @param to the second point
+     *
+     * @param from      the first point
+     * @param to        the second point
      * @param threshold the threshold
      * @return whether any obstacle value between two points is larger than a threshold
      */
@@ -212,7 +217,8 @@ public class PathfindGrid {
 
     /**
      * Returns the nearest nodes to a point
-     * @param pos the point
+     *
+     * @param pos  the point
      * @param dist distance to search
      * @return the nearest nodes to a point
      */
@@ -240,6 +246,7 @@ public class PathfindGrid {
 
     /**
      * Returns the nearest node to a point
+     *
      * @param pos the point
      * @return the nearest node to a point
      */
@@ -252,8 +259,9 @@ public class PathfindGrid {
 
     /**
      * Find a route between two points
+     *
      * @param from point to start from
-     * @param to point to end at
+     * @param to   point to end at
      * @return a route between two points
      */
     public List<Node2d> findRoute(Vector2d from, Vector2d to) {
@@ -288,8 +296,9 @@ public class PathfindGrid {
 
     /**
      * Find the next point in a route between two points
+     *
      * @param from point to start from
-     * @param to point to end at
+     * @param to   point to end at
      * @return a route between two points
      */
     public Vector2d findNext(Vector2d from, Vector2d to) {
@@ -299,6 +308,7 @@ public class PathfindGrid {
     /**
      * Find the next point given a route. The next point is the point furthest in the route that can be reached without
      * crossing through points with higher obstacle values than the start point
+     *
      * @param route the route
      * @return the next point given a route
      */

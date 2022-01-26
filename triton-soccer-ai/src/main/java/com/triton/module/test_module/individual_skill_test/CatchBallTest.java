@@ -4,6 +4,7 @@ import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.TestRunner;
+import com.triton.search.node2d.PathfindGrid;
 import com.triton.skill.individual_skill.CatchBallSkill;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
@@ -24,6 +25,8 @@ public class CatchBallTest extends TestRunner {
     private Ball ball;
     private HashMap<Integer, Robot> allies;
     private HashMap<Integer, Robot> foes;
+
+    private PathfindGrid pathfindGrid;
 
     public CatchBallTest() {
         super();
@@ -94,7 +97,10 @@ public class CatchBallTest extends TestRunner {
     public void run() {
         if (field == null || ball == null || allies == null || foes == null) return;
 
-        CatchBallSkill catchBallSkill = new CatchBallSkill(this, allies.get(1), field, ball, allies, foes);
+        if (pathfindGrid == null)
+            pathfindGrid = new PathfindGrid(field);
+
+        CatchBallSkill catchBallSkill = new CatchBallSkill(this, allies.get(1), pathfindGrid, field, ball, allies, foes);
         catchBallSkill.start();
     }
 }

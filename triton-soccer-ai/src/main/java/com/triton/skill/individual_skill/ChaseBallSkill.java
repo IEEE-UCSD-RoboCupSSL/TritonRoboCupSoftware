@@ -1,6 +1,7 @@
 package com.triton.skill.individual_skill;
 
 import com.triton.module.Module;
+import com.triton.search.node2d.PathfindGrid;
 import com.triton.skill.Skill;
 import com.triton.skill.basic_skill.DribbleSkill;
 import com.triton.util.Vector2d;
@@ -17,15 +18,18 @@ public class ChaseBallSkill extends Skill {
     private final Ball ball;
     private final HashMap<Integer, Robot> allies;
     private final HashMap<Integer, Robot> foes;
+    private final PathfindGrid pathfindGrid;
 
     public ChaseBallSkill(Module module,
                           Robot ally,
+                          PathfindGrid pathfindGrid,
                           SSL_GeometryFieldSize field,
                           Ball ball,
                           HashMap<Integer, Robot> allies,
                           HashMap<Integer, Robot> foes) {
         super(module);
         this.ally = ally;
+        this.pathfindGrid = pathfindGrid;
         this.field = field;
         this.ball = ball;
         this.allies = allies;
@@ -39,7 +43,7 @@ public class ChaseBallSkill extends Skill {
         Vector2d offset = ballPos.sub(allyPos).norm().scale(100f);
         Vector2d targetPos = ballPos.add(offset);
 
-        PathToPointSkill pathToPointSkill = new PathToPointSkill(module, ally, targetPos, ballPos, field, allies, foes);
+        PathToPointSkill pathToPointSkill = new PathToPointSkill(module, ally, targetPos, ballPos, pathfindGrid, allies, foes);
         pathToPointSkill.start();
 
         DribbleSkill dribbleSkill = new DribbleSkill(module, ally, true);
