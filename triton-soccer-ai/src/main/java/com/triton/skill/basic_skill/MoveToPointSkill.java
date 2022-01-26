@@ -1,10 +1,10 @@
 package com.triton.skill.basic_skill;
 
 import com.triton.constant.RuntimeConstants;
-import com.triton.util.PIDControl;
-import com.triton.util.Vector2d;
 import com.triton.module.Module;
 import com.triton.skill.Skill;
+import com.triton.util.PIDControl;
+import com.triton.util.Vector2d;
 
 import static proto.triton.ObjectWithMetadata.Robot;
 
@@ -12,9 +12,9 @@ public class MoveToPointSkill extends Skill {
     private final PIDControl pidControlX;
     private final PIDControl pidControlY;
     private final PIDControl pidControlOrientation;
-    private Robot ally;
-    private Vector2d pos;
-    private float orientation;
+    private final Robot ally;
+    private final Vector2d pos;
+    private final float orientation;
     private MatchVelocitySkill matchVelocitySkill;
 
     public MoveToPointSkill(Module module, Robot ally, Vector2d pos, float orientation) {

@@ -3,9 +3,9 @@ package com.triton.module.test_module.basic_skill_test;
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.util.Vector2d;
 import com.triton.module.TestRunner;
 import com.triton.skill.basic_skill.MatchVelocitySkill;
+import com.triton.util.Vector2d;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
 

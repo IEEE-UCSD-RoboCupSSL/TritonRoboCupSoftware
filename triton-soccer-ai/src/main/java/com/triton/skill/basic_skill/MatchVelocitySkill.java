@@ -1,17 +1,17 @@
 package com.triton.skill.basic_skill;
 
-import com.triton.util.Vector2d;
 import com.triton.module.Module;
 import com.triton.skill.Skill;
+import com.triton.util.Vector2d;
 import proto.simulation.SslSimulationRobotControl;
 
 import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class MatchVelocitySkill extends Skill {
-    private Robot ally;
-    private Vector2d vel;
-    private float angular;
+    private final Robot ally;
+    private final Vector2d vel;
+    private final float angular;
 
     public MatchVelocitySkill(Module module, Robot ally, Vector2d vel, float angular) {
         super(module);

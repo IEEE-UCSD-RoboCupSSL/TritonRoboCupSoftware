@@ -1,12 +1,12 @@
 package com.triton.module.test_module.misc_test;
 
-import com.triton.util.Vector2d;
 import com.triton.module.TestRunner;
 import com.triton.search.base.Graph;
 import com.triton.search.base.RouteFinder;
 import com.triton.search.base.Scorer;
 import com.triton.search.node2d.Euclidean2dScorer;
 import com.triton.search.node2d.Node2d;
+import com.triton.util.Vector2d;
 
 import java.io.IOException;
 import java.util.*;

@@ -1,16 +1,17 @@
 package com.triton.module.test_module.individual_skill_test;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.util.Vector2d;
 import com.triton.module.TestRunner;
 import com.triton.skill.individual_skill.ChaseBallSkill;
 import com.triton.skill.individual_skill.PathToPointSkill;
+import com.triton.util.Vector2d;
 import proto.simulation.SslSimulationControl;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
+import static com.triton.constant.RuntimeConstants.objectConfig;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
@@ -34,8 +35,8 @@ public class ChaseBallTest extends TestRunner {
     protected void setupTest() {
         SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
         SslSimulationControl.TeleportBall.Builder teleportBall = SslSimulationControl.TeleportBall.newBuilder();
-        teleportBall.setX(-1000f / 1000f);
-        teleportBall.setY(-1000f / 1000f);
+        teleportBall.setX(objectConfig.cameraToObjectFactor * -1000f);
+        teleportBall.setY(objectConfig.cameraToObjectFactor * -1000f);
         teleportBall.setZ(0);
         teleportBall.setVx(0);
         teleportBall.setVy(0);

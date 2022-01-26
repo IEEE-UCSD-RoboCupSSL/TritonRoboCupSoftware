@@ -8,9 +8,9 @@ import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class KickSkill extends Skill {
-    private Robot ally;
-    private boolean kickOn;
-    private boolean chip;
+    private final Robot ally;
+    private final boolean kickOn;
+    private final boolean chip;
 
     public KickSkill(Module module, Robot ally, boolean kickOn, boolean chip) {
         super(module);

@@ -1,12 +1,13 @@
 package com.triton.skill.individual_skill;
 
 import com.triton.constant.RuntimeConstants;
-import com.triton.util.Vector2d;
 import com.triton.module.Module;
 import com.triton.skill.Skill;
+import com.triton.util.Vector2d;
 
 import java.util.HashMap;
 
+import static com.triton.constant.RuntimeConstants.objectConfig;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
@@ -87,7 +88,8 @@ public class DribbleBallSkill extends Skill {
             offset = new Vector2d((float) Math.cos(orientation), (float) Math.sin(orientation));
         else
             offset = facePos.sub(pos).norm();
-        offset = offset.scale(RuntimeConstants.objectConfig.ballRadius / 1000f + RuntimeConstants.objectConfig.robotRadius / 1000f);
+        offset = offset.scale(objectConfig.objectToCameraFactor * objectConfig.ballRadius
+                + objectConfig.objectToCameraFactor * objectConfig.robotRadius);
         Vector2d allyTargetPos = pos.sub(offset);
 
         PathToPointSkill pathToPointSkill;

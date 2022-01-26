@@ -1,6 +1,9 @@
 package com.triton.config;
 
 public class ObjectConfig {
+    public float cameraToObjectFactor;
+    public float objectToCameraFactor;
+
     public float ballRadius;
 
     public float robotRadius;

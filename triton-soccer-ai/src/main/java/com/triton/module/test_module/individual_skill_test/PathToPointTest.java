@@ -3,18 +3,18 @@ package com.triton.module.test_module.individual_skill_test;
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.util.Vector2d;
 import com.triton.module.TestRunner;
 import com.triton.skill.individual_skill.PathToPointSkill;
+import com.triton.util.Vector2d;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.util.CreateMessage.createTeleportRobot;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
+import static com.triton.util.CreateMessage.createTeleportRobot;
 import static proto.simulation.SslSimulationControl.SimulatorControl;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
@@ -78,8 +78,6 @@ public class PathToPointTest extends TestRunner {
         if (field == null || ball == null || allies == null || foes == null) return;
 
         for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
-            if (id != 1 && id != 0 && id != 2) continue;
-
             PathToPointSkill pathToPointSkill;
             if (id == 1) {
                 pathToPointSkill = new PathToPointSkill(this,

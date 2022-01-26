@@ -1,10 +1,11 @@
 package com.triton.module.interface_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
 import com.triton.search.node2d.Node2d;
-import com.triton.search.node2d.PathfindField;
+import com.triton.search.node2d.PathfindGrid;
+import com.triton.util.Vector2d;
+import org.apache.commons.math3.analysis.function.Sigmoid;
 import proto.triton.ObjectWithMetadata;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldCircularArc;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldLineSegment;
@@ -15,13 +16,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import static com.triton.constant.RuntimeConstants.*;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static java.awt.BorderLayout.*;
@@ -142,6 +143,8 @@ public class UserInterface extends Module {
         private HashMap<Integer, ObjectWithMetadata.Robot> allies;
         private HashMap<Integer, ObjectWithMetadata.Robot> foes;
 
+        private PathfindGrid pathfindGrid;
+
         public FieldPanel() {
             debug = new ArrayList<>();
 
@@ -205,8 +208,13 @@ public class UserInterface extends Module {
             int totalFieldWidth;
             int totalFieldLength;
 
-            totalFieldWidth = field.getFieldWidth() + 2 * field.getBoundaryWidth();
-            totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2 + 2 * field.getBoundaryWidth();
+            totalFieldWidth = field.getFieldWidth()
+                    + 2 * field.getBoundaryWidth()
+                    + 2 * displayConfig.fieldExtend;
+            totalFieldLength = field.getFieldLength()
+                    + 2 * field.getGoalDepth()
+                    + 2 * field.getBoundaryWidth()
+                    + 2 * displayConfig.fieldExtend;
 
             float xScale = (float) getParent().getWidth() / totalFieldWidth;
             float yScale = (float) getParent().getHeight() / totalFieldLength;
@@ -222,8 +230,13 @@ public class UserInterface extends Module {
         }
 
         private void paintGeometry(Graphics2D graphics2D) {
-            int totalFieldWidth = field.getFieldWidth() + 2 * field.getBoundaryWidth();
-            int totalFieldLength = field.getFieldLength() + field.getGoalDepth() * 2 + 2 * field.getBoundaryWidth();
+            int totalFieldWidth = field.getFieldWidth()
+                    + 2 * field.getBoundaryWidth()
+                    + 2 * displayConfig.fieldExtend;
+            int totalFieldLength = field.getFieldLength()
+                    + 2 * field.getGoalDepth()
+                    + 2 * field.getBoundaryWidth()
+                    + 2 * displayConfig.fieldExtend;
 
 
             graphics2D.setColor(DARK_GRAY);
@@ -260,7 +273,7 @@ public class UserInterface extends Module {
             if (ball != null) {
                 float x = ball.getX();
                 float y = ball.getY();
-                float radius = RuntimeConstants.objectConfig.ballRadius * 1000;
+                float radius = objectConfig.ballRadius * 1000;
 
                 graphics2D.setColor(MAGENTA);
                 graphics2D.fillArc((int) (x - radius),
@@ -284,10 +297,10 @@ public class UserInterface extends Module {
             if (allies != null) {
                 for (ObjectWithMetadata.Robot ally : allies.values()) {
                     Color fillColor;
-                    switch (RuntimeConstants.team) {
+                    switch (team) {
                         case YELLOW -> fillColor = ORANGE;
                         case BLUE -> fillColor = BLUE;
-                        default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
+                        default -> throw new IllegalStateException("Unexpected value: " + team);
                     }
                     paintBot(graphics2D, ally, fillColor, GREEN);
                 }
@@ -296,10 +309,10 @@ public class UserInterface extends Module {
             if (foes != null) {
                 for (ObjectWithMetadata.Robot foe : foes.values()) {
                     Color fillColor;
-                    switch (RuntimeConstants.team) {
+                    switch (team) {
                         case YELLOW -> fillColor = BLUE;
                         case BLUE -> fillColor = ORANGE;
-                        default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
+                        default -> throw new IllegalStateException("Unexpected value: " + team);
                     }
                     paintBot(graphics2D, foe, fillColor, RED);
                 }
@@ -309,7 +322,7 @@ public class UserInterface extends Module {
         private void paintBot(Graphics2D graphics2D, ObjectWithMetadata.Robot robot, Color fillColor, Color outlineColor) {
             float x = robot.getX();
             float y = robot.getY();
-            float radius = RuntimeConstants.objectConfig.robotRadius * 1000;
+            float radius = objectConfig.robotRadius * 1000;
 
             graphics2D.setColor(fillColor);
             graphics2D.fillArc((int) (x - radius),
@@ -332,7 +345,7 @@ public class UserInterface extends Module {
             graphics2D.drawLine((int) x, (int) y, (int) (x + radius * Math.cos(orientation)), (int) (y + radius * Math.sin(orientation)));
 
             graphics2D.setColor(WHITE);
-            setFont(new Font(RuntimeConstants.displayConfig.botIdFontName, Font.BOLD, RuntimeConstants.displayConfig.botIdFontSize));
+            setFont(new Font(displayConfig.robotIdFontName, Font.BOLD, displayConfig.robotIdFontSize));
             AffineTransform orgi = graphics2D.getTransform();
             graphics2D.translate(x, y);
             graphics2D.scale(1, -1);
@@ -341,59 +354,82 @@ public class UserInterface extends Module {
         }
 
         private void paintDebug(Graphics2D graphics2D) {
-            PathfindField pathfindField = new PathfindField(field);
+            if (pathfindGrid == null)
+                pathfindGrid = new PathfindGrid(field);
 
-//            Map<Vector2d, Node2d> nodeMap = pathfindField.getNodeMap();
-//            alliesLock.readLock().lock();
-//            foesLock.readLock().lock();
-//            try {
-//                pathfindField.updateObstacles(allies, foes, null);
-//            } finally {
-//                alliesLock.readLock().unlock();
-//                foesLock.readLock().unlock();
-//            }
-//            nodeMap.forEach((pos, node) -> {
-//                if (node.getObstacle() > 0)
-//                    paintNode(graphics2D, node, RED);
-//                else
-//                    paintNode(graphics2D, node, BLACK);
-//            });
+            if (displayConfig.showNodeGrid) {
+                alliesLock.readLock().lock();
+                foesLock.readLock().lock();
+                try {
+                    pathfindGrid.updateObstacles(allies, foes, null);
+                } finally {
+                    alliesLock.readLock().unlock();
+                    foesLock.readLock().unlock();
+                }
+
+                if (displayConfig.showOnlyObstacles) {
+                    Set<Node2d> obstacles = pathfindGrid.getObstacles();
+                    obstacles.forEach(node -> {
+                        paintNode(graphics2D, node);
+                    });
+                } else {
+                    Map<Vector2d, Node2d> nodeMap = pathfindGrid.getNodeMap();
+                    nodeMap.forEach((pos, node) -> {
+                        paintNode(graphics2D, node);
+                    });
+                }
+            }
 
             alliesPaths.forEach((id, path) -> {
-                List<DebugVector> nodes = path.getNodesList();
-                graphics2D.setColor(YELLOW);
-                for (int i = 1; i < nodes.size(); i++) {
-                    DebugVector prevNode = nodes.get(i - 1);
-                    DebugVector currentNode = nodes.get(i);
-                    graphics2D.drawLine((int) prevNode.getX(),
-                            (int) prevNode.getY(),
-                            (int) currentNode.getX(),
-                            (int) currentNode.getY());
+                if (displayConfig.showRoute) {
+                    List<DebugVector> nodes = path.getNodesList();
+                    graphics2D.setColor(YELLOW);
+                    for (int i = 1; i < nodes.size(); i++) {
+                        DebugVector prevNode = nodes.get(i - 1);
+                        DebugVector currentNode = nodes.get(i);
+                        graphics2D.drawLine((int) prevNode.getX(),
+                                (int) prevNode.getY(),
+                                (int) currentNode.getX(),
+                                (int) currentNode.getY());
+                    }
                 }
 
                 DebugVector fromPos = path.getFromPos();
                 DebugVector toPos = path.getToPos();
                 DebugVector nextPos = path.getNextPos();
-                graphics2D.setColor(GREEN);
-                graphics2D.drawLine((int) fromPos.getX(),
-                        (int) fromPos.getY(),
-                        (int) nextPos.getX(),
-                        (int) nextPos.getY());
 
-                graphics2D.setColor(RED);
-                graphics2D.drawLine((int) nextPos.getX(),
-                        (int) nextPos.getY(),
-                        (int) toPos.getX(),
-                        (int) toPos.getY());
+                if (displayConfig.showNext) {
+                    graphics2D.setColor(GREEN);
+                    graphics2D.drawLine((int) fromPos.getX(),
+                            (int) fromPos.getY(),
+                            (int) nextPos.getX(),
+                            (int) nextPos.getY());
+                }
+
+                if (displayConfig.showTo) {
+                    graphics2D.setColor(RED);
+                    graphics2D.drawLine((int) nextPos.getX(),
+                            (int) nextPos.getY(),
+                            (int) toPos.getX(),
+                            (int) toPos.getY());
+                }
             });
         }
 
-        private void paintNode(Graphics2D graphics2D, Node2d node, Color color) {
+        private void paintNode(Graphics2D graphics2D, Node2d node) {
+            Color color;
+            if (node.getPenalty() == 0)
+                color = BLACK;
+            else {
+                Sigmoid sigmoid = new Sigmoid();
+                float scaled = (float) sigmoid.value(node.getPenalty() / aiConfig.obstacleScale);
+                color = Color.getHSBColor(scaled, scaled, scaled);
+            }
             graphics2D.setColor(color);
 
             float x = node.getPos().x;
             float y = node.getPos().y;
-            float radius = RuntimeConstants.aiConfig.nodeRadius;
+            float radius = aiConfig.nodeRadius;
             graphics2D.drawArc((int) (x - radius),
                     (int) (y - radius),
                     (int) radius * 2,

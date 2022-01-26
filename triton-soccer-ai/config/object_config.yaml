@@ -1,3 +1,7 @@
+  # Factor to multiply objects by to convert objects to camera coordinates
+  cameraToObjectFactor : 0.001
+  objectToCameraFactor : 1000
+
   # Ball radius [m]
   ballRadius : 0.042672
 

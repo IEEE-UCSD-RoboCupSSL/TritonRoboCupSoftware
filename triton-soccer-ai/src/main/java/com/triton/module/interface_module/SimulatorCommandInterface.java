@@ -10,9 +10,6 @@ import proto.simulation.SslSimulationConfig;
 import proto.simulation.SslSimulationConfig.SimulatorConfig;
 
 import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_SIMULATOR_CONFIG;

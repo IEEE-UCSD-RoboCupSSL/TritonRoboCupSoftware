@@ -1,6 +1,8 @@
   nodeRadius: 50
-  nodeSafety: 200
-  pathfindExtend: 500
+  boundSafety: 0
+  robotSafety: 200
+  obstacleScale: 10000
+  gridExtend: 250
 
   kpPos: 0.001
   kiPos: 0.000000

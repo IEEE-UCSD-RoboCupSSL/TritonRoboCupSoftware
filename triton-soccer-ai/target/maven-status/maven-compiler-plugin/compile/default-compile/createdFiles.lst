@@ -292,6 +292,7 @@ proto/vision/MessagesRobocupSslDetectionTracked$KickedBall$1.class
 proto/simulation/SslVisionDetection$SSL_DetectionBall$Builder.class
 proto/vision/MessagesRobocupSslRefboxLog$Log_FrameOrBuilder.class
 proto/vision/MessagesRobocupSslWrapperTracked$1.class
+com/triton/search/node2d/PathfindGrid.class
 proto/triton/ObjectWithMetadata$Robot$Builder.class
 proto/simulation/SslSimulationControl$SimulatorControl$1.class
 proto/vision/MessagesRobocupSslRefboxLog$Log_Frame$1.class
@@ -312,7 +313,6 @@ proto/simulation/SslSimulationConfig$RobotWheelAngles.class
 proto/simulation/SslSimulationControl$SimulatorCommandOrBuilder.class
 com/triton/skill/individual_skill/ChaseBallSkill.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedRobot$1.class
-com/triton/search/node2d/PathfindField.class
 proto/simulation/SslVisionGeometry$SSL_GeometryModels.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionBall$Builder.class
 com/triton/skill/individual_skill/GoalKeepSkill.class

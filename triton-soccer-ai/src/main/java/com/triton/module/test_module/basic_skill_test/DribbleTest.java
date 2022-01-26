@@ -1,18 +1,18 @@
 package com.triton.module.test_module.basic_skill_test;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.util.Vector2d;
 import com.triton.module.TestRunner;
 import com.triton.skill.basic_skill.DribbleSkill;
 import com.triton.skill.basic_skill.MatchVelocitySkill;
+import com.triton.util.Vector2d;
 import proto.simulation.SslGcCommon;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
+import static com.triton.constant.RuntimeConstants.*;
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
 import static com.triton.messaging.Exchange.AI_FILTERED_ALLIES;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
@@ -43,7 +43,7 @@ public class DribbleTest extends TestRunner {
 
         TeleportRobot.Builder teleportRobot = TeleportRobot.newBuilder();
         RobotId.Builder robotId = RobotId.newBuilder();
-        if (RuntimeConstants.team == Team.YELLOW)
+        if (team == Team.YELLOW)
             robotId.setTeam(SslGcCommon.Team.YELLOW);
         else
             robotId.setTeam(SslGcCommon.Team.BLUE);
@@ -57,7 +57,7 @@ public class DribbleTest extends TestRunner {
         simulatorControl.addTeleportRobot(teleportRobot);
 
         TeleportBall.Builder teleportBall = TeleportBall.newBuilder();
-        teleportBall.setX(500f / 1000f);
+        teleportBall.setX(objectConfig.cameraToObjectFactor * 500f);
         teleportBall.setY(0);
         teleportBall.setZ(0);
         teleportBall.setVx(0);

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
+import static com.triton.constant.RuntimeConstants.objectConfig;
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
 import static com.triton.messaging.Exchange.AI_ROBOT_FEEDBACKS;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
@@ -57,8 +58,8 @@ public class DribbleBallTest extends TestRunner {
         simulatorControl.addTeleportRobot(teleportRobot);
 
         SslSimulationControl.TeleportBall.Builder teleportBall = SslSimulationControl.TeleportBall.newBuilder();
-        teleportBall.setX(-1000f / 1000f);
-        teleportBall.setY(-1000f / 1000f);
+        teleportBall.setX(objectConfig.cameraToObjectFactor * -1000f);
+        teleportBall.setY(objectConfig.cameraToObjectFactor * -1000f);
         teleportBall.setZ(0);
         teleportBall.setVx(0);
         teleportBall.setVy(0);

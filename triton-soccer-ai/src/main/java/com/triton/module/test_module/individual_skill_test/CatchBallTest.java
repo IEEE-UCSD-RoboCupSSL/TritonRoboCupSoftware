@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
+import static com.triton.constant.RuntimeConstants.objectConfig;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.triton.ObjectWithMetadata.Ball;
@@ -53,8 +54,8 @@ public class CatchBallTest extends TestRunner {
             robotId.setTeam(SslGcCommon.Team.BLUE);
         robotId.setId(1);
         teleportRobot.setId(robotId);
-        teleportRobot.setX(-1000f / 1000f);
-        teleportRobot.setY(-4000f / 1000f);
+        teleportRobot.setX(objectConfig.cameraToObjectFactor * -1000f);
+        teleportRobot.setY(objectConfig.cameraToObjectFactor * -4000f);
         teleportRobot.setOrientation((float) (Math.PI / 2));
         teleportRobot.setPresent(true);
         teleportRobot.setByForce(false);
@@ -62,10 +63,10 @@ public class CatchBallTest extends TestRunner {
 
         SslSimulationControl.TeleportBall.Builder teleportBall = SslSimulationControl.TeleportBall.newBuilder();
         teleportBall.setX(0);
-        teleportBall.setY(4000f / 1000f);
+        teleportBall.setY(objectConfig.cameraToObjectFactor * 4000f);
         teleportBall.setZ(0);
         teleportBall.setVx(0);
-        teleportBall.setVy(-8000f / 1000f);
+        teleportBall.setVy(objectConfig.cameraToObjectFactor * -8000f);
         teleportBall.setVz(0);
         teleportBall.setByForce(false);
         simulatorControl.setTeleportBall(teleportBall);

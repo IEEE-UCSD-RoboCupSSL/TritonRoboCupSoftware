@@ -3,8 +3,8 @@ package com.triton.module.processing_module;
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
-import com.triton.util.ConvertCoordinate;
 import com.triton.module.Module;
+import com.triton.util.ConvertCoordinate;
 import proto.vision.MessagesRobocupSslDetection.SSL_DetectionFrame;
 
 import java.io.IOException;

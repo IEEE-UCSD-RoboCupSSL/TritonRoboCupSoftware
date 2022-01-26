@@ -1,11 +1,11 @@
 package com.triton.skill.individual_skill;
 
-import com.triton.util.Vector2d;
 import com.triton.module.Module;
 import com.triton.search.node2d.Node2d;
-import com.triton.search.node2d.PathfindField;
+import com.triton.search.node2d.PathfindGrid;
 import com.triton.skill.Skill;
 import com.triton.skill.basic_skill.MoveToPointSkill;
+import com.triton.util.Vector2d;
 import proto.triton.AiDebugInfo;
 
 import java.util.HashMap;
@@ -16,15 +16,14 @@ import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class PathToPointSkill extends Skill {
-    private Robot ally;
-    private Vector2d pos;
+    private final Robot ally;
+    private final Vector2d pos;
+    private final SSL_GeometryFieldSize field;
+    private final HashMap<Integer, Robot> allies;
+    private final HashMap<Integer, Robot> foes;
     private float orientation;
     private Vector2d facePos;
-    private SSL_GeometryFieldSize field;
-    private HashMap<Integer, Robot> allies;
-    private HashMap<Integer, Robot> foes;
-
-    private PathfindField pathfindField;
+    private PathfindGrid pathfindGrid;
 
     public PathToPointSkill(Module module,
                             Robot ally,
@@ -60,13 +59,13 @@ public class PathToPointSkill extends Skill {
 
     @Override
     public void run() {
-        if (pathfindField == null)
-            pathfindField = new PathfindField(field);
+        if (pathfindGrid == null)
+            pathfindGrid = new PathfindGrid(field);
 
-        pathfindField.updateObstacles(allies, foes, ally);
+        pathfindGrid.updateObstacles(allies, foes, ally);
         Vector2d from = new Vector2d(ally.getX(), ally.getY());
-        List<Node2d> route = pathfindField.findRoute(from, pos);
-        Vector2d next = pathfindField.findNext(route);
+        List<Node2d> route = pathfindGrid.findRoute(from, pos);
+        Vector2d next = pathfindGrid.findNext(route);
 
         if (facePos != null)
             orientation = (float) Math.atan2(facePos.y - ally.getY(), facePos.x - ally.getX());

@@ -1,6 +1,13 @@
 package com.triton.config;
 
 public class DisplayConfig {
-    public String botIdFontName;
-    public int botIdFontSize;
+    public int fieldExtend;
+    public String robotIdFontName;
+    public int robotIdFontSize;
+
+    public boolean showNodeGrid;
+    public boolean showOnlyObstacles;
+    public boolean showRoute;
+    public boolean showNext;
+    public boolean showTo;
 }

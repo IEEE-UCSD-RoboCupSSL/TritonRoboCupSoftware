@@ -8,8 +8,8 @@ import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class DribbleSkill extends Skill {
-    private Robot ally;
-    private boolean dribbleOn;
+    private final Robot ally;
+    private final boolean dribbleOn;
 
     public DribbleSkill(Module module, Robot ally, boolean dribbleOn) {
         super(module);

@@ -1,2 +1,10 @@
-botIdFontName: TimesRoman
-botIdFontSize: 150
+fieldExtend: 500
+
+robotIdFontName: TimesRoman
+robotIdFontSize: 150
+
+showNodeGrid: true
+showOnlyObstacles: true
+showRoute: true
+showNext: false
+showTo: false
