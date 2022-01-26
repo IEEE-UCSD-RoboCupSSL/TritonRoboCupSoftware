@@ -8,9 +8,9 @@ import com.triton.skill.basic_skill.MoveToPointSkill;
 import com.triton.util.Vector2d;
 import proto.triton.AiDebugInfo;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static com.triton.messaging.Exchange.AI_DEBUG;
 import static proto.triton.ObjectWithMetadata.Robot;
@@ -18,8 +18,8 @@ import static proto.triton.ObjectWithMetadata.Robot;
 public class PathToPointSkill extends Skill {
     private final Robot ally;
     private final Vector2d pos;
-    private final HashMap<Integer, Robot> allies;
-    private final HashMap<Integer, Robot> foes;
+    private final Map<Integer, Robot> allies;
+    private final Map<Integer, Robot> foes;
     private final PathfindGrid pathfindGrid;
     private final float orientation;
     private final Vector2d facePos;
@@ -29,8 +29,8 @@ public class PathToPointSkill extends Skill {
                             Vector2d pos,
                             float orientation,
                             PathfindGrid pathfindGrid,
-                            HashMap<Integer, Robot> allies,
-                            HashMap<Integer, Robot> foes) {
+                            Map<Integer, Robot> allies,
+                            Map<Integer, Robot> foes) {
         super(module);
         this.ally = ally;
         this.pos = pos;
@@ -46,8 +46,8 @@ public class PathToPointSkill extends Skill {
                             Vector2d pos,
                             Vector2d facePos,
                             PathfindGrid pathfindGrid,
-                            HashMap<Integer, Robot> allies,
-                            HashMap<Integer, Robot> foes) {
+                            Map<Integer, Robot> allies,
+                            Map<Integer, Robot> foes) {
         super(module);
         this.ally = ally;
         this.pos = pos;

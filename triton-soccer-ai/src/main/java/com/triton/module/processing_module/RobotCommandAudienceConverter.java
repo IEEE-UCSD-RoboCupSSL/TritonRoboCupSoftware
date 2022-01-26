@@ -3,9 +3,10 @@ package com.triton.module.processing_module;
 import com.rabbitmq.client.Delivery;
 import com.triton.module.Module;
 import com.triton.util.ConvertCoordinate;
+import com.triton.util.Vector2d;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
@@ -15,8 +16,28 @@ import static proto.simulation.SslSimulationRobotControl.*;
 
 public class RobotCommandAudienceConverter extends Module {
 
-    public RobotCommandAudienceConverter() {
-        super();
+    public RobotCommandAudienceConverter(ScheduledThreadPoolExecutor executor) {
+        super(executor);
+    }
+
+    @Override
+    protected void prepare() {
+    }
+
+    @Override
+    protected void declarePublishes() throws IOException, TimeoutException {
+        declarePublish(AI_ROBOT_COMMAND);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_BIASED_ROBOT_COMMAND, this::callbackBiasedRobotCommand);
+    }
+
+    private void callbackBiasedRobotCommand(String s, Delivery delivery) {
+        RobotCommand biasedRobotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
+        RobotCommand robotCommand = biasedToAudience(biasedRobotCommand);
+        publish(AI_ROBOT_COMMAND, robotCommand);
     }
 
     private static RobotCommand biasedToAudience(RobotCommand command) {
@@ -38,26 +59,10 @@ public class RobotCommandAudienceConverter extends Module {
     private static MoveGlobalVelocity biasedToAudience(MoveGlobalVelocity globalVelocity) {
         MoveGlobalVelocity.Builder audienceGlobalVelocity = globalVelocity.toBuilder();
 
-        List<Float> audiencePosition = ConvertCoordinate.biasedToAudience(globalVelocity.getX(), globalVelocity.getY());
-        audienceGlobalVelocity.setX(audiencePosition.get(0));
-        audienceGlobalVelocity.setY(audiencePosition.get(1));
+        Vector2d audiencePosition = ConvertCoordinate.biasedToAudience(globalVelocity.getX(), globalVelocity.getY());
+        audienceGlobalVelocity.setX(audiencePosition.x);
+        audienceGlobalVelocity.setY(audiencePosition.y);
 
         return audienceGlobalVelocity.build();
-    }
-
-    @Override
-    protected void declarePublishes() throws IOException, TimeoutException {
-        declarePublish(AI_ROBOT_COMMAND);
-    }
-
-    @Override
-    protected void declareConsumes() throws IOException, TimeoutException {
-        declareConsume(AI_BIASED_ROBOT_COMMAND, this::callbackBiasedRobotCommand);
-    }
-
-    private void callbackBiasedRobotCommand(String s, Delivery delivery) {
-        RobotCommand biasedRobotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
-        RobotCommand robotCommand = biasedToAudience(biasedRobotCommand);
-        publish(AI_ROBOT_COMMAND, robotCommand);
     }
 }

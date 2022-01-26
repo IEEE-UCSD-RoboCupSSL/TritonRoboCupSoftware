@@ -38,17 +38,6 @@ public class UDP_Client extends Thread {
         }
     }
 
-    private boolean send() {
-        try {
-            byte[] bytes = sendQueue.take();
-            DatagramPacket packet = new DatagramPacket(bytes, bytes.length, serverAddress, serverPort);
-            socket.send(packet);
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
-
     private void receive(boolean receive) {
         if (!receive || callbackPacket == null) return;
 
@@ -70,6 +59,17 @@ public class UDP_Client extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean send() {
+        try {
+            byte[] bytes = sendQueue.take();
+            DatagramPacket packet = new DatagramPacket(bytes, bytes.length, serverAddress, serverPort);
+            socket.send(packet);
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     public void addSend(byte[] bytes) {

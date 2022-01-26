@@ -18,6 +18,7 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.List;
 import java.util.*;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -42,13 +43,12 @@ public class UserInterface extends Module {
     private JPanel centerPanel;
     private FieldPanel fieldPanel;
 
-    public UserInterface() {
-        super();
+    public UserInterface(ScheduledThreadPoolExecutor executor) {
+        super(executor);
     }
 
     @Override
     protected void prepare() {
-        super.prepare();
         prepareGUI();
     }
 
@@ -114,13 +114,13 @@ public class UserInterface extends Module {
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, ObjectWithMetadata.Robot> allies = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
+        Map<Integer, ObjectWithMetadata.Robot> allies = (Map<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         fieldPanel.setAllies(allies);
         fieldPanel.repaint();
     }
 
     private void callbackFoes(String s, Delivery delivery) {
-        HashMap<Integer, ObjectWithMetadata.Robot> foes = (HashMap<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
+        Map<Integer, ObjectWithMetadata.Robot> foes = (Map<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         fieldPanel.setFoes(foes);
         fieldPanel.repaint();
     }
@@ -131,8 +131,8 @@ public class UserInterface extends Module {
     }
 
     private class FieldPanel extends JPanel {
-        private final ArrayList<Debug> debug;
-        private final HashMap<Integer, DebugPath> alliesPaths;
+        private final List<Debug> debug;
+        private final Map<Integer, DebugPath> alliesPaths;
         private final ReadWriteLock fieldLock;
         private final ReadWriteLock ballLock;
         private final ReadWriteLock alliesLock;
@@ -140,8 +140,8 @@ public class UserInterface extends Module {
         private final ReadWriteLock debugLock;
         private SSL_GeometryFieldSize field;
         private Ball ball;
-        private HashMap<Integer, ObjectWithMetadata.Robot> allies;
-        private HashMap<Integer, ObjectWithMetadata.Robot> foes;
+        private Map<Integer, ObjectWithMetadata.Robot> allies;
+        private Map<Integer, ObjectWithMetadata.Robot> foes;
 
         private PathfindGrid pathfindGrid;
 
@@ -319,40 +319,6 @@ public class UserInterface extends Module {
             }
         }
 
-        private void paintBot(Graphics2D graphics2D, ObjectWithMetadata.Robot robot, Color fillColor, Color outlineColor) {
-            float x = robot.getX();
-            float y = robot.getY();
-            float radius = objectConfig.robotRadius * 1000;
-
-            graphics2D.setColor(fillColor);
-            graphics2D.fillArc((int) (x - radius),
-                    (int) (y - radius),
-                    (int) radius * 2,
-                    (int) radius * 2,
-                    0,
-                    360);
-
-            graphics2D.setColor(outlineColor);
-            graphics2D.drawArc((int) (x - radius),
-                    (int) (y - radius),
-                    (int) radius * 2,
-                    (int) radius * 2,
-                    0,
-                    360);
-
-            graphics2D.setColor(BLACK);
-            float orientation = robot.getOrientation();
-            graphics2D.drawLine((int) x, (int) y, (int) (x + radius * Math.cos(orientation)), (int) (y + radius * Math.sin(orientation)));
-
-            graphics2D.setColor(WHITE);
-            setFont(new Font(displayConfig.robotIdFontName, Font.BOLD, displayConfig.robotIdFontSize));
-            AffineTransform orgi = graphics2D.getTransform();
-            graphics2D.translate(x, y);
-            graphics2D.scale(1, -1);
-            graphics2D.drawString(String.valueOf(robot.getId()), 0, 0);
-            graphics2D.setTransform(orgi);
-        }
-
         private void paintDebug(Graphics2D graphics2D) {
             if (pathfindGrid == null)
                 pathfindGrid = new PathfindGrid(field);
@@ -416,6 +382,40 @@ public class UserInterface extends Module {
             });
         }
 
+        private void paintBot(Graphics2D graphics2D, ObjectWithMetadata.Robot robot, Color fillColor, Color outlineColor) {
+            float x = robot.getX();
+            float y = robot.getY();
+            float radius = objectConfig.robotRadius * 1000;
+
+            graphics2D.setColor(fillColor);
+            graphics2D.fillArc((int) (x - radius),
+                    (int) (y - radius),
+                    (int) radius * 2,
+                    (int) radius * 2,
+                    0,
+                    360);
+
+            graphics2D.setColor(outlineColor);
+            graphics2D.drawArc((int) (x - radius),
+                    (int) (y - radius),
+                    (int) radius * 2,
+                    (int) radius * 2,
+                    0,
+                    360);
+
+            graphics2D.setColor(BLACK);
+            float orientation = robot.getOrientation();
+            graphics2D.drawLine((int) x, (int) y, (int) (x + radius * Math.cos(orientation)), (int) (y + radius * Math.sin(orientation)));
+
+            graphics2D.setColor(WHITE);
+            setFont(new Font(displayConfig.robotIdFontName, Font.BOLD, displayConfig.robotIdFontSize));
+            AffineTransform orgi = graphics2D.getTransform();
+            graphics2D.translate(x, y);
+            graphics2D.scale(1, -1);
+            graphics2D.drawString(String.valueOf(robot.getId()), 0, 0);
+            graphics2D.setTransform(orgi);
+        }
+
         private void paintNode(Graphics2D graphics2D, Node2d node) {
             Color color;
             if (node.getPenalty() == 0)
@@ -456,7 +456,7 @@ public class UserInterface extends Module {
             }
         }
 
-        public void setAllies(HashMap<Integer, ObjectWithMetadata.Robot> allies) {
+        public void setAllies(Map<Integer, ObjectWithMetadata.Robot> allies) {
             foesLock.writeLock().lock();
             try {
                 this.allies = allies;
@@ -465,7 +465,7 @@ public class UserInterface extends Module {
             }
         }
 
-        public void setFoes(HashMap<Integer, ObjectWithMetadata.Robot> foes) {
+        public void setFoes(Map<Integer, ObjectWithMetadata.Robot> foes) {
             foesLock.writeLock().lock();
             try {
                 this.foes = foes;

@@ -11,6 +11,7 @@ import com.triton.util.Vector2d;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -26,17 +27,15 @@ public class PathToPointTest extends TestRunner {
     private Map<Integer, PathfindGrid> pathfindGrids;
     private SSL_GeometryFieldSize field;
     private Ball ball;
-    private HashMap<Integer, Robot> allies;
-    private HashMap<Integer, Robot> foes;
+    private Map<Integer, Robot> allies;
+    private Map<Integer, Robot> foes;
 
-    public PathToPointTest() {
-        super();
-        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
+    public PathToPointTest(ScheduledThreadPoolExecutor executor) {
+        super(executor);
     }
 
     @Override
     protected void prepare() {
-        super.prepare();
         pathfindGrids = new HashMap<>();
     }
 
@@ -62,11 +61,17 @@ public class PathToPointTest extends TestRunner {
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
+        allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
     }
 
     private void callbackFoes(String s, Delivery delivery) {
-        foes = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
+        foes = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -83,7 +88,7 @@ public class PathToPointTest extends TestRunner {
     }
 
     @Override
-    public void run() {
+    protected void execute() {
         if (field == null || ball == null || allies == null || foes == null) return;
 
         for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {

@@ -34,6 +34,17 @@ public class UDP_Server extends Thread {
         }
     }
 
+    private void send(byte[] bytes) {
+        if (bytes == null || clientAddress == null) return;
+
+        DatagramPacket packet = new DatagramPacket(bytes, bytes.length, clientAddress, clientPort);
+        try {
+            socket.send(packet);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private byte[] receive() {
         try {
             byte[] buf = new byte[BUF_SIZE];
@@ -53,16 +64,5 @@ public class UDP_Server extends Thread {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private void send(byte[] bytes) {
-        if (bytes == null || clientAddress == null) return;
-
-        DatagramPacket packet = new DatagramPacket(bytes, bytes.length, clientAddress, clientPort);
-        try {
-            socket.send(packet);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

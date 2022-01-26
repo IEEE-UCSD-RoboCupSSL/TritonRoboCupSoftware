@@ -6,5 +6,5 @@ robotIdFontSize: 150
 showNodeGrid: true
 showOnlyObstacles: true
 showRoute: true
-showNext: false
+showNext: true
 showTo: false

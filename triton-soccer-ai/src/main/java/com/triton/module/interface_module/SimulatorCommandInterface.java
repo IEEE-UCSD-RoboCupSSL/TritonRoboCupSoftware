@@ -10,6 +10,7 @@ import proto.simulation.SslSimulationConfig;
 import proto.simulation.SslSimulationConfig.SimulatorConfig;
 
 import java.io.IOException;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_SIMULATOR_CONFIG;
@@ -24,16 +25,12 @@ import static sslsim.SslSimulationCustomErforceRobotSpec.RobotSpecErForce;
 public class SimulatorCommandInterface extends Module {
     private UDP_Client client;
 
-    public SimulatorCommandInterface() {
-        super();
-        setupSimulator();
-        client.start();
+    public SimulatorCommandInterface(ScheduledThreadPoolExecutor executor) {
+        super(executor);
     }
 
     @Override
     protected void prepare() {
-        super.prepare();
-
         try {
             setupClient();
         } catch (IOException e) {
@@ -53,11 +50,49 @@ public class SimulatorCommandInterface extends Module {
         declareConsume(AI_SIMULATOR_CONFIG, this::callbackSimulatorConfig);
     }
 
+    private void callbackSimulatorControl(String s, Delivery delivery) {
+        SimulatorControl simulatorControl = (SimulatorControl) simpleDeserialize(delivery.getBody());
+
+        SimulatorCommand.Builder simulatorCommand = SimulatorCommand.newBuilder();
+        simulatorCommand.setControl(simulatorControl);
+        client.addSend(simulatorCommand.build().toByteArray());
+    }
+
+    private void callbackSimulatorConfig(String s, Delivery delivery) {
+        SimulatorConfig simulatorConfig = (SimulatorConfig) simpleDeserialize(delivery.getBody());
+
+        SimulatorCommand.Builder simulatorCommand = SimulatorCommand.newBuilder();
+        simulatorCommand.setConfig(simulatorConfig);
+        client.addSend(simulatorCommand.build().toByteArray());
+    }
+
+    @Override
+    public void interrupt() {
+        super.interrupt();
+        client.interrupt();
+    }
+
     private void setupClient() throws IOException {
         client = new UDP_Client(RuntimeConstants.networkConfig.simulationCommandAddress,
                 RuntimeConstants.networkConfig.simulationCommandPort,
                 this::callbackSimulatorResponse,
                 10);
+    }
+
+    private void callbackSimulatorResponse(byte[] bytes) {
+        try {
+            SimulatorResponse simulatorResponse = SimulatorResponse.parseFrom(bytes);
+            System.out.println(simulatorResponse);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        setupSimulator();
+        client.start();
     }
 
     private void setupSimulator() {
@@ -130,36 +165,5 @@ public class SimulatorCommandInterface extends Module {
         }
 
         publish(AI_SIMULATOR_CONFIG, simulatorConfig.build());
-    }
-
-    private void callbackSimulatorControl(String s, Delivery delivery) {
-        SimulatorControl simulatorControl = (SimulatorControl) simpleDeserialize(delivery.getBody());
-
-        SimulatorCommand.Builder simulatorCommand = SimulatorCommand.newBuilder();
-        simulatorCommand.setControl(simulatorControl);
-        client.addSend(simulatorCommand.build().toByteArray());
-    }
-
-    private void callbackSimulatorConfig(String s, Delivery delivery) {
-        SimulatorConfig simulatorConfig = (SimulatorConfig) simpleDeserialize(delivery.getBody());
-
-        SimulatorCommand.Builder simulatorCommand = SimulatorCommand.newBuilder();
-        simulatorCommand.setConfig(simulatorConfig);
-        client.addSend(simulatorCommand.build().toByteArray());
-    }
-
-    private void callbackSimulatorResponse(byte[] bytes) {
-        try {
-            SimulatorResponse simulatorResponse = SimulatorResponse.parseFrom(bytes);
-            System.out.println(simulatorResponse);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void interrupt() {
-        super.interrupt();
-        client.interrupt();
     }
 }

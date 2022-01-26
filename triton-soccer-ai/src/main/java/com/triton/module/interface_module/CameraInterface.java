@@ -5,6 +5,7 @@ import com.triton.module.Module;
 import com.triton.networking.UDP_MulticastReceiver;
 
 import java.io.IOException;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_VISION_WRAPPER;
@@ -13,14 +14,12 @@ import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 public class CameraInterface extends Module {
     private UDP_MulticastReceiver detectionReceiver;
 
-    public CameraInterface() {
-        super();
-        detectionReceiver.start();
+    public CameraInterface(ScheduledThreadPoolExecutor executor) {
+        super(executor);
     }
 
     @Override
     protected void prepare() {
-        super.prepare();
         try {
             setupReceiver();
         } catch (IOException e) {
@@ -61,5 +60,11 @@ public class CameraInterface extends Module {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        detectionReceiver.start();
     }
 }

@@ -1,16 +1,14 @@
 package com.triton.skill.basic_skill;
 
-import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
 import com.triton.skill.Skill;
-import com.triton.util.PIDControl;
 import com.triton.util.Vector2d;
 
-import static com.triton.constant.RuntimeConstants.*;
+import static com.triton.constant.RuntimeConstants.aiConfig;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class MoveToPointSkill extends Skill {
-//    private final PIDControl pidControlX;
+    //    private final PIDControl pidControlX;
 //    private final PIDControl pidControlY;
 //    private final PIDControl pidControlOrientation;
     private final Robot ally;

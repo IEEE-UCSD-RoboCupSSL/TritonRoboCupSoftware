@@ -11,6 +11,7 @@ import proto.simulation.SslSimulationControl;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.RuntimeConstants.objectConfig;
@@ -26,34 +27,17 @@ public class ChaseBallTest extends TestRunner {
 
     private SSL_GeometryFieldSize field;
     private Ball ball;
-    private HashMap<Integer, Robot> allies;
-    private HashMap<Integer, Robot> foes;
-    private HashMap<Integer, RobotFeedback> feedbacks;
+    private Map<Integer, Robot> allies;
+    private Map<Integer, Robot> foes;
+    private Map<Integer, RobotFeedback> feedbacks;
 
-    public ChaseBallTest() {
-        super();
-        setupTest();
+    public ChaseBallTest(ScheduledThreadPoolExecutor executor) {
+        super(executor);
     }
 
     @Override
     protected void prepare() {
-        super.prepare();
         pathfindGrids = new HashMap<>();
-    }
-
-    @Override
-    protected void setupTest() {
-        SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
-        SslSimulationControl.TeleportBall.Builder teleportBall = SslSimulationControl.TeleportBall.newBuilder();
-        teleportBall.setX(objectConfig.cameraToObjectFactor * -1000f);
-        teleportBall.setY(objectConfig.cameraToObjectFactor * -1000f);
-        teleportBall.setZ(0);
-        teleportBall.setVx(0);
-        teleportBall.setVy(0);
-        teleportBall.setVz(0);
-        teleportBall.setByForce(false);
-        simulatorControl.setTeleportBall(teleportBall);
-        publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 
     @Override
@@ -79,19 +63,40 @@ public class ChaseBallTest extends TestRunner {
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
+        allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
     }
 
     private void callbackFoes(String s, Delivery delivery) {
-        foes = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
+        foes = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
     }
 
     private void callbackFeedbacks(String s, Delivery delivery) {
-        this.feedbacks = (HashMap<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+        this.feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
     }
 
     @Override
     public void run() {
+        super.run();
+        setupTest();
+    }
+
+    @Override
+    protected void setupTest() {
+        SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
+        SslSimulationControl.TeleportBall.Builder teleportBall = SslSimulationControl.TeleportBall.newBuilder();
+        teleportBall.setX(objectConfig.cameraToObjectFactor * -1000f);
+        teleportBall.setY(objectConfig.cameraToObjectFactor * -1000f);
+        teleportBall.setZ(0);
+        teleportBall.setVx(0);
+        teleportBall.setVy(0);
+        teleportBall.setVz(0);
+        teleportBall.setByForce(false);
+        simulatorControl.setTeleportBall(teleportBall);
+        publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
+    }
+
+    @Override
+    protected void execute() {
         if (field == null || ball == null || allies == null || foes == null) return;
 
         for (int id = 0; id < 6; id++) {

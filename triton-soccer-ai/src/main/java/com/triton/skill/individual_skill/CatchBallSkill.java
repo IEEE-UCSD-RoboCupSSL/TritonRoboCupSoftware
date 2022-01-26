@@ -6,7 +6,7 @@ import com.triton.skill.Skill;
 import com.triton.skill.basic_skill.DribbleSkill;
 import com.triton.util.Vector2d;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
@@ -16,8 +16,8 @@ public class CatchBallSkill extends Skill {
     private final Robot ally;
     private final SSL_GeometryFieldSize field;
     private final Ball ball;
-    private final HashMap<Integer, Robot> allies;
-    private final HashMap<Integer, Robot> foes;
+    private final Map<Integer, Robot> allies;
+    private final Map<Integer, Robot> foes;
     private final PathfindGrid pathfindGrid;
 
     public CatchBallSkill(Module module,
@@ -25,8 +25,8 @@ public class CatchBallSkill extends Skill {
                           PathfindGrid pathfindGrid,
                           SSL_GeometryFieldSize field,
                           Ball ball,
-                          HashMap<Integer, Robot> allies,
-                          HashMap<Integer, Robot> foes) {
+                          Map<Integer, Robot> allies,
+                          Map<Integer, Robot> foes) {
         super(module);
         this.ally = ally;
         this.pathfindGrid = pathfindGrid;

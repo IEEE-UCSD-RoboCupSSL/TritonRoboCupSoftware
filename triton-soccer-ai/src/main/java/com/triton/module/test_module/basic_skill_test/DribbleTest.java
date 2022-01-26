@@ -9,7 +9,9 @@ import com.triton.util.Vector2d;
 import proto.simulation.SslGcCommon;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.RuntimeConstants.objectConfig;
@@ -22,10 +24,14 @@ import static proto.simulation.SslSimulationControl.*;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class DribbleTest extends TestRunner {
-    private HashMap<Integer, Robot> allies;
+    private Map<Integer, Robot> allies;
 
-    public DribbleTest() {
-        super();
+    public DribbleTest(ScheduledThreadPoolExecutor executor) {
+        super(executor);
+    }
+
+    @Override
+    protected void prepare() {
     }
 
     @Override
@@ -36,6 +42,16 @@ public class DribbleTest extends TestRunner {
     @Override
     protected void declareConsumes() throws IOException, TimeoutException {
         declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
+    }
+
+    private void callbackAllies(String s, Delivery delivery) {
+        allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -70,12 +86,8 @@ public class DribbleTest extends TestRunner {
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 
-    private void callbackAllies(String s, Delivery delivery) {
-        allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
-    }
-
     @Override
-    public void run() {
+    protected void execute() {
         if (allies == null) return;
 
         MatchVelocitySkill matchVelocitySkill = new MatchVelocitySkill(this, allies.get(1), new Vector2d(1, 0), 0);

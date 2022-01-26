@@ -5,7 +5,7 @@ import com.triton.search.node2d.PathfindGrid;
 import com.triton.skill.Skill;
 import com.triton.util.Vector2d;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import static com.triton.constant.RuntimeConstants.objectConfig;
 import static proto.triton.ObjectWithMetadata.Ball;
@@ -16,8 +16,8 @@ public class DribbleBallSkill extends Skill {
     private final Vector2d pos;
     private final PathfindGrid pathfindGrid;
     private final Ball ball;
-    private final HashMap<Integer, Robot> allies;
-    private final HashMap<Integer, Robot> foes;
+    private final Map<Integer, Robot> allies;
+    private final Map<Integer, Robot> foes;
     private final float orientation;
     private final Vector2d facePos;
 
@@ -27,8 +27,8 @@ public class DribbleBallSkill extends Skill {
                             float orientation,
                             PathfindGrid pathfindGrid,
                             Ball ball,
-                            HashMap<Integer, Robot> allies,
-                            HashMap<Integer, Robot> foes) {
+                            Map<Integer, Robot> allies,
+                            Map<Integer, Robot> foes) {
         super(module);
         this.ally = ally;
         this.pos = pos;
@@ -46,8 +46,8 @@ public class DribbleBallSkill extends Skill {
                             Vector2d facePos,
                             PathfindGrid pathfindGrid,
                             Ball ball,
-                            HashMap<Integer, Robot> allies,
-                            HashMap<Integer, Robot> foes) {
+                            Map<Integer, Robot> allies,
+                            Map<Integer, Robot> foes) {
         super(module);
         this.ally = ally;
         this.pos = pos;

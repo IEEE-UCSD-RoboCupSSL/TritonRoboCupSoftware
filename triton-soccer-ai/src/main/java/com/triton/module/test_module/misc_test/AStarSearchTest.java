@@ -10,12 +10,18 @@ import com.triton.util.Vector2d;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 public class AStarSearchTest extends TestRunner {
 
-    public AStarSearchTest() {
-        super();
+    public AStarSearchTest(ScheduledThreadPoolExecutor executor) {
+        super(executor);
+    }
+
+    @Override
+    protected void prepare() {
+
     }
 
     @Override
@@ -31,7 +37,7 @@ public class AStarSearchTest extends TestRunner {
     }
 
     @Override
-    public void run() {
+    protected void execute() {
         Map<Vector2d, Node2d> nodeMap = new HashMap<>();
         Map<Node2d, Set<Node2d>> connections = new HashMap<>();
 

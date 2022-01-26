@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_ROBOT_FEEDBACKS;
@@ -18,20 +20,15 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 
 public class TritonBotMessageInterface extends Module {
-    private HashMap<Integer, UDP_Client> clientMap;
-    private HashMap<Integer, RobotFeedback> feedbacks;
+    private Map<Integer, UDP_Client> clientMap;
+    private Map<Integer, RobotFeedback> feedbacks;
 
-    public TritonBotMessageInterface() {
-        super();
-        clientMap.forEach((id, client) -> {
-            client.start();
-        });
+    public TritonBotMessageInterface(ScheduledThreadPoolExecutor executor) {
+        super(executor);
     }
 
     @Override
     protected void prepare() {
-        super.prepare();
-
         clientMap = new HashMap<>();
         feedbacks = new HashMap<>();
 
@@ -50,6 +47,20 @@ public class TritonBotMessageInterface extends Module {
     @Override
     protected void declareConsumes() throws IOException, TimeoutException {
         declareConsume(AI_TRITON_BOT_MESSAGE, this::callbackTritonBotMessage);
+    }
+
+    private void callbackTritonBotMessage(String s, Delivery delivery) {
+        TritonBotMessage message = (TritonBotMessage) simpleDeserialize(delivery.getBody());
+        if (clientMap.containsKey(message.getId()))
+            clientMap.get(message.getId()).addSend(message.toByteArray());
+    }
+
+    @Override
+    public void interrupt() {
+        super.interrupt();
+        clientMap.forEach((id, client) -> {
+            client.interrupt();
+        });
     }
 
     private void setupClients() throws SocketException, UnknownHostException {
@@ -73,12 +84,6 @@ public class TritonBotMessageInterface extends Module {
         }
     }
 
-    private void callbackTritonBotMessage(String s, Delivery delivery) {
-        TritonBotMessage message = (TritonBotMessage) simpleDeserialize(delivery.getBody());
-        if (clientMap.containsKey(message.getId()))
-            clientMap.get(message.getId()).addSend(message.toByteArray());
-    }
-
     private void callbackTritonBotFeedback(byte[] bytes) {
         RobotFeedback feedback = null;
         try {
@@ -94,10 +99,8 @@ public class TritonBotMessageInterface extends Module {
     }
 
     @Override
-    public void interrupt() {
-        super.interrupt();
-        clientMap.forEach((id, client) -> {
-            client.interrupt();
-        });
+    public void run() {
+        super.run();
+        clientMap.forEach((id, client) -> client.start());
     }
 }

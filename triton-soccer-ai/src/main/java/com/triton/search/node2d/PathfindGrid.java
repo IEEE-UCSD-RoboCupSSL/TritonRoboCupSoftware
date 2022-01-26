@@ -14,8 +14,7 @@ import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class PathfindGrid {
     SSL_GeometryFieldSize field;
-    HashMap<Integer, Robot> allies, foes;
-    Robot excludeAlly;
+    Map<Integer, Robot> allies, foes;
     Map<Vector2d, Node2d> nodeMap;
     Map<Node2d, Set<Node2d>> connections;
     Set<Node2d> obstacles;
@@ -82,10 +81,9 @@ public class PathfindGrid {
      * @param foes        list of foes
      * @param excludeAlly an ally that is not counted as an obstacle
      */
-    public synchronized void updateObstacles(HashMap<Integer, Robot> allies, HashMap<Integer, Robot> foes, Robot excludeAlly) {
+    public synchronized void updateObstacles(Map<Integer, Robot> allies, Map<Integer, Robot> foes, Robot excludeAlly) {
         this.allies = allies;
         this.foes = foes;
-        this.excludeAlly = excludeAlly;
 
         obstacles.forEach(node -> node.setPenalty(0));
         obstacles.clear();
@@ -147,58 +145,6 @@ public class PathfindGrid {
     }
 
     /**
-     * Returns the obstacle value of the node nearest to a point
-     *
-     * @param pos the point
-     * @return the obstacle value of the node nearest to a point
-     */
-    public double getObstacle(Vector2d pos) {
-        Node2d node = getNearestNode(pos);
-        if (node == null) return 0;
-        return node.getPenalty();
-    }
-
-    /**
-     * Returns the largest obstacle value between two points
-     *
-     * @param from the first point
-     * @param to   the second point
-     * @return the largest obstacle value between two points
-     */
-    public double getMaxObstacle(Vector2d from, Vector2d to) {
-        Vector2d step = to.sub(from).norm().scale(aiConfig.nodeRadius);
-        Vector2d currentPos = from;
-        double maxObstacle = 0;
-        while (currentPos.dist(to) > aiConfig.nodeRadius) {
-            Node2d currentNode = getNearestNode(currentPos);
-            if (currentNode != null && currentNode.getPenalty() > maxObstacle)
-                maxObstacle = currentNode.getPenalty();
-            currentPos = currentPos.add(step);
-        }
-        return maxObstacle;
-    }
-
-    /**
-     * Returns whether any obstacle value between two points is larger than a threshold
-     *
-     * @param from      the first point
-     * @param to        the second point
-     * @param threshold the threshold
-     * @return whether any obstacle value between two points is larger than a threshold
-     */
-    public boolean checkObstacle(Vector2d from, Vector2d to, double threshold) {
-        Vector2d step = to.sub(from).norm().scale(aiConfig.nodeRadius);
-        Vector2d currentPos = from;
-        while (currentPos.dist(to) > aiConfig.nodeRadius) {
-            Node2d currentNode = getNearestNode(currentPos);
-            if (currentNode != null && currentNode.getPenalty() > threshold)
-                return true;
-            currentPos = currentPos.add(step);
-        }
-        return false;
-    }
-
-    /**
      * Returns the nearest nodes to a point
      *
      * @param pos  the point
@@ -241,6 +187,70 @@ public class PathfindGrid {
     }
 
     /**
+     * Returns the obstacle value of the node nearest to a point
+     *
+     * @param pos the point
+     * @return the obstacle value of the node nearest to a point
+     */
+    public double getObstacle(Vector2d pos) {
+        Node2d node = getNearestNode(pos);
+        if (node == null) return 0;
+        return node.getPenalty();
+    }
+
+    /**
+     * Returns the largest obstacle value between two points
+     *
+     * @param from the first point
+     * @param to   the second point
+     * @return the largest obstacle value between two points
+     */
+    public double getMaxObstacle(Vector2d from, Vector2d to) {
+        Vector2d step = to.sub(from).norm().scale(aiConfig.nodeRadius);
+        Vector2d currentPos = from;
+        double maxObstacle = 0;
+        while (currentPos.dist(to) > aiConfig.nodeRadius) {
+            Node2d currentNode = getNearestNode(currentPos);
+            if (currentNode != null && currentNode.getPenalty() > maxObstacle)
+                maxObstacle = currentNode.getPenalty();
+            currentPos = currentPos.add(step);
+        }
+        return maxObstacle;
+    }
+
+    /**
+     * Find the next point in a route between two points
+     *
+     * @param from point to start from
+     * @param to   point to end at
+     * @return a route between two points
+     */
+    public Vector2d findNext(Vector2d from, Vector2d to) {
+        return findNext(findRoute(from, to));
+    }
+
+    /**
+     * Find the next point given a route. The next point is the point furthest in the route that can be reached without
+     * crossing through points with higher obstacle values than the start point
+     *
+     * @param route the route
+     * @return the next point given a route
+     */
+    public Vector2d findNext(LinkedList<Node2d> route) {
+        Node2d from = route.getFirst();
+        double threshold = from.getPenalty();
+
+        ReverseListIterator<Node2d> reverseListIterator = new ReverseListIterator<>(route);
+        while (reverseListIterator.hasNext()) {
+            Node2d to = reverseListIterator.next();
+            if (!checkObstacle(from.getPos(), to.getPos(), threshold))
+                return to.getPos();
+        }
+
+        throw new IllegalStateException();
+    }
+
+    /**
      * Find a route between two points
      *
      * @param fromPos point to start from
@@ -277,35 +287,23 @@ public class PathfindGrid {
     }
 
     /**
-     * Find the next point in a route between two points
+     * Returns whether any obstacle value between two points is larger than a threshold
      *
-     * @param from point to start from
-     * @param to   point to end at
-     * @return a route between two points
+     * @param from      the first point
+     * @param to        the second point
+     * @param threshold the threshold
+     * @return whether any obstacle value between two points is larger than a threshold
      */
-    public Vector2d findNext(Vector2d from, Vector2d to) {
-        return findNext(findRoute(from, to));
-    }
-
-    /**
-     * Find the next point given a route. The next point is the point furthest in the route that can be reached without
-     * crossing through points with higher obstacle values than the start point
-     *
-     * @param route the route
-     * @return the next point given a route
-     */
-    public Vector2d findNext(LinkedList<Node2d> route) {
-        Node2d from = route.getFirst();
-        double threshold = from.getPenalty();
-
-        ReverseListIterator<Node2d> reverseListIterator = new ReverseListIterator<>(route);
-        while (reverseListIterator.hasNext()) {
-            Node2d to = reverseListIterator.next();
-            if (!checkObstacle(from.getPos(), to.getPos(), threshold))
-                return to.getPos();
+    public boolean checkObstacle(Vector2d from, Vector2d to, double threshold) {
+        Vector2d step = to.sub(from).norm().scale(aiConfig.nodeRadius);
+        Vector2d currentPos = from;
+        while (currentPos.dist(to) > aiConfig.nodeRadius) {
+            Node2d currentNode = getNearestNode(currentPos);
+            if (currentNode != null && currentNode.getPenalty() > threshold)
+                return true;
+            currentPos = currentPos.add(step);
         }
-
-        throw new IllegalStateException();
+        return false;
     }
 
     public Map<Vector2d, Node2d> getNodeMap() {

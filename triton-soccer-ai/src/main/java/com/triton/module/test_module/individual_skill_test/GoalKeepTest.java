@@ -11,8 +11,9 @@ import proto.simulation.SslSimulationControl;
 import proto.vision.MessagesRobocupSslGeometry;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.RuntimeConstants.objectConfig;
@@ -25,11 +26,16 @@ import static proto.triton.ObjectWithMetadata.Robot;
 public class GoalKeepTest extends TestRunner {
     private MessagesRobocupSslGeometry.SSL_GeometryFieldSize field;
     private Ball ball;
-    private HashMap<Integer, Robot> allies;
-    private HashMap<Integer, RobotFeedback> feedbacks;
+    private Map<Integer, Robot> allies;
+    private Map<Integer, RobotFeedback> feedbacks;
 
-    public GoalKeepTest() {
-        super();
+    public GoalKeepTest(ScheduledThreadPoolExecutor executor) {
+        super(executor);
+    }
+
+    @Override
+    protected void prepare() {
+
     }
 
     @Override
@@ -54,11 +60,17 @@ public class GoalKeepTest extends TestRunner {
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
+        allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
     }
 
     private void callbackFeedbacks(String s, Delivery delivery) {
-        this.feedbacks = (HashMap<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+        this.feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        setupTest();
     }
 
     @Override
@@ -95,7 +107,7 @@ public class GoalKeepTest extends TestRunner {
     }
 
     @Override
-    public void run() {
+    protected void execute() {
         if (field == null || ball == null || allies == null) return;
 
         GoalKeepSkill goalKeepSkill = new GoalKeepSkill(this, allies.get(1), field, ball);

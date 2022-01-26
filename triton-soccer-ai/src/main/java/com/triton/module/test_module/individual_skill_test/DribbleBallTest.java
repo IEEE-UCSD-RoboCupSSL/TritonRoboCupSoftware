@@ -8,7 +8,8 @@ import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.RuntimeConstants.objectConfig;
@@ -18,10 +19,15 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 
 public class DribbleBallTest extends TestRunner {
-    private HashMap<Integer, RobotFeedback> feedbacks;
+    private Map<Integer, RobotFeedback> feedbacks;
 
-    public DribbleBallTest() {
-        super();
+    public DribbleBallTest(ScheduledThreadPoolExecutor executor) {
+        super(executor);
+    }
+
+    @Override
+    protected void prepare() {
+
     }
 
     @Override
@@ -35,7 +41,13 @@ public class DribbleBallTest extends TestRunner {
     }
 
     private void callbackFeedbacks(String s, Delivery delivery) {
-        this.feedbacks = (HashMap<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+        this.feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        setupTest();
     }
 
     @Override
@@ -71,7 +83,7 @@ public class DribbleBallTest extends TestRunner {
     }
 
     @Override
-    public void run() {
+    protected void execute() {
         System.out.println("TODO");
     }
 }

@@ -7,6 +7,8 @@ import com.triton.networking.UDP_Client;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_ROBOT_COMMAND;
@@ -19,16 +21,14 @@ import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 
 public class SimulatorRobotCommandInterface extends Module {
     private UDP_Client client;
-    private HashMap<Integer, RobotFeedback> feedbacks;
+    private Map<Integer, RobotFeedback> feedbacks;
 
-    public SimulatorRobotCommandInterface() {
-        super();
-        client.start();
+    public SimulatorRobotCommandInterface(ScheduledThreadPoolExecutor executor) {
+        super(executor);
     }
 
     @Override
     protected void prepare() {
-        super.prepare();
         feedbacks = new HashMap<>();
 
         try {
@@ -45,6 +45,21 @@ public class SimulatorRobotCommandInterface extends Module {
     @Override
     protected void declareConsumes() throws IOException, TimeoutException {
         declareConsume(AI_ROBOT_COMMAND, this::callbackRobotCommand);
+    }
+
+    private void callbackRobotCommand(String s, Delivery delivery) {
+        RobotCommand robotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
+
+        RobotControl.Builder robotControl = RobotControl.newBuilder();
+        robotControl.addRobotCommands(robotCommand);
+
+        client.addSend(robotControl.build().toByteArray());
+    }
+
+    @Override
+    public void interrupt() {
+        super.interrupt();
+        client.interrupt();
     }
 
     private void setupClient() throws IOException {
@@ -66,16 +81,6 @@ public class SimulatorRobotCommandInterface extends Module {
         client = new UDP_Client(allyControlAddress, allyControlPort, this::callbackRobotControlResponse, 10);
     }
 
-
-    private void callbackRobotCommand(String s, Delivery delivery) {
-        RobotCommand robotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
-
-        RobotControl.Builder robotControl = RobotControl.newBuilder();
-        robotControl.addRobotCommands(robotCommand);
-
-        client.addSend(robotControl.build().toByteArray());
-    }
-
     private void callbackRobotControlResponse(byte[] bytes) {
         RobotControlResponse response = null;
 
@@ -92,8 +97,8 @@ public class SimulatorRobotCommandInterface extends Module {
     }
 
     @Override
-    public void interrupt() {
-        super.interrupt();
-        client.interrupt();
+    public void run() {
+        super.run();
+        client.start();
     }
 }

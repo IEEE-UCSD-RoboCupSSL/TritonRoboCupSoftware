@@ -20,14 +20,14 @@ public class AIConfig {
         return 2 * nodeRadius;
     }
 
-    public float getNodeCollisionDist() {
-        return 2 * nodeRadius;
-    }
-
     public float getBoundCollisionDist() {
         return objectConfig.objectToCameraFactor * objectConfig.robotRadius
                 + getNodeCollisionDist()
                 + 2 * boundSafety;
+    }
+
+    public float getNodeCollisionDist() {
+        return 2 * nodeRadius;
     }
 
     public float getRobotCollisionDist() {

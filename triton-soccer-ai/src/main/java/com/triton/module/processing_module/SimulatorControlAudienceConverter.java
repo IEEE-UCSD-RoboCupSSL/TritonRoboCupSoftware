@@ -3,9 +3,10 @@ package com.triton.module.processing_module;
 import com.rabbitmq.client.Delivery;
 import com.triton.module.Module;
 import com.triton.util.ConvertCoordinate;
+import com.triton.util.Vector2d;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
@@ -14,8 +15,28 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationControl.*;
 
 public class SimulatorControlAudienceConverter extends Module {
-    public SimulatorControlAudienceConverter() {
-        super();
+    public SimulatorControlAudienceConverter(ScheduledThreadPoolExecutor executor) {
+        super(executor);
+    }
+
+    @Override
+    protected void prepare() {
+    }
+
+    @Override
+    protected void declarePublishes() throws IOException, TimeoutException {
+        declarePublish(AI_SIMULATOR_CONTROL);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_BIASED_SIMULATOR_CONTROL, this::callbackBiasedSimulatorControl);
+    }
+
+    private void callbackBiasedSimulatorControl(String s, Delivery delivery) {
+        SimulatorControl biasedSimulatorControl = (SimulatorControl) simpleDeserialize(delivery.getBody());
+        SimulatorControl simulatorControl = biasedToAudience(biasedSimulatorControl);
+        publish(AI_SIMULATOR_CONTROL, simulatorControl);
     }
 
     private static SimulatorControl biasedToAudience(SimulatorControl control) {
@@ -33,13 +54,13 @@ public class SimulatorControlAudienceConverter extends Module {
     private static TeleportBall biasedToAudience(TeleportBall teleportBall) {
         TeleportBall.Builder audienceTeleportBall = teleportBall.toBuilder();
 
-        List<Float> audiencePosition = ConvertCoordinate.biasedToAudience(teleportBall.getX(), teleportBall.getY());
-        audienceTeleportBall.setX(audiencePosition.get(0));
-        audienceTeleportBall.setY(audiencePosition.get(1));
+        Vector2d audiencePosition = ConvertCoordinate.biasedToAudience(teleportBall.getX(), teleportBall.getY());
+        audienceTeleportBall.setX(audiencePosition.x);
+        audienceTeleportBall.setY(audiencePosition.y);
 
-        List<Float> audienceVelocity = ConvertCoordinate.biasedToAudience(teleportBall.getVx(), teleportBall.getVy());
-        audienceTeleportBall.setVx(audienceVelocity.get(0));
-        audienceTeleportBall.setVy(audienceVelocity.get(1));
+        Vector2d audienceVelocity = ConvertCoordinate.biasedToAudience(teleportBall.getVx(), teleportBall.getVy());
+        audienceTeleportBall.setVx(audienceVelocity.x);
+        audienceTeleportBall.setVy(audienceVelocity.y);
 
         return audienceTeleportBall.build();
     }
@@ -47,38 +68,17 @@ public class SimulatorControlAudienceConverter extends Module {
     private static TeleportRobot biasedToAudience(TeleportRobot teleportRobot) {
         TeleportRobot.Builder audienceTeleportRobot = teleportRobot.toBuilder();
 
-        List<Float> audiencePosition = ConvertCoordinate.biasedToAudience(teleportRobot.getX(), teleportRobot.getY());
-        audienceTeleportRobot.setX(audiencePosition.get(0));
-        audienceTeleportRobot.setY(audiencePosition.get(1));
+        Vector2d audiencePosition = ConvertCoordinate.biasedToAudience(teleportRobot.getX(), teleportRobot.getY());
+        audienceTeleportRobot.setX(audiencePosition.x);
+        audienceTeleportRobot.setY(audiencePosition.y);
 
-        List<Float> audienceVelocity = ConvertCoordinate.biasedToAudience(teleportRobot.getVX(), teleportRobot.getVY());
-        audienceTeleportRobot.setVX(audienceVelocity.get(0));
-        audienceTeleportRobot.setVY(audienceVelocity.get(1));
+        Vector2d audienceVelocity = ConvertCoordinate.biasedToAudience(teleportRobot.getVX(), teleportRobot.getVY());
+        audienceTeleportRobot.setVX(audienceVelocity.x);
+        audienceTeleportRobot.setVY(audienceVelocity.y);
 
         audienceTeleportRobot.setOrientation(ConvertCoordinate.biasedToAudience(teleportRobot.getOrientation()));
         audienceTeleportRobot.setVAngular(ConvertCoordinate.biasedToAudience(teleportRobot.getVAngular()));
 
         return audienceTeleportRobot.build();
-    }
-
-    @Override
-    protected void prepare() {
-        super.prepare();
-    }
-
-    @Override
-    protected void declarePublishes() throws IOException, TimeoutException {
-        declarePublish(AI_SIMULATOR_CONTROL);
-    }
-
-    @Override
-    protected void declareConsumes() throws IOException, TimeoutException {
-        declareConsume(AI_BIASED_SIMULATOR_CONTROL, this::callbackBiasedSimulatorControl);
-    }
-
-    private void callbackBiasedSimulatorControl(String s, Delivery delivery) {
-        SimulatorControl biasedSimulatorControl = (SimulatorControl) simpleDeserialize(delivery.getBody());
-        SimulatorControl simulatorControl = biasedToAudience(biasedSimulatorControl);
-        publish(AI_SIMULATOR_CONTROL, simulatorControl);
     }
 }

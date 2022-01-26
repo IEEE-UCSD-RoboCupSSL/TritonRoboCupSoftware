@@ -7,10 +7,8 @@ import com.triton.module.Module;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
@@ -21,53 +19,18 @@ import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 
 public class FilterModule extends Module {
-    ScheduledExecutorService executor;
-    private LinkedList<ArrayList<SSL_DetectionBall>> aggregatedBalls;
-    private HashMap<Integer, LinkedList<SSL_DetectionRobot>> aggregatedAllies;
-    private HashMap<Integer, LinkedList<SSL_DetectionRobot>> aggregatedFoes;
     private Ball filteredBall;
-    private HashMap<Integer, Robot> filteredAllies;
-    private HashMap<Integer, Robot> filteredFoes;
+    private Map<Integer, Robot> filteredAllies;
+    private Map<Integer, Robot> filteredFoes;
 
-    public FilterModule() {
-        super();
-        initDefaults();
-        executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(this::run, 0, 10, TimeUnit.MILLISECONDS);
+    public FilterModule(ScheduledThreadPoolExecutor executor) {
+        super(executor);
     }
 
     @Override
     public void run() {
         super.run();
-        publish(AI_FILTERED_BALL, filteredBall);
-        publish(AI_FILTERED_ALLIES, filteredAllies);
-        publish(AI_FILTERED_FOES, filteredFoes);
-    }
-
-    @Override
-    protected void prepare() {
-        super.prepare();
-        aggregatedBalls = new LinkedList<>();
-        aggregatedAllies = new HashMap<>();
-        aggregatedFoes = new HashMap<>();
-
-        filteredBall = Ball.getDefaultInstance();
-        filteredAllies = new HashMap<>();
-        filteredFoes = new HashMap<>();
-    }
-
-    @Override
-    protected void declarePublishes() throws IOException, TimeoutException {
-        declarePublish(AI_FILTERED_BALL);
-        declarePublish(AI_FILTERED_ALLIES);
-        declarePublish(AI_FILTERED_FOES);
-    }
-
-    @Override
-    protected void declareConsumes() throws IOException, TimeoutException {
-        declareConsume(AI_BIASED_BALLS, this::callbackBalls);
-        declareConsume(AI_BIASED_ALLIES, this::callbackAllies);
-        declareConsume(AI_BIASED_FOES, this::callbackFoes);
+        initDefaults();
     }
 
     private void initDefaults() {
@@ -103,6 +66,31 @@ public class FilterModule extends Module {
             filteredFoe.setAngular(0);
             filteredFoes.put(id, filteredFoe.build());
         }
+
+        publish(AI_FILTERED_BALL, filteredBall);
+        publish(AI_FILTERED_ALLIES, filteredAllies);
+        publish(AI_FILTERED_FOES, filteredFoes);
+    }
+
+    @Override
+    protected void prepare() {
+        filteredBall = Ball.getDefaultInstance();
+        filteredAllies = new HashMap<>();
+        filteredFoes = new HashMap<>();
+    }
+
+    @Override
+    protected void declarePublishes() throws IOException, TimeoutException {
+        declarePublish(AI_FILTERED_BALL);
+        declarePublish(AI_FILTERED_ALLIES);
+        declarePublish(AI_FILTERED_FOES);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_BIASED_BALLS, this::callbackBalls);
+        declareConsume(AI_BIASED_ALLIES, this::callbackAllies);
+        declareConsume(AI_BIASED_FOES, this::callbackFoes);
     }
 
     private void callbackBalls(String s, Delivery delivery) {
@@ -129,10 +117,12 @@ public class FilterModule extends Module {
         filteredBall.setVz(0);
 
         this.filteredBall = filteredBall.build();
+
+        publish(AI_FILTERED_BALL, this.filteredBall);
     }
 
     private void callbackAllies(String s, Delivery delivery) {
-        HashMap<Integer, SSL_DetectionRobot> allies = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
+        Map<Integer, SSL_DetectionRobot> allies = (Map<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
 
         for (SSL_DetectionRobot ally : allies.values()) {
             if (ally.getRobotId() > RuntimeConstants.gameConfig.numBots - 1) continue;
@@ -146,10 +136,12 @@ public class FilterModule extends Module {
             filteredAlly.setAngular(0);
             filteredAllies.put(ally.getRobotId(), filteredAlly.build());
         }
+
+        publish(AI_FILTERED_ALLIES, filteredAllies);
     }
 
     private void callbackFoes(String s, Delivery delivery) {
-        HashMap<Integer, SSL_DetectionRobot> foes = (HashMap<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
+        Map<Integer, SSL_DetectionRobot> foes = (Map<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
 
         for (SSL_DetectionRobot foe : foes.values()) {
             if (foe.getRobotId() > RuntimeConstants.gameConfig.numBots - 1) continue;
@@ -163,11 +155,12 @@ public class FilterModule extends Module {
             filteredFoe.setAngular(0);
             filteredFoes.put(foe.getRobotId(), filteredFoe.build());
         }
+
+        publish(AI_FILTERED_FOES, filteredFoes);
     }
 
     @Override
     public void interrupt() {
         super.interrupt();
-        executor.shutdown();
     }
 }

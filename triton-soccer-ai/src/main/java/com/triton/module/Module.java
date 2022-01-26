@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.SimpleSerialize.simpleSerialize;
@@ -16,12 +17,14 @@ public abstract class Module extends Thread {
     private static final String CONNECTION_FACTORY_HOST = "localhost";
     private static final String FANOUT = "fanout";
 
-    private ConnectionFactory factory;
+    protected ScheduledThreadPoolExecutor executor;
 
+    private ConnectionFactory factory;
     private Channel publish_channel;
     private Channel consume_channel;
 
-    public Module() {
+    public Module(ScheduledThreadPoolExecutor executor) {
+        this.executor = executor;
         try {
             setupChannel();
             prepare();
@@ -44,8 +47,7 @@ public abstract class Module extends Thread {
         consume_channel = consume_connection.createChannel();
     }
 
-    protected void prepare() {
-    }
+    protected abstract void prepare();
 
     protected abstract void declarePublishes() throws IOException, TimeoutException;
 

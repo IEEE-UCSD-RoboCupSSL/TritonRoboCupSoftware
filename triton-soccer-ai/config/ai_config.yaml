@@ -1,6 +1,6 @@
   nodeRadius: 50
   boundSafety: 0
-  robotSafety: 200
+  robotSafety: 100
   obstacleScale: 10000
   gridExtend: 250
 

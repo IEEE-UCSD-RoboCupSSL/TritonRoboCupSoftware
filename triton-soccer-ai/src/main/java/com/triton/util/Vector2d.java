@@ -21,10 +21,6 @@ public class Vector2d {
         this.y = (float) Math.sin(angle);
     }
 
-    public float mag() {
-        return (float) Math.sqrt(x * x + y * y);
-    }
-
     public float angle() {
         return (float) Math.atan2(y, x);
     }
@@ -34,24 +30,24 @@ public class Vector2d {
         return this.scale(1f / mag);
     }
 
-    public Vector2d add(Vector2d vector) {
-        return new Vector2d(x + vector.x, y + vector.y);
-    }
-
-    public Vector2d sub(Vector2d vector) {
-        return new Vector2d(x - vector.x, y - vector.y);
+    public float mag() {
+        return (float) Math.sqrt(x * x + y * y);
     }
 
     public Vector2d scale(float scale) {
         return new Vector2d(x * scale, y * scale);
     }
 
-    public float dot(Vector2d vector) {
-        return x * vector.x + y * vector.y;
+    public Vector2d add(Vector2d vector) {
+        return new Vector2d(x + vector.x, y + vector.y);
     }
 
     public float scalarProj(Vector2d vector) {
         return dot(vector) / vector.mag();
+    }
+
+    public float dot(Vector2d vector) {
+        return x * vector.x + y * vector.y;
     }
 
     public Vector2d proj(Vector2d vector) {
@@ -62,17 +58,21 @@ public class Vector2d {
         return sub(vector).mag();
     }
 
+    public Vector2d sub(Vector2d vector) {
+        return new Vector2d(x - vector.x, y - vector.y);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vector2d vector2d = (Vector2d) o;
         return Float.compare(vector2d.x, x) == 0 && Float.compare(vector2d.y, y) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
     }
 
     @Override

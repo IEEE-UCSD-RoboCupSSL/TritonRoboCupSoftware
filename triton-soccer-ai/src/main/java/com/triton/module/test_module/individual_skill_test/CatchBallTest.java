@@ -10,7 +10,8 @@ import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.RuntimeConstants.objectConfig;
@@ -23,13 +24,18 @@ import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 public class CatchBallTest extends TestRunner {
     private SSL_GeometryFieldSize field;
     private Ball ball;
-    private HashMap<Integer, Robot> allies;
-    private HashMap<Integer, Robot> foes;
+    private Map<Integer, Robot> allies;
+    private Map<Integer, Robot> foes;
 
     private PathfindGrid pathfindGrid;
 
-    public CatchBallTest() {
-        super();
+    public CatchBallTest(ScheduledThreadPoolExecutor executor) {
+        super(executor);
+    }
+
+    @Override
+    protected void prepare() {
+
     }
 
     @Override
@@ -43,6 +49,28 @@ public class CatchBallTest extends TestRunner {
         declareConsume(AI_FILTERED_BALL, this::callbackBalls);
         declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
         declareConsume(AI_FILTERED_FOES, this::callbackFoes);
+    }
+
+    private void callbackField(String s, Delivery delivery) {
+        field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
+    }
+
+    private void callbackBalls(String s, Delivery delivery) {
+        ball = (Ball) simpleDeserialize(delivery.getBody());
+    }
+
+    private void callbackAllies(String s, Delivery delivery) {
+        allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
+    }
+
+    private void callbackFoes(String s, Delivery delivery) {
+        foes = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        setupTest();
     }
 
     @Override
@@ -77,24 +105,8 @@ public class CatchBallTest extends TestRunner {
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 
-    private void callbackField(String s, Delivery delivery) {
-        field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackBalls(String s, Delivery delivery) {
-        ball = (Ball) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackAllies(String s, Delivery delivery) {
-        allies = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackFoes(String s, Delivery delivery) {
-        foes = (HashMap<Integer, Robot>) simpleDeserialize(delivery.getBody());
-    }
-
     @Override
-    public void run() {
+    protected void execute() {
         if (field == null || ball == null || allies == null || foes == null) return;
 
         if (pathfindGrid == null)
