@@ -17,7 +17,7 @@ public abstract class Module extends Thread {
     private static final String CONNECTION_FACTORY_HOST = "localhost";
     private static final String FANOUT = "fanout";
 
-    protected ScheduledThreadPoolExecutor executor;
+    public ScheduledThreadPoolExecutor executor;
 
     private ConnectionFactory factory;
     private Channel publish_channel;
@@ -38,7 +38,6 @@ public abstract class Module extends Thread {
     private void setupChannel() throws IOException, TimeoutException {
         factory = new ConnectionFactory();
         factory.setHost(CONNECTION_FACTORY_HOST);
-        factory.setRequestedHeartbeat(10);
 
         Connection publish_connection = factory.newConnection();
         publish_channel = publish_connection.createChannel();

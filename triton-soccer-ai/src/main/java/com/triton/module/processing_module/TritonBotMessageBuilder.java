@@ -6,7 +6,6 @@ import com.triton.constant.Team;
 import com.triton.module.Module;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -24,8 +23,8 @@ public class TritonBotMessageBuilder extends Module {
     private static final long VISION_INTERVAL = 0;
     private static final long COMMAND_INTERVAL = 10;
 
-    private HashMap<Integer, Date> visionTimestamps;
-    private HashMap<Integer, Date> commandTimestamps;
+    private HashMap<Integer, Long> visionTimestamps;
+    private HashMap<Integer, Long> commandTimestamps;
     private HashMap<Integer, RobotCommand.Builder> aggregateRobotCommands;
 
     public TritonBotMessageBuilder(ScheduledThreadPoolExecutor executor) {
@@ -37,15 +36,6 @@ public class TritonBotMessageBuilder extends Module {
         visionTimestamps = new HashMap<>();
         commandTimestamps = new HashMap<>();
         aggregateRobotCommands = new HashMap<>();
-    }
-
-    private void publishCommand() {
-        aggregateRobotCommands.forEach((id, aggregateRobotCommand) -> {
-            TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
-            message.setId(id);
-            message.setCommand(aggregateRobotCommand);
-            publish(AI_TRITON_BOT_MESSAGE, message.build());
-        });
     }
 
     @Override
@@ -70,9 +60,9 @@ public class TritonBotMessageBuilder extends Module {
             allies = frame.getRobotsYellowList();
 
         allies.forEach(ally -> {
-            Date timestamp = visionTimestamps.getOrDefault(ally.getRobotId(), new Date(0));
-            Date currentTimestamp = new Date();
-            long timestampDifference = currentTimestamp.getTime() - timestamp.getTime();
+            long timestamp = visionTimestamps.getOrDefault(ally.getRobotId(), (long) 0);
+            long currentTimestamp = System.currentTimeMillis();
+            long timestampDifference = currentTimestamp - timestamp;
             if (timestampDifference > VISION_INTERVAL) {
                 TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
                 message.setId(ally.getRobotId());
@@ -103,11 +93,14 @@ public class TritonBotMessageBuilder extends Module {
             aggregateRobotCommand.setDribblerSpeed(robotCommand.getDribblerSpeed());
         aggregateRobotCommands.put(robotCommand.getId(), aggregateRobotCommand);
 
-        Date timestamp = commandTimestamps.getOrDefault(aggregateRobotCommand.getId(), new Date(0));
-        Date currentTimestamp = new Date();
-        long timestampDifference = currentTimestamp.getTime() - timestamp.getTime();
+        long timestamp = commandTimestamps.getOrDefault(aggregateRobotCommand.getId(), (long) 0);
+        long currentTimestamp = System.currentTimeMillis();
+        long timestampDifference = currentTimestamp - timestamp;
         if (timestampDifference > COMMAND_INTERVAL) {
-            publishCommand();
+            TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
+            message.setId(robotCommand.getId());
+            message.setCommand(aggregateRobotCommand);
+            publish(AI_TRITON_BOT_MESSAGE, message.build());
             commandTimestamps.put(aggregateRobotCommand.getId(), currentTimestamp);
         }
     }

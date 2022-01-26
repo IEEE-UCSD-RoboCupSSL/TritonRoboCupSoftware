@@ -4,7 +4,7 @@ import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.TestRunner;
-import com.triton.skill.basic_skill.MatchVelocitySkill;
+import com.triton.skill.basic_skill.MatchVelocity;
 import com.triton.util.Vector2d;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
@@ -25,6 +25,14 @@ public class MatchVelocityTest extends TestRunner {
 
     public MatchVelocityTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
+        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    protected void execute() {
+        if (allies == null) return;
+        MatchVelocity matchVelocity = new MatchVelocity(this, allies.get(1), new Vector2d(0, 2), 2f);
+        submitSkill(matchVelocity);
     }
 
     @Override
@@ -47,12 +55,6 @@ public class MatchVelocityTest extends TestRunner {
     }
 
     @Override
-    public void run() {
-        super.run();
-        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
-    }
-
-    @Override
     protected void setupTest() {
         SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
         SslSimulationControl.TeleportRobot.Builder teleportRobot = SslSimulationControl.TeleportRobot.newBuilder();
@@ -70,13 +72,5 @@ public class MatchVelocityTest extends TestRunner {
         teleportRobot.setByForce(false);
         simulatorControl.addTeleportRobot(teleportRobot);
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-    }
-
-    @Override
-    protected void execute() {
-        if (allies == null) return;
-
-        MatchVelocitySkill matchVelocitySkill = new MatchVelocitySkill(this, allies.get(1), new Vector2d(0, 2), 2f);
-        matchVelocitySkill.start();
     }
 }

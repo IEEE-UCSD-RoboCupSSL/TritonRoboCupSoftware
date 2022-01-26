@@ -52,6 +52,21 @@ public final class ObjectWithMetadata {
      * <code>float vz = 7;</code>
      */
     float getVz();
+
+    /**
+     * <code>float accX = 8;</code>
+     */
+    float getAccX();
+
+    /**
+     * <code>float accY = 9;</code>
+     */
+    float getAccY();
+
+    /**
+     * <code>float accZ = 10;</code>
+     */
+    float getAccZ();
   }
   /**
    * Protobuf type {@code proto.triton.Ball}
@@ -73,6 +88,9 @@ public final class ObjectWithMetadata {
       vx_ = 0F;
       vy_ = 0F;
       vz_ = 0F;
+      accX_ = 0F;
+      accY_ = 0F;
+      accZ_ = 0F;
     }
 
     @java.lang.Override
@@ -132,6 +150,21 @@ public final class ObjectWithMetadata {
             case 61: {
 
               vz_ = input.readFloat();
+              break;
+            }
+            case 69: {
+
+              accX_ = input.readFloat();
+              break;
+            }
+            case 77: {
+
+              accY_ = input.readFloat();
+              break;
+            }
+            case 85: {
+
+              accZ_ = input.readFloat();
               break;
             }
             default: {
@@ -229,6 +262,33 @@ public final class ObjectWithMetadata {
       return vz_;
     }
 
+    public static final int ACCX_FIELD_NUMBER = 8;
+    private float accX_;
+    /**
+     * <code>float accX = 8;</code>
+     */
+    public float getAccX() {
+      return accX_;
+    }
+
+    public static final int ACCY_FIELD_NUMBER = 9;
+    private float accY_;
+    /**
+     * <code>float accY = 9;</code>
+     */
+    public float getAccY() {
+      return accY_;
+    }
+
+    public static final int ACCZ_FIELD_NUMBER = 10;
+    private float accZ_;
+    /**
+     * <code>float accZ = 10;</code>
+     */
+    public float getAccZ() {
+      return accZ_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -263,6 +323,15 @@ public final class ObjectWithMetadata {
       }
       if (vz_ != 0F) {
         output.writeFloat(7, vz_);
+      }
+      if (accX_ != 0F) {
+        output.writeFloat(8, accX_);
+      }
+      if (accY_ != 0F) {
+        output.writeFloat(9, accY_);
+      }
+      if (accZ_ != 0F) {
+        output.writeFloat(10, accZ_);
       }
       unknownFields.writeTo(output);
     }
@@ -300,6 +369,18 @@ public final class ObjectWithMetadata {
       if (vz_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(7, vz_);
+      }
+      if (accX_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(8, accX_);
+      }
+      if (accY_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(9, accY_);
+      }
+      if (accZ_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(10, accZ_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -343,6 +424,18 @@ public final class ObjectWithMetadata {
           java.lang.Float.floatToIntBits(getVz())
           == java.lang.Float.floatToIntBits(
               other.getVz()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getAccX())
+          == java.lang.Float.floatToIntBits(
+              other.getAccX()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getAccY())
+          == java.lang.Float.floatToIntBits(
+              other.getAccY()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getAccZ())
+          == java.lang.Float.floatToIntBits(
+              other.getAccZ()));
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -375,6 +468,15 @@ public final class ObjectWithMetadata {
       hash = (37 * hash) + VZ_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getVz());
+      hash = (37 * hash) + ACCX_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getAccX());
+      hash = (37 * hash) + ACCY_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getAccY());
+      hash = (37 * hash) + ACCZ_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getAccZ());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -522,6 +624,12 @@ public final class ObjectWithMetadata {
 
         vz_ = 0F;
 
+        accX_ = 0F;
+
+        accY_ = 0F;
+
+        accZ_ = 0F;
+
         return this;
       }
 
@@ -555,6 +663,9 @@ public final class ObjectWithMetadata {
         result.vx_ = vx_;
         result.vy_ = vy_;
         result.vz_ = vz_;
+        result.accX_ = accX_;
+        result.accY_ = accY_;
+        result.accZ_ = accZ_;
         onBuilt();
         return result;
       }
@@ -623,6 +734,15 @@ public final class ObjectWithMetadata {
         }
         if (other.getVz() != 0F) {
           setVz(other.getVz());
+        }
+        if (other.getAccX() != 0F) {
+          setAccX(other.getAccX());
+        }
+        if (other.getAccY() != 0F) {
+          setAccY(other.getAccY());
+        }
+        if (other.getAccZ() != 0F) {
+          setAccZ(other.getAccZ());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -834,6 +954,84 @@ public final class ObjectWithMetadata {
         onChanged();
         return this;
       }
+
+      private float accX_ ;
+      /**
+       * <code>float accX = 8;</code>
+       */
+      public float getAccX() {
+        return accX_;
+      }
+      /**
+       * <code>float accX = 8;</code>
+       */
+      public Builder setAccX(float value) {
+        
+        accX_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float accX = 8;</code>
+       */
+      public Builder clearAccX() {
+        
+        accX_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float accY_ ;
+      /**
+       * <code>float accY = 9;</code>
+       */
+      public float getAccY() {
+        return accY_;
+      }
+      /**
+       * <code>float accY = 9;</code>
+       */
+      public Builder setAccY(float value) {
+        
+        accY_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float accY = 9;</code>
+       */
+      public Builder clearAccY() {
+        
+        accY_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float accZ_ ;
+      /**
+       * <code>float accZ = 10;</code>
+       */
+      public float getAccZ() {
+        return accZ_;
+      }
+      /**
+       * <code>float accZ = 10;</code>
+       */
+      public Builder setAccZ(float value) {
+        
+        accZ_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float accZ = 10;</code>
+       */
+      public Builder clearAccZ() {
+        
+        accZ_ = 0F;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -930,6 +1128,21 @@ public final class ObjectWithMetadata {
      * <code>float angular = 8;</code>
      */
     float getAngular();
+
+    /**
+     * <code>float accX = 9;</code>
+     */
+    float getAccX();
+
+    /**
+     * <code>float accY = 10;</code>
+     */
+    float getAccY();
+
+    /**
+     * <code>float accAngular = 11;</code>
+     */
+    float getAccAngular();
   }
   /**
    * Protobuf type {@code proto.triton.Robot}
@@ -952,6 +1165,9 @@ public final class ObjectWithMetadata {
       vx_ = 0F;
       vy_ = 0F;
       angular_ = 0F;
+      accX_ = 0F;
+      accY_ = 0F;
+      accAngular_ = 0F;
     }
 
     @java.lang.Override
@@ -1016,6 +1232,21 @@ public final class ObjectWithMetadata {
             case 69: {
 
               angular_ = input.readFloat();
+              break;
+            }
+            case 77: {
+
+              accX_ = input.readFloat();
+              break;
+            }
+            case 85: {
+
+              accY_ = input.readFloat();
+              break;
+            }
+            case 93: {
+
+              accAngular_ = input.readFloat();
               break;
             }
             default: {
@@ -1122,6 +1353,33 @@ public final class ObjectWithMetadata {
       return angular_;
     }
 
+    public static final int ACCX_FIELD_NUMBER = 9;
+    private float accX_;
+    /**
+     * <code>float accX = 9;</code>
+     */
+    public float getAccX() {
+      return accX_;
+    }
+
+    public static final int ACCY_FIELD_NUMBER = 10;
+    private float accY_;
+    /**
+     * <code>float accY = 10;</code>
+     */
+    public float getAccY() {
+      return accY_;
+    }
+
+    public static final int ACCANGULAR_FIELD_NUMBER = 11;
+    private float accAngular_;
+    /**
+     * <code>float accAngular = 11;</code>
+     */
+    public float getAccAngular() {
+      return accAngular_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1159,6 +1417,15 @@ public final class ObjectWithMetadata {
       }
       if (angular_ != 0F) {
         output.writeFloat(8, angular_);
+      }
+      if (accX_ != 0F) {
+        output.writeFloat(9, accX_);
+      }
+      if (accY_ != 0F) {
+        output.writeFloat(10, accY_);
+      }
+      if (accAngular_ != 0F) {
+        output.writeFloat(11, accAngular_);
       }
       unknownFields.writeTo(output);
     }
@@ -1200,6 +1467,18 @@ public final class ObjectWithMetadata {
       if (angular_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(8, angular_);
+      }
+      if (accX_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(9, accX_);
+      }
+      if (accY_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(10, accY_);
+      }
+      if (accAngular_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(11, accAngular_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1245,6 +1524,18 @@ public final class ObjectWithMetadata {
           java.lang.Float.floatToIntBits(getAngular())
           == java.lang.Float.floatToIntBits(
               other.getAngular()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getAccX())
+          == java.lang.Float.floatToIntBits(
+              other.getAccX()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getAccY())
+          == java.lang.Float.floatToIntBits(
+              other.getAccY()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getAccAngular())
+          == java.lang.Float.floatToIntBits(
+              other.getAccAngular()));
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1279,6 +1570,15 @@ public final class ObjectWithMetadata {
       hash = (37 * hash) + ANGULAR_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getAngular());
+      hash = (37 * hash) + ACCX_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getAccX());
+      hash = (37 * hash) + ACCY_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getAccY());
+      hash = (37 * hash) + ACCANGULAR_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getAccAngular());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1428,6 +1728,12 @@ public final class ObjectWithMetadata {
 
         angular_ = 0F;
 
+        accX_ = 0F;
+
+        accY_ = 0F;
+
+        accAngular_ = 0F;
+
         return this;
       }
 
@@ -1462,6 +1768,9 @@ public final class ObjectWithMetadata {
         result.vx_ = vx_;
         result.vy_ = vy_;
         result.angular_ = angular_;
+        result.accX_ = accX_;
+        result.accY_ = accY_;
+        result.accAngular_ = accAngular_;
         onBuilt();
         return result;
       }
@@ -1533,6 +1842,15 @@ public final class ObjectWithMetadata {
         }
         if (other.getAngular() != 0F) {
           setAngular(other.getAngular());
+        }
+        if (other.getAccX() != 0F) {
+          setAccX(other.getAccX());
+        }
+        if (other.getAccY() != 0F) {
+          setAccY(other.getAccY());
+        }
+        if (other.getAccAngular() != 0F) {
+          setAccAngular(other.getAccAngular());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1770,6 +2088,84 @@ public final class ObjectWithMetadata {
         onChanged();
         return this;
       }
+
+      private float accX_ ;
+      /**
+       * <code>float accX = 9;</code>
+       */
+      public float getAccX() {
+        return accX_;
+      }
+      /**
+       * <code>float accX = 9;</code>
+       */
+      public Builder setAccX(float value) {
+        
+        accX_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float accX = 9;</code>
+       */
+      public Builder clearAccX() {
+        
+        accX_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float accY_ ;
+      /**
+       * <code>float accY = 10;</code>
+       */
+      public float getAccY() {
+        return accY_;
+      }
+      /**
+       * <code>float accY = 10;</code>
+       */
+      public Builder setAccY(float value) {
+        
+        accY_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float accY = 10;</code>
+       */
+      public Builder clearAccY() {
+        
+        accY_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float accAngular_ ;
+      /**
+       * <code>float accAngular = 11;</code>
+       */
+      public float getAccAngular() {
+        return accAngular_;
+      }
+      /**
+       * <code>float accAngular = 11;</code>
+       */
+      public Builder setAccAngular(float value) {
+        
+        accAngular_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float accAngular = 11;</code>
+       */
+      public Builder clearAccAngular() {
+        
+        accAngular_ = 0F;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1843,12 +2239,15 @@ public final class ObjectWithMetadata {
   static {
     java.lang.String[] descriptorData = {
       "\n\032object_with_metadata.proto\022\014proto.trit" +
-      "on\"^\n\004Ball\022\021\n\ttimestamp\030\001 \001(\003\022\t\n\001x\030\002 \001(\002" +
-      "\022\t\n\001y\030\003 \001(\002\022\t\n\001z\030\004 \001(\002\022\n\n\002vx\030\005 \001(\002\022\n\n\002vy" +
-      "\030\006 \001(\002\022\n\n\002vz\030\007 \001(\002\"z\n\005Robot\022\021\n\ttimestamp" +
-      "\030\001 \001(\003\022\n\n\002id\030\002 \001(\005\022\t\n\001x\030\003 \001(\002\022\t\n\001y\030\004 \001(\002" +
-      "\022\023\n\013orientation\030\005 \001(\002\022\n\n\002vx\030\006 \001(\002\022\n\n\002vy\030" +
-      "\007 \001(\002\022\017\n\007angular\030\010 \001(\002b\006proto3"
+      "on\"\210\001\n\004Ball\022\021\n\ttimestamp\030\001 \001(\003\022\t\n\001x\030\002 \001(" +
+      "\002\022\t\n\001y\030\003 \001(\002\022\t\n\001z\030\004 \001(\002\022\n\n\002vx\030\005 \001(\002\022\n\n\002v" +
+      "y\030\006 \001(\002\022\n\n\002vz\030\007 \001(\002\022\014\n\004accX\030\010 \001(\002\022\014\n\004acc" +
+      "Y\030\t \001(\002\022\014\n\004accZ\030\n \001(\002\"\252\001\n\005Robot\022\021\n\ttimes" +
+      "tamp\030\001 \001(\003\022\n\n\002id\030\002 \001(\005\022\t\n\001x\030\003 \001(\002\022\t\n\001y\030\004" +
+      " \001(\002\022\023\n\013orientation\030\005 \001(\002\022\n\n\002vx\030\006 \001(\002\022\n\n" +
+      "\002vy\030\007 \001(\002\022\017\n\007angular\030\010 \001(\002\022\014\n\004accX\030\t \001(\002" +
+      "\022\014\n\004accY\030\n \001(\002\022\022\n\naccAngular\030\013 \001(\002b\006prot" +
+      "o3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1867,13 +2266,13 @@ public final class ObjectWithMetadata {
     internal_static_proto_triton_Ball_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_Ball_descriptor,
-        new java.lang.String[] { "Timestamp", "X", "Y", "Z", "Vx", "Vy", "Vz", });
+        new java.lang.String[] { "Timestamp", "X", "Y", "Z", "Vx", "Vy", "Vz", "AccX", "AccY", "AccZ", });
     internal_static_proto_triton_Robot_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_proto_triton_Robot_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_Robot_descriptor,
-        new java.lang.String[] { "Timestamp", "Id", "X", "Y", "Orientation", "Vx", "Vy", "Angular", });
+        new java.lang.String[] { "Timestamp", "Id", "X", "Y", "Orientation", "Vx", "Vy", "Angular", "AccX", "AccY", "AccAngular", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

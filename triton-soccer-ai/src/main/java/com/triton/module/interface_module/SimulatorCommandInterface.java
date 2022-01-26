@@ -10,6 +10,7 @@ import proto.simulation.SslSimulationConfig;
 import proto.simulation.SslSimulationConfig.SimulatorConfig;
 
 import java.io.IOException;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
@@ -24,6 +25,7 @@ import static sslsim.SslSimulationCustomErforceRobotSpec.RobotSpecErForce;
 
 public class SimulatorCommandInterface extends Module {
     private UDP_Client client;
+    private Future<?> clientFuture;
 
     public SimulatorCommandInterface(ScheduledThreadPoolExecutor executor) {
         super(executor);
@@ -69,7 +71,7 @@ public class SimulatorCommandInterface extends Module {
     @Override
     public void interrupt() {
         super.interrupt();
-        client.interrupt();
+        clientFuture.cancel(true);
     }
 
     private void setupClient() throws IOException {
@@ -92,7 +94,7 @@ public class SimulatorCommandInterface extends Module {
     public void run() {
         super.run();
         setupSimulator();
-        client.start();
+        clientFuture = executor.submit(client);
     }
 
     private void setupSimulator() {

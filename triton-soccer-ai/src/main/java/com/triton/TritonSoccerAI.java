@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import static com.triton.config.ConfigPath.*;
@@ -31,11 +32,14 @@ import static com.triton.config.ConfigReader.readConfig;
 public class TritonSoccerAI {
     private final ScheduledThreadPoolExecutor executor;
     private final List<Module> modules;
+    private final List<Future<?>> futures;
 
     public TritonSoccerAI() {
         super();
         modules = new ArrayList<>();
-        executor = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(100);
+        futures = new ArrayList<>();
+        executor = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(1000);
+        executor.setRemoveOnCancelPolicy(true);
     }
 
     public static void main(String[] args) {
@@ -99,6 +103,7 @@ public class TritonSoccerAI {
 
     private void runTests() {
         List<Module> testRunners = new ArrayList<>();
+        List<Future<?>> testFutures = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -115,26 +120,26 @@ public class TritonSoccerAI {
             }
 
             switch (test) {
-                case KICK -> startModule(new KickTest(executor), testRunners);
-                case DRIBBLE -> startModule(new DribbleTest(executor), testRunners);
-                case MATCH_VELOCITY -> startModule(new MatchVelocityTest(executor), testRunners);
-                case MOVE_TO_POINT -> startModule(new MoveToPointTest(executor), testRunners);
-                case PATH_TO_POINT -> startModule(new PathToPointTest(executor), testRunners);
-                case CHASE_BALL -> startModule(new ChaseBallTest(executor), testRunners);
-                case CATCH_BALL -> startModule(new CatchBallTest(executor), testRunners);
-                case GOAL_KEEP -> startModule(new GoalKeepTest(executor), testRunners);
-                case DRIBBLE_BALL -> startModule(new DribbleBallTest(executor), testRunners);
-                case A_STAR_SEARCH -> startModule(new AStarSearchTest(executor), testRunners);
+                case KICK -> startModule(new KickTest(executor), testRunners, testFutures);
+                case DRIBBLE -> startModule(new DribbleTest(executor), testRunners, testFutures);
+                case MATCH_VELOCITY -> startModule(new MatchVelocityTest(executor), testRunners, testFutures);
+                case MOVE_TO_POINT -> startModule(new MoveToPointTest(executor), testRunners, testFutures);
+                case PATH_TO_POINT -> startModule(new PathToPointTest(executor), testRunners, testFutures);
+                case CHASE_BALL -> startModule(new ChaseBallTest(executor), testRunners, testFutures);
+                case CATCH_BALL -> startModule(new CatchBallTest(executor), testRunners, testFutures);
+                case GOAL_KEEP -> startModule(new GoalKeepTest(executor), testRunners, testFutures);
+                case DRIBBLE_BALL -> startModule(new DribbleBallTest(executor), testRunners, testFutures);
+                case A_STAR_SEARCH -> startModule(new AStarSearchTest(executor), testRunners, testFutures);
                 default -> System.out.println("Test not found.");
             }
 
             while (!testRunners.isEmpty()) {
                 System.out.print("Running test, type 'q' to stop:\t");
                 if (scanner.nextLine().equals("q")) {
-                    testRunners.forEach(testRunner -> {
-                        testRunner.interrupt();
-                    });
+                    testRunners.forEach(Module::interrupt);
+                    testFutures.forEach(testFuture -> testFuture.cancel(true));
                     testRunners.clear();
+                    testFutures.clear();
                 }
             }
         }
@@ -148,24 +153,24 @@ public class TritonSoccerAI {
     }
 
     public void startProcessingModules() {
-        startModule(new VisionBiasedConverter(executor), modules);
-        startModule(new FilterModule(executor), modules);
-        startModule(new SimulatorControlAudienceConverter(executor), modules);
-        startModule(new RobotCommandAudienceConverter(executor), modules);
-        startModule(new TritonBotMessageBuilder(executor), modules);
+        startModule(new VisionBiasedConverter(executor), modules, futures);
+        startModule(new FilterModule(executor), modules, futures);
+        startModule(new SimulatorControlAudienceConverter(executor), modules, futures);
+        startModule(new RobotCommandAudienceConverter(executor), modules, futures);
+        startModule(new TritonBotMessageBuilder(executor), modules, futures);
     }
 
     public void startAI() {
         // core ai modules
-        startModule(new AIModule(executor), modules);
+        startModule(new AIModule(executor), modules, futures);
     }
 
     public void startInterfaceModules() {
-        startModule(new CameraInterface(executor), modules);
-        startModule(new SimulatorCommandInterface(executor), modules);
-//        startModule(new SimulatorRobotCommandInterface(executor), modules);
-        startModule(new TritonBotMessageInterface(executor), modules);
-        startModule(new UserInterface(executor), modules);
+        startModule(new CameraInterface(executor), modules, futures);
+        startModule(new SimulatorCommandInterface(executor), modules, futures);
+//        startModule(new SimulatorRobotCommandInterface(executor), modules, futures);
+        startModule(new TritonBotMessageInterface(executor), modules, futures);
+        startModule(new UserInterface(executor), modules, futures);
     }
 
     private Test parseTest(String line) {
@@ -177,8 +182,9 @@ public class TritonSoccerAI {
         return null;
     }
 
-    public void startModule(Module module, List<Module> modules) {
-        executor.submit(module);
+    public void startModule(Module module, List<Module> modules, List<Future<?>> futures) {
+        Future<?> future = executor.submit(module);
         modules.add(module);
+        futures.add(future);
     }
 }

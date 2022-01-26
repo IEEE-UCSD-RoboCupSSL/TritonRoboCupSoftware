@@ -4,8 +4,8 @@ import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.TestRunner;
-import com.triton.skill.basic_skill.KickSkill;
-import com.triton.skill.individual_skill.GoalKeepSkill;
+import com.triton.skill.basic_skill.Kick;
+import com.triton.skill.individual_skill.GoalKeep;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
 import proto.vision.MessagesRobocupSslGeometry;
@@ -32,6 +32,21 @@ public class GoalKeepTest extends TestRunner {
 
     public GoalKeepTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
+        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    protected void execute() {
+        if (field == null || ball == null || allies == null) return;
+
+        GoalKeep goalKeep = new GoalKeep(this, allies.get(1), field, ball);
+        submitSkill(goalKeep);
+
+        if (feedbacks != null && feedbacks.containsKey(1) && feedbacks.get(1).getDribblerBallContact()) {
+            System.out.println("contact");
+            Kick kick = new Kick(this, allies.get(1), true, false);
+            submitSkill(kick);
+        }
     }
 
     @Override
@@ -68,12 +83,6 @@ public class GoalKeepTest extends TestRunner {
     }
 
     @Override
-    public void run() {
-        super.run();
-        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
-    }
-
-    @Override
     protected void setupTest() {
         SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
 
@@ -104,19 +113,5 @@ public class GoalKeepTest extends TestRunner {
         simulatorControl.setTeleportBall(teleportBall);
 
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-    }
-
-    @Override
-    protected void execute() {
-        if (field == null || ball == null || allies == null) return;
-
-        GoalKeepSkill goalKeepSkill = new GoalKeepSkill(this, allies.get(1), field, ball);
-        goalKeepSkill.start();
-
-        if (feedbacks != null && feedbacks.containsKey(1) && feedbacks.get(1).getDribblerBallContact()) {
-            System.out.println("contact");
-            KickSkill kickSkill = new KickSkill(this, allies.get(1), true, false);
-            kickSkill.start();
-        }
     }
 }

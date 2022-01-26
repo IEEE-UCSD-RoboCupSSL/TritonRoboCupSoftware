@@ -9,11 +9,6 @@ public abstract class TestRunner extends SkillRunner {
     }
 
     @Override
-    public void run() {
-        super.run();
-    }
-
-    @Override
     public void interrupt() {
         super.interrupt();
         executor.remove(this::setupTest);

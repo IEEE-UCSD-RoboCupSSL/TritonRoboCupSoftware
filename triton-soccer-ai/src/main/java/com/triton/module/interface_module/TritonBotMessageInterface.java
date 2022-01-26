@@ -9,8 +9,11 @@ import proto.triton.TritonBotCommunication.TritonBotMessage;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
@@ -21,6 +24,7 @@ import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 
 public class TritonBotMessageInterface extends Module {
     private Map<Integer, UDP_Client> clientMap;
+    private List<Future<?>> clientFutures;
     private Map<Integer, RobotFeedback> feedbacks;
 
     public TritonBotMessageInterface(ScheduledThreadPoolExecutor executor) {
@@ -30,6 +34,7 @@ public class TritonBotMessageInterface extends Module {
     @Override
     protected void prepare() {
         clientMap = new HashMap<>();
+        clientFutures = new ArrayList<>();
         feedbacks = new HashMap<>();
 
         try {
@@ -58,9 +63,7 @@ public class TritonBotMessageInterface extends Module {
     @Override
     public void interrupt() {
         super.interrupt();
-        clientMap.forEach((id, client) -> {
-            client.interrupt();
-        });
+        clientFutures.forEach(clientFuture -> clientFuture.cancel(true));
     }
 
     private void setupClients() throws SocketException, UnknownHostException {
@@ -91,9 +94,7 @@ public class TritonBotMessageInterface extends Module {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         if (feedback == null) return;
-
         feedbacks.put(feedback.getId(), feedback);
         publish(AI_ROBOT_FEEDBACKS, feedbacks);
     }
@@ -101,6 +102,6 @@ public class TritonBotMessageInterface extends Module {
     @Override
     public void run() {
         super.run();
-        clientMap.forEach((id, client) -> client.start());
+        clientMap.forEach((id, client) -> clientFutures.add(executor.submit(client)));
     }
 }

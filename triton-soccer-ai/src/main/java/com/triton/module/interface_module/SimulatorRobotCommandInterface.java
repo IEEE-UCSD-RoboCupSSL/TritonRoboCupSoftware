@@ -8,6 +8,7 @@ import com.triton.networking.UDP_Client;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
@@ -22,6 +23,8 @@ import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 public class SimulatorRobotCommandInterface extends Module {
     private UDP_Client client;
     private Map<Integer, RobotFeedback> feedbacks;
+
+    private Future<?> clientFuture;
 
     public SimulatorRobotCommandInterface(ScheduledThreadPoolExecutor executor) {
         super(executor);
@@ -59,7 +62,7 @@ public class SimulatorRobotCommandInterface extends Module {
     @Override
     public void interrupt() {
         super.interrupt();
-        client.interrupt();
+        clientFuture.cancel(true);
     }
 
     private void setupClient() throws IOException {
@@ -99,6 +102,6 @@ public class SimulatorRobotCommandInterface extends Module {
     @Override
     public void run() {
         super.run();
-        client.start();
+        clientFuture = executor.submit(client);
     }
 }

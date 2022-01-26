@@ -4,7 +4,7 @@ import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.TestRunner;
-import com.triton.skill.basic_skill.KickSkill;
+import com.triton.skill.basic_skill.Kick;
 import proto.simulation.SslGcCommon;
 
 import java.io.IOException;
@@ -25,6 +25,15 @@ public class KickTest extends TestRunner {
 
     public KickTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
+        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    protected void execute() {
+        if (allies == null) return;
+
+        Kick kick = new Kick(this, allies.get(1), true, false);
+        submitSkill(kick);
     }
 
     @Override
@@ -43,12 +52,6 @@ public class KickTest extends TestRunner {
 
     private void callbackAllies(String s, Delivery delivery) {
         allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
-    }
-
-    @Override
-    public void run() {
-        super.run();
-        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -81,13 +84,5 @@ public class KickTest extends TestRunner {
         simulatorControl.setTeleportBall(teleportBall);
 
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-    }
-
-    @Override
-    protected void execute() {
-        if (allies == null) return;
-
-        KickSkill kickSkill = new KickSkill(this, allies.get(1), true, false);
-        kickSkill.start();
     }
 }

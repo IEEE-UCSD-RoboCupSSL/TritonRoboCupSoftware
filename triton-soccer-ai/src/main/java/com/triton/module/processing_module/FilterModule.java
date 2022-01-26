@@ -37,12 +37,6 @@ public class FilterModule extends Module {
         executor.scheduleAtFixedRate(this::publishFilteredObjects, 0, DEFAULT_PUBLISH_PERIOD, TimeUnit.MILLISECONDS);
     }
 
-    private void publishFilteredObjects() {
-        publish(AI_FILTERED_BALL, filteredBall);
-        publish(AI_FILTERED_ALLIES, filteredAllies);
-        publish(AI_FILTERED_FOES, filteredFoes);
-    }
-
     private void initDefaults() {
         long timestamp = System.currentTimeMillis();
 
@@ -54,6 +48,9 @@ public class FilterModule extends Module {
         ball.setVx(0);
         ball.setVy(0);
         ball.setVz(0);
+        ball.setAccX(0);
+        ball.setAccY(0);
+        ball.setAccZ(0);
         filteredBall = ball.build();
 
         for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
@@ -66,6 +63,9 @@ public class FilterModule extends Module {
             filteredAlly.setVx(0);
             filteredAlly.setVy(0);
             filteredAlly.setAngular(0);
+            filteredAlly.setAccX(0);
+            filteredAlly.setAccY(0);
+            filteredAlly.setAccAngular(0);
             filteredAllies.put(id, filteredAlly.build());
         }
 
@@ -79,8 +79,17 @@ public class FilterModule extends Module {
             filteredFoe.setVx(0);
             filteredFoe.setVy(0);
             filteredFoe.setAngular(0);
+            filteredFoe.setAccX(0);
+            filteredFoe.setAccY(0);
+            filteredFoe.setAccAngular(0);
             filteredFoes.put(id, filteredFoe.build());
         }
+    }
+
+    private void publishFilteredObjects() {
+        publish(AI_FILTERED_BALL, filteredBall);
+        publish(AI_FILTERED_ALLIES, filteredAllies);
+        publish(AI_FILTERED_FOES, filteredFoes);
     }
 
     @Override
@@ -125,6 +134,9 @@ public class FilterModule extends Module {
         float vx = (x - filteredBall.getX()) / deltaSeconds;
         float vy = (y - filteredBall.getY()) / deltaSeconds;
         float vz = (z - filteredBall.getZ()) / deltaSeconds;
+        float accX = (vx - filteredBall.getVx()) / deltaSeconds;
+        float accY = (vy - filteredBall.getVy()) / deltaSeconds;
+        float accZ = (vz - filteredBall.getAccZ()) / deltaSeconds;
 
         Ball.Builder filteredBall = Ball.newBuilder();
         filteredBall.setTimestamp(timestamp);
@@ -134,6 +146,9 @@ public class FilterModule extends Module {
         filteredBall.setVx(vx);
         filteredBall.setVy(vy);
         filteredBall.setVz(vz);
+        filteredBall.setAccX(accX);
+        filteredBall.setAccY(accY);
+        filteredBall.setAccZ(accZ);
 
         this.filteredBall = filteredBall.build();
     }
@@ -167,6 +182,9 @@ public class FilterModule extends Module {
         float vx = (robot.getX() - lastRobot.getX()) / deltaSeconds;
         float vy = (robot.getY() - lastRobot.getY()) / deltaSeconds;
         float angular = (robot.getOrientation() - lastRobot.getOrientation()) / deltaSeconds;
+        float accX = (vx - lastRobot.getVx()) / deltaSeconds;
+        float accY = (vy - lastRobot.getVy()) / deltaSeconds;
+        float accAngular = (angular - lastRobot.getAngular()) / deltaSeconds;
 
         Robot.Builder filteredRobot = Robot.newBuilder();
         filteredRobot.setTimestamp(timestamp);
@@ -177,6 +195,9 @@ public class FilterModule extends Module {
         filteredRobot.setVx(vx);
         filteredRobot.setVy(vy);
         filteredRobot.setAngular(angular);
+        filteredRobot.setAccX(accX);
+        filteredRobot.setAccY(accY);
+        filteredRobot.setAccAngular(accAngular);
         return filteredRobot.build();
     }
 

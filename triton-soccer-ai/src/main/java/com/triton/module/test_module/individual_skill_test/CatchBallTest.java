@@ -5,7 +5,7 @@ import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.TestRunner;
 import com.triton.search.node2d.PathfindGrid;
-import com.triton.skill.individual_skill.CatchBallSkill;
+import com.triton.skill.individual_skill.CatchBall;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
 
@@ -31,45 +31,6 @@ public class CatchBallTest extends TestRunner {
 
     public CatchBallTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
-    }
-
-    @Override
-    protected void prepare() {
-
-    }
-
-    @Override
-    protected void declarePublishes() throws IOException, TimeoutException {
-        declarePublish(AI_BIASED_SIMULATOR_CONTROL);
-    }
-
-    @Override
-    protected void declareConsumes() throws IOException, TimeoutException {
-        declareConsume(AI_BIASED_FIELD, this::callbackField);
-        declareConsume(AI_FILTERED_BALL, this::callbackBalls);
-        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
-        declareConsume(AI_FILTERED_FOES, this::callbackFoes);
-    }
-
-    private void callbackField(String s, Delivery delivery) {
-        field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackBalls(String s, Delivery delivery) {
-        ball = (Ball) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackAllies(String s, Delivery delivery) {
-        allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackFoes(String s, Delivery delivery) {
-        foes = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
-    }
-
-    @Override
-    public void run() {
-        super.run();
         setupTest();
     }
 
@@ -106,13 +67,46 @@ public class CatchBallTest extends TestRunner {
     }
 
     @Override
+    protected void prepare() {
+    }
+
+    @Override
+    protected void declarePublishes() throws IOException, TimeoutException {
+        declarePublish(AI_BIASED_SIMULATOR_CONTROL);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_BIASED_FIELD, this::callbackField);
+        declareConsume(AI_FILTERED_BALL, this::callbackBalls);
+        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
+        declareConsume(AI_FILTERED_FOES, this::callbackFoes);
+    }
+
+    private void callbackField(String s, Delivery delivery) {
+        field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
+    }
+
+    private void callbackBalls(String s, Delivery delivery) {
+        ball = (Ball) simpleDeserialize(delivery.getBody());
+    }
+
+    private void callbackAllies(String s, Delivery delivery) {
+        allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
+    }
+
+    private void callbackFoes(String s, Delivery delivery) {
+        foes = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
+    }
+
+    @Override
     protected void execute() {
         if (field == null || ball == null || allies == null || foes == null) return;
 
         if (pathfindGrid == null)
             pathfindGrid = new PathfindGrid(field);
 
-        CatchBallSkill catchBallSkill = new CatchBallSkill(this, allies.get(1), pathfindGrid, field, ball, allies, foes);
-        catchBallSkill.start();
+        CatchBall catchBall = new CatchBall(this, allies.get(1), pathfindGrid, ball, allies, foes);
+        submitSkill(catchBall);
     }
 }

@@ -29,9 +29,8 @@ public class UDP_Server extends Thread {
 
     @Override
     public void run() {
-        while (!isInterrupted()) {
+        while (!isInterrupted())
             send(receive());
-        }
     }
 
     private void send(byte[] bytes) {

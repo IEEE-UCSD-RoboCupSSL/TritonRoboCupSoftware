@@ -3,8 +3,8 @@ package com.triton.module.test_module.basic_skill_test;
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.Team;
 import com.triton.module.TestRunner;
-import com.triton.skill.basic_skill.DribbleSkill;
-import com.triton.skill.basic_skill.MatchVelocitySkill;
+import com.triton.skill.basic_skill.Dribble;
+import com.triton.skill.basic_skill.MatchVelocity;
 import com.triton.util.Vector2d;
 import proto.simulation.SslGcCommon;
 
@@ -28,6 +28,17 @@ public class DribbleTest extends TestRunner {
 
     public DribbleTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
+        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    protected void execute() {
+        if (allies == null) return;
+
+        MatchVelocity matchVelocity = new MatchVelocity(this, allies.get(1), new Vector2d(1, 0), 0);
+        submitSkill(matchVelocity);
+        Dribble dribble = new Dribble(this, allies.get(1), true);
+        submitSkill(dribble);
     }
 
     @Override
@@ -46,12 +57,6 @@ public class DribbleTest extends TestRunner {
 
     private void callbackAllies(String s, Delivery delivery) {
         allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
-    }
-
-    @Override
-    public void run() {
-        super.run();
-        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -84,16 +89,5 @@ public class DribbleTest extends TestRunner {
         simulatorControl.setTeleportBall(teleportBall);
 
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-    }
-
-    @Override
-    protected void execute() {
-        if (allies == null) return;
-
-        MatchVelocitySkill matchVelocitySkill = new MatchVelocitySkill(this, allies.get(1), new Vector2d(1, 0), 0);
-        matchVelocitySkill.start();
-
-        DribbleSkill dribbleSkill = new DribbleSkill(this, allies.get(1), true);
-        dribbleSkill.start();
     }
 }

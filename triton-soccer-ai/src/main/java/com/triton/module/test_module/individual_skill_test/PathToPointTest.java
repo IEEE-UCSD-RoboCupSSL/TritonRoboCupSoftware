@@ -5,7 +5,7 @@ import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.TestRunner;
 import com.triton.search.node2d.PathfindGrid;
-import com.triton.skill.individual_skill.PathToPointSkill;
+import com.triton.skill.individual_skill.PathToPoint;
 import com.triton.util.Vector2d;
 
 import java.io.IOException;
@@ -32,6 +32,7 @@ public class PathToPointTest extends TestRunner {
 
     public PathToPointTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
+        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -69,12 +70,6 @@ public class PathToPointTest extends TestRunner {
     }
 
     @Override
-    public void run() {
-        super.run();
-        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
-    }
-
-    @Override
     protected void setupTest() {
         SimulatorControl.Builder simulatorControl = SimulatorControl.newBuilder();
         simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 0, -300, -2000, 0));
@@ -94,9 +89,9 @@ public class PathToPointTest extends TestRunner {
             if (!pathfindGrids.containsKey(id))
                 pathfindGrids.put(id, new PathfindGrid(field));
 
-            PathToPointSkill pathToPointSkill = switch (id) {
+            PathToPoint pathToPoint = switch (id) {
                 case 0 -> {
-                    yield new PathToPointSkill(this,
+                    yield new PathToPoint(this,
                             allies.get(id),
                             new Vector2d(-300, 2000),
                             new Vector2d(-300, 2000),
@@ -105,7 +100,7 @@ public class PathToPointTest extends TestRunner {
                             foes);
                 }
                 case 1 -> {
-                    yield new PathToPointSkill(this,
+                    yield new PathToPoint(this,
                             allies.get(id),
                             new Vector2d(0, 2000),
                             new Vector2d(0, 2000),
@@ -114,7 +109,7 @@ public class PathToPointTest extends TestRunner {
                             foes);
                 }
                 case 2 -> {
-                    yield new PathToPointSkill(this,
+                    yield new PathToPoint(this,
                             allies.get(id),
                             new Vector2d(300, 2000),
                             new Vector2d(300, 2000),
@@ -123,7 +118,7 @@ public class PathToPointTest extends TestRunner {
                             foes);
                 }
                 case 3 -> {
-                    yield new PathToPointSkill(this,
+                    yield new PathToPoint(this,
                             allies.get(id),
                             new Vector2d(-300, -2000),
                             new Vector2d(-300, -2000),
@@ -132,7 +127,7 @@ public class PathToPointTest extends TestRunner {
                             foes);
                 }
                 case 4 -> {
-                    yield new PathToPointSkill(this,
+                    yield new PathToPoint(this,
                             allies.get(id),
                             new Vector2d(0, -2000),
                             new Vector2d(0, -2000),
@@ -141,7 +136,7 @@ public class PathToPointTest extends TestRunner {
                             foes);
                 }
                 default -> {
-                    yield new PathToPointSkill(this,
+                    yield new PathToPoint(this,
                             allies.get(id),
                             new Vector2d(300, -2000),
                             new Vector2d(300, -2000),
@@ -150,7 +145,7 @@ public class PathToPointTest extends TestRunner {
                             foes);
                 }
             };
-            pathToPointSkill.start();
+            submitSkill(pathToPoint);
         }
     }
 }

@@ -9,6 +9,9 @@ message Ball {
   float vx = 5;
   float vy = 6;
   float vz = 7;
+  float accX = 8;
+  float accY = 9;
+  float accZ = 10;
 }
 
 message Robot {
@@ -20,4 +23,7 @@ message Robot {
   float vx = 6;
   float vy = 7;
   float angular = 8;
+  float accX = 9;
+  float accY = 10;
+  float accAngular = 11;
 }

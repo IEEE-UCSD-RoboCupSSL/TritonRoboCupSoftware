@@ -4,6 +4,8 @@ import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.TestRunner;
+import com.triton.skill.basic_skill.MatchVelocity;
+import com.triton.util.Vector2d;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
 
@@ -13,40 +15,17 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.RuntimeConstants.objectConfig;
-import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
-import static com.triton.messaging.Exchange.AI_ROBOT_FEEDBACKS;
+import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
+import static proto.triton.ObjectWithMetadata.Robot;
 
 public class DribbleBallTest extends TestRunner {
+    private Map<Integer, Robot> allies;
     private Map<Integer, RobotFeedback> feedbacks;
 
     public DribbleBallTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
-    }
-
-    @Override
-    protected void prepare() {
-
-    }
-
-    @Override
-    protected void declarePublishes() throws IOException, TimeoutException {
-        declarePublish(AI_BIASED_SIMULATOR_CONTROL);
-    }
-
-    @Override
-    protected void declareConsumes() throws IOException, TimeoutException {
-        declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
-    }
-
-    private void callbackFeedbacks(String s, Delivery delivery) {
-        this.feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
-    }
-
-    @Override
-    public void run() {
-        super.run();
         setupTest();
     }
 
@@ -84,6 +63,31 @@ public class DribbleBallTest extends TestRunner {
 
     @Override
     protected void execute() {
-        System.out.println("TODO");
+        if (allies == null) return;
+        MatchVelocity matchVelocity = new MatchVelocity(this, allies.get(1), new Vector2d(0, 2), 2f);
+        submitSkill(matchVelocity);
+    }
+
+    @Override
+    protected void prepare() {
+    }
+
+    @Override
+    protected void declarePublishes() throws IOException, TimeoutException {
+        declarePublish(AI_BIASED_SIMULATOR_CONTROL);
+    }
+
+    @Override
+    protected void declareConsumes() throws IOException, TimeoutException {
+        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
+        declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
+    }
+
+    private void callbackAllies(String s, Delivery delivery) {
+        allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
+    }
+
+    private void callbackFeedbacks(String s, Delivery delivery) {
+        feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
     }
 }

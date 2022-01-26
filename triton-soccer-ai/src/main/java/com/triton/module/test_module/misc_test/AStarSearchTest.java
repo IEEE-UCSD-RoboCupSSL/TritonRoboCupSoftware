@@ -21,7 +21,6 @@ public class AStarSearchTest extends TestRunner {
 
     @Override
     protected void prepare() {
-
     }
 
     @Override
@@ -34,6 +33,14 @@ public class AStarSearchTest extends TestRunner {
 
     @Override
     protected void setupTest() {
+    }
+
+    @Override
+    public void run() {
+        super.run();
+
+        while (!isInterrupted())
+            execute();
     }
 
     @Override

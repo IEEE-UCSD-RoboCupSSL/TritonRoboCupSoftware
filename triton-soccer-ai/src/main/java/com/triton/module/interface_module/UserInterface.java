@@ -104,26 +104,31 @@ public class UserInterface extends Module {
     private void callbackField(String s, Delivery delivery) {
         SSL_GeometryFieldSize field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
         fieldPanel.setField(field);
+        fieldPanel.revalidate();
     }
 
     private void callbackBall(String s, Delivery delivery) {
         Ball ball = (Ball) simpleDeserialize(delivery.getBody());
         fieldPanel.setBall(ball);
+        fieldPanel.revalidate();
     }
 
     private void callbackAllies(String s, Delivery delivery) {
         Map<Integer, ObjectWithMetadata.Robot> allies = (Map<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         fieldPanel.setAllies(allies);
+        fieldPanel.revalidate();
     }
 
     private void callbackFoes(String s, Delivery delivery) {
         Map<Integer, ObjectWithMetadata.Robot> foes = (Map<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         fieldPanel.setFoes(foes);
+        fieldPanel.revalidate();
     }
 
     private void callbackDebug(String s, Delivery delivery) {
         Debug debug = (Debug) simpleDeserialize(delivery.getBody());
         fieldPanel.addDebug(debug);
+        fieldPanel.revalidate();
     }
 
     private class FieldPanel extends JPanel {
@@ -293,10 +298,10 @@ public class UserInterface extends Module {
                     0,
                     360);
 
-            if (displayConfig.showVelocity) {
+            if (displayConfig.showPrediction) {
                 float predictedX = ball.getX() + ball.getVx();
                 float predictedY = ball.getY() + ball.getVy();
-                graphics2D.setColor(WHITE);
+                graphics2D.setColor(MAGENTA);
                 graphics2D.drawArc((int) (predictedX - radius),
                         (int) (predictedY - radius),
                         (int) radius * 2,
@@ -418,7 +423,15 @@ public class UserInterface extends Module {
                     0,
                     360);
 
-            if (displayConfig.showVelocity) {
+            graphics2D.setColor(BLACK);
+            float orientation = robot.getOrientation();
+            graphics2D.drawLine((int) robot.getX(),
+                    (int) robot.getY(),
+                    (int) (robot.getX() + radius * Math.cos(orientation)),
+                    (int) (robot.getY() + radius * Math.sin(orientation)));
+
+            if (displayConfig.showPrediction) {
+                graphics2D.setColor(outlineColor);
                 float predictedX = robot.getX() + robot.getVx();
                 float predictedY = robot.getY() + robot.getVy();
                 graphics2D.drawArc((int) (predictedX - radius),
@@ -427,11 +440,13 @@ public class UserInterface extends Module {
                         (int) radius * 2,
                         0,
                         360);
-            }
 
-            graphics2D.setColor(BLACK);
-            float orientation = robot.getOrientation();
-            graphics2D.drawLine((int) robot.getX(), (int) robot.getY(), (int) (robot.getX() + radius * Math.cos(orientation)), (int) (robot.getY() + radius * Math.sin(orientation)));
+                float predictedOrientation = robot.getOrientation() + robot.getAngular();
+                graphics2D.drawLine((int) predictedX,
+                        (int) predictedY,
+                        (int) (predictedX + radius * Math.cos(predictedOrientation)),
+                        (int) (predictedY + radius * Math.sin(predictedOrientation)));
+            }
 
             graphics2D.setColor(WHITE);
             setFont(new Font(displayConfig.robotIdFontName, Font.BOLD, displayConfig.robotIdFontSize));

@@ -33,9 +33,8 @@ public class UDP_Client extends Thread {
 
     @Override
     public void run() {
-        while (!isInterrupted()) {
+        while (!isInterrupted())
             receive(send());
-        }
     }
 
     private void receive(boolean receive) {
