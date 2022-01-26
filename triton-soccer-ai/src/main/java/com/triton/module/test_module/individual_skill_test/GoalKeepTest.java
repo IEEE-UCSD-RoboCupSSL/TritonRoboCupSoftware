@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.RuntimeConstants.objectConfig;
@@ -35,7 +36,6 @@ public class GoalKeepTest extends TestRunner {
 
     @Override
     protected void prepare() {
-
     }
 
     @Override
@@ -70,7 +70,7 @@ public class GoalKeepTest extends TestRunner {
     @Override
     public void run() {
         super.run();
-        setupTest();
+        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
     }
 
     @Override

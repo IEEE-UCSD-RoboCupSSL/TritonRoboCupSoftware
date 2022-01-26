@@ -271,25 +271,35 @@ public class UserInterface extends Module {
 
         private void paintBall(Graphics2D graphics2D) {
             if (ball != null) {
-                float x = ball.getX();
-                float y = ball.getY();
                 float radius = objectConfig.ballRadius * 1000;
 
                 graphics2D.setColor(MAGENTA);
-                graphics2D.fillArc((int) (x - radius),
-                        (int) (y - radius),
+                graphics2D.fillArc((int) (ball.getX() - radius),
+                        (int) (ball.getY() - radius),
                         (int) radius * 2,
                         (int) radius * 2,
                         0,
                         360);
 
                 graphics2D.setColor(BLACK);
-                graphics2D.drawArc((int) (x - radius),
-                        (int) (y - radius),
+                graphics2D.drawArc((int) (ball.getX() - radius),
+                        (int) (ball.getY() - radius),
                         (int) radius * 2,
                         (int) radius * 2,
                         0,
                         360);
+
+                if (displayConfig.showVelocity) {
+                    float predictedX = ball.getX() + ball.getVx();
+                    float predictedY = ball.getY() + ball.getVy();
+                    graphics2D.setColor(WHITE);
+                    graphics2D.drawArc((int) (predictedX - radius),
+                            (int) (predictedY - radius),
+                            (int) radius * 2,
+                            (int) radius * 2,
+                            0,
+                            360);
+                }
             }
         }
 
@@ -383,34 +393,43 @@ public class UserInterface extends Module {
         }
 
         private void paintBot(Graphics2D graphics2D, ObjectWithMetadata.Robot robot, Color fillColor, Color outlineColor) {
-            float x = robot.getX();
-            float y = robot.getY();
             float radius = objectConfig.robotRadius * 1000;
 
             graphics2D.setColor(fillColor);
-            graphics2D.fillArc((int) (x - radius),
-                    (int) (y - radius),
+            graphics2D.fillArc((int) (robot.getX() - radius),
+                    (int) (robot.getY() - radius),
                     (int) radius * 2,
                     (int) radius * 2,
                     0,
                     360);
 
             graphics2D.setColor(outlineColor);
-            graphics2D.drawArc((int) (x - radius),
-                    (int) (y - radius),
+            graphics2D.drawArc((int) (robot.getX() - radius),
+                    (int) (robot.getY() - radius),
                     (int) radius * 2,
                     (int) radius * 2,
                     0,
                     360);
 
+            if (displayConfig.showVelocity) {
+                float predictedX = robot.getX() + robot.getVx();
+                float predictedY = robot.getY() + robot.getVy();
+                graphics2D.drawArc((int) (predictedX - radius),
+                        (int) (predictedY - radius),
+                        (int) radius * 2,
+                        (int) radius * 2,
+                        0,
+                        360);
+            }
+
             graphics2D.setColor(BLACK);
             float orientation = robot.getOrientation();
-            graphics2D.drawLine((int) x, (int) y, (int) (x + radius * Math.cos(orientation)), (int) (y + radius * Math.sin(orientation)));
+            graphics2D.drawLine((int) robot.getX(), (int) robot.getY(), (int) (robot.getX() + radius * Math.cos(orientation)), (int) (robot.getY() + radius * Math.sin(orientation)));
 
             graphics2D.setColor(WHITE);
             setFont(new Font(displayConfig.robotIdFontName, Font.BOLD, displayConfig.robotIdFontSize));
             AffineTransform orgi = graphics2D.getTransform();
-            graphics2D.translate(x, y);
+            graphics2D.translate(robot.getX(), robot.getY());
             graphics2D.scale(1, -1);
             graphics2D.drawString(String.valueOf(robot.getId()), 0, 0);
             graphics2D.setTransform(orgi);

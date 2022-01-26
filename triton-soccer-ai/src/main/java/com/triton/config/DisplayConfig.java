@@ -5,6 +5,8 @@ public class DisplayConfig {
     public String robotIdFontName;
     public int robotIdFontSize;
 
+    public boolean showVelocity;
+
     public boolean showNodeGrid;
     public boolean showOnlyObstacles;
     public boolean showRoute;

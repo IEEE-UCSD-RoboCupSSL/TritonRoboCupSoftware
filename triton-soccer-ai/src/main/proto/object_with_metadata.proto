@@ -2,6 +2,7 @@ syntax = "proto3";
 package proto.triton;
 
 message Ball {
+  int64 timestamp = 1;
   float x = 2;
   float y = 3;
   float z = 4;
@@ -11,11 +12,12 @@ message Ball {
 }
 
 message Robot {
-  int32 id = 1;
-  float x = 2;
-  float y = 3;
-  float orientation = 4;
-  float vx = 5;
-  float vy = 6;
-  float angular = 7;
+  int64 timestamp = 1;
+  int32 id = 2;
+  float x = 3;
+  float y = 4;
+  float orientation = 5;
+  float vx = 6;
+  float vy = 7;
+  float angular = 8;
 }

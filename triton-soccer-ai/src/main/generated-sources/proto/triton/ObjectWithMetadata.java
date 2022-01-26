@@ -19,6 +19,11 @@ public final class ObjectWithMetadata {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <code>int64 timestamp = 1;</code>
+     */
+    long getTimestamp();
+
+    /**
      * <code>float x = 2;</code>
      */
     float getX();
@@ -61,6 +66,7 @@ public final class ObjectWithMetadata {
       super(builder);
     }
     private Ball() {
+      timestamp_ = 0L;
       x_ = 0F;
       y_ = 0F;
       z_ = 0F;
@@ -93,6 +99,11 @@ public final class ObjectWithMetadata {
             case 0:
               done = true;
               break;
+            case 8: {
+
+              timestamp_ = input.readInt64();
+              break;
+            }
             case 21: {
 
               x_ = input.readFloat();
@@ -153,6 +164,15 @@ public final class ObjectWithMetadata {
       return proto.triton.ObjectWithMetadata.internal_static_proto_triton_Ball_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               proto.triton.ObjectWithMetadata.Ball.class, proto.triton.ObjectWithMetadata.Ball.Builder.class);
+    }
+
+    public static final int TIMESTAMP_FIELD_NUMBER = 1;
+    private long timestamp_;
+    /**
+     * <code>int64 timestamp = 1;</code>
+     */
+    public long getTimestamp() {
+      return timestamp_;
     }
 
     public static final int X_FIELD_NUMBER = 2;
@@ -223,6 +243,9 @@ public final class ObjectWithMetadata {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (timestamp_ != 0L) {
+        output.writeInt64(1, timestamp_);
+      }
       if (x_ != 0F) {
         output.writeFloat(2, x_);
       }
@@ -250,6 +273,10 @@ public final class ObjectWithMetadata {
       if (size != -1) return size;
 
       size = 0;
+      if (timestamp_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, timestamp_);
+      }
       if (x_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(2, x_);
@@ -290,6 +317,8 @@ public final class ObjectWithMetadata {
       proto.triton.ObjectWithMetadata.Ball other = (proto.triton.ObjectWithMetadata.Ball) obj;
 
       boolean result = true;
+      result = result && (getTimestamp()
+          == other.getTimestamp());
       result = result && (
           java.lang.Float.floatToIntBits(getX())
           == java.lang.Float.floatToIntBits(
@@ -325,6 +354,9 @@ public final class ObjectWithMetadata {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTimestamp());
       hash = (37 * hash) + X_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getX());
@@ -476,6 +508,8 @@ public final class ObjectWithMetadata {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        timestamp_ = 0L;
+
         x_ = 0F;
 
         y_ = 0F;
@@ -514,6 +548,7 @@ public final class ObjectWithMetadata {
       @java.lang.Override
       public proto.triton.ObjectWithMetadata.Ball buildPartial() {
         proto.triton.ObjectWithMetadata.Ball result = new proto.triton.ObjectWithMetadata.Ball(this);
+        result.timestamp_ = timestamp_;
         result.x_ = x_;
         result.y_ = y_;
         result.z_ = z_;
@@ -568,6 +603,9 @@ public final class ObjectWithMetadata {
 
       public Builder mergeFrom(proto.triton.ObjectWithMetadata.Ball other) {
         if (other == proto.triton.ObjectWithMetadata.Ball.getDefaultInstance()) return this;
+        if (other.getTimestamp() != 0L) {
+          setTimestamp(other.getTimestamp());
+        }
         if (other.getX() != 0F) {
           setX(other.getX());
         }
@@ -612,6 +650,32 @@ public final class ObjectWithMetadata {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+
+      private long timestamp_ ;
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public long getTimestamp() {
+        return timestamp_;
+      }
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public Builder setTimestamp(long value) {
+        
+        timestamp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public Builder clearTimestamp() {
+        
+        timestamp_ = 0L;
+        onChanged();
         return this;
       }
 
@@ -828,37 +892,42 @@ public final class ObjectWithMetadata {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>int32 id = 1;</code>
+     * <code>int64 timestamp = 1;</code>
+     */
+    long getTimestamp();
+
+    /**
+     * <code>int32 id = 2;</code>
      */
     int getId();
 
     /**
-     * <code>float x = 2;</code>
+     * <code>float x = 3;</code>
      */
     float getX();
 
     /**
-     * <code>float y = 3;</code>
+     * <code>float y = 4;</code>
      */
     float getY();
 
     /**
-     * <code>float orientation = 4;</code>
+     * <code>float orientation = 5;</code>
      */
     float getOrientation();
 
     /**
-     * <code>float vx = 5;</code>
+     * <code>float vx = 6;</code>
      */
     float getVx();
 
     /**
-     * <code>float vy = 6;</code>
+     * <code>float vy = 7;</code>
      */
     float getVy();
 
     /**
-     * <code>float angular = 7;</code>
+     * <code>float angular = 8;</code>
      */
     float getAngular();
   }
@@ -875,6 +944,7 @@ public final class ObjectWithMetadata {
       super(builder);
     }
     private Robot() {
+      timestamp_ = 0L;
       id_ = 0;
       x_ = 0F;
       y_ = 0F;
@@ -910,35 +980,40 @@ public final class ObjectWithMetadata {
               break;
             case 8: {
 
-              id_ = input.readInt32();
+              timestamp_ = input.readInt64();
               break;
             }
-            case 21: {
+            case 16: {
 
-              x_ = input.readFloat();
+              id_ = input.readInt32();
               break;
             }
             case 29: {
 
-              y_ = input.readFloat();
+              x_ = input.readFloat();
               break;
             }
             case 37: {
 
-              orientation_ = input.readFloat();
+              y_ = input.readFloat();
               break;
             }
             case 45: {
 
-              vx_ = input.readFloat();
+              orientation_ = input.readFloat();
               break;
             }
             case 53: {
 
-              vy_ = input.readFloat();
+              vx_ = input.readFloat();
               break;
             }
             case 61: {
+
+              vy_ = input.readFloat();
+              break;
+            }
+            case 69: {
 
               angular_ = input.readFloat();
               break;
@@ -975,64 +1050,73 @@ public final class ObjectWithMetadata {
               proto.triton.ObjectWithMetadata.Robot.class, proto.triton.ObjectWithMetadata.Robot.Builder.class);
     }
 
-    public static final int ID_FIELD_NUMBER = 1;
+    public static final int TIMESTAMP_FIELD_NUMBER = 1;
+    private long timestamp_;
+    /**
+     * <code>int64 timestamp = 1;</code>
+     */
+    public long getTimestamp() {
+      return timestamp_;
+    }
+
+    public static final int ID_FIELD_NUMBER = 2;
     private int id_;
     /**
-     * <code>int32 id = 1;</code>
+     * <code>int32 id = 2;</code>
      */
     public int getId() {
       return id_;
     }
 
-    public static final int X_FIELD_NUMBER = 2;
+    public static final int X_FIELD_NUMBER = 3;
     private float x_;
     /**
-     * <code>float x = 2;</code>
+     * <code>float x = 3;</code>
      */
     public float getX() {
       return x_;
     }
 
-    public static final int Y_FIELD_NUMBER = 3;
+    public static final int Y_FIELD_NUMBER = 4;
     private float y_;
     /**
-     * <code>float y = 3;</code>
+     * <code>float y = 4;</code>
      */
     public float getY() {
       return y_;
     }
 
-    public static final int ORIENTATION_FIELD_NUMBER = 4;
+    public static final int ORIENTATION_FIELD_NUMBER = 5;
     private float orientation_;
     /**
-     * <code>float orientation = 4;</code>
+     * <code>float orientation = 5;</code>
      */
     public float getOrientation() {
       return orientation_;
     }
 
-    public static final int VX_FIELD_NUMBER = 5;
+    public static final int VX_FIELD_NUMBER = 6;
     private float vx_;
     /**
-     * <code>float vx = 5;</code>
+     * <code>float vx = 6;</code>
      */
     public float getVx() {
       return vx_;
     }
 
-    public static final int VY_FIELD_NUMBER = 6;
+    public static final int VY_FIELD_NUMBER = 7;
     private float vy_;
     /**
-     * <code>float vy = 6;</code>
+     * <code>float vy = 7;</code>
      */
     public float getVy() {
       return vy_;
     }
 
-    public static final int ANGULAR_FIELD_NUMBER = 7;
+    public static final int ANGULAR_FIELD_NUMBER = 8;
     private float angular_;
     /**
-     * <code>float angular = 7;</code>
+     * <code>float angular = 8;</code>
      */
     public float getAngular() {
       return angular_;
@@ -1052,26 +1136,29 @@ public final class ObjectWithMetadata {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (timestamp_ != 0L) {
+        output.writeInt64(1, timestamp_);
+      }
       if (id_ != 0) {
-        output.writeInt32(1, id_);
+        output.writeInt32(2, id_);
       }
       if (x_ != 0F) {
-        output.writeFloat(2, x_);
+        output.writeFloat(3, x_);
       }
       if (y_ != 0F) {
-        output.writeFloat(3, y_);
+        output.writeFloat(4, y_);
       }
       if (orientation_ != 0F) {
-        output.writeFloat(4, orientation_);
+        output.writeFloat(5, orientation_);
       }
       if (vx_ != 0F) {
-        output.writeFloat(5, vx_);
+        output.writeFloat(6, vx_);
       }
       if (vy_ != 0F) {
-        output.writeFloat(6, vy_);
+        output.writeFloat(7, vy_);
       }
       if (angular_ != 0F) {
-        output.writeFloat(7, angular_);
+        output.writeFloat(8, angular_);
       }
       unknownFields.writeTo(output);
     }
@@ -1082,33 +1169,37 @@ public final class ObjectWithMetadata {
       if (size != -1) return size;
 
       size = 0;
+      if (timestamp_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, timestamp_);
+      }
       if (id_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, id_);
+          .computeInt32Size(2, id_);
       }
       if (x_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, x_);
+          .computeFloatSize(3, x_);
       }
       if (y_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(3, y_);
+          .computeFloatSize(4, y_);
       }
       if (orientation_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(4, orientation_);
+          .computeFloatSize(5, orientation_);
       }
       if (vx_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(5, vx_);
+          .computeFloatSize(6, vx_);
       }
       if (vy_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(6, vy_);
+          .computeFloatSize(7, vy_);
       }
       if (angular_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(7, angular_);
+          .computeFloatSize(8, angular_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1126,6 +1217,8 @@ public final class ObjectWithMetadata {
       proto.triton.ObjectWithMetadata.Robot other = (proto.triton.ObjectWithMetadata.Robot) obj;
 
       boolean result = true;
+      result = result && (getTimestamp()
+          == other.getTimestamp());
       result = result && (getId()
           == other.getId());
       result = result && (
@@ -1163,6 +1256,9 @@ public final class ObjectWithMetadata {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTimestamp());
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + getId();
       hash = (37 * hash) + X_FIELD_NUMBER;
@@ -1316,6 +1412,8 @@ public final class ObjectWithMetadata {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        timestamp_ = 0L;
+
         id_ = 0;
 
         x_ = 0F;
@@ -1356,6 +1454,7 @@ public final class ObjectWithMetadata {
       @java.lang.Override
       public proto.triton.ObjectWithMetadata.Robot buildPartial() {
         proto.triton.ObjectWithMetadata.Robot result = new proto.triton.ObjectWithMetadata.Robot(this);
+        result.timestamp_ = timestamp_;
         result.id_ = id_;
         result.x_ = x_;
         result.y_ = y_;
@@ -1411,6 +1510,9 @@ public final class ObjectWithMetadata {
 
       public Builder mergeFrom(proto.triton.ObjectWithMetadata.Robot other) {
         if (other == proto.triton.ObjectWithMetadata.Robot.getDefaultInstance()) return this;
+        if (other.getTimestamp() != 0L) {
+          setTimestamp(other.getTimestamp());
+        }
         if (other.getId() != 0) {
           setId(other.getId());
         }
@@ -1461,15 +1563,41 @@ public final class ObjectWithMetadata {
         return this;
       }
 
+      private long timestamp_ ;
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public long getTimestamp() {
+        return timestamp_;
+      }
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public Builder setTimestamp(long value) {
+        
+        timestamp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public Builder clearTimestamp() {
+        
+        timestamp_ = 0L;
+        onChanged();
+        return this;
+      }
+
       private int id_ ;
       /**
-       * <code>int32 id = 1;</code>
+       * <code>int32 id = 2;</code>
        */
       public int getId() {
         return id_;
       }
       /**
-       * <code>int32 id = 1;</code>
+       * <code>int32 id = 2;</code>
        */
       public Builder setId(int value) {
         
@@ -1478,7 +1606,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>int32 id = 1;</code>
+       * <code>int32 id = 2;</code>
        */
       public Builder clearId() {
         
@@ -1489,13 +1617,13 @@ public final class ObjectWithMetadata {
 
       private float x_ ;
       /**
-       * <code>float x = 2;</code>
+       * <code>float x = 3;</code>
        */
       public float getX() {
         return x_;
       }
       /**
-       * <code>float x = 2;</code>
+       * <code>float x = 3;</code>
        */
       public Builder setX(float value) {
         
@@ -1504,7 +1632,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float x = 2;</code>
+       * <code>float x = 3;</code>
        */
       public Builder clearX() {
         
@@ -1515,13 +1643,13 @@ public final class ObjectWithMetadata {
 
       private float y_ ;
       /**
-       * <code>float y = 3;</code>
+       * <code>float y = 4;</code>
        */
       public float getY() {
         return y_;
       }
       /**
-       * <code>float y = 3;</code>
+       * <code>float y = 4;</code>
        */
       public Builder setY(float value) {
         
@@ -1530,7 +1658,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float y = 3;</code>
+       * <code>float y = 4;</code>
        */
       public Builder clearY() {
         
@@ -1541,13 +1669,13 @@ public final class ObjectWithMetadata {
 
       private float orientation_ ;
       /**
-       * <code>float orientation = 4;</code>
+       * <code>float orientation = 5;</code>
        */
       public float getOrientation() {
         return orientation_;
       }
       /**
-       * <code>float orientation = 4;</code>
+       * <code>float orientation = 5;</code>
        */
       public Builder setOrientation(float value) {
         
@@ -1556,7 +1684,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float orientation = 4;</code>
+       * <code>float orientation = 5;</code>
        */
       public Builder clearOrientation() {
         
@@ -1567,13 +1695,13 @@ public final class ObjectWithMetadata {
 
       private float vx_ ;
       /**
-       * <code>float vx = 5;</code>
+       * <code>float vx = 6;</code>
        */
       public float getVx() {
         return vx_;
       }
       /**
-       * <code>float vx = 5;</code>
+       * <code>float vx = 6;</code>
        */
       public Builder setVx(float value) {
         
@@ -1582,7 +1710,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float vx = 5;</code>
+       * <code>float vx = 6;</code>
        */
       public Builder clearVx() {
         
@@ -1593,13 +1721,13 @@ public final class ObjectWithMetadata {
 
       private float vy_ ;
       /**
-       * <code>float vy = 6;</code>
+       * <code>float vy = 7;</code>
        */
       public float getVy() {
         return vy_;
       }
       /**
-       * <code>float vy = 6;</code>
+       * <code>float vy = 7;</code>
        */
       public Builder setVy(float value) {
         
@@ -1608,7 +1736,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float vy = 6;</code>
+       * <code>float vy = 7;</code>
        */
       public Builder clearVy() {
         
@@ -1619,13 +1747,13 @@ public final class ObjectWithMetadata {
 
       private float angular_ ;
       /**
-       * <code>float angular = 7;</code>
+       * <code>float angular = 8;</code>
        */
       public float getAngular() {
         return angular_;
       }
       /**
-       * <code>float angular = 7;</code>
+       * <code>float angular = 8;</code>
        */
       public Builder setAngular(float value) {
         
@@ -1634,7 +1762,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float angular = 7;</code>
+       * <code>float angular = 8;</code>
        */
       public Builder clearAngular() {
         
@@ -1715,11 +1843,12 @@ public final class ObjectWithMetadata {
   static {
     java.lang.String[] descriptorData = {
       "\n\032object_with_metadata.proto\022\014proto.trit" +
-      "on\"K\n\004Ball\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\022\t\n\001z\030\004 " +
-      "\001(\002\022\n\n\002vx\030\005 \001(\002\022\n\n\002vy\030\006 \001(\002\022\n\n\002vz\030\007 \001(\002\"" +
-      "g\n\005Robot\022\n\n\002id\030\001 \001(\005\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001" +
-      "(\002\022\023\n\013orientation\030\004 \001(\002\022\n\n\002vx\030\005 \001(\002\022\n\n\002v" +
-      "y\030\006 \001(\002\022\017\n\007angular\030\007 \001(\002b\006proto3"
+      "on\"^\n\004Ball\022\021\n\ttimestamp\030\001 \001(\003\022\t\n\001x\030\002 \001(\002" +
+      "\022\t\n\001y\030\003 \001(\002\022\t\n\001z\030\004 \001(\002\022\n\n\002vx\030\005 \001(\002\022\n\n\002vy" +
+      "\030\006 \001(\002\022\n\n\002vz\030\007 \001(\002\"z\n\005Robot\022\021\n\ttimestamp" +
+      "\030\001 \001(\003\022\n\n\002id\030\002 \001(\005\022\t\n\001x\030\003 \001(\002\022\t\n\001y\030\004 \001(\002" +
+      "\022\023\n\013orientation\030\005 \001(\002\022\n\n\002vx\030\006 \001(\002\022\n\n\002vy\030" +
+      "\007 \001(\002\022\017\n\007angular\030\010 \001(\002b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1738,13 +1867,13 @@ public final class ObjectWithMetadata {
     internal_static_proto_triton_Ball_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_Ball_descriptor,
-        new java.lang.String[] { "X", "Y", "Z", "Vx", "Vy", "Vz", });
+        new java.lang.String[] { "Timestamp", "X", "Y", "Z", "Vx", "Vy", "Vz", });
     internal_static_proto_triton_Robot_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_proto_triton_Robot_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_Robot_descriptor,
-        new java.lang.String[] { "Id", "X", "Y", "Orientation", "Vx", "Vy", "Angular", });
+        new java.lang.String[] { "Timestamp", "Id", "X", "Y", "Orientation", "Vx", "Vy", "Angular", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

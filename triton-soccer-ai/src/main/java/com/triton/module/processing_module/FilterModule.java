@@ -34,7 +34,10 @@ public class FilterModule extends Module {
     }
 
     private void initDefaults() {
+        long timestamp = System.currentTimeMillis();
+
         Ball.Builder ball = Ball.newBuilder();
+        ball.setTimestamp(timestamp);
         ball.setX(0);
         ball.setY(0);
         ball.setZ(0);
@@ -45,6 +48,7 @@ public class FilterModule extends Module {
 
         for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
             Robot.Builder filteredAlly = Robot.newBuilder();
+            filteredAlly.setTimestamp(timestamp);
             filteredAlly.setId(id);
             filteredAlly.setX(0);
             filteredAlly.setY(0);
@@ -57,6 +61,7 @@ public class FilterModule extends Module {
 
         for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
             Robot.Builder filteredFoe = Robot.newBuilder();
+            filteredFoe.setTimestamp(timestamp);
             filteredFoe.setId(id);
             filteredFoe.setX(0);
             filteredFoe.setY(0);
@@ -95,10 +100,7 @@ public class FilterModule extends Module {
 
     private void callbackBalls(String s, Delivery delivery) {
         ArrayList<SSL_DetectionBall> balls = (ArrayList<SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
-
         if (balls.size() == 0) return;
-
-        Ball.Builder filteredBall = Ball.newBuilder();
 
         float x = 0;
         float y = 0;
@@ -108,55 +110,71 @@ public class FilterModule extends Module {
             y += ball.getY();
             z += ball.getZ();
         }
+        x /= balls.size();
+        y /= balls.size();
+        z /= balls.size();
 
-        filteredBall.setX(x / balls.size());
-        filteredBall.setY(y / balls.size());
-        filteredBall.setZ(z / balls.size());
-        filteredBall.setVx(0);
-        filteredBall.setVy(0);
-        filteredBall.setVz(0);
+        long timestamp = System.currentTimeMillis();
+        float deltaSeconds = (timestamp - filteredBall.getTimestamp()) / 1000f;
+        float vx = (x - filteredBall.getX()) / deltaSeconds;
+        float vy = (y - filteredBall.getY()) / deltaSeconds;
+        float vz = (z - filteredBall.getZ()) / deltaSeconds;
+
+        Ball.Builder filteredBall = Ball.newBuilder();
+        filteredBall.setTimestamp(timestamp);
+        filteredBall.setX(x);
+        filteredBall.setY(y);
+        filteredBall.setZ(z);
+        filteredBall.setVx(vx);
+        filteredBall.setVy(vy);
+        filteredBall.setVz(vz);
 
         this.filteredBall = filteredBall.build();
-
         publish(AI_FILTERED_BALL, this.filteredBall);
     }
 
     private void callbackAllies(String s, Delivery delivery) {
         Map<Integer, SSL_DetectionRobot> allies = (Map<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
-
+        long timestamp = System.currentTimeMillis();
         for (SSL_DetectionRobot ally : allies.values()) {
-            if (ally.getRobotId() > RuntimeConstants.gameConfig.numBots - 1) continue;
-            Robot.Builder filteredAlly = Robot.newBuilder();
-            filteredAlly.setId(ally.getRobotId());
-            filteredAlly.setX(ally.getX());
-            filteredAlly.setY(ally.getY());
-            filteredAlly.setOrientation(ally.getOrientation());
-            filteredAlly.setVx(0);
-            filteredAlly.setVy(0);
-            filteredAlly.setAngular(0);
-            filteredAllies.put(ally.getRobotId(), filteredAlly.build());
+            if (ally.getRobotId() < RuntimeConstants.gameConfig.numBots) {
+                Robot lastAlly = filteredAllies.get(ally.getRobotId());
+                Robot filteredAlly = createFilteredRobot(timestamp, ally, lastAlly);
+                filteredAllies.put(ally.getRobotId(), filteredAlly);
+            }
         }
-
         publish(AI_FILTERED_ALLIES, filteredAllies);
     }
 
     private void callbackFoes(String s, Delivery delivery) {
         Map<Integer, SSL_DetectionRobot> foes = (Map<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
-
+        long timestamp = System.currentTimeMillis();
         for (SSL_DetectionRobot foe : foes.values()) {
-            if (foe.getRobotId() > RuntimeConstants.gameConfig.numBots - 1) continue;
-            Robot.Builder filteredFoe = Robot.newBuilder();
-            filteredFoe.setId(foe.getRobotId());
-            filteredFoe.setX(foe.getX());
-            filteredFoe.setY(foe.getY());
-            filteredFoe.setOrientation(foe.getOrientation());
-            filteredFoe.setVx(0);
-            filteredFoe.setVy(0);
-            filteredFoe.setAngular(0);
-            filteredFoes.put(foe.getRobotId(), filteredFoe.build());
+            if (foe.getRobotId() < RuntimeConstants.gameConfig.numBots) {
+                Robot lastFoe = filteredFoes.get(foe.getRobotId());
+                Robot filteredFoe = createFilteredRobot(timestamp, foe, lastFoe);
+                filteredFoes.put(foe.getRobotId(), filteredFoe);
+            }
         }
-
         publish(AI_FILTERED_FOES, filteredFoes);
+    }
+
+    private Robot createFilteredRobot(long timestamp, SSL_DetectionRobot robot, Robot lastRobot) {
+        float deltaSeconds = (timestamp - lastRobot.getTimestamp()) / 1000f;
+        float vx = (robot.getX() - lastRobot.getX()) / deltaSeconds;
+        float vy = (robot.getY() - lastRobot.getY()) / deltaSeconds;
+        float angular = (robot.getOrientation() - lastRobot.getOrientation()) / deltaSeconds;
+
+        Robot.Builder filteredRobot = Robot.newBuilder();
+        filteredRobot.setTimestamp(timestamp);
+        filteredRobot.setId(robot.getRobotId());
+        filteredRobot.setX(robot.getX());
+        filteredRobot.setY(robot.getY());
+        filteredRobot.setOrientation(robot.getOrientation());
+        filteredRobot.setVx(vx);
+        filteredRobot.setVy(vy);
+        filteredRobot.setAngular(angular);
+        return filteredRobot.build();
     }
 
     @Override
