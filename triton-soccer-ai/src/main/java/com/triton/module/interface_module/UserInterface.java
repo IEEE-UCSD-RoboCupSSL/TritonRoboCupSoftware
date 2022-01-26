@@ -356,7 +356,7 @@ public class UserInterface extends Module {
                 }
 
                 if (displayConfig.showOnlyObstacles) {
-                    Set<Node2d> obstacles = pathfindGrid.getObstacles();
+                    List<Node2d> obstacles = pathfindGrid.getObstacles();
                     obstacles.forEach(node -> {
                         paintNode(graphics2D, node);
                     });

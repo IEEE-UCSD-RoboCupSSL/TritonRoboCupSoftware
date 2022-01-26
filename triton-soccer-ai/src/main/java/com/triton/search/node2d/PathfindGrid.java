@@ -17,11 +17,11 @@ public class PathfindGrid {
     Map<Integer, Robot> allies, foes;
     Map<Vector2d, Node2d> nodeMap;
     Map<Node2d, Set<Node2d>> connections;
-    Set<Node2d> obstacles;
+    List<Node2d> obstacles;
 
     public PathfindGrid(SSL_GeometryFieldSize field) {
         this.field = field;
-        this.obstacles = new HashSet<>();
+        this.obstacles = new ArrayList<>();
         generateNodeMap();
         generateConnections();
     }
@@ -103,7 +103,7 @@ public class PathfindGrid {
             Vector2d pos = allyPos.add(allyVel.scale(aiConfig.collisionExtrapolation));
             float collisionDist = aiConfig.getRobotCollisionDist()
                     + aiConfig.collisionSpeedScale * allyVel.mag();
-            Set<Node2d> nearestNodes = getNearestNodes(pos, collisionDist);
+            List<Node2d> nearestNodes = getNearestNodes(pos, collisionDist);
             nearestNodes.forEach(node -> {
                 float dist = node.getPos().dist(pos);
                 node.updatePenalty(aiConfig.obstacleScale * (aiConfig.getRobotCollisionDist() / dist));
@@ -117,7 +117,7 @@ public class PathfindGrid {
             Vector2d pos = foePos.add(foeVel.scale(aiConfig.collisionExtrapolation));
             float collisionDist = aiConfig.getRobotCollisionDist()
                     + aiConfig.collisionSpeedScale * foeVel.mag();
-            Set<Node2d> nearestNodes = getNearestNodes(pos, collisionDist);
+            List<Node2d> nearestNodes = getNearestNodes(pos, collisionDist);
             nearestNodes.forEach(node -> {
                 float dist = node.getPos().dist(pos);
                 node.updatePenalty(aiConfig.obstacleScale * (aiConfig.getRobotCollisionDist() / dist));
@@ -159,8 +159,8 @@ public class PathfindGrid {
      * @param dist distance to search
      * @return the nearest nodes to a point
      */
-    public Set<Node2d> getNearestNodes(Vector2d pos, float dist) {
-        Set<Node2d> nearestNodes = new HashSet<>();
+    public List<Node2d> getNearestNodes(Vector2d pos, float dist) {
+        List<Node2d> nearestNodes = new ArrayList<>();
 
         float minX = pos.x - dist;
         float maxX = pos.x + dist;
@@ -322,7 +322,7 @@ public class PathfindGrid {
         return connections;
     }
 
-    public Set<Node2d> getObstacles() {
+    public List<Node2d> getObstacles() {
         return obstacles;
     }
 }

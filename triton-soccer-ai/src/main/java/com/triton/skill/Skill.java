@@ -2,18 +2,18 @@ package com.triton.skill;
 
 import com.triton.module.Module;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public abstract class Skill extends Thread {
+    private final List<Future> skillFutures;
     protected Module module;
-    private final Set<Future> skillFuture;
 
     public Skill(Module module) {
         this.module = module;
-        skillFuture = new HashSet<>();
+        skillFutures = new ArrayList<>();
     }
 
     @Override
@@ -26,16 +26,16 @@ public abstract class Skill extends Thread {
     protected abstract void execute();
 
     private void waitForSkills() {
-        skillFuture.forEach(future -> {
+        skillFutures.forEach(skillFuture -> {
             try {
-                future.get();
+                skillFuture.get();
             } catch (InterruptedException | ExecutionException ignored) {
             }
         });
-        skillFuture.clear();
+        skillFutures.clear();
     }
 
     protected void submitSkill(Skill skill) {
-        skillFuture.add(module.executor.submit(skill));
+        skillFutures.add(module.executor.submit(skill));
     }
 }
