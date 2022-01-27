@@ -21,6 +21,11 @@ public class Vector2d {
         this.y = (float) Math.sin(angle);
     }
 
+    public static float angleDifference(float angle1, float angle2) {
+        double diff = (angle2 - angle1 + Math.PI) % (2 * Math.PI) - Math.PI;
+        return (float) (diff < -Math.PI ? diff + 2 * Math.PI : diff);
+    }
+
     public float angle() {
         return (float) Math.atan2(y, x);
     }

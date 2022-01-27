@@ -243,6 +243,9 @@ public class PathfindGrid {
      * @return the next point given a route
      */
     public Vector2d findNext(LinkedList<Node2d> route) {
+        if (route.isEmpty())
+            return null;
+
         Node2d from = route.getFirst();
         double threshold = from.getPenalty();
 
@@ -270,15 +273,10 @@ public class PathfindGrid {
         RouteFinder<Node2d> routeFinder = new RouteFinder<>(graph, nextNodeScorer, targetScorer);
 
         Node2d from = getNearestNode(fromPos);
-        Node2d to = getNearestNode(toPos);
+        if (from == null) return new LinkedList<>();
 
-        if (from == null) {
-            System.out.println("From node not on field.");
-            return null;
-        } else if (to == null) {
-            System.out.println("To node not on field.");
-            return null;
-        }
+        Node2d to = getNearestNode(toPos);
+        if (to == null) return new LinkedList<>();
 
         LinkedList<Node2d> route;
         try {

@@ -65,15 +65,14 @@ public class PathToPoint extends Skill {
         Vector2d from = new Vector2d(ally.getX(), ally.getY());
         LinkedList<Node2d> route = pathfindGrid.findRoute(from, pos);
         Vector2d next = pathfindGrid.findNext(route);
+        if (next == null) return;
 
-        float targetOrientation;
+        MoveToPoint moveToPoint;
         if (facePos != null) {
-            targetOrientation = (float) Math.atan2(facePos.y - ally.getY(), facePos.x - ally.getX());
+            moveToPoint = new MoveToPoint(module, ally, next, facePos);
         } else {
-            targetOrientation = orientation;
+            moveToPoint = new MoveToPoint(module, ally, next, orientation);
         }
-
-        MoveToPoint moveToPoint = new MoveToPoint(module, ally, next, targetOrientation);
         submitSkill(moveToPoint);
 
         publishDebug(route, from, pos, next);

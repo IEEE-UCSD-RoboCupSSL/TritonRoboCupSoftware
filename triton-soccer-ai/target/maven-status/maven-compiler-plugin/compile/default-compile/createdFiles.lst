@@ -17,6 +17,7 @@ proto/simulation/SslVisionDetection$SSL_DetectionRobot$1.class
 proto/simulation/SslVisionGeometry$SSL_BallModelChipFixedLossOrBuilder.class
 proto/simulation/SslSimulationConfig$RobotSpecsOrBuilder.class
 proto/simulation/SslSimulationConfig$SimulatorConfig.class
+com/triton/skill/team_skill/Attack.class
 proto/simulation/SslSimulationConfig$RobotSpecs$1.class
 proto/simulation/SslSimulationControl$1.class
 com/triton/util/CreateMessage.class
@@ -111,6 +112,7 @@ proto/vision/MessagesRobocupSslDetection$SSL_DetectionFrameOrBuilder.class
 proto/triton/TritonBotCommunication$TritonBotMessage$Builder.class
 proto/vision/MessagesRobocupSslDetectionTracked$KickedBallOrBuilder.class
 proto/simulation/SslSimulationConfig$RobotLimitsOrBuilder.class
+com/triton/skill/team_skill/Defend.class
 proto/simulation/SslSimulationConfig$RobotLimits$1.class
 proto/simulation/SslGcCommon$Team$1.class
 proto/simulation/SslSimulationControl$SimulatorControl$Builder.class

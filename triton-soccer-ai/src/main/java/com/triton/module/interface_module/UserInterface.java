@@ -213,44 +213,43 @@ public class UserInterface extends Module {
         private void transformGraphics(Graphics2D graphics2D) {
             if (field == null) return;
 
-            int totalFieldWidth;
-            int totalFieldLength;
-
-            totalFieldWidth = field.getFieldWidth()
+            int totalFieldDisplayWidth = field.getFieldWidth()
                     + 2 * field.getBoundaryWidth()
                     + 2 * displayConfig.fieldExtend;
-            totalFieldLength = field.getFieldLength()
+            int totalFieldDisplayLength = field.getFieldLength()
                     + 2 * field.getGoalDepth()
                     + 2 * field.getBoundaryWidth()
                     + 2 * displayConfig.fieldExtend;
 
-            float xScale = (float) getParent().getWidth() / totalFieldWidth;
-            float yScale = (float) getParent().getHeight() / totalFieldLength;
+            float xScale = (float) getParent().getWidth() / totalFieldDisplayWidth;
+            float yScale = (float) getParent().getHeight() / totalFieldDisplayLength;
             float minScale = Math.min(xScale, yScale);
 
-            Dimension dimension = new Dimension((int) (totalFieldWidth * minScale), (int) (totalFieldLength * minScale));
+            Dimension dimension = new Dimension((int) (totalFieldDisplayWidth * minScale), (int) (totalFieldDisplayLength * minScale));
             setMinimumSize(dimension);
             setMaximumSize(dimension);
             setPreferredSize(dimension);
 
             graphics2D.scale(minScale, -minScale);
-            graphics2D.translate(totalFieldWidth / 2, -totalFieldLength / 2);
+            graphics2D.translate(totalFieldDisplayWidth / 2, -totalFieldDisplayLength / 2);
         }
 
         private void paintGeometry(Graphics2D graphics2D) {
             if (field == null) return;
 
-            int totalFieldWidth = field.getFieldWidth()
+            int totalFieldDisplayWidth = field.getFieldWidth()
                     + 2 * field.getBoundaryWidth()
                     + 2 * displayConfig.fieldExtend;
-            int totalFieldLength = field.getFieldLength()
+            int totalFieldDisplayLength = field.getFieldLength()
                     + 2 * field.getGoalDepth()
                     + 2 * field.getBoundaryWidth()
                     + 2 * displayConfig.fieldExtend;
 
-
             graphics2D.setColor(DARK_GRAY);
-            graphics2D.fillRect(-totalFieldWidth / 2, -totalFieldLength / 2, totalFieldWidth, totalFieldLength);
+            graphics2D.fillRect(-totalFieldDisplayWidth / 2,
+                    -totalFieldDisplayLength / 2,
+                    totalFieldDisplayWidth,
+                    totalFieldDisplayLength);
 
             for (SSL_FieldLineSegment sslFieldLineSegment : field.getFieldLinesList()) {
                 Vector2f p1 = sslFieldLineSegment.getP1();
@@ -277,6 +276,21 @@ public class UserInterface extends Module {
                         (int) Math.toDegrees(a1),
                         (int) Math.toDegrees(a2));
             }
+
+            int goalDepth = field.getGoalDepth();
+            int goalWidth = field.getGoalWidth();
+
+            graphics2D.setColor(WHITE);
+            graphics2D.drawRect(-goalWidth / 2,
+                    -field.getFieldLength() / 2 - goalDepth,
+                    goalWidth,
+                    goalDepth);
+
+            graphics2D.setColor(WHITE);
+            graphics2D.drawRect(-goalWidth / 2,
+                    field.getFieldLength() / 2,
+                    goalWidth,
+                    goalDepth);
         }
 
         private void paintBall(Graphics2D graphics2D) {

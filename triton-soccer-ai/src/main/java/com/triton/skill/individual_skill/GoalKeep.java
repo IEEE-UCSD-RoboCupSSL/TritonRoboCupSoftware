@@ -32,7 +32,9 @@ public class GoalKeep extends Skill {
         float y = -field.getFieldLength() / 2f + 250f;
         Vector2d pos = new Vector2d(x, y);
 
-        MoveToPoint moveToPoint = new MoveToPoint(module, ally, pos, (float) (Math.PI / 2));
+        Vector2d ballPos = new Vector2d(ball.getX(), ball.getY());
+
+        MoveToPoint moveToPoint = new MoveToPoint(module, ally, pos, ballPos);
         submitSkill(moveToPoint);
 
         Dribble dribble = new Dribble(module, ally, true);
@@ -41,6 +43,5 @@ public class GoalKeep extends Skill {
 
     @Override
     protected void declarePublishes() throws IOException, TimeoutException {
-
     }
 }

@@ -12,6 +12,7 @@ import proto.simulation.SslSimulationControl;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.RuntimeConstants.objectConfig;
@@ -31,7 +32,7 @@ public class CatchBallTest extends TestRunner {
 
     public CatchBallTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
-        setupTest();
+        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -55,10 +56,10 @@ public class CatchBallTest extends TestRunner {
 
         SslSimulationControl.TeleportBall.Builder teleportBall = SslSimulationControl.TeleportBall.newBuilder();
         teleportBall.setX(0);
-        teleportBall.setY(objectConfig.cameraToObjectFactor * 4000f);
+        teleportBall.setY(0);
         teleportBall.setZ(0);
-        teleportBall.setVx(0);
-        teleportBall.setVy(objectConfig.cameraToObjectFactor * -8000f);
+        teleportBall.setVx(objectConfig.cameraToObjectFactor * -2000f);
+        teleportBall.setVy(objectConfig.cameraToObjectFactor * -3000f);
         teleportBall.setVz(0);
         teleportBall.setByForce(false);
         simulatorControl.setTeleportBall(teleportBall);

@@ -3,6 +3,7 @@ package com.triton.module.processing_module;
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.module.Module;
+import com.triton.util.Vector2d;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -181,7 +182,7 @@ public class FilterModule extends Module {
         float deltaSeconds = (timestamp - lastRobot.getTimestamp()) / 1000f;
         float vx = (robot.getX() - lastRobot.getX()) / deltaSeconds;
         float vy = (robot.getY() - lastRobot.getY()) / deltaSeconds;
-        float angular = (robot.getOrientation() - lastRobot.getOrientation()) / deltaSeconds;
+        float angular = Vector2d.angleDifference(robot.getOrientation(), lastRobot.getOrientation()) / deltaSeconds;
         float accX = (vx - lastRobot.getVx()) / deltaSeconds;
         float accY = (vy - lastRobot.getVy()) / deltaSeconds;
         float accAngular = (angular - lastRobot.getAngular()) / deltaSeconds;

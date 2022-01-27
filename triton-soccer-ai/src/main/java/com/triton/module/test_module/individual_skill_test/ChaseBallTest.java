@@ -55,29 +55,28 @@ public class ChaseBallTest extends TestRunner {
     protected void execute() {
         if (field == null || ball == null || allies == null || foes == null) return;
 
-        for (int id = 0; id < 6; id++) {
-            if (!pathfindGrids.containsKey(id))
-                pathfindGrids.put(id, new PathfindGrid(field));
+        int id = 1;
+        if (!pathfindGrids.containsKey(id))
+            pathfindGrids.put(id, new PathfindGrid(field));
 
-            if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
-                System.out.println("contact");
-                PathToPoint pathToPoint = new PathToPoint(this,
-                        allies.get(id),
-                        new Vector2d(1000, 1000),
-                        (float) Math.PI,
-                        pathfindGrids.get(id),
-                        allies,
-                        foes);
-                submitSkill(pathToPoint);
-            } else {
-                ChaseBall chaseBall = new ChaseBall(this,
-                        allies.get(id),
-                        pathfindGrids.get(id),
-                        ball,
-                        allies,
-                        foes);
-                submitSkill(chaseBall);
-            }
+        if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
+            System.out.println("contact");
+            PathToPoint pathToPoint = new PathToPoint(this,
+                    allies.get(id),
+                    new Vector2d(1000, 1000),
+                    (float) Math.PI,
+                    pathfindGrids.get(id),
+                    allies,
+                    foes);
+            submitSkill(pathToPoint);
+        } else {
+            ChaseBall chaseBall = new ChaseBall(this,
+                    allies.get(id),
+                    pathfindGrids.get(id),
+                    ball,
+                    allies,
+                    foes);
+            submitSkill(chaseBall);
         }
     }
 

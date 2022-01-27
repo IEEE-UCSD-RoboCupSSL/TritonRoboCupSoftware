@@ -14,7 +14,8 @@ public abstract class TestRunner extends SkillRunner {
     @Override
     public void interrupt() {
         super.interrupt();
-        setupTestFuture.cancel(false);
+        if (setupTestFuture != null)
+            setupTestFuture.cancel(false);
     }
 
     protected abstract void setupTest();
