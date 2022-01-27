@@ -1,3 +1,4 @@
+from imp import source_from_cache
 from pickle import loads
 from config.config_path import ConfigPath
 from config.config_reader import read_config
@@ -37,9 +38,8 @@ class TritonBotMessageProcessor(Module):
         message = TritonBotMessage()
         message.ParseFromString(body)
         
-        if (message.HasField('vision')):
-            self.publish(exchange=Exchange.TB_RAW_VISION, object=message.vision)
-
+        self.publish(exchange=Exchange.TB_RAW_VISION, object=message.vision)
+        
         if (message.HasField('command')):
             exchange = Exchange.TB_WHEEL_COMMAND
             if (message.command.HasField('move_command')):

@@ -4,8 +4,6 @@ import os
 import time
 import argparse
 
-# os.system("sudo rabbitmqctl set_policy expiry \".*\" \'{\"expires\":1000}\' --apply-to queues")
-
 parser = argparse.ArgumentParser(description="Run programs.")
 parser.add_argument('--test', choices=('True', 'False'))
 args = parser.parse_args()
@@ -34,6 +32,9 @@ simulator = "./simulator-cli"
 game_controller_path = dir_path + "/game-controller"
 game_controller = "./ssl-game-controller_v2.13.0_linux_amd64"
 
+ssl_vision_client_path = dir_path + "/ssl-vision-client"
+ssl_vision_client = "./ssl-vision-client_v1.6.0_linux_amd64"
+
 triton_soccer_ai_jar_path = dir_path + "/triton-soccer-ai/target"
 triton_soccer_ai_jar = "TritonSoccerAI.jar"
 
@@ -44,12 +45,13 @@ triton_bot_path = dir_path + "/triton-bot/src/main/python"
 triton_bot = "triton_bot.py"
 
 # run cmds
-# run_cmd([simulator, "-g", "2020B", "--realism", "None"], simulator_path, "tab")
 run_cmd([simulator, "-g", "2020B", "--realism", "RC2021"], simulator_path, "tab")
-
 time.sleep(0.1)
 
-run_cmd([game_controller, ], game_controller_path, "tab")
+run_cmd([game_controller], game_controller_path, "tab")
+time.sleep(0.1)
+
+run_cmd([ssl_vision_client], ssl_vision_client_path, "tab")
 time.sleep(0.1)
 
 num_bots = 6

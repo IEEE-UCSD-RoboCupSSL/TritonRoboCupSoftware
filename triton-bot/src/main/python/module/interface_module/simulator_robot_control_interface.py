@@ -63,4 +63,6 @@ class SimulatorRobotControlInterface(Module):
         response = RobotControlResponse()
         response.ParseFromString(bytes)
         for feedback in response.feedback:
+            if (feedback.id != RuntimeConstants.id):
+                continue
             self.publish(exchange=Exchange.TB_FEEDBACK, object=feedback)

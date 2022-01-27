@@ -138,8 +138,6 @@ public class VisionBiasedConverter extends Module {
     private static SSL_FieldCircularArc audienceToBiased(SSL_FieldCircularArc fieldCircularArc) {
         SSL_FieldCircularArc.Builder biasedFieldCircularArc = fieldCircularArc.toBuilder();
         biasedFieldCircularArc.setCenter(audienceToBiased(fieldCircularArc.getCenter()));
-//        biasedFieldCircularArc.setA1(ConvertCoordinate.audienceToBiased(fieldCircularArc.getA1()));
-//        biasedFieldCircularArc.setA2(ConvertCoordinate.audienceToBiased(fieldCircularArc.getA2()));
         biasedFieldCircularArc.setA1(0);
         biasedFieldCircularArc.setA2(360);
         return biasedFieldCircularArc.build();

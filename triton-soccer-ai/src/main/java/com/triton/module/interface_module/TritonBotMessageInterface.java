@@ -94,7 +94,6 @@ public class TritonBotMessageInterface extends Module {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (feedback == null) return;
         feedbacks.put(feedback.getId(), feedback);
         publish(AI_ROBOT_FEEDBACKS, feedbacks);
     }

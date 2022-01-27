@@ -26,8 +26,8 @@ public class GoalKeep extends Skill {
 
     @Override
     protected void execute() {
-        float xMin = -1000f;
-        float xMax = 1000f;
+        float xMin = -field.getGoalWidth() / 2f;
+        float xMax = field.getGoalWidth() / 2f;
         float x = Math.min(Math.max(ball.getX(), xMin), xMax);
         float y = -field.getFieldLength() / 2f + 250f;
         Vector2d pos = new Vector2d(x, y);

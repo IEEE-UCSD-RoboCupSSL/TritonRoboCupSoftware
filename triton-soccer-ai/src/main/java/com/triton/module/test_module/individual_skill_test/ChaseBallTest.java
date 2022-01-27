@@ -34,7 +34,7 @@ public class ChaseBallTest extends TestRunner {
 
     public ChaseBallTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
-        scheduleSetupTest(0, 7000, TimeUnit.MILLISECONDS);
+        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -54,14 +54,14 @@ public class ChaseBallTest extends TestRunner {
 
     @Override
     protected void execute() {
-        if (field == null || ball == null || allies == null || foes == null) return;
+        if (field == null || ball == null || allies == null || foes == null || feedbacks == null) return;
 
         int id = 1;
         if (!pathfindGrids.containsKey(id))
             pathfindGrids.put(id, new PathfindGrid(field));
 
-        if (feedbacks != null && feedbacks.containsKey(0) && feedbacks.get(0).getDribblerBallContact()) {
-            System.out.println("contact");
+        if (feedbacks.get(id).getDribblerBallContact()) {
+            System.out.println("CONTACT");
             PathToPoint pathToPoint = new PathToPoint(this,
                     allies.get(id),
                     new Vector2d(1000, 1000),
@@ -117,6 +117,6 @@ public class ChaseBallTest extends TestRunner {
     }
 
     private void callbackFeedbacks(String s, Delivery delivery) {
-        this.feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+        feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
     }
 }

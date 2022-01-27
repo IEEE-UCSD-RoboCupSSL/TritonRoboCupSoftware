@@ -38,8 +38,8 @@ public class ChaseBall extends Skill {
     protected void execute() {
         Vector2d allyPos = new Vector2d(ally.getX(), ally.getY());
         Vector2d ballPos = new Vector2d(ball.getX(), ball.getY());
-        Vector2d offset = ballPos.sub(allyPos).norm().scale(100f);
-        Vector2d targetPos = ballPos.add(offset);
+        Vector2d ballVel = new Vector2d(ball.getVx(), ball.getVy());
+        Vector2d targetPos = ballPos.add(ballVel.scale(0.1f));
 
         PathToPoint pathToPoint = new PathToPoint(module, ally, targetPos, ballPos, pathfindGrid, allies, foes);
         submitSkill(pathToPoint);
@@ -50,6 +50,5 @@ public class ChaseBall extends Skill {
 
     @Override
     protected void declarePublishes() throws IOException, TimeoutException {
-
     }
 }

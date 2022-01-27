@@ -42,7 +42,7 @@ public class GoalKeepTest extends TestRunner {
         submitSkill(goalKeep);
 
         if (feedbacks.get(1).getDribblerBallContact())
-            System.out.println("contact");
+            System.out.println("CONTACT");
     }
 
     @Override
@@ -99,11 +99,12 @@ public class GoalKeepTest extends TestRunner {
 
         Random random = new Random();
         SslSimulationControl.TeleportBall.Builder teleportBall = SslSimulationControl.TeleportBall.newBuilder();
-        teleportBall.setX(random.nextFloat(objectConfig.cameraToObjectFactor * -1000f, objectConfig.cameraToObjectFactor * 1000f));
-        teleportBall.setY(objectConfig.cameraToObjectFactor * 4000f);
+        teleportBall.setX(random.nextFloat(objectConfig.cameraToObjectFactor * -field.getGoalWidth() / 2,
+                objectConfig.cameraToObjectFactor * field.getGoalWidth() / 2));
+        teleportBall.setY(0);
         teleportBall.setZ(0);
         teleportBall.setVx(0);
-        teleportBall.setVy(objectConfig.cameraToObjectFactor * -12000f);
+        teleportBall.setVy(objectConfig.cameraToObjectFactor * -6000f);
         teleportBall.setVz(0);
         teleportBall.setByForce(false);
         simulatorControl.setTeleportBall(teleportBall);

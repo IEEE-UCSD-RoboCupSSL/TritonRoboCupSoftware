@@ -23,9 +23,10 @@ import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class TritonBotMessageBuilder extends Module {
-    private static final long PUBLISH_INTERVAL = 25;
-    private static final long ROBOT_COMMAND_TIMEOUT = 250;
-    private HashMap<Integer, TritonBotMessage.Builder> aggregateMessages;
+    private static final long PUBLISH_INTERVAL = 20;
+    private static final long ROBOT_COMMAND_TIMEOUT = 1000;
+    private HashMap<Integer, SSL_DetectionRobot> aggregateVisions;
+    private HashMap<Integer, RobotCommand> aggregateCommands;
     private HashMap<Integer, Long> robotCommandUpdateTimestamps;
 
     private Future publishFuture;
@@ -42,28 +43,34 @@ public class TritonBotMessageBuilder extends Module {
 
     private void publishMessages() {
         long timestamp = System.currentTimeMillis();
-        aggregateMessages.forEach((id, message) -> {
+
+        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
+            TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
+            message.setId(id);
+            message.setVision(aggregateVisions.get(id));
+
             long timeDifference = timestamp - robotCommandUpdateTimestamps.get(id);
             if (timeDifference < ROBOT_COMMAND_TIMEOUT)
-                publish(AI_TRITON_BOT_MESSAGE, message.build());
-        });
+                message.setCommand(aggregateCommands.get(id));
+
+            publish(AI_TRITON_BOT_MESSAGE, message.build());
+        }
     }
 
     @Override
     protected void prepare() {
-        aggregateMessages = new HashMap<>();
+        aggregateVisions = new HashMap<>();
+        aggregateCommands = new HashMap<>();
         robotCommandUpdateTimestamps = new HashMap<>();
 
         for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
-            aggregateMessages.put(id, initDefaultMessage(id));
+            aggregateVisions.put(id, initDefaultVision(id));
+            aggregateCommands.put(id, initDefaultCommand(id));
             robotCommandUpdateTimestamps.put(id, 0L);
         }
     }
 
-    private TritonBotMessage.Builder initDefaultMessage(int id) {
-        TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
-        message.setId(id);
-
+    private SSL_DetectionRobot initDefaultVision(int id) {
         SSL_DetectionRobot.Builder ally = SSL_DetectionRobot.newBuilder();
         ally.setConfidence(0);
         ally.setRobotId(id);
@@ -73,8 +80,10 @@ public class TritonBotMessageBuilder extends Module {
         ally.setPixelX(0);
         ally.setPixelY(0);
         ally.setHeight(0);
-        message.setVision(ally.build());
+        return ally.build();
+    }
 
+    private RobotCommand initDefaultCommand(int id) {
         RobotCommand.Builder robotCommand = RobotCommand.newBuilder();
         robotCommand.setId(id);
         SslSimulationRobotControl.RobotMoveCommand.Builder moveCommand = SslSimulationRobotControl.RobotMoveCommand.newBuilder();
@@ -87,8 +96,7 @@ public class TritonBotMessageBuilder extends Module {
         robotCommand.setKickSpeed(0);
         robotCommand.setKickAngle(0);
         robotCommand.setDribblerSpeed(0);
-        message.setCommand(robotCommand);
-        return message;
+        return robotCommand.build();
     }
 
     @Override
@@ -114,25 +122,24 @@ public class TritonBotMessageBuilder extends Module {
 
         allies.forEach(ally -> {
             if (ally.getRobotId() >= RuntimeConstants.gameConfig.numBots) return;
-            TritonBotMessage.Builder message = aggregateMessages.get(ally.getRobotId());
-            message.setVision(ally);
+            aggregateVisions.put(ally.getRobotId(), ally);
         });
     }
 
     private void callbackRobotCommand(String s, Delivery delivery) {
         RobotCommand robotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
 
-        TritonBotMessage.Builder aggregateRobotCommand = aggregateMessages.get(robotCommand.getId());
-        RobotCommand.Builder command = aggregateRobotCommand.getCommandBuilder();
+        RobotCommand.Builder aggregateCommand = aggregateCommands.get(robotCommand.getId()).toBuilder();
         if (robotCommand.hasMoveCommand())
-            command.setMoveCommand(robotCommand.getMoveCommand());
+            aggregateCommand.setMoveCommand(robotCommand.getMoveCommand());
         if (robotCommand.hasKickSpeed())
-            command.setKickSpeed(robotCommand.getKickSpeed());
+            aggregateCommand.setKickSpeed(robotCommand.getKickSpeed());
         if (robotCommand.hasKickAngle())
-            command.setKickAngle(robotCommand.getKickAngle());
+            aggregateCommand.setKickAngle(robotCommand.getKickAngle());
         if (robotCommand.hasDribblerSpeed())
-            command.setDribblerSpeed(robotCommand.getDribblerSpeed());
+            aggregateCommand.setDribblerSpeed(robotCommand.getDribblerSpeed());
 
+        aggregateCommands.put(robotCommand.getId(), aggregateCommand.build());
         robotCommandUpdateTimestamps.put(robotCommand.getId(), System.currentTimeMillis());
     }
 
