@@ -90,10 +90,8 @@ public class PathfindGrid {
 
         nodeMap.forEach((pos, node) -> {
             float dist = getDistanceFromBound(node.getPos());
-            if (node.getPenalty() == 0 && dist > 0) {
+            if (node.getPenalty() == 0 && dist > 0)
                 node.setPenalty(aiConfig.obstacleScale * dist);
-//                obstacles.add(node);
-            }
         });
 
         allies.forEach((id, ally) -> {
