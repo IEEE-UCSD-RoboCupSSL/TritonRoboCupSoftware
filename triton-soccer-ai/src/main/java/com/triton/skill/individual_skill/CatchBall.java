@@ -6,7 +6,9 @@ import com.triton.skill.Skill;
 import com.triton.skill.basic_skill.Dribble;
 import com.triton.util.Vector2d;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
@@ -53,5 +55,10 @@ public class CatchBall extends Skill {
 
         Dribble dribble = new Dribble(module, ally, true);
         submitSkill(dribble);
+    }
+
+    @Override
+    protected void declarePublishes() throws IOException, TimeoutException {
+
     }
 }

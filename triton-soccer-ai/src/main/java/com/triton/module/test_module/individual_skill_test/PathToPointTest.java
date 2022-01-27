@@ -32,7 +32,7 @@ public class PathToPointTest extends TestRunner {
 
     public PathToPointTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
-        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
+        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
     }
 
     @Override

@@ -158,6 +158,7 @@ proto/simulation/SslSimulationRobotControl$RobotCommandOrBuilder.class
 proto/simulation/SslVisionGeometry$SSL_FieldCircularArc.class
 proto/simulation/SslSimulationControl$SimulatorCommand$1.class
 com/triton/search/base/RouteFinder.class
+com/triton/skill/individual_skill/MoveToPoint.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrameOrBuilder.class
 proto/simulation/SslVisionDetection.class
 proto/simulation/SslVisionGeometry$Vector2f$1.class
@@ -216,6 +217,7 @@ proto/vision/MessagesRobocupSslGeometry$SSL_GeometryFieldSize$1.class
 com/triton/skill/basic_skill/MatchVelocity.class
 proto/simulation/SslSimulationRobotControl$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrame.class
+com/triton/module/test_module/individual_skill_test/MoveToPointTest.class
 proto/simulation/SslSimulationSynchronous$1.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryCameraCalibration$Builder.class
 proto/simulation/SslSimulationControl$SimulatorResponse$Builder.class
@@ -358,7 +360,6 @@ proto/simulation/SslSimulationControl$TeleportBall$Builder.class
 proto/simulation/SslSimulationControl$SimulatorResponse$1.class
 proto/simulation/SslSimulationRobotControl$MoveGlobalVelocity$1.class
 com/triton/skill/individual_skill/DribbleBall.class
-com/triton/skill/basic_skill/MoveToPoint.class
 com/triton/constant/Team.class
 proto/vision/MessagesRobocupSslWrapper$SSL_WrapperPacket.class
 proto/simulation/SslSimulationRobotControl$MoveWheelVelocityOrBuilder.class
@@ -367,7 +368,6 @@ proto/simulation/SslVisionDetection$SSL_DetectionFrameOrBuilder.class
 proto/triton/AiDebugInfo$DebugVector$1.class
 proto/simulation/SslVisionGeometry$SSL_BallModelStraightTwoPhase$1.class
 proto/simulation/SslSimulationRobotControl$RobotMoveCommand$1.class
-com/triton/module/test_module/basic_skill_test/MoveToPointTest.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldCircularArcOrBuilder.class
 proto/vision/MessagesRobocupSslDetectionTracked$KickedBall$Builder.class
 proto/simulation/SslVisionGeometry$SSL_FieldLineSegment$1.class

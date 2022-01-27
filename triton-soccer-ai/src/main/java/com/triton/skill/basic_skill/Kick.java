@@ -4,6 +4,9 @@ import com.triton.module.Module;
 import com.triton.skill.Skill;
 import proto.simulation.SslSimulationRobotControl;
 
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
 import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
 import static proto.triton.ObjectWithMetadata.Robot;
 
@@ -34,6 +37,11 @@ public class Kick extends Skill {
         robotCommand.setKickSpeed(5f);
         robotCommand.setKickAngle(0);
         robotCommand.setDribblerSpeed(1);
-        module.publish(AI_BIASED_ROBOT_COMMAND, robotCommand.build());
+        publish(AI_BIASED_ROBOT_COMMAND, robotCommand.build());
+    }
+
+    @Override
+    protected void declarePublishes() throws IOException, TimeoutException {
+        declarePublish(AI_BIASED_ROBOT_COMMAND);
     }
 }

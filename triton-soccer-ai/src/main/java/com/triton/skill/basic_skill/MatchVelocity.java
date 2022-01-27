@@ -5,6 +5,9 @@ import com.triton.skill.Skill;
 import com.triton.util.Vector2d;
 import proto.simulation.SslSimulationRobotControl;
 
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
 import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
 import static proto.triton.ObjectWithMetadata.Robot;
 
@@ -31,6 +34,11 @@ public class MatchVelocity extends Skill {
         globalVelocity.setAngular(angular);
         moveCommand.setGlobalVelocity(globalVelocity);
         robotCommand.setMoveCommand(moveCommand);
-        module.publish(AI_BIASED_ROBOT_COMMAND, robotCommand.build());
+        publish(AI_BIASED_ROBOT_COMMAND, robotCommand.build());
+    }
+
+    @Override
+    protected void declarePublishes() throws IOException, TimeoutException {
+        declarePublish(AI_BIASED_ROBOT_COMMAND);
     }
 }

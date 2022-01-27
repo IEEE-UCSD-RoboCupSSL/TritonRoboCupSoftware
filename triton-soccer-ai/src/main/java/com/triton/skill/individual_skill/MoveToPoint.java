@@ -1,8 +1,12 @@
-package com.triton.skill.basic_skill;
+package com.triton.skill.individual_skill;
 
 import com.triton.module.Module;
 import com.triton.skill.Skill;
+import com.triton.skill.basic_skill.MatchVelocity;
 import com.triton.util.Vector2d;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.RuntimeConstants.aiConfig;
 import static proto.triton.ObjectWithMetadata.Robot;
@@ -26,5 +30,10 @@ public class MoveToPoint extends Skill {
 
         MatchVelocity matchVelocity = new MatchVelocity(module, ally, vel, angular);
         submitSkill(matchVelocity);
+    }
+
+    @Override
+    protected void declarePublishes() throws IOException, TimeoutException {
+
     }
 }

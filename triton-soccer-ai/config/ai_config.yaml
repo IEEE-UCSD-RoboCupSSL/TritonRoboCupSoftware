@@ -1,9 +1,9 @@
   nodeRadius: 50
   boundSafety: 0
-  robotSafety: 0
+  robotSafety: 10
   obstacleScale: 10000
   gridExtend: 250
-  collisionSpeedScale: 0.15
+  collisionSpeedScale: 0.1
   collisionExtrapolation: 0.2
 
   kpPos: 0.0015

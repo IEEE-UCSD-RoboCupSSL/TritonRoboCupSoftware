@@ -37,7 +37,6 @@ public class MatchVelocityTest extends TestRunner {
 
     @Override
     protected void prepare() {
-
     }
 
     @Override

@@ -4,7 +4,9 @@ import com.triton.module.Module;
 import com.triton.search.node2d.PathfindGrid;
 import com.triton.skill.Skill;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
@@ -35,5 +37,10 @@ public class Pass extends Skill {
 
     @Override
     protected void execute() {
+    }
+
+    @Override
+    protected void declarePublishes() throws IOException, TimeoutException {
+
     }
 }

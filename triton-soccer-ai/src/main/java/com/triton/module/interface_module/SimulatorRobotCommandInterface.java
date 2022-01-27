@@ -62,7 +62,7 @@ public class SimulatorRobotCommandInterface extends Module {
     @Override
     public void interrupt() {
         super.interrupt();
-        clientFuture.cancel(true);
+        clientFuture.cancel(false);
     }
 
     private void setupClient() throws IOException {

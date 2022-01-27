@@ -16,8 +16,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.*;
+import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -104,31 +106,31 @@ public class UserInterface extends Module {
     private void callbackField(String s, Delivery delivery) {
         SSL_GeometryFieldSize field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
         fieldPanel.setField(field);
-        fieldPanel.revalidate();
+        fieldPanel.repaint();
     }
 
     private void callbackBall(String s, Delivery delivery) {
         Ball ball = (Ball) simpleDeserialize(delivery.getBody());
         fieldPanel.setBall(ball);
-        fieldPanel.revalidate();
+        fieldPanel.repaint();
     }
 
     private void callbackAllies(String s, Delivery delivery) {
         Map<Integer, ObjectWithMetadata.Robot> allies = (Map<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         fieldPanel.setAllies(allies);
-        fieldPanel.revalidate();
+        fieldPanel.repaint();
     }
 
     private void callbackFoes(String s, Delivery delivery) {
         Map<Integer, ObjectWithMetadata.Robot> foes = (Map<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
         fieldPanel.setFoes(foes);
-        fieldPanel.revalidate();
+        fieldPanel.repaint();
     }
 
     private void callbackDebug(String s, Delivery delivery) {
         Debug debug = (Debug) simpleDeserialize(delivery.getBody());
         fieldPanel.addDebug(debug);
-        fieldPanel.revalidate();
+        fieldPanel.repaint();
     }
 
     private class FieldPanel extends JPanel {

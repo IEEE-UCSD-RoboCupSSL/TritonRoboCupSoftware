@@ -41,12 +41,6 @@ public class GoalKeepTest extends TestRunner {
 
         GoalKeep goalKeep = new GoalKeep(this, allies.get(1), field, ball);
         submitSkill(goalKeep);
-
-        if (feedbacks != null && feedbacks.containsKey(1) && feedbacks.get(1).getDribblerBallContact()) {
-            System.out.println("contact");
-            Kick kick = new Kick(this, allies.get(1), true, false);
-            submitSkill(kick);
-        }
     }
 
     @Override

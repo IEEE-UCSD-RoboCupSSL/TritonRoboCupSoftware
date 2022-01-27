@@ -1,10 +1,10 @@
-package com.triton.module.test_module.basic_skill_test;
+package com.triton.module.test_module.individual_skill_test;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.TestRunner;
-import com.triton.skill.basic_skill.MoveToPoint;
+import com.triton.skill.individual_skill.MoveToPoint;
 import com.triton.util.Vector2d;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
@@ -25,13 +25,7 @@ public class MoveToPointTest extends TestRunner {
 
     public MoveToPointTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
-        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
-    }
-
-    @Override
-    protected void execute() {
-        MoveToPoint moveToPoint = new MoveToPoint(this, allies.get(1), new Vector2d(2000, 2000), (float) Math.PI);
-        submitSkill(moveToPoint);
+        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -72,5 +66,13 @@ public class MoveToPointTest extends TestRunner {
         simulatorControl.addTeleportRobot(teleportRobot);
 
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
+    }
+
+    @Override
+    protected void execute() {
+        if (allies == null) return;
+
+        MoveToPoint moveToPoint = new MoveToPoint(this, allies.get(1), new Vector2d(2000, 2000), (float) Math.PI);
+        submitSkill(moveToPoint);
     }
 }

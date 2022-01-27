@@ -92,7 +92,7 @@ public class PathfindGrid {
             float dist = getDistanceFromBound(node.getPos());
             if (node.getPenalty() == 0 && dist > 0) {
                 node.setPenalty(aiConfig.obstacleScale * dist);
-                obstacles.add(node);
+//                obstacles.add(node);
             }
         });
 

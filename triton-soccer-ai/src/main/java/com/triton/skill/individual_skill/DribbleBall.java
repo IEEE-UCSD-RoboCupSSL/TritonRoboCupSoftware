@@ -5,7 +5,9 @@ import com.triton.search.node2d.PathfindGrid;
 import com.triton.skill.Skill;
 import com.triton.util.Vector2d;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.RuntimeConstants.objectConfig;
 import static proto.triton.ObjectWithMetadata.Ball;
@@ -88,5 +90,10 @@ public class DribbleBall extends Skill {
                     allies,
                     foes);
         submitSkill(pathToPoint);
+    }
+
+    @Override
+    protected void declarePublishes() throws IOException, TimeoutException {
+
     }
 }

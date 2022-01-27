@@ -19,11 +19,11 @@ class Module(Thread):
 
     def setup_channels(self):
         self.consume_connection = pika.BlockingConnection(
-            pika.ConnectionParameters(Module.CONNECTION_FACTORY_HOST, heartbeat=10))
+            pika.ConnectionParameters(Module.CONNECTION_FACTORY_HOST))
         self.consume_channel = self.consume_connection.channel()
 
         self.publish_connection = pika.BlockingConnection(
-            pika.ConnectionParameters(Module.CONNECTION_FACTORY_HOST, heartbeat=10))
+            pika.ConnectionParameters(Module.CONNECTION_FACTORY_HOST))
         self.publish_channel = self.publish_connection.channel()
 
     def load_config(self):

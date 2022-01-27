@@ -41,7 +41,7 @@ public class CameraInterface extends Module {
     @Override
     public void interrupt() {
         super.interrupt();
-        receiverFuture.cancel(true);
+        receiverFuture.cancel(false);
     }
 
     /**

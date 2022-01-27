@@ -13,7 +13,6 @@ import com.triton.module.processing_module.*;
 import com.triton.module.test_module.basic_skill_test.DribbleTest;
 import com.triton.module.test_module.basic_skill_test.KickTest;
 import com.triton.module.test_module.basic_skill_test.MatchVelocityTest;
-import com.triton.module.test_module.basic_skill_test.MoveToPointTest;
 import com.triton.module.test_module.individual_skill_test.*;
 import com.triton.module.test_module.misc_test.AStarSearchTest;
 import com.triton.util.Test;
@@ -22,6 +21,7 @@ import org.apache.commons.cli.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -136,8 +136,8 @@ public class TritonSoccerAI {
             while (!testRunners.isEmpty()) {
                 System.out.print("Running test, type 'q' to stop:\t");
                 if (scanner.nextLine().equals("q")) {
+                    testFutures.forEach(testFuture -> testFuture.cancel(false));
                     testRunners.forEach(Module::interrupt);
-                    testFutures.forEach(testFuture -> testFuture.cancel(true));
                     testRunners.clear();
                     testFutures.clear();
                 }

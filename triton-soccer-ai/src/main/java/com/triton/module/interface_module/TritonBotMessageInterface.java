@@ -9,7 +9,10 @@ import proto.triton.TritonBotCommunication.TritonBotMessage;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
@@ -60,7 +63,7 @@ public class TritonBotMessageInterface extends Module {
     @Override
     public void interrupt() {
         super.interrupt();
-        clientFutures.forEach(clientFuture -> clientFuture.cancel(true));
+        clientFutures.forEach(clientFuture -> clientFuture.cancel(false));
     }
 
     private void setupClients() throws SocketException, UnknownHostException {

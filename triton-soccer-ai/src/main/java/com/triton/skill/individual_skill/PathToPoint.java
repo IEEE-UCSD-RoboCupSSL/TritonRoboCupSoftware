@@ -4,13 +4,14 @@ import com.triton.module.Module;
 import com.triton.search.node2d.Node2d;
 import com.triton.search.node2d.PathfindGrid;
 import com.triton.skill.Skill;
-import com.triton.skill.basic_skill.MoveToPoint;
 import com.triton.util.Vector2d;
 import proto.triton.AiDebugInfo;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_DEBUG;
 import static proto.triton.ObjectWithMetadata.Robot;
@@ -90,6 +91,11 @@ public class PathToPoint extends Skill {
             path.addNodes(AiDebugInfo.DebugVector.newBuilder().setX(pos.x).setY(pos.y));
         });
         debug.setPath(path);
-        module.publish(AI_DEBUG, debug.build());
+        publish(AI_DEBUG, debug.build());
+    }
+
+    @Override
+    protected void declarePublishes() throws IOException, TimeoutException {
+        declarePublish(AI_DEBUG);
     }
 }

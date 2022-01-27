@@ -1,9 +1,12 @@
 package com.triton.module;
 
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public abstract class TestRunner extends SkillRunner {
+    Future setupTestFuture;
+
     public TestRunner(ScheduledThreadPoolExecutor executor) {
         super(executor);
     }
@@ -11,12 +14,12 @@ public abstract class TestRunner extends SkillRunner {
     @Override
     public void interrupt() {
         super.interrupt();
-        executor.remove(this::setupTest);
+        setupTestFuture.cancel(false);
     }
 
     protected abstract void setupTest();
 
     protected void scheduleSetupTest(long delay, long period, TimeUnit timeUnit) {
-        executor.scheduleAtFixedRate(this::setupTest, delay, period, timeUnit);
+        setupTestFuture = executor.scheduleAtFixedRate(this::setupTest, delay, period, timeUnit);
     }
 }
