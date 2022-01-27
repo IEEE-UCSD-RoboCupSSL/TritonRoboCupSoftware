@@ -1,7 +1,7 @@
 package com.triton.module;
 
 import com.rabbitmq.client.*;
-import com.triton.constant.RuntimeConstants;
+import com.triton.constant.ProgramConstants;
 import com.triton.messaging.Exchange;
 
 import java.io.IOException;
@@ -59,7 +59,7 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     public void declarePublish(Exchange exchange) throws IOException, TimeoutException {
-        publish_channel.exchangeDeclare(exchange.name() + RuntimeConstants.team.name(), FANOUT);
+        publish_channel.exchangeDeclare(exchange.name() + ProgramConstants.team.name(), FANOUT);
     }
 
     /**
@@ -71,7 +71,7 @@ public abstract class Module extends Thread {
      * @throws IOException
      */
     public void declareConsume(Exchange exchange, DeliverCallback callback) throws IOException, TimeoutException {
-        consume_channel.exchangeDeclare(exchange.name() + RuntimeConstants.team.name(), FANOUT);
+        consume_channel.exchangeDeclare(exchange.name() + ProgramConstants.team.name(), FANOUT);
 
         Map<String, Object> args = new HashMap<>();
         args.put("x-message-ttl", 1000);
@@ -81,7 +81,7 @@ public abstract class Module extends Thread {
                 false,
                 false,
                 args).getQueue();
-        consume_channel.queueBind(queueName, exchange.name() + RuntimeConstants.team.name(), "");
+        consume_channel.queueBind(queueName, exchange.name() + ProgramConstants.team.name(), "");
         consume_channel.queuePurge(queueName);
 
         DeliverCallback wrappedCallback = (s, delivery) -> {
@@ -114,7 +114,7 @@ public abstract class Module extends Thread {
         AMQP.BasicProperties properties = new AMQP.BasicProperties.Builder().timestamp(date).build();
         if (publish_channel.isOpen()) {
             try {
-                publish_channel.basicPublish(exchange.name() + RuntimeConstants.team.name(), "", properties, simpleSerialize(object));
+                publish_channel.basicPublish(exchange.name() + ProgramConstants.team.name(), "", properties, simpleSerialize(object));
             } catch (IOException e) {
                 e.printStackTrace();
             }

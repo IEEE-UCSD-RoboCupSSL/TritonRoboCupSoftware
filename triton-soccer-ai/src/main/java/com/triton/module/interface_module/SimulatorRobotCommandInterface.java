@@ -1,7 +1,7 @@
 package com.triton.module.interface_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
+import com.triton.constant.ProgramConstants;
 import com.triton.module.Module;
 import com.triton.networking.UDP_Client;
 
@@ -69,16 +69,16 @@ public class SimulatorRobotCommandInterface extends Module {
         String allyControlAddress;
         int allyControlPort;
 
-        switch (RuntimeConstants.team) {
+        switch (ProgramConstants.team) {
             case BLUE -> {
-                allyControlAddress = RuntimeConstants.networkConfig.simulationRobotControlAddressBlue;
-                allyControlPort = RuntimeConstants.networkConfig.simulationRobotControlPortBlue;
+                allyControlAddress = ProgramConstants.networkConfig.simulationRobotControlAddressBlue;
+                allyControlPort = ProgramConstants.networkConfig.simulationRobotControlPortBlue;
             }
             case YELLOW -> {
-                allyControlAddress = RuntimeConstants.networkConfig.simulationRobotControlAddressYellow;
-                allyControlPort = RuntimeConstants.networkConfig.simulationRobotControlPortYellow;
+                allyControlAddress = ProgramConstants.networkConfig.simulationRobotControlAddressYellow;
+                allyControlPort = ProgramConstants.networkConfig.simulationRobotControlPortYellow;
             }
-            default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
+            default -> throw new IllegalStateException("Unexpected value: " + ProgramConstants.team);
         }
 
         client = new UDP_Client(allyControlAddress, allyControlPort, this::callbackRobotControlResponse, 10);

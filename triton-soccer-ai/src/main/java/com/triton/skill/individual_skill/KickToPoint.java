@@ -9,7 +9,7 @@ import com.triton.util.Vector2d;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.constant.RuntimeConstants.aiConfig;
+import static com.triton.constant.ProgramConstants.aiConfig;
 import static com.triton.util.ProtobufUtils.getPos;
 import static proto.triton.ObjectWithMetadata.Robot;
 

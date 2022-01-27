@@ -1,6 +1,6 @@
 package com.triton.module.interface_module;
 
-import com.triton.constant.RuntimeConstants;
+import com.triton.constant.ProgramConstants;
 import com.triton.module.Module;
 import com.triton.networking.UDP_MulticastReceiver;
 
@@ -51,8 +51,8 @@ public class CameraInterface extends Module {
      */
     private void setupReceiver() throws IOException {
         // Setup a multicast receiver
-        receiver = new UDP_MulticastReceiver(RuntimeConstants.networkConfig.visionAddress,
-                RuntimeConstants.networkConfig.visionDetectionPort,
+        receiver = new UDP_MulticastReceiver(ProgramConstants.networkConfig.visionAddress,
+                ProgramConstants.networkConfig.visionDetectionPort,
                 this::callbackWrapper);
     }
 

@@ -1,6 +1,6 @@
 package com.triton.util;
 
-import com.triton.constant.RuntimeConstants;
+import com.triton.constant.ProgramConstants;
 import com.triton.constant.Team;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class ConvertCoordinate {
 
     public static Vector2d audienceToBiased(float x, float y) {
         Vector2d biasedVector;
-        if (RuntimeConstants.team == Team.YELLOW) {
+        if (ProgramConstants.team == Team.YELLOW) {
             biasedVector = new Vector2d(-y, x);
         } else {
             biasedVector = new Vector2d(y, -x);
@@ -22,7 +22,7 @@ public class ConvertCoordinate {
     }
 
     public static float audienceToBiased(float angle) {
-        if (RuntimeConstants.team == Team.YELLOW)
+        if (ProgramConstants.team == Team.YELLOW)
             return clampAngle((float) (angle + (Math.PI / 2)));
         else
             return clampAngle((float) (angle - (Math.PI / 2)));
@@ -40,7 +40,7 @@ public class ConvertCoordinate {
 
     public static Vector2d biasedToAudience(float x, float y) {
         Vector2d audVector;
-        if (RuntimeConstants.team == Team.YELLOW) {
+        if (ProgramConstants.team == Team.YELLOW) {
             audVector = new Vector2d(y, -x);
         } else {
             audVector = new Vector2d(-y, x);
@@ -49,7 +49,7 @@ public class ConvertCoordinate {
     }
 
     public static float biasedToAudience(float angle) {
-        if (RuntimeConstants.team == Team.YELLOW)
+        if (ProgramConstants.team == Team.YELLOW)
             return clampAngle((float) (angle - (Math.PI / 2)));
         else
             return clampAngle((float) (angle + (Math.PI / 2)));

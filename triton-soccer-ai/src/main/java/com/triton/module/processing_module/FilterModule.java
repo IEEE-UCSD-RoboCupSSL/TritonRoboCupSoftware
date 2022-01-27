@@ -1,7 +1,7 @@
 package com.triton.module.processing_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
+import com.triton.constant.ProgramConstants;
 import com.triton.module.Module;
 import com.triton.util.Vector2d;
 
@@ -54,7 +54,7 @@ public class FilterModule extends Module {
         ball.setAccZ(0);
         filteredBall = ball.build();
 
-        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
+        for (int id = 0; id < ProgramConstants.gameConfig.numBots; id++) {
             Robot.Builder filteredAlly = Robot.newBuilder();
             filteredAlly.setTimestamp(timestamp);
             filteredAlly.setId(id);
@@ -70,7 +70,7 @@ public class FilterModule extends Module {
             filteredAllies.put(id, filteredAlly.build());
         }
 
-        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
+        for (int id = 0; id < ProgramConstants.gameConfig.numBots; id++) {
             Robot.Builder filteredFoe = Robot.newBuilder();
             filteredFoe.setTimestamp(timestamp);
             filteredFoe.setId(id);
@@ -158,7 +158,7 @@ public class FilterModule extends Module {
         Map<Integer, SSL_DetectionRobot> allies = (Map<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
         long timestamp = System.currentTimeMillis();
         for (SSL_DetectionRobot ally : allies.values()) {
-            if (ally.getRobotId() < RuntimeConstants.gameConfig.numBots) {
+            if (ally.getRobotId() < ProgramConstants.gameConfig.numBots) {
                 Robot lastAlly = filteredAllies.get(ally.getRobotId());
                 Robot filteredAlly = createFilteredRobot(timestamp, ally, lastAlly);
                 filteredAllies.put(ally.getRobotId(), filteredAlly);
@@ -170,7 +170,7 @@ public class FilterModule extends Module {
         Map<Integer, SSL_DetectionRobot> foes = (Map<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
         long timestamp = System.currentTimeMillis();
         for (SSL_DetectionRobot foe : foes.values()) {
-            if (foe.getRobotId() < RuntimeConstants.gameConfig.numBots) {
+            if (foe.getRobotId() < ProgramConstants.gameConfig.numBots) {
                 Robot lastFoe = filteredFoes.get(foe.getRobotId());
                 Robot filteredFoe = createFilteredRobot(timestamp, foe, lastFoe);
                 filteredFoes.put(foe.getRobotId(), filteredFoe);

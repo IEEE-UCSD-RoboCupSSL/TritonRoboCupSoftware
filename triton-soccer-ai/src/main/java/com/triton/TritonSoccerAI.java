@@ -1,7 +1,7 @@
 package com.triton;
 
 import com.triton.config.*;
-import com.triton.constant.RuntimeConstants;
+import com.triton.constant.ProgramConstants;
 import com.triton.constant.Team;
 import com.triton.constant.Test;
 import com.triton.module.Module;
@@ -43,7 +43,7 @@ public class TritonSoccerAI {
 
         TritonSoccerAI tritonSoccerAI = new TritonSoccerAI();
         tritonSoccerAI.startModules();
-        if (RuntimeConstants.test)
+        if (ProgramConstants.test)
             tritonSoccerAI.runTests();
     }
 
@@ -70,9 +70,9 @@ public class TritonSoccerAI {
         try {
             CommandLine cmd = parser.parse(options, args);
             if (cmd.hasOption(teamOption))
-                RuntimeConstants.team = parseTeam(cmd.getOptionValue(teamOption));
+                ProgramConstants.team = parseTeam(cmd.getOptionValue(teamOption));
             if (cmd.hasOption(testOption)) {
-                RuntimeConstants.test = true;
+                ProgramConstants.test = true;
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -83,11 +83,11 @@ public class TritonSoccerAI {
     }
 
     private static void loadConfigs() {
-        RuntimeConstants.aiConfig = (AIConfig) readConfig(AI_CONFIG);
-        RuntimeConstants.displayConfig = (DisplayConfig) readConfig(DISPLAY_CONFIG);
-        RuntimeConstants.gameConfig = (GameConfig) readConfig(GAME_CONFIG);
-        RuntimeConstants.networkConfig = (NetworkConfig) readConfig(NETWORK_CONFIG);
-        RuntimeConstants.objectConfig = (ObjectConfig) readConfig(OBJECT_CONFIG);
+        ProgramConstants.aiConfig = (AIConfig) readConfig(AI_CONFIG);
+        ProgramConstants.displayConfig = (DisplayConfig) readConfig(DISPLAY_CONFIG);
+        ProgramConstants.gameConfig = (GameConfig) readConfig(GAME_CONFIG);
+        ProgramConstants.networkConfig = (NetworkConfig) readConfig(NETWORK_CONFIG);
+        ProgramConstants.objectConfig = (ObjectConfig) readConfig(OBJECT_CONFIG);
     }
 
     public void startModules() {

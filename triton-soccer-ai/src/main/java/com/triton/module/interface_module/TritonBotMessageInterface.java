@@ -1,7 +1,7 @@
 package com.triton.module.interface_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
+import com.triton.constant.ProgramConstants;
 import com.triton.module.Module;
 import com.triton.networking.UDP_Client;
 import proto.triton.TritonBotCommunication.TritonBotMessage;
@@ -67,19 +67,19 @@ public class TritonBotMessageInterface extends Module {
     }
 
     private void setupClients() throws SocketException, UnknownHostException {
-        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
+        for (int id = 0; id < ProgramConstants.gameConfig.numBots; id++) {
             String serverAddress;
             int serverPort;
-            switch (RuntimeConstants.team) {
+            switch (ProgramConstants.team) {
                 case YELLOW -> {
-                    serverAddress = RuntimeConstants.networkConfig.tritonBotAddressYellow;
-                    serverPort = RuntimeConstants.networkConfig.tritonBotPortBaseYellow + id * RuntimeConstants.networkConfig.tritonBotPortIncr;
+                    serverAddress = ProgramConstants.networkConfig.tritonBotAddressYellow;
+                    serverPort = ProgramConstants.networkConfig.tritonBotPortBaseYellow + id * ProgramConstants.networkConfig.tritonBotPortIncr;
                 }
                 case BLUE -> {
-                    serverAddress = RuntimeConstants.networkConfig.tritonBotAddressBlue;
-                    serverPort = RuntimeConstants.networkConfig.tritonBotPortBaseBlue + id * RuntimeConstants.networkConfig.tritonBotPortIncr;
+                    serverAddress = ProgramConstants.networkConfig.tritonBotAddressBlue;
+                    serverPort = ProgramConstants.networkConfig.tritonBotPortBaseBlue + id * ProgramConstants.networkConfig.tritonBotPortIncr;
                 }
-                default -> throw new IllegalStateException("Unexpected value: " + RuntimeConstants.team);
+                default -> throw new IllegalStateException("Unexpected value: " + ProgramConstants.team);
             }
 
             UDP_Client client = new UDP_Client(serverAddress, serverPort, this::callbackTritonBotFeedback, 10);
@@ -101,7 +101,7 @@ public class TritonBotMessageInterface extends Module {
     @Override
     public void run() {
         super.run();
-        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
+        for (int id = 0; id < ProgramConstants.gameConfig.numBots; id++) {
             RobotFeedback.Builder feedback = RobotFeedback.newBuilder();
             feedback.setId(id);
             feedback.setDribblerBallContact(false);

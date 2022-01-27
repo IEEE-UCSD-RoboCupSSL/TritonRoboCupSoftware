@@ -2,8 +2,8 @@ package com.triton.module.interface_module;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.module.Module;
+import com.triton.search.implementation.PathfindGrid;
 import com.triton.search.node2d.Node2d;
-import com.triton.search.node2d.PathfindGrid;
 import com.triton.util.Vector2d;
 import org.apache.commons.math3.analysis.function.Sigmoid;
 import proto.triton.ObjectWithMetadata;
@@ -25,7 +25,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import static com.triton.constant.RuntimeConstants.*;
+import static com.triton.constant.ProgramConstants.*;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static java.awt.BorderLayout.*;

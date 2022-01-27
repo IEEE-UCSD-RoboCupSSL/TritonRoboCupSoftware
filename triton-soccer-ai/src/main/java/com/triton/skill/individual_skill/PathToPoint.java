@@ -1,8 +1,8 @@
 package com.triton.skill.individual_skill;
 
 import com.triton.module.Module;
+import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.search.node2d.Node2d;
-import com.triton.search.node2d.PathfindGrid;
 import com.triton.skill.Skill;
 import com.triton.util.Vector2d;
 import proto.triton.AiDebugInfo;
@@ -19,7 +19,7 @@ import static proto.triton.ObjectWithMetadata.Robot;
 public class PathToPoint extends Skill {
     private final Robot ally;
     private final Vector2d pos;
-    private final PathfindGrid pathfindGrid;
+    private final PathfindGridGroup pathfindGridGroup;
     private final float orientation;
     private final Vector2d facePos;
 
@@ -27,33 +27,33 @@ public class PathToPoint extends Skill {
                        Robot ally,
                        Vector2d pos,
                        float orientation,
-                       PathfindGrid pathfindGrid) {
+                       PathfindGridGroup pathfindGridGroup) {
         super(module);
         this.ally = ally;
         this.pos = pos;
         this.orientation = orientation;
         this.facePos = null;
-        this.pathfindGrid = pathfindGrid;
+        this.pathfindGridGroup = pathfindGridGroup;
     }
 
     public PathToPoint(Module module,
                        Robot ally,
                        Vector2d pos,
                        Vector2d facePos,
-                       PathfindGrid pathfindGrid) {
+                       PathfindGridGroup pathfindGridGroup) {
         super(module);
         this.ally = ally;
         this.pos = pos;
         this.orientation = 0;
         this.facePos = facePos;
-        this.pathfindGrid = pathfindGrid;
+        this.pathfindGridGroup = pathfindGridGroup;
     }
 
     @Override
     protected void execute() {
         Vector2d from = getPos(ally);
-        LinkedList<Node2d> route = pathfindGrid.findRoute(from, pos);
-        Vector2d next = pathfindGrid.findNext(route);
+        LinkedList<Node2d> route = pathfindGridGroup.findRoute(ally.getId(), from, pos);
+        Vector2d next = pathfindGridGroup.findNext(ally.getId(), route);
         if (next == null) return;
 
         MoveToPoint moveToPoint;

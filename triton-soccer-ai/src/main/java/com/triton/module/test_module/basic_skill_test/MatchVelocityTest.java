@@ -1,7 +1,7 @@
 package com.triton.module.test_module.basic_skill_test;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
+import com.triton.constant.ProgramConstants;
 import com.triton.module.TestRunner;
 import com.triton.skill.basic_skill.MatchVelocity;
 import com.triton.util.Vector2d;
@@ -55,7 +55,7 @@ public class MatchVelocityTest extends TestRunner {
     @Override
     protected void setupTest() {
         SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
-        simulatorControl.addTeleportRobot(createTeleportRobot(RuntimeConstants.team, 1, 0, 0, (float) (Math.PI / 2)));
+        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.team, 1, 0, 0, (float) (Math.PI / 2)));
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 }

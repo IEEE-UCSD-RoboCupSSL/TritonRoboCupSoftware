@@ -2,7 +2,7 @@ package com.triton.module.interface_module;
 
 import com.google.protobuf.Any;
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
+import com.triton.constant.ProgramConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
 import com.triton.networking.UDP_Client;
@@ -75,8 +75,8 @@ public class SimulatorCommandInterface extends Module {
     }
 
     private void setupClient() throws IOException {
-        client = new UDP_Client(RuntimeConstants.networkConfig.simulationCommandAddress,
-                RuntimeConstants.networkConfig.simulationCommandPort,
+        client = new UDP_Client(ProgramConstants.networkConfig.simulationCommandAddress,
+                ProgramConstants.networkConfig.simulationCommandPort,
                 this::callbackSimulatorResponse,
                 10);
     }
@@ -127,40 +127,40 @@ public class SimulatorCommandInterface extends Module {
             SslSimulationConfig.RobotSpecs.Builder specs = SslSimulationConfig.RobotSpecs.newBuilder();
 
             RobotId.Builder robotId = RobotId.newBuilder();
-            if (RuntimeConstants.team == Team.YELLOW)
+            if (ProgramConstants.team == Team.YELLOW)
                 robotId.setTeam(YELLOW);
             else
                 robotId.setTeam(BLUE);
             robotId.setId(i);
 
             specs.setId(robotId);
-            specs.setRadius(RuntimeConstants.objectConfig.robotRadius);
-            specs.setHeight(RuntimeConstants.objectConfig.robotHeight);
-            specs.setMass(RuntimeConstants.objectConfig.robotMass);
-            specs.setMaxLinearKickSpeed(RuntimeConstants.objectConfig.robotMaxLinearKickSpeed);
-            specs.setMaxChipKickSpeed(RuntimeConstants.objectConfig.robotMaxChipKickSpeed);
-            specs.setCenterToDribbler(RuntimeConstants.objectConfig.robotCenterToDribbler);
+            specs.setRadius(ProgramConstants.objectConfig.robotRadius);
+            specs.setHeight(ProgramConstants.objectConfig.robotHeight);
+            specs.setMass(ProgramConstants.objectConfig.robotMass);
+            specs.setMaxLinearKickSpeed(ProgramConstants.objectConfig.robotMaxLinearKickSpeed);
+            specs.setMaxChipKickSpeed(ProgramConstants.objectConfig.robotMaxChipKickSpeed);
+            specs.setCenterToDribbler(ProgramConstants.objectConfig.robotCenterToDribbler);
 
             SslSimulationConfig.RobotLimits.Builder limits = SslSimulationConfig.RobotLimits.newBuilder();
-            limits.setAccSpeedupAbsoluteMax(RuntimeConstants.objectConfig.robotAccSpeedupAbsoluteMax);
-            limits.setAccSpeedupAngularMax(RuntimeConstants.objectConfig.robotAccSpeedupAngularMax);
-            limits.setAccBrakeAbsoluteMax(RuntimeConstants.objectConfig.robotAccBrakeAbsoluteMax);
-            limits.setAccBrakeAngularMax(RuntimeConstants.objectConfig.robotAccBrakeAngularMax);
-            limits.setVelAbsoluteMax(RuntimeConstants.objectConfig.robotVelAbsoluteMax);
-            limits.setVelAngularMax(RuntimeConstants.objectConfig.robotVelAngularMax);
+            limits.setAccSpeedupAbsoluteMax(ProgramConstants.objectConfig.robotAccSpeedupAbsoluteMax);
+            limits.setAccSpeedupAngularMax(ProgramConstants.objectConfig.robotAccSpeedupAngularMax);
+            limits.setAccBrakeAbsoluteMax(ProgramConstants.objectConfig.robotAccBrakeAbsoluteMax);
+            limits.setAccBrakeAngularMax(ProgramConstants.objectConfig.robotAccBrakeAngularMax);
+            limits.setVelAbsoluteMax(ProgramConstants.objectConfig.robotVelAbsoluteMax);
+            limits.setVelAngularMax(ProgramConstants.objectConfig.robotVelAngularMax);
             specs.setLimits(limits);
 
             SslSimulationConfig.RobotWheelAngles.Builder wheelAngles = SslSimulationConfig.RobotWheelAngles.newBuilder();
-            wheelAngles.setFrontRight(RuntimeConstants.objectConfig.robotFrontRight);
-            wheelAngles.setBackRight(RuntimeConstants.objectConfig.robotBackRight);
-            wheelAngles.setBackLeft(RuntimeConstants.objectConfig.robotBackLeft);
-            wheelAngles.setFrontLeft(RuntimeConstants.objectConfig.robotFrontLeft);
+            wheelAngles.setFrontRight(ProgramConstants.objectConfig.robotFrontRight);
+            wheelAngles.setBackRight(ProgramConstants.objectConfig.robotBackRight);
+            wheelAngles.setBackLeft(ProgramConstants.objectConfig.robotBackLeft);
+            wheelAngles.setFrontLeft(ProgramConstants.objectConfig.robotFrontLeft);
             specs.setWheelAngles(wheelAngles);
 
             RobotSpecErForce.Builder specErForce = RobotSpecErForce.newBuilder();
-            specErForce.setShootRadius(RuntimeConstants.objectConfig.shootRadius);
-            specErForce.setDribblerHeight(RuntimeConstants.objectConfig.dribblerHeight);
-            specErForce.setDribblerWidth(RuntimeConstants.objectConfig.dribblerWidth);
+            specErForce.setShootRadius(ProgramConstants.objectConfig.shootRadius);
+            specErForce.setDribblerHeight(ProgramConstants.objectConfig.dribblerHeight);
+            specErForce.setDribblerWidth(ProgramConstants.objectConfig.dribblerWidth);
             specs.addCustom(Any.pack(specErForce.build()));
 
             simulatorConfig.addRobotSpecs(specs);

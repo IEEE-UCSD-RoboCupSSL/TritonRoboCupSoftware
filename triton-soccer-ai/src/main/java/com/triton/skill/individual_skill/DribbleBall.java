@@ -1,7 +1,7 @@
 package com.triton.skill.individual_skill;
 
 import com.triton.module.Module;
-import com.triton.search.node2d.PathfindGrid;
+import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.Skill;
 import com.triton.util.Vector2d;
 
@@ -9,14 +9,14 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.constant.RuntimeConstants.objectConfig;
+import static com.triton.constant.ProgramConstants.objectConfig;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class DribbleBall extends Skill {
     private final Robot ally;
     private final Vector2d pos;
-    private final PathfindGrid pathfindGrid;
+    private final PathfindGridGroup pathfindGridGroup;
     private final Ball ball;
     private final Map<Integer, Robot> allies;
     private final Map<Integer, Robot> foes;
@@ -27,7 +27,7 @@ public class DribbleBall extends Skill {
                        Robot ally,
                        Vector2d pos,
                        float orientation,
-                       PathfindGrid pathfindGrid,
+                       PathfindGridGroup pathfindGridGroup,
                        Ball ball,
                        Map<Integer, Robot> allies,
                        Map<Integer, Robot> foes) {
@@ -36,7 +36,7 @@ public class DribbleBall extends Skill {
         this.pos = pos;
         this.orientation = orientation;
         this.facePos = null;
-        this.pathfindGrid = pathfindGrid;
+        this.pathfindGridGroup = pathfindGridGroup;
         this.ball = ball;
         this.allies = allies;
         this.foes = foes;
@@ -46,7 +46,7 @@ public class DribbleBall extends Skill {
                        Robot ally,
                        Vector2d pos,
                        Vector2d facePos,
-                       PathfindGrid pathfindGrid,
+                       PathfindGridGroup pathfindGridGroup,
                        Ball ball,
                        Map<Integer, Robot> allies,
                        Map<Integer, Robot> foes) {
@@ -55,7 +55,7 @@ public class DribbleBall extends Skill {
         this.pos = pos;
         this.orientation = 0;
         this.facePos = facePos;
-        this.pathfindGrid = pathfindGrid;
+        this.pathfindGridGroup = pathfindGridGroup;
         this.ball = ball;
         this.allies = allies;
         this.foes = foes;
@@ -78,13 +78,13 @@ public class DribbleBall extends Skill {
                     ally,
                     allyTargetPos,
                     orientation,
-                    pathfindGrid);
+                    pathfindGridGroup);
         else
             pathToPoint = new PathToPoint(module,
                     ally,
                     allyTargetPos,
                     facePos,
-                    pathfindGrid);
+                    pathfindGridGroup);
         submitSkill(pathToPoint);
     }
 

@@ -2,7 +2,7 @@ package com.triton.module.test_module.individual_skill_test;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.module.TestRunner;
-import com.triton.search.node2d.PathfindGrid;
+import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.individual_skill.ChaseBall;
 import com.triton.skill.individual_skill.KickToPoint;
 import com.triton.skill.individual_skill.PathToPoint;
@@ -11,12 +11,12 @@ import com.triton.util.Vector2d;
 import proto.simulation.SslSimulationControl;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import static com.triton.constant.ProgramConstants.gameConfig;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.util.ProtobufUtils.createTeleportBall;
@@ -26,7 +26,7 @@ import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class KickToPointTest extends TestRunner {
-    private Map<Integer, PathfindGrid> pathfindGrids;
+    private PathfindGridGroup pathfindGridGroup;
 
     private SSL_GeometryFieldSize field;
     private Ball ball;
@@ -53,9 +53,9 @@ public class KickToPointTest extends TestRunner {
         int id = 1;
         Robot ally = allies.get(1);
 
-        if (!pathfindGrids.containsKey(id))
-            pathfindGrids.put(id, new PathfindGrid(field));
-        pathfindGrids.get(id).updateObstacles(allies, foes, ally);
+        if (pathfindGridGroup == null)
+            pathfindGridGroup = new PathfindGridGroup(gameConfig.numBots, field);
+        pathfindGridGroup.updateObstacles(allies, foes);
 
         if (feedbacks.get(id).getDribblerBallContact()) {
             Vector2d kickFrom = new Vector2d(1000, 1000);
@@ -67,13 +67,13 @@ public class KickToPointTest extends TestRunner {
                         ally,
                         kickFrom,
                         (float) Math.PI,
-                        pathfindGrids.get(id));
+                        pathfindGridGroup);
                 submitSkill(pathToPoint);
             }
         } else {
             ChaseBall chaseBall = new ChaseBall(this,
                     allies.get(id),
-                    pathfindGrids.get(id),
+                    pathfindGridGroup,
                     ball,
                     allies,
                     foes);
@@ -83,7 +83,6 @@ public class KickToPointTest extends TestRunner {
 
     @Override
     protected void prepare() {
-        pathfindGrids = new HashMap<>();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.triton.module.test_module.basic_skill_test;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
+import com.triton.constant.ProgramConstants;
 import com.triton.module.TestRunner;
 import com.triton.skill.basic_skill.Kick;
 
@@ -56,7 +56,7 @@ public class KickTest extends TestRunner {
     @Override
     protected void setupTest() {
         SimulatorControl.Builder simulatorControl = SimulatorControl.newBuilder();
-        simulatorControl.addTeleportRobot(createTeleportRobot(RuntimeConstants.team, 1, 0, 0, (float) (Math.PI / 2)));
+        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.team, 1, 0, 0, (float) (Math.PI / 2)));
         simulatorControl.setTeleportBall(createTeleportBall(0, 0.5f, 0, 0, -1f, 0));
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }

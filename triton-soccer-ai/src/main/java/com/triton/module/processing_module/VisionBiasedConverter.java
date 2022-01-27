@@ -1,7 +1,7 @@
 package com.triton.module.processing_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
+import com.triton.constant.ProgramConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
 import com.triton.util.ConvertCoordinate;
@@ -71,7 +71,7 @@ public class VisionBiasedConverter extends Module {
 
             Map<Integer, SSL_DetectionRobot> biasedAllies;
             Map<Integer, SSL_DetectionRobot> biasedFoes;
-            if (RuntimeConstants.team == Team.YELLOW) {
+            if (ProgramConstants.team == Team.YELLOW) {
                 biasedAllies = biasedYellows;
                 biasedFoes = biasedBlues;
             } else {

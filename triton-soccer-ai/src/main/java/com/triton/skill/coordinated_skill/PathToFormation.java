@@ -1,7 +1,7 @@
 package com.triton.skill.coordinated_skill;
 
 import com.triton.module.Module;
-import com.triton.search.node2d.PathfindGrid;
+import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.Skill;
 import com.triton.skill.individual_skill.PathToPoint;
 import com.triton.util.Vector2d;
@@ -20,18 +20,18 @@ public class PathToFormation extends Skill {
     private final HashMap<Vector2d, Float> positions;
     private final Map<Integer, Robot> allies;
     private final Map<Integer, Robot> foes;
-    private final Map<Integer, PathfindGrid> pathfindGrids;
+    private final PathfindGridGroup pathfindGridGroup;
 
     public PathToFormation(Module module,
                            HashMap<Vector2d, Float> positions,
                            Map<Integer, Robot> allies,
                            Map<Integer, Robot> foes,
-                           Map<Integer, PathfindGrid> pathfindGrids) {
+                           PathfindGridGroup pathfindGridGroup) {
         super(module);
         this.positions = positions;
         this.allies = allies;
         this.foes = foes;
-        this.pathfindGrids = pathfindGrids;
+        this.pathfindGridGroup = pathfindGridGroup;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class PathToFormation extends Skill {
                     closetAlly,
                     pos,
                     orientation,
-                    pathfindGrids.get(closetAlly.getId()));
+                    pathfindGridGroup);
             submitSkill(pathToPoint);
             usedIds.add(closetAlly.getId());
         }

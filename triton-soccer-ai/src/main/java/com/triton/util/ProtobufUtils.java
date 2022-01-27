@@ -3,7 +3,7 @@ package com.triton.util;
 import com.triton.constant.Team;
 import proto.simulation.SslGcCommon;
 
-import static com.triton.constant.RuntimeConstants.objectConfig;
+import static com.triton.constant.ProgramConstants.objectConfig;
 import static proto.simulation.SslSimulationControl.TeleportBall;
 import static proto.simulation.SslSimulationControl.TeleportRobot;
 import static proto.triton.ObjectWithMetadata.Ball;

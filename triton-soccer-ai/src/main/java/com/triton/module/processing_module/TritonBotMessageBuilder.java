@@ -1,7 +1,7 @@
 package com.triton.module.processing_module;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
+import com.triton.constant.ProgramConstants;
 import com.triton.constant.Team;
 import com.triton.module.Module;
 import proto.simulation.SslSimulationRobotControl;
@@ -44,7 +44,7 @@ public class TritonBotMessageBuilder extends Module {
     private void publishMessages() {
         long timestamp = System.currentTimeMillis();
 
-        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
+        for (int id = 0; id < ProgramConstants.gameConfig.numBots; id++) {
             TritonBotMessage.Builder message = TritonBotMessage.newBuilder();
             message.setId(id);
             message.setVision(aggregateVisions.get(id));
@@ -63,7 +63,7 @@ public class TritonBotMessageBuilder extends Module {
         aggregateCommands = new HashMap<>();
         robotCommandUpdateTimestamps = new HashMap<>();
 
-        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
+        for (int id = 0; id < ProgramConstants.gameConfig.numBots; id++) {
             aggregateVisions.put(id, initDefaultVision(id));
             aggregateCommands.put(id, initDefaultCommand(id));
             robotCommandUpdateTimestamps.put(id, 0L);
@@ -115,13 +115,13 @@ public class TritonBotMessageBuilder extends Module {
         SSL_DetectionFrame frame = wrapperPacket.getDetection();
 
         List<SSL_DetectionRobot> allies;
-        if (RuntimeConstants.team == Team.BLUE)
+        if (ProgramConstants.team == Team.BLUE)
             allies = frame.getRobotsBlueList();
         else
             allies = frame.getRobotsYellowList();
 
         allies.forEach(ally -> {
-            if (ally.getRobotId() >= RuntimeConstants.gameConfig.numBots) return;
+            if (ally.getRobotId() >= ProgramConstants.gameConfig.numBots) return;
             aggregateVisions.put(ally.getRobotId(), ally);
         });
     }

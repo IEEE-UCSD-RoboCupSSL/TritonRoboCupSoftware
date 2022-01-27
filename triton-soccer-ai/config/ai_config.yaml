@@ -8,6 +8,8 @@ collisionExtrapolation: 0.1
 
 kickToPointAngleTolerance: 0.1
 
+passPosTolerance: 20
+
 kpPos: 0.002
 kiPos: 0.000000
 kdPos: 0.0000

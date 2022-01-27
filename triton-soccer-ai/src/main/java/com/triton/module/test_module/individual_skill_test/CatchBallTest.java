@@ -1,9 +1,9 @@
 package com.triton.module.test_module.individual_skill_test;
 
 import com.rabbitmq.client.Delivery;
-import com.triton.constant.RuntimeConstants;
+import com.triton.constant.ProgramConstants;
 import com.triton.module.TestRunner;
-import com.triton.search.node2d.PathfindGrid;
+import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.individual_skill.CatchBall;
 import proto.simulation.SslSimulationControl;
 
@@ -27,7 +27,7 @@ public class CatchBallTest extends TestRunner {
     private Map<Integer, Robot> allies;
     private Map<Integer, Robot> foes;
 
-    private PathfindGrid pathfindGrid;
+    private PathfindGridGroup pathfindGridGroup;
 
     public CatchBallTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
@@ -37,7 +37,7 @@ public class CatchBallTest extends TestRunner {
     @Override
     protected void setupTest() {
         SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
-        simulatorControl.addTeleportRobot(createTeleportRobot(RuntimeConstants.team, 1, -1000f, -4000f, (float) (Math.PI / 2)));
+        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.team, 1, -1000f, -4000f, (float) (Math.PI / 2)));
         simulatorControl.setTeleportBall(createTeleportBall(0, 0, 0, -2000f, -3000f, 0));
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
@@ -79,10 +79,11 @@ public class CatchBallTest extends TestRunner {
     protected void execute() {
         if (field == null || ball == null || allies == null || foes == null) return;
 
-        if (pathfindGrid == null)
-            pathfindGrid = new PathfindGrid(field);
+        if (pathfindGridGroup == null)
+            pathfindGridGroup = new PathfindGridGroup(ProgramConstants.gameConfig.numBots, field);
+        pathfindGridGroup.updateObstacles(allies, foes);
 
-        CatchBall catchBall = new CatchBall(this, allies.get(1), pathfindGrid, ball, allies, foes);
+        CatchBall catchBall = new CatchBall(this, allies.get(1), pathfindGridGroup, ball);
         submitSkill(catchBall);
     }
 }

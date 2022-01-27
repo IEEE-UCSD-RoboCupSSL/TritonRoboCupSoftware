@@ -1,6 +1,6 @@
 package com.triton.config;
 
-import static com.triton.constant.RuntimeConstants.objectConfig;
+import static com.triton.constant.ProgramConstants.objectConfig;
 
 public class AIConfig {
     public float nodeRadius;
@@ -12,6 +12,8 @@ public class AIConfig {
     public float collisionExtrapolation;
 
     public float kickToPointAngleTolerance;
+
+    public float passPosTolerance;
 
     public float kpPos;
     public float kiPos;
