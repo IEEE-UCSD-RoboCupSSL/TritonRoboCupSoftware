@@ -11,19 +11,19 @@ import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class Dribble extends Skill {
-    private final Robot ally;
+    private final Robot actor;
     private final boolean dribbleOn;
 
-    public Dribble(Module module, Robot ally, boolean dribbleOn) {
+    public Dribble(Module module, Robot actor, boolean dribbleOn) {
         super(module);
-        this.ally = ally;
+        this.actor = actor;
         this.dribbleOn = dribbleOn;
     }
 
     @Override
     protected void execute() {
         SslSimulationRobotControl.RobotCommand.Builder robotCommand = SslSimulationRobotControl.RobotCommand.newBuilder();
-        robotCommand.setId(ally.getId());
+        robotCommand.setId(actor.getId());
         // TODO WORK ON DRIBBLE
         if (dribbleOn)
             robotCommand.setDribblerSpeed(1);

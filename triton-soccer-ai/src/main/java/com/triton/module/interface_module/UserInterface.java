@@ -28,6 +28,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import static com.triton.constant.ProgramConstants.*;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
+import static com.triton.util.ObjectHelper.predictOrientation;
+import static com.triton.util.ObjectHelper.predictPos;
 import static java.awt.BorderLayout.*;
 import static java.awt.Color.*;
 import static javax.swing.BoxLayout.Y_AXIS;
@@ -315,11 +317,10 @@ public class UserInterface extends Module {
                     360);
 
             if (displayConfig.showPrediction) {
-                float predictedX = ball.getX() + ball.getVx();
-                float predictedY = ball.getY() + ball.getVy();
+                Vector2d predictPos = predictPos(ball, displayConfig.predictionDelta);
                 graphics2D.setColor(MAGENTA);
-                graphics2D.drawArc((int) (predictedX - radius),
-                        (int) (predictedY - radius),
+                graphics2D.drawArc((int) (predictPos.x - radius),
+                        (int) (predictPos.y - radius),
                         (int) radius * 2,
                         (int) radius * 2,
                         0,
@@ -448,20 +449,19 @@ public class UserInterface extends Module {
 
             if (displayConfig.showPrediction) {
                 graphics2D.setColor(outlineColor);
-                float predictedX = robot.getX() + robot.getVx();
-                float predictedY = robot.getY() + robot.getVy();
-                graphics2D.drawArc((int) (predictedX - radius),
-                        (int) (predictedY - radius),
+                Vector2d predictPos = predictPos(robot, displayConfig.predictionDelta);
+                graphics2D.drawArc((int) (predictPos.x - radius),
+                        (int) (predictPos.y - radius),
                         (int) radius * 2,
                         (int) radius * 2,
                         0,
                         360);
 
-                float predictedOrientation = robot.getOrientation() + robot.getAngular();
-                graphics2D.drawLine((int) predictedX,
-                        (int) predictedY,
-                        (int) (predictedX + radius * Math.cos(predictedOrientation)),
-                        (int) (predictedY + radius * Math.sin(predictedOrientation)));
+                float predictOrientation = predictOrientation(robot, displayConfig.predictionDelta);
+                graphics2D.drawLine((int) predictPos.x,
+                        (int) predictPos.y,
+                        (int) (predictPos.x + radius * Math.cos(predictOrientation)),
+                        (int) (predictPos.y + radius * Math.sin(predictOrientation)));
             }
 
             graphics2D.setColor(WHITE);

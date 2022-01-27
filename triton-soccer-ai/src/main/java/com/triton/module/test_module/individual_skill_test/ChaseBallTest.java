@@ -4,7 +4,7 @@ import com.rabbitmq.client.Delivery;
 import com.triton.module.TestRunner;
 import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.individual_skill.ChaseBall;
-import com.triton.skill.individual_skill.PathToPoint;
+import com.triton.skill.individual_skill.PathToTarget;
 import com.triton.util.Vector2d;
 import proto.simulation.SslSimulationControl;
 
@@ -55,19 +55,17 @@ public class ChaseBallTest extends TestRunner {
 
         if (feedbacks.get(id).getDribblerBallContact()) {
             System.out.println("CONTACT");
-            PathToPoint pathToPoint = new PathToPoint(this,
+            PathToTarget pathToTarget = new PathToTarget(this,
                     allies.get(id),
                     new Vector2d(1000, 1000),
                     (float) Math.PI,
                     pathfindGridGroup);
-            submitSkill(pathToPoint);
+            submitSkill(pathToTarget);
         } else {
             ChaseBall chaseBall = new ChaseBall(this,
                     allies.get(id),
                     pathfindGridGroup,
-                    ball,
-                    allies,
-                    foes);
+                    ball);
             submitSkill(chaseBall);
         }
     }

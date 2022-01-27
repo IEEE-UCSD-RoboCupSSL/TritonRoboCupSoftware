@@ -13,7 +13,10 @@ public class AIConfig {
 
     public float kickToPointAngleTolerance;
 
-    public float passPosTolerance;
+    public float kickFromPosDistTolerance;
+
+    public float passCatchBallSpeedThreshold;
+    public float passCatchBallAngleTolerance;
 
     public float kpPos;
     public float kiPos;

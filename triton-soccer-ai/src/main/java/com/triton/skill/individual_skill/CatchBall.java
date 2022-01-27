@@ -15,23 +15,23 @@ import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class CatchBall extends Skill {
-    private final Robot ally;
+    private final Robot actor;
     private final Ball ball;
     private final PathfindGridGroup pathfindGridGroup;
 
     public CatchBall(Module module,
-                     Robot ally,
+                     Robot actor,
                      PathfindGridGroup pathfindGridGroup,
                      Ball ball) {
         super(module);
-        this.ally = ally;
+        this.actor = actor;
         this.pathfindGridGroup = pathfindGridGroup;
         this.ball = ball;
     }
 
     @Override
     protected void execute() {
-        Vector2d allyPos = getPos(ally);
+        Vector2d allyPos = getPos(actor);
         Vector2d ballPos = getPos(ball);
         Vector2d ballVel = getVel(ball);
 
@@ -39,14 +39,14 @@ public class CatchBall extends Skill {
         Vector2d offset = diff.proj(ballVel);
         Vector2d targetPos = ballPos.add(offset);
 
-        PathToPoint pathToPoint = new PathToPoint(module,
-                ally,
+        PathToTarget pathToTarget = new PathToTarget(module,
+                actor,
                 targetPos,
                 ballPos,
                 pathfindGridGroup);
-        submitSkill(pathToPoint);
+        submitSkill(pathToTarget);
 
-        Dribble dribble = new Dribble(module, ally, true);
+        Dribble dribble = new Dribble(module, actor, true);
         submitSkill(dribble);
     }
 

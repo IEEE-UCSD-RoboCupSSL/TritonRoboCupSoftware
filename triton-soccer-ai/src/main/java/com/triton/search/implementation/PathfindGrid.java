@@ -11,7 +11,7 @@ import org.apache.commons.collections4.iterators.ReverseListIterator;
 import java.util.*;
 
 import static com.triton.constant.ProgramConstants.aiConfig;
-import static com.triton.util.ProtobufUtils.getPos;
+import static com.triton.util.ObjectHelper.predictPos;
 import static com.triton.util.ProtobufUtils.getVel;
 import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
@@ -100,9 +100,9 @@ public class PathfindGrid {
 
         allies.forEach((id, ally) -> {
             if (ally == excludeAlly) return;
-            Vector2d allyPos = getPos(ally);
             Vector2d allyVel = getVel(ally);
-            Vector2d pos = allyPos.add(allyVel.scale(aiConfig.collisionExtrapolation));
+            Vector2d pos = predictPos(ally, aiConfig.collisionExtrapolation);
+
             float collisionDist = aiConfig.getRobotCollisionDist()
                     + aiConfig.collisionSpeedScale * allyVel.mag();
             List<Node2d> nearestNodes = getNearestNodes(pos, collisionDist);
@@ -114,9 +114,9 @@ public class PathfindGrid {
         });
 
         foes.forEach((id, foe) -> {
-            Vector2d foePos = getPos(foe);
             Vector2d foeVel = getVel(foe);
-            Vector2d pos = foePos.add(foeVel.scale(aiConfig.collisionExtrapolation));
+            Vector2d pos = predictPos(foe, aiConfig.collisionExtrapolation);
+
             float collisionDist = aiConfig.getRobotCollisionDist()
                     + aiConfig.collisionSpeedScale * foeVel.mag();
             List<Node2d> nearestNodes = getNearestNodes(pos, collisionDist);

@@ -24,7 +24,7 @@ import static proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 public class TritonBotMessageBuilder extends Module {
     private static final long PUBLISH_INTERVAL = 20;
-    private static final long ROBOT_COMMAND_TIMEOUT = 1000;
+    private static final long ROBOT_COMMAND_TIMEOUT = 100;
     private HashMap<Integer, SSL_DetectionRobot> aggregateVisions;
     private HashMap<Integer, RobotCommand> aggregateCommands;
     private HashMap<Integer, Long> robotCommandUpdateTimestamps;

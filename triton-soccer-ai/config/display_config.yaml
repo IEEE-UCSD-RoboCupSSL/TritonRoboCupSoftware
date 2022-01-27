@@ -4,8 +4,9 @@ robotIdFontName: TimesRoman
 robotIdFontSize: 150
 
 showPrediction: false
+predictionDelta: 1
 
-showNodeGrid: false
+showNodeGrid: true
 showOnlyObstacles: true
 showRoute: true
 showNext: true

@@ -12,13 +12,13 @@ import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class MatchVelocity extends Skill {
-    private final Robot ally;
+    private final Robot actor;
     private final Vector2d vel;
     private final float angular;
 
-    public MatchVelocity(Module module, Robot ally, Vector2d vel, float angular) {
+    public MatchVelocity(Module module, Robot actor, Vector2d vel, float angular) {
         super(module);
-        this.ally = ally;
+        this.actor = actor;
         this.vel = vel;
         this.angular = angular;
     }
@@ -26,7 +26,7 @@ public class MatchVelocity extends Skill {
     @Override
     protected void execute() {
         SslSimulationRobotControl.RobotCommand.Builder robotCommand = SslSimulationRobotControl.RobotCommand.newBuilder();
-        robotCommand.setId(ally.getId());
+        robotCommand.setId(actor.getId());
         SslSimulationRobotControl.RobotMoveCommand.Builder moveCommand = SslSimulationRobotControl.RobotMoveCommand.newBuilder();
         SslSimulationRobotControl.MoveGlobalVelocity.Builder globalVelocity = SslSimulationRobotControl.MoveGlobalVelocity.newBuilder();
         globalVelocity.setX(vel.x);

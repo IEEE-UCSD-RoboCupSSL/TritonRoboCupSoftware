@@ -3,7 +3,7 @@ package com.triton.skill.coordinated_skill;
 import com.triton.module.Module;
 import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.Skill;
-import com.triton.skill.individual_skill.PathToPoint;
+import com.triton.skill.individual_skill.PathToTarget;
 import com.triton.util.Vector2d;
 
 import java.io.IOException;
@@ -59,12 +59,12 @@ public class PathToFormation extends Skill {
                 }
             }
 
-            PathToPoint pathToPoint = new PathToPoint(module,
+            PathToTarget pathToTarget = new PathToTarget(module,
                     closetAlly,
                     pos,
                     orientation,
                     pathfindGridGroup);
-            submitSkill(pathToPoint);
+            submitSkill(pathToTarget);
             usedIds.add(closetAlly.getId());
         }
     }

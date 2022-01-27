@@ -14,13 +14,13 @@ import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class GoalKeep extends Skill {
-    private final Robot ally;
+    private final Robot actor;
     private final SSL_GeometryFieldSize field;
     private final Ball ball;
 
-    public GoalKeep(Module module, Robot ally, SSL_GeometryFieldSize field, Ball ball) {
+    public GoalKeep(Module module, Robot actor, SSL_GeometryFieldSize field, Ball ball) {
         super(module);
-        this.ally = ally;
+        this.actor = actor;
         this.field = field;
         this.ball = ball;
     }
@@ -35,10 +35,10 @@ public class GoalKeep extends Skill {
 
         Vector2d ballPos = getPos(ball);
 
-        MoveToPoint moveToPoint = new MoveToPoint(module, ally, pos, ballPos);
-        submitSkill(moveToPoint);
+        MoveToTarget moveToTarget = new MoveToTarget(module, actor, pos, ballPos);
+        submitSkill(moveToTarget);
 
-        Dribble dribble = new Dribble(module, ally, true);
+        Dribble dribble = new Dribble(module, actor, true);
         submitSkill(dribble);
     }
 

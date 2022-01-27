@@ -4,15 +4,20 @@ import com.triton.module.Module;
 import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.Skill;
 import com.triton.skill.individual_skill.CatchBall;
-import com.triton.skill.individual_skill.KickToPoint;
-import com.triton.skill.individual_skill.PathToPoint;
-import com.triton.util.ObjectHelper;
+import com.triton.skill.individual_skill.ChaseBall;
+import com.triton.skill.individual_skill.KickFromPosition;
+import com.triton.skill.individual_skill.PathToTarget;
 import com.triton.util.Vector2d;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.ProgramConstants.aiConfig;
+import static com.triton.util.ObjectHelper.isMovingTowardTarget;
+import static com.triton.util.ObjectHelper.predictPos;
+import static com.triton.util.ProtobufUtils.getPos;
+import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
 
@@ -23,6 +28,7 @@ public class Pass extends Skill {
     private final Vector2d passTo;
     private final PathfindGridGroup pathfindGridGroup;
     private final Ball ball;
+    private final Map<Integer, RobotFeedback> feedbacks;
 
     public Pass(Module module,
                 Robot passer,
@@ -30,7 +36,8 @@ public class Pass extends Skill {
                 Vector2d passFrom,
                 Vector2d passTo,
                 PathfindGridGroup pathfindGridGroup,
-                Ball ball) {
+                Ball ball,
+                Map<Integer, RobotFeedback> feedbacks) {
         super(module);
         this.passer = passer;
         this.receiver = receiver;
@@ -38,34 +45,44 @@ public class Pass extends Skill {
         this.passTo = passTo;
         this.pathfindGridGroup = pathfindGridGroup;
         this.ball = ball;
+        this.feedbacks = feedbacks;
     }
 
     @Override
     protected void execute() {
-        if (ObjectHelper.matchPos(passer, passFrom, aiConfig.passPosTolerance)) {
-            KickToPoint kickToPoint = new KickToPoint(module, passer, passTo);
-            submitSkill(kickToPoint);
-        } else {
-            PathToPoint pathToPoint = new PathToPoint(module,
+        if (feedbacks.get(receiver.getId()).getDribblerBallContact()) return;
+
+        if (feedbacks.get(passer.getId()).getDribblerBallContact()) {
+            KickFromPosition kickFromPosition = new KickFromPosition(module,
                     passer,
                     passFrom,
                     passTo,
-                    pathfindGridGroup);
-            submitSkill(pathToPoint);
-        }
+                    pathfindGridGroup,
+                    ball);
+            submitSkill(kickFromPosition);
 
-        if (ObjectHelper.matchPos(receiver, passTo, aiConfig.passPosTolerance)) {
+            PathToTarget pathToTarget = new PathToTarget(module, receiver, passTo, passFrom, pathfindGridGroup);
+            submitSkill(pathToTarget);
         } else {
-            PathToPoint pathToPoint = new PathToPoint(module,
-                    receiver,
-                    passTo,
-                    passFrom,
-                    pathfindGridGroup);
-            submitSkill(pathToPoint);
+            if (isMovingTowardTarget(ball, getPos(receiver), aiConfig.passCatchBallSpeedThreshold,
+                    aiConfig.passCatchBallAngleTolerance)) {
+                CatchBall catchBall = new CatchBall(module, receiver, pathfindGridGroup, ball);
+                submitSkill(catchBall);
+            } else {
+                Vector2d passerPos = getPos(passer);
+                Vector2d receiverPos = getPos(receiver);
+                Vector2d predictBallPos = predictPos(ball, 0.5f);
+                if (receiverPos.dist(predictBallPos) < passerPos.dist(predictBallPos)) {
+                    ChaseBall chaseBall = new ChaseBall(module, receiver, pathfindGridGroup, ball);
+                    submitSkill(chaseBall);
+                } else {
+                    ChaseBall chaseBall = new ChaseBall(module, passer, pathfindGridGroup, ball);
+                    submitSkill(chaseBall);
+                    PathToTarget pathToTarget = new PathToTarget(module, receiver, passTo, passFrom, pathfindGridGroup);
+                    submitSkill(pathToTarget);
+                }
+            }
         }
-
-        CatchBall catchBall = new CatchBall(module, receiver, pathfindGridGroup, ball);
-        submitSkill(catchBall);
     }
 
     @Override

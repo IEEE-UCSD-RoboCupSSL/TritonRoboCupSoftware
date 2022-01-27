@@ -15,11 +15,14 @@ proto/vision/MessagesRobocupSslDetectionTracked$TrackedBall$Builder.class
 proto/simulation/SslSimulationRobotControl$RobotCommand$Builder.class
 proto/simulation/SslVisionDetection$SSL_DetectionRobot$1.class
 proto/simulation/SslVisionGeometry$SSL_BallModelChipFixedLossOrBuilder.class
+com/triton/skill/individual_skill/KickToTarget.class
 proto/simulation/SslSimulationConfig$RobotSpecsOrBuilder.class
+com/triton/skill/individual_skill/KickFromPosition.class
 proto/simulation/SslSimulationConfig$SimulatorConfig.class
 com/triton/skill/team_skill/Attack.class
 proto/simulation/SslSimulationConfig$RobotSpecs$1.class
 proto/simulation/SslSimulationControl$1.class
+com/triton/module/test_module/individual_skill_test/PathToTargetTest.class
 proto/simulation/SslVisionGeometry$SSL_GeometryFieldSize.class
 proto/simulation/SslSimulationControl$TeleportBallOrBuilder.class
 proto/simulation/SslSimulationControl$SimulatorControlOrBuilder.class
@@ -28,13 +31,13 @@ proto/vision/MessagesRobocupSslDetectionTracked$TeamColor$1.class
 proto/triton/ObjectWithMetadata$Ball$1.class
 proto/triton/TritonBotCommunication$TritonBotMessage.class
 proto/simulation/SslGcCommon$RobotId$1.class
+com/triton/module/test_module/individual_skill_test/KickFromPositionTest.class
 proto/simulation/SslVisionGeometry$Vector2f.class
 proto/simulation/SslSimulationRobotControl$RobotControlOrBuilder.class
 com/triton/config/DisplayConfig.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldCircularArc$1.class
 com/triton/module/ai_module/AIModule.class
 proto/simulation/SslSimulationSynchronous$SimulationSyncRequest$1.class
-com/triton/module/test_module/individual_skill_test/KickToPointTest.class
 proto/simulation/SslVisionGeometry$SSL_GeometryModels$1.class
 proto/simulation/SslVisionDetection$SSL_DetectionFrame.class
 com/triton/module/test_module/individual_skill_test/ChaseBallTest.class
@@ -78,15 +81,14 @@ proto/vision/MessagesRobocupSslGeometry$SSL_FieldLineSegment.class
 proto/simulation/SslSimulationConfig$RealismConfig.class
 proto/vision/MessagesRobocupSslWrapperTracked$TrackerWrapperPacket.class
 proto/vision/MessagesRobocupSslDetectionTracked$RobotId$Builder.class
-com/triton/skill/individual_skill/KickToPoint.class
 proto/simulation/SslSimulationSynchronous$SimulationSyncResponse.class
 proto/simulation/SslSimulationControl$TeleportRobot$Builder.class
-com/triton/module/test_module/individual_skill_test/PathToPointTest.class
 proto/simulation/SslVisionGeometry$Vector2f$Builder.class
 proto/simulation/SslVisionGeometry$SSL_FieldLineSegment.class
 com/triton/module/test_module/individual_skill_test/DribbleBallTest.class
 proto/vision/MessagesRobocupSslRefboxLog.class
 proto/vision/MessagesRobocupSslDetectionTracked$KickedBall.class
+com/triton/module/test_module/individual_skill_test/KickTowardTargetTest.class
 proto/vision/MessagesRobocupSslDetectionTracked$Vector3$Builder.class
 com/triton/config/GameConfig.class
 proto/simulation/SslSimulationConfig$RobotSpecs$Builder.class
@@ -163,7 +165,6 @@ proto/simulation/SslSimulationRobotControl$RobotCommandOrBuilder.class
 proto/simulation/SslVisionGeometry$SSL_FieldCircularArc.class
 proto/simulation/SslSimulationControl$SimulatorCommand$1.class
 com/triton/search/base/RouteFinder.class
-com/triton/skill/individual_skill/MoveToPoint.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrameOrBuilder.class
 proto/simulation/SslVisionDetection.class
 proto/simulation/SslVisionGeometry$Vector2f$1.class
@@ -222,7 +223,6 @@ proto/vision/MessagesRobocupSslGeometry$SSL_GeometryFieldSize$1.class
 com/triton/skill/basic_skill/MatchVelocity.class
 proto/simulation/SslSimulationRobotControl$1.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrame.class
-com/triton/module/test_module/individual_skill_test/MoveToPointTest.class
 proto/simulation/SslSimulationSynchronous$1.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryCameraCalibration$Builder.class
 proto/simulation/SslSimulationControl$SimulatorResponse$Builder.class
@@ -340,9 +340,9 @@ proto/triton/TritonBotCommunication$1.class
 proto/simulation/SslGcCommon$Team.class
 proto/vision/MessagesRobocupSslWrapperTracked$TrackerWrapperPacketOrBuilder.class
 proto/simulation/SslSimulationRobotControl$MoveWheelVelocity.class
-com/triton/skill/individual_skill/PathToPoint.class
 proto/simulation/SslSimulationConfig$SimulatorConfigOrBuilder.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldCircularArc.class
+com/triton/skill/individual_skill/MoveToTarget.class
 proto/vision/MessagesRobocupSslDetectionTracked$1.class
 proto/simulation/SslVisionGeometry.class
 com/triton/module/test_module/coordinated_skill_test/PassTest.class
@@ -372,6 +372,7 @@ proto/simulation/SslVisionDetection$SSL_DetectionFrameOrBuilder.class
 proto/triton/AiDebugInfo$DebugVector$1.class
 proto/simulation/SslVisionGeometry$SSL_BallModelStraightTwoPhase$1.class
 proto/simulation/SslSimulationRobotControl$RobotMoveCommand$1.class
+com/triton/skill/individual_skill/PathToTarget.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldCircularArcOrBuilder.class
 proto/vision/MessagesRobocupSslDetectionTracked$KickedBall$Builder.class
 proto/simulation/SslVisionGeometry$SSL_FieldLineSegment$1.class
@@ -384,4 +385,5 @@ proto/vision/MessagesRobocupSslDetectionTracked$Vector3OrBuilder.class
 com/triton/module/interface_module/SimulatorRobotCommandInterface$1.class
 proto/simulation/SslSimulationRobotFeedback.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryCameraCalibration.class
+com/triton/module/test_module/individual_skill_test/MoveToTargetTest.class
 com/triton/module/interface_module/UserInterface.class

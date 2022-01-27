@@ -5,18 +5,17 @@ import com.triton.constant.ProgramConstants;
 import com.triton.module.TestRunner;
 import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.coordinated_skill.Pass;
-import com.triton.skill.individual_skill.ChaseBall;
 import com.triton.util.Vector2d;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.ProgramConstants.gameConfig;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
+import static com.triton.util.ProtobufUtils.createTeleportBall;
 import static com.triton.util.ProtobufUtils.createTeleportRobot;
 import static proto.simulation.SslSimulationControl.SimulatorControl;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
@@ -32,9 +31,22 @@ public class PassTest extends TestRunner {
     private Map<Integer, Robot> foes;
     private Map<Integer, RobotFeedback> feedbacks;
 
+    private int passerId = 1;
+    private int receiverId = 2;
+
     public PassTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
-        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
+        setupTest();
+//        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    protected void setupTest() {
+        SimulatorControl.Builder simulatorControl = SimulatorControl.newBuilder();
+        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.team, 1, 0, 2000, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.team, 2, 0, -2000, 0));
+        simulatorControl.setTeleportBall(createTeleportBall(0, 0, 0));
+        publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 
     @Override
@@ -76,13 +88,6 @@ public class PassTest extends TestRunner {
     }
 
     @Override
-    protected void setupTest() {
-        SimulatorControl.Builder simulatorControl = SimulatorControl.newBuilder();
-        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.team, 0, 0, -2000, 0));
-        publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
-    }
-
-    @Override
     protected void execute() {
         if (field == null || ball == null || allies == null || foes == null || feedbacks == null) return;
 
@@ -90,18 +95,19 @@ public class PassTest extends TestRunner {
             pathfindGridGroup = new PathfindGridGroup(gameConfig.numBots, field);
         pathfindGridGroup.updateObstacles(allies, foes);
 
-        int passerId = 1;
-        int receiverId = 2;
         Robot passer = allies.get(passerId);
         Robot receiver = allies.get(receiverId);
-        Vector2d passFrom = new Vector2d(0, 0);
-        Vector2d passTo = new Vector2d(1000, 1000);
 
-        if (feedbacks.get(passerId).getDribblerBallContact()) {
-            Pass pass = new Pass(this, passer, receiver, passFrom, passTo, pathfindGridGroup, ball);
+        Vector2d passFrom = new Vector2d(0, 2000);
+        Vector2d passTo = new Vector2d(0, -2000);
+
+        if (feedbacks.get(receiverId).getDribblerBallContact()) {
+            int tmp = receiverId;
+            receiverId = passerId;
+            passerId = tmp;
         } else {
-            ChaseBall chaseBall = new ChaseBall(this, passer, pathfindGridGroup, ball, allies, foes);
-            submitSkill(chaseBall);
+            Pass pass = new Pass(this, passer, receiver, passFrom, passTo, pathfindGridGroup, ball, feedbacks);
+            submitSkill(pass);
         }
     }
 }

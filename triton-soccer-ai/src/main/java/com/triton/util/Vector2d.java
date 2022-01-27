@@ -67,6 +67,10 @@ public class Vector2d {
         return new Vector2d(x - vector.x, y - vector.y);
     }
 
+    public float angle(Vector2d vector) {
+        return (float) Math.acos(dot(vector) / (mag() * vector.mag()));
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(x, y);

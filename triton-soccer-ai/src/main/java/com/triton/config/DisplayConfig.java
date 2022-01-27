@@ -6,6 +6,7 @@ public class DisplayConfig {
     public int robotIdFontSize;
 
     public boolean showPrediction;
+    public float predictionDelta;
 
     public boolean showNodeGrid;
     public boolean showOnlyObstacles;

@@ -6,9 +6,12 @@ gridExtend: 250
 collisionSpeedScale: 0.1
 collisionExtrapolation: 0.1
 
-kickToPointAngleTolerance: 0.1
+kickToPointAngleTolerance: 0.0872665
 
-passPosTolerance: 20
+kickFromPosDistTolerance: 300
+
+passCatchBallSpeedThreshold: 10
+passCatchBallAngleTolerance: 0.523599
 
 kpPos: 0.002
 kiPos: 0.000000
