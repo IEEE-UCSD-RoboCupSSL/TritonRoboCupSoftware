@@ -2,7 +2,6 @@ package com.triton.module.test_module.coordinated_skill_test;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
-import com.triton.constant.Team;
 import com.triton.module.TestRunner;
 import com.triton.search.node2d.PathfindGrid;
 import com.triton.skill.coordinated_skill.PathToFormation;
@@ -17,7 +16,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static com.triton.util.CreateMessage.createTeleportRobot;
+import static com.triton.util.ProtobufUtils.createTeleportRobot;
 import static proto.simulation.SslSimulationControl.SimulatorControl;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
@@ -72,12 +71,12 @@ public class PathToFormationTest extends TestRunner {
     @Override
     protected void setupTest() {
         SimulatorControl.Builder simulatorControl = SimulatorControl.newBuilder();
-        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 0, 0, -2000, 0));
-        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 1, 0, -1600, 0));
-        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 2, 0, -1200, 0));
-        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 3, 0, 1200, 0));
-        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 4, 0, 1600, 0));
-        simulatorControl.addTeleportRobot(createTeleportRobot(Team.YELLOW, 5, 0, 2000, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(RuntimeConstants.team, 0, 0, -2000, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(RuntimeConstants.team, 1, 0, -1600, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(RuntimeConstants.team, 2, 0, -1200, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(RuntimeConstants.team, 3, 0, 1200, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(RuntimeConstants.team, 4, 0, 1600, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(RuntimeConstants.team, 5, 0, 2000, 0));
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 
@@ -88,6 +87,7 @@ public class PathToFormationTest extends TestRunner {
         for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
             if (!pathfindGrids.containsKey(id))
                 pathfindGrids.put(id, new PathfindGrid(field));
+            pathfindGrids.get(id).updateObstacles(allies, foes, allies.get(id));
         }
 
         HashMap<Vector2d, Float> positions = new HashMap<>();

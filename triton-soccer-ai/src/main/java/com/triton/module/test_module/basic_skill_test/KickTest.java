@@ -2,10 +2,8 @@ package com.triton.module.test_module.basic_skill_test;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
-import com.triton.constant.Team;
 import com.triton.module.TestRunner;
 import com.triton.skill.basic_skill.Kick;
-import proto.simulation.SslGcCommon;
 
 import java.io.IOException;
 import java.util.Map;
@@ -16,8 +14,9 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
 import static com.triton.messaging.Exchange.AI_FILTERED_ALLIES;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.simulation.SslGcCommon.RobotId;
-import static proto.simulation.SslSimulationControl.*;
+import static com.triton.util.ProtobufUtils.createTeleportBall;
+import static com.triton.util.ProtobufUtils.createTeleportRobot;
+import static proto.simulation.SslSimulationControl.SimulatorControl;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class KickTest extends TestRunner {
@@ -57,32 +56,8 @@ public class KickTest extends TestRunner {
     @Override
     protected void setupTest() {
         SimulatorControl.Builder simulatorControl = SimulatorControl.newBuilder();
-
-        TeleportRobot.Builder teleportRobot = TeleportRobot.newBuilder();
-        RobotId.Builder robotId = RobotId.newBuilder();
-        if (RuntimeConstants.team == Team.YELLOW)
-            robotId.setTeam(SslGcCommon.Team.YELLOW);
-        else
-            robotId.setTeam(SslGcCommon.Team.BLUE);
-        robotId.setId(1);
-        teleportRobot.setId(robotId);
-        teleportRobot.setX(0);
-        teleportRobot.setY(0);
-        teleportRobot.setOrientation((float) (Math.PI / 2));
-        teleportRobot.setPresent(true);
-        teleportRobot.setByForce(false);
-        simulatorControl.addTeleportRobot(teleportRobot);
-
-        TeleportBall.Builder teleportBall = TeleportBall.newBuilder();
-        teleportBall.setX(0);
-        teleportBall.setY(0.5f);
-        teleportBall.setZ(0);
-        teleportBall.setVx(0);
-        teleportBall.setVy(-1.0f);
-        teleportBall.setVz(0);
-        teleportBall.setByForce(false);
-        simulatorControl.setTeleportBall(teleportBall);
-
+        simulatorControl.addTeleportRobot(createTeleportRobot(RuntimeConstants.team, 1, 0, 0, (float) (Math.PI / 2)));
+        simulatorControl.setTeleportBall(createTeleportBall(0, 0.5f, 0, 0, -1f, 0));
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 }

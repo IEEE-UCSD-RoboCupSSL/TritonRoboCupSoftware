@@ -78,17 +78,13 @@ public class DribbleBall extends Skill {
                     ally,
                     allyTargetPos,
                     orientation,
-                    pathfindGrid,
-                    allies,
-                    foes);
+                    pathfindGrid);
         else
             pathToPoint = new PathToPoint(module,
                     ally,
                     allyTargetPos,
                     facePos,
-                    pathfindGrid,
-                    allies,
-                    foes);
+                    pathfindGrid);
         submitSkill(pathToPoint);
     }
 

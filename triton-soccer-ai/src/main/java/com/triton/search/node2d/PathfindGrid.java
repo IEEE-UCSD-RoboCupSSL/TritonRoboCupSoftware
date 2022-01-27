@@ -9,6 +9,8 @@ import org.apache.commons.collections4.iterators.ReverseListIterator;
 import java.util.*;
 
 import static com.triton.constant.RuntimeConstants.aiConfig;
+import static com.triton.util.ProtobufUtils.getPos;
+import static com.triton.util.ProtobufUtils.getVel;
 import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
@@ -96,8 +98,8 @@ public class PathfindGrid {
 
         allies.forEach((id, ally) -> {
             if (ally == excludeAlly) return;
-            Vector2d allyPos = new Vector2d(ally.getX(), ally.getY());
-            Vector2d allyVel = new Vector2d(ally.getVx(), ally.getVy());
+            Vector2d allyPos = getPos(ally);
+            Vector2d allyVel = getVel(ally);
             Vector2d pos = allyPos.add(allyVel.scale(aiConfig.collisionExtrapolation));
             float collisionDist = aiConfig.getRobotCollisionDist()
                     + aiConfig.collisionSpeedScale * allyVel.mag();

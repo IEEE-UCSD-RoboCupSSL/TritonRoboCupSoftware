@@ -11,6 +11,8 @@ public class AIConfig {
     public float collisionSpeedScale;
     public float collisionExtrapolation;
 
+    public float kickToPointAngleTolerance;
+
     public float kpPos;
     public float kiPos;
     public float kdPos;

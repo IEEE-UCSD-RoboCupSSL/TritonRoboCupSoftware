@@ -3,6 +3,8 @@ package com.triton.skill.coordinated_skill;
 import com.triton.module.Module;
 import com.triton.search.node2d.PathfindGrid;
 import com.triton.skill.Skill;
+import com.triton.skill.individual_skill.MoveToPoint;
+import com.triton.util.Vector2d;
 
 import java.io.IOException;
 import java.util.Map;
@@ -37,10 +39,13 @@ public class Pass extends Skill {
 
     @Override
     protected void execute() {
+        Vector2d passerPos = new Vector2d(passer.getX(), passer.getY());
+        Vector2d receiverPos = new Vector2d(receiver.getX(), receiver.getY());
+        MoveToPoint moveToPoint = new MoveToPoint(module, passer, passerPos, receiverPos);
+        submitSkill(moveToPoint);
     }
 
     @Override
     protected void declarePublishes() throws IOException, TimeoutException {
-
     }
 }

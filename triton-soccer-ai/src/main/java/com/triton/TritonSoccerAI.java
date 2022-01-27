@@ -5,18 +5,13 @@ import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.constant.Test;
 import com.triton.module.Module;
+import com.triton.module.TestRunner;
 import com.triton.module.ai_module.AIModule;
 import com.triton.module.interface_module.CameraInterface;
 import com.triton.module.interface_module.SimulatorCommandInterface;
 import com.triton.module.interface_module.TritonBotMessageInterface;
 import com.triton.module.interface_module.UserInterface;
 import com.triton.module.processing_module.*;
-import com.triton.module.test_module.basic_skill_test.DribbleTest;
-import com.triton.module.test_module.basic_skill_test.KickTest;
-import com.triton.module.test_module.basic_skill_test.MatchVelocityTest;
-import com.triton.module.test_module.coordinated_skill_test.PathToFormationTest;
-import com.triton.module.test_module.individual_skill_test.*;
-import com.triton.module.test_module.misc_test.AStarSearchTest;
 import org.apache.commons.cli.*;
 
 import java.util.ArrayList;
@@ -109,7 +104,7 @@ public class TritonSoccerAI {
         while (true) {
             System.out.println("Available tests:");
             for (Test test : Test.values())
-                System.out.println("- " + test.ordinal() + ". " + test.name() + ":\n\t\t" + test.getDesc());
+                System.out.println("- " + test.ordinal() + ". " + test.name() + ":\n\t" + test.getDesc());
 
             System.out.print("Choose a test:\t");
             Test test = parseTest(scanner.nextLine());
@@ -119,20 +114,8 @@ public class TritonSoccerAI {
                 continue;
             }
 
-            switch (test) {
-                case KICK -> startModule(new KickTest(executor), testRunners, testFutures);
-                case DRIBBLE -> startModule(new DribbleTest(executor), testRunners, testFutures);
-                case MATCH_VELOCITY -> startModule(new MatchVelocityTest(executor), testRunners, testFutures);
-                case MOVE_TO_POINT -> startModule(new MoveToPointTest(executor), testRunners, testFutures);
-                case PATH_TO_POINT -> startModule(new PathToPointTest(executor), testRunners, testFutures);
-                case CHASE_BALL -> startModule(new ChaseBallTest(executor), testRunners, testFutures);
-                case CATCH_BALL -> startModule(new CatchBallTest(executor), testRunners, testFutures);
-                case GOAL_KEEP -> startModule(new GoalKeepTest(executor), testRunners, testFutures);
-                case DRIBBLE_BALL -> startModule(new DribbleBallTest(executor), testRunners, testFutures);
-                case PATH_TO_FORMATION -> startModule(new PathToFormationTest(executor), testRunners, testFutures);
-                case A_STAR_SEARCH -> startModule(new AStarSearchTest(executor), testRunners, testFutures);
-                default -> System.out.println("Test not found.");
-            }
+            TestRunner testRunner = test.createNewTestRunner(executor);
+            startModule(testRunner, testRunners, testFutures);
 
             while (!testRunners.isEmpty()) {
                 System.out.print("Running test, type 'q' to stop:\t");
@@ -175,11 +158,9 @@ public class TritonSoccerAI {
     }
 
     private Test parseTest(String line) {
-        for (Test test : Test.values()) {
-            if (line.equals(test.name()) || line.equals(String.valueOf(test.ordinal()))) {
+        for (Test test : Test.values())
+            if (line.equals(test.name()) || line.equals(String.valueOf(test.ordinal())))
                 return test;
-            }
-        }
         return null;
     }
 

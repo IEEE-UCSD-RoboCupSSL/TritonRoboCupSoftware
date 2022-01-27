@@ -2,11 +2,9 @@ package com.triton.module.test_module.individual_skill_test;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
-import com.triton.constant.Team;
 import com.triton.module.TestRunner;
 import com.triton.search.node2d.PathfindGrid;
 import com.triton.skill.individual_skill.CatchBall;
-import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
 
 import java.io.IOException;
@@ -15,9 +13,10 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.constant.RuntimeConstants.objectConfig;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
+import static com.triton.util.ProtobufUtils.createTeleportBall;
+import static com.triton.util.ProtobufUtils.createTeleportRobot;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
@@ -38,32 +37,8 @@ public class CatchBallTest extends TestRunner {
     @Override
     protected void setupTest() {
         SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
-
-        SslSimulationControl.TeleportRobot.Builder teleportRobot = SslSimulationControl.TeleportRobot.newBuilder();
-        SslGcCommon.RobotId.Builder robotId = SslGcCommon.RobotId.newBuilder();
-        if (RuntimeConstants.team == Team.YELLOW)
-            robotId.setTeam(SslGcCommon.Team.YELLOW);
-        else
-            robotId.setTeam(SslGcCommon.Team.BLUE);
-        robotId.setId(1);
-        teleportRobot.setId(robotId);
-        teleportRobot.setX(objectConfig.cameraToObjectFactor * -1000f);
-        teleportRobot.setY(objectConfig.cameraToObjectFactor * -4000f);
-        teleportRobot.setOrientation((float) (Math.PI / 2));
-        teleportRobot.setPresent(true);
-        teleportRobot.setByForce(false);
-        simulatorControl.addTeleportRobot(teleportRobot);
-
-        SslSimulationControl.TeleportBall.Builder teleportBall = SslSimulationControl.TeleportBall.newBuilder();
-        teleportBall.setX(0);
-        teleportBall.setY(0);
-        teleportBall.setZ(0);
-        teleportBall.setVx(objectConfig.cameraToObjectFactor * -2000f);
-        teleportBall.setVy(objectConfig.cameraToObjectFactor * -3000f);
-        teleportBall.setVz(0);
-        teleportBall.setByForce(false);
-        simulatorControl.setTeleportBall(teleportBall);
-
+        simulatorControl.addTeleportRobot(createTeleportRobot(RuntimeConstants.team, 1, -1000f, -4000f, (float) (Math.PI / 2)));
+        simulatorControl.setTeleportBall(createTeleportBall(0, 0, 0, -2000f, -3000f, 0));
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 

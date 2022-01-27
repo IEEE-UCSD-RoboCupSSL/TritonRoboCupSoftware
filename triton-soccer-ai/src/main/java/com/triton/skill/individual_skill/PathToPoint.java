@@ -10,17 +10,15 @@ import proto.triton.AiDebugInfo;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_DEBUG;
+import static com.triton.util.ProtobufUtils.getPos;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class PathToPoint extends Skill {
     private final Robot ally;
     private final Vector2d pos;
-    private final Map<Integer, Robot> allies;
-    private final Map<Integer, Robot> foes;
     private final PathfindGrid pathfindGrid;
     private final float orientation;
     private final Vector2d facePos;
@@ -29,52 +27,41 @@ public class PathToPoint extends Skill {
                        Robot ally,
                        Vector2d pos,
                        float orientation,
-                       PathfindGrid pathfindGrid,
-                       Map<Integer, Robot> allies,
-                       Map<Integer, Robot> foes) {
+                       PathfindGrid pathfindGrid) {
         super(module);
         this.ally = ally;
         this.pos = pos;
         this.orientation = orientation;
         this.facePos = null;
         this.pathfindGrid = pathfindGrid;
-        this.allies = allies;
-        this.foes = foes;
     }
 
     public PathToPoint(Module module,
                        Robot ally,
                        Vector2d pos,
                        Vector2d facePos,
-                       PathfindGrid pathfindGrid,
-                       Map<Integer, Robot> allies,
-                       Map<Integer, Robot> foes) {
+                       PathfindGrid pathfindGrid) {
         super(module);
         this.ally = ally;
         this.pos = pos;
         this.orientation = 0;
         this.facePos = facePos;
         this.pathfindGrid = pathfindGrid;
-        this.allies = allies;
-        this.foes = foes;
     }
 
     @Override
     protected void execute() {
-        pathfindGrid.updateObstacles(allies, foes, ally);
-        Vector2d from = new Vector2d(ally.getX(), ally.getY());
+        Vector2d from = getPos(ally);
         LinkedList<Node2d> route = pathfindGrid.findRoute(from, pos);
         Vector2d next = pathfindGrid.findNext(route);
         if (next == null) return;
 
         MoveToPoint moveToPoint;
-        if (facePos != null) {
+        if (facePos != null)
             moveToPoint = new MoveToPoint(module, ally, next, facePos);
-        } else {
+        else
             moveToPoint = new MoveToPoint(module, ally, next, orientation);
-        }
         submitSkill(moveToPoint);
-
         publishDebug(route, from, pos, next);
     }
 

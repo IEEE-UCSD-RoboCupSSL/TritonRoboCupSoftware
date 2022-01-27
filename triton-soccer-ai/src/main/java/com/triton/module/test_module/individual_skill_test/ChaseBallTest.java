@@ -15,9 +15,9 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.constant.RuntimeConstants.objectConfig;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
+import static com.triton.util.ProtobufUtils.createTeleportBall;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
@@ -40,15 +40,7 @@ public class ChaseBallTest extends TestRunner {
     @Override
     protected void setupTest() {
         SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
-        SslSimulationControl.TeleportBall.Builder teleportBall = SslSimulationControl.TeleportBall.newBuilder();
-        teleportBall.setX(objectConfig.cameraToObjectFactor * -1000f);
-        teleportBall.setY(objectConfig.cameraToObjectFactor * -1000f);
-        teleportBall.setZ(0);
-        teleportBall.setVx(0);
-        teleportBall.setVy(0);
-        teleportBall.setVz(0);
-        teleportBall.setByForce(false);
-        simulatorControl.setTeleportBall(teleportBall);
+        simulatorControl.setTeleportBall(createTeleportBall(-1000f, -1000f, 0));
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 
@@ -59,6 +51,7 @@ public class ChaseBallTest extends TestRunner {
         int id = 1;
         if (!pathfindGrids.containsKey(id))
             pathfindGrids.put(id, new PathfindGrid(field));
+        pathfindGrids.get(id).updateObstacles(allies, foes, allies.get(id));
 
         if (feedbacks.get(id).getDribblerBallContact()) {
             System.out.println("CONTACT");
@@ -66,9 +59,7 @@ public class ChaseBallTest extends TestRunner {
                     allies.get(id),
                     new Vector2d(1000, 1000),
                     (float) Math.PI,
-                    pathfindGrids.get(id),
-                    allies,
-                    foes);
+                    pathfindGrids.get(id));
             submitSkill(pathToPoint);
         } else {
             ChaseBall chaseBall = new ChaseBall(this,

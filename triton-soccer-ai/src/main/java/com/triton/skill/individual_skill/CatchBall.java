@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
+import static com.triton.util.ProtobufUtils.getPos;
+import static com.triton.util.ProtobufUtils.getVel;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
 
@@ -36,9 +38,9 @@ public class CatchBall extends Skill {
 
     @Override
     protected void execute() {
-        Vector2d allyPos = new Vector2d(ally.getX(), ally.getY());
-        Vector2d ballPos = new Vector2d(ball.getX(), ball.getY());
-        Vector2d ballVel = new Vector2d(ball.getVx(), ball.getVy());
+        Vector2d allyPos = getPos(ally);
+        Vector2d ballPos = getPos(ball);
+        Vector2d ballVel = getVel(ball);
 
         Vector2d diff = allyPos.sub(ballPos);
         Vector2d offset = diff.proj(ballVel);
@@ -48,9 +50,7 @@ public class CatchBall extends Skill {
                 ally,
                 targetPos,
                 ballPos,
-                pathfindGrid,
-                allies,
-                foes);
+                pathfindGrid);
         submitSkill(pathToPoint);
 
         Dribble dribble = new Dribble(module, ally, true);

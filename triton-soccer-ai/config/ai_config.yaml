@@ -1,14 +1,16 @@
-  nodeRadius: 50
-  boundSafety: 0
-  robotSafety: 10
-  obstacleScale: 10000
-  gridExtend: 250
-  collisionSpeedScale: 0.1
-  collisionExtrapolation: 0.1
+nodeRadius: 50
+boundSafety: 0
+robotSafety: 10
+obstacleScale: 10000
+gridExtend: 250
+collisionSpeedScale: 0.1
+collisionExtrapolation: 0.1
 
-  kpPos: 0.002
-  kiPos: 0.000000
-  kdPos: 0.0000
-  kpOrientation: 1
-  kiOrientation: 0.000000
-  kdOrientation: 0.0000
+kickToPointAngleTolerance: 0.1
+
+kpPos: 0.002
+kiPos: 0.000000
+kdPos: 0.0000
+kpOrientation: 4
+kiOrientation: 0.000000
+kdOrientation: 0.0000

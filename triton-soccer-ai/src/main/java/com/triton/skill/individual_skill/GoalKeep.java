@@ -8,6 +8,7 @@ import com.triton.util.Vector2d;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+import static com.triton.util.ProtobufUtils.getPos;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
@@ -32,7 +33,7 @@ public class GoalKeep extends Skill {
         float y = -field.getFieldLength() / 2f + 250f;
         Vector2d pos = new Vector2d(x, y);
 
-        Vector2d ballPos = new Vector2d(ball.getX(), ball.getY());
+        Vector2d ballPos = getPos(ball);
 
         MoveToPoint moveToPoint = new MoveToPoint(module, ally, pos, ballPos);
         submitSkill(moveToPoint);

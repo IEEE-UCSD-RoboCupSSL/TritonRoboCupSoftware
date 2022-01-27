@@ -36,13 +36,11 @@ public class MoveToPoint extends Skill {
     @Override
     protected void execute() {
         Vector2d vel = pos.sub(new Vector2d(ally.getX(), ally.getY())).scale(aiConfig.kpPos);
-
         float targetOrientation;
-        if (facePos != null) {
+        if (facePos != null)
             targetOrientation = (float) Math.atan2(facePos.y - ally.getY(), facePos.x - ally.getX());
-        } else {
+        else
             targetOrientation = orientation;
-        }
         float angular = aiConfig.kpOrientation * (Vector2d.angleDifference(ally.getOrientation(), targetOrientation));
 
         MatchVelocity matchVelocity = new MatchVelocity(module, ally, vel, angular);

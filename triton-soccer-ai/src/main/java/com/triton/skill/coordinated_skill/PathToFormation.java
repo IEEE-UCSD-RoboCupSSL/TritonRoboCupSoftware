@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
+import static com.triton.util.ProtobufUtils.getPos;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class PathToFormation extends Skill {
@@ -50,7 +51,7 @@ public class PathToFormation extends Skill {
 
                 if (usedIds.contains(id)) continue;
 
-                Vector2d allyPos = new Vector2d(ally.getX(), ally.getY());
+                Vector2d allyPos = getPos(ally);
                 float dist = pos.dist(allyPos);
                 if (dist < minDist) {
                     closetAlly = ally;
@@ -62,9 +63,7 @@ public class PathToFormation extends Skill {
                     closetAlly,
                     pos,
                     orientation,
-                    pathfindGrids.get(closetAlly.getId()),
-                    allies,
-                    foes);
+                    pathfindGrids.get(closetAlly.getId()));
             submitSkill(pathToPoint);
             usedIds.add(closetAlly.getId());
         }

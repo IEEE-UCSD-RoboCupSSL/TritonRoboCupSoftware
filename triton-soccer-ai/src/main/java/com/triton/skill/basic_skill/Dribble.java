@@ -29,6 +29,7 @@ public class Dribble extends Skill {
             robotCommand.setDribblerSpeed(1);
         else
             robotCommand.setDribblerSpeed(0);
+        robotCommand.setKickSpeed(0);
         publish(AI_BIASED_ROBOT_COMMAND, robotCommand.build());
     }
 
