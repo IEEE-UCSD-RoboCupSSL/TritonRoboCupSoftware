@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.RuntimeConstants.objectConfig;
@@ -33,7 +34,7 @@ public class ChaseBallTest extends TestRunner {
 
     public ChaseBallTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
-        setupTest();
+        scheduleSetupTest(0, 7000, TimeUnit.MILLISECONDS);
     }
 
     @Override

@@ -6,7 +6,6 @@ import com.triton.module.Module;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
@@ -40,6 +39,12 @@ public abstract class Skill extends Thread {
 
     protected abstract void execute();
 
+    @Override
+    public void interrupt() {
+        super.interrupt();
+        skillFutures.forEach(future -> future.cancel(false));
+    }
+
     protected void submitSkill(Skill skill) {
         skillFutures.add(module.executor.submit(skill));
     }
@@ -52,11 +57,5 @@ public abstract class Skill extends Thread {
 
     protected void publish(Exchange exchange, Object object) {
         module.publish(exchange, object);
-    }
-
-    @Override
-    public void interrupt() {
-        super.interrupt();
-        skillFutures.forEach(future -> future.cancel(false));
     }
 }

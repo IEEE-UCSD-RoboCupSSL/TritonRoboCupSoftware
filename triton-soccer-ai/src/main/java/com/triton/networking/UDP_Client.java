@@ -9,6 +9,8 @@ import java.util.function.Consumer;
 
 public class UDP_Client extends Thread {
     private static final int BUF_SIZE = 9999;
+    private static final int QUEUE_CAPACITY = 5;
+
     public final int serverPort;
     private final InetAddress serverAddress;
     private final Consumer<byte[]> callbackPacket;
@@ -28,7 +30,7 @@ public class UDP_Client extends Thread {
 
         socket = new DatagramSocket();
         socket.setSoTimeout(timeout);
-        sendQueue = new LinkedBlockingQueue<>(5);
+        sendQueue = new LinkedBlockingQueue<>(QUEUE_CAPACITY);
     }
 
     @Override

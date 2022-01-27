@@ -6,6 +6,7 @@ from queue import Empty, Queue
 
 class UDP_Client(Thread):
     BUF_SIZE = 9999
+    QUEUE_CAPACITY = 5
 
     def __init__(self, server_address, server_port, callback, timeout=0):
         super().__init__()
@@ -15,7 +16,7 @@ class UDP_Client(Thread):
 
         self.socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
         self.socket.settimeout(timeout)
-        self.send_queue = Queue()
+        self.send_queue = Queue(5)
 
     def run(self):
         super().run()
@@ -45,4 +46,6 @@ class UDP_Client(Thread):
         self.callback(bytes=packet[0])
 
     def add_send(self, bytes):
+        if (self.send_queue.full()):
+            self.send_queue.get()
         self.send_queue.put(bytes)

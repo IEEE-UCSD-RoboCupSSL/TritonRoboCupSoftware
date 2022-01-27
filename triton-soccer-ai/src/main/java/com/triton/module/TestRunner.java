@@ -18,9 +18,9 @@ public abstract class TestRunner extends SkillRunner {
             setupTestFuture.cancel(false);
     }
 
-    protected abstract void setupTest();
-
     protected void scheduleSetupTest(long delay, long period, TimeUnit timeUnit) {
         setupTestFuture = executor.scheduleAtFixedRate(this::setupTest, delay, period, timeUnit);
     }
+
+    protected abstract void setupTest();
 }

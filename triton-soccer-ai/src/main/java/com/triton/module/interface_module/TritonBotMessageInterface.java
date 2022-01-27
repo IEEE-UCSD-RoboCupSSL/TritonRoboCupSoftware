@@ -102,6 +102,12 @@ public class TritonBotMessageInterface extends Module {
     @Override
     public void run() {
         super.run();
+        for (int id = 0; id < RuntimeConstants.gameConfig.numBots; id++) {
+            RobotFeedback.Builder feedback = RobotFeedback.newBuilder();
+            feedback.setId(id);
+            feedback.setDribblerBallContact(false);
+            feedbacks.put(id, feedback.build());
+        }
         clientMap.forEach((id, client) -> clientFutures.add(executor.submit(client)));
     }
 }

@@ -1,6 +1,5 @@
 package com.triton.module.ai_module;
 
-import com.triton.module.Module;
 import com.triton.module.SkillRunner;
 
 import java.io.IOException;

@@ -4,7 +4,6 @@ import com.rabbitmq.client.Delivery;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
 import com.triton.module.TestRunner;
-import com.triton.skill.basic_skill.Kick;
 import com.triton.skill.individual_skill.GoalKeep;
 import proto.simulation.SslGcCommon;
 import proto.simulation.SslSimulationControl;
@@ -37,10 +36,13 @@ public class GoalKeepTest extends TestRunner {
 
     @Override
     protected void execute() {
-        if (field == null || ball == null || allies == null) return;
+        if (field == null || ball == null || allies == null || feedbacks == null) return;
 
         GoalKeep goalKeep = new GoalKeep(this, allies.get(1), field, ball);
         submitSkill(goalKeep);
+
+        if (feedbacks.get(1).getDribblerBallContact())
+            System.out.println("contact");
     }
 
     @Override

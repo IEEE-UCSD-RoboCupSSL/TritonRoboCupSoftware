@@ -3,6 +3,7 @@ package com.triton;
 import com.triton.config.*;
 import com.triton.constant.RuntimeConstants;
 import com.triton.constant.Team;
+import com.triton.constant.Test;
 import com.triton.module.Module;
 import com.triton.module.ai_module.AIModule;
 import com.triton.module.interface_module.CameraInterface;
@@ -13,15 +14,14 @@ import com.triton.module.processing_module.*;
 import com.triton.module.test_module.basic_skill_test.DribbleTest;
 import com.triton.module.test_module.basic_skill_test.KickTest;
 import com.triton.module.test_module.basic_skill_test.MatchVelocityTest;
+import com.triton.module.test_module.coordinated_skill_test.PathToFormationTest;
 import com.triton.module.test_module.individual_skill_test.*;
 import com.triton.module.test_module.misc_test.AStarSearchTest;
-import com.triton.util.Test;
 import org.apache.commons.cli.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -129,6 +129,7 @@ public class TritonSoccerAI {
                 case CATCH_BALL -> startModule(new CatchBallTest(executor), testRunners, testFutures);
                 case GOAL_KEEP -> startModule(new GoalKeepTest(executor), testRunners, testFutures);
                 case DRIBBLE_BALL -> startModule(new DribbleBallTest(executor), testRunners, testFutures);
+                case PATH_TO_FORMATION -> startModule(new PathToFormationTest(executor), testRunners, testFutures);
                 case A_STAR_SEARCH -> startModule(new AStarSearchTest(executor), testRunners, testFutures);
                 default -> System.out.println("Test not found.");
             }

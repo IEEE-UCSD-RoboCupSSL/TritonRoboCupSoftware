@@ -28,19 +28,18 @@ com/triton/search/node2d/Euclidean2dScorer.class
 proto/vision/MessagesRobocupSslDetectionTracked$TeamColor$1.class
 proto/triton/ObjectWithMetadata$Ball$1.class
 proto/triton/TritonBotCommunication$TritonBotMessage.class
-proto/triton/TritonBotCommunication$TritonBotMessage$UpdateCase.class
 proto/simulation/SslGcCommon$RobotId$1.class
 proto/simulation/SslVisionGeometry$Vector2f.class
 proto/simulation/SslSimulationRobotControl$RobotControlOrBuilder.class
 com/triton/config/DisplayConfig.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldCircularArc$1.class
-com/triton/util/Test.class
 com/triton/module/ai_module/AIModule.class
 proto/simulation/SslSimulationSynchronous$SimulationSyncRequest$1.class
 com/triton/constant/RuntimeConstants.class
 proto/simulation/SslVisionGeometry$SSL_GeometryModels$1.class
 proto/simulation/SslVisionDetection$SSL_DetectionFrame.class
 com/triton/module/test_module/individual_skill_test/ChaseBallTest.class
+com/triton/constant/Test.class
 com/triton/util/PIDControl.class
 proto/triton/AiDebugInfo$DebugVectorOrBuilder.class
 proto/triton/AiDebugInfo$Debug.class
@@ -295,6 +294,7 @@ proto/simulation/SslSimulationSynchronous$SimulationSyncRequest$Builder.class
 proto/triton/ObjectWithMetadata$Ball.class
 proto/triton/AiDebugInfo$DebugVector$Builder.class
 proto/vision/MessagesRobocupSslDetectionTracked$KickedBall$1.class
+com/triton/module/test_module/coordinated_skill_test/PathToFormationTest.class
 proto/simulation/SslVisionDetection$SSL_DetectionBall$Builder.class
 proto/vision/MessagesRobocupSslRefboxLog$Log_FrameOrBuilder.class
 proto/vision/MessagesRobocupSslWrapperTracked$1.class
@@ -309,7 +309,6 @@ com/triton/module/processing_module/RobotCommandAudienceConverter.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedBallOrBuilder.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionFrame$1.class
 proto/simulation/SslVisionGeometry$SSL_FieldShapeType$1.class
-proto/triton/TritonBotCommunication$2.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryModelsOrBuilder.class
 proto/vision/MessagesRobocupSslDetectionTracked$Vector2OrBuilder.class
 proto/vision/MessagesRobocupSslWrapperTracked$TrackerWrapperPacket$1.class

@@ -16,6 +16,7 @@ from networking.udp_client import UDP_Client
 class SimulatorRobotControlInterface(Module):
     def __init__(self):
         super().__init__()
+        self.last_time_stamp = 0
 
     def load_config(self):
         super().load_config()

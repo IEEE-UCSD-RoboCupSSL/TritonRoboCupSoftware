@@ -4,9 +4,9 @@
   obstacleScale: 10000
   gridExtend: 250
   collisionSpeedScale: 0.1
-  collisionExtrapolation: 0.2
+  collisionExtrapolation: 0.1
 
-  kpPos: 0.003
+  kpPos: 0.002
   kiPos: 0.000000
   kdPos: 0.0000
   kpOrientation: 1
