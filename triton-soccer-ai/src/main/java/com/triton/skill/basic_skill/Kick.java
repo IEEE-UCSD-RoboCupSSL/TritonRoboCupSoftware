@@ -34,9 +34,9 @@ public class Kick extends Skill {
         localCommand.setAngular(0);
         moveCommand.setLocalVelocity(localCommand);
         robotCommand.setMoveCommand(moveCommand);
-        robotCommand.setKickSpeed(5f);
+        robotCommand.setKickSpeed(1000f);
         robotCommand.setKickAngle(0);
-        robotCommand.setDribblerSpeed(1);
+        robotCommand.setDribblerSpeed(0);
         publish(AI_BIASED_ROBOT_COMMAND, robotCommand.build());
     }
 

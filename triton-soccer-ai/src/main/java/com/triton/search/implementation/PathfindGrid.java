@@ -60,22 +60,24 @@ public class PathfindGrid {
      */
     public void generateConnections() {
         Map<Node2d, Set<Node2d>> connections = new HashMap<>();
-        nodeMap.forEach((pos, node) -> {
-            Set<Node2d> neighbors = new HashSet<>();
-            connections.put(node, neighbors);
-
-            for (float offsetX = -aiConfig.getNodeSpacing(); offsetX <= aiConfig.getNodeSpacing(); offsetX += aiConfig.getNodeSpacing()) {
-                for (float offsetY = -aiConfig.getNodeSpacing(); offsetY <= aiConfig.getNodeSpacing(); offsetY += aiConfig.getNodeSpacing()) {
-                    if (offsetX + offsetY == 0 || offsetX == 0 && offsetY == 0)
-                        continue;
-                    Vector2d offset = new Vector2d(offsetX, offsetY);
-                    Vector2d neighborPos = pos.add(offset);
-                    if (nodeMap.containsKey(neighborPos))
-                        neighbors.add(nodeMap.get(neighborPos));
-                }
-            }
-        });
+        nodeMap.forEach((pos, node) -> connections.put(node, getNeighbors(node)));
         this.connections = connections;
+    }
+
+    public Set<Node2d> getNeighbors(Node2d node) {
+        Set<Node2d> neighbors = new HashSet<>();
+
+        for (float offsetX = -aiConfig.getNodeSpacing(); offsetX <= aiConfig.getNodeSpacing(); offsetX += aiConfig.getNodeSpacing()) {
+            for (float offsetY = -aiConfig.getNodeSpacing(); offsetY <= aiConfig.getNodeSpacing(); offsetY += aiConfig.getNodeSpacing()) {
+                if (offsetX == 0 && offsetY == 0)
+                    continue;
+                Vector2d offset = new Vector2d(offsetX, offsetY);
+                Vector2d neighborPos = node.getPos().add(offset);
+                if (nodeMap.containsKey(neighborPos))
+                    neighbors.add(nodeMap.get(neighborPos));
+            }
+        }
+        return neighbors;
     }
 
     /**
@@ -95,7 +97,7 @@ public class PathfindGrid {
         nodeMap.forEach((pos, node) -> {
             float dist = getDistanceFromBound(node.getPos());
             if (node.getPenalty() == 0 && dist > 0)
-                node.setPenalty(aiConfig.obstacleScale * dist);
+                node.setPenalty(aiConfig.calculateBoundPenalty(dist));
         });
 
         allies.forEach((id, ally) -> {
@@ -103,12 +105,12 @@ public class PathfindGrid {
             Vector2d allyVel = getVel(ally);
             Vector2d pos = predictPos(ally, aiConfig.collisionExtrapolation);
 
-            float collisionDist = aiConfig.getRobotCollisionDist()
-                    + aiConfig.collisionSpeedScale * allyVel.mag();
+            float collisionExtension = aiConfig.collisionSpeedScale * allyVel.mag();
+            float collisionDist = aiConfig.getRobotCollisionDist() + collisionExtension;
             List<Node2d> nearestNodes = getNearestNodes(pos, collisionDist);
             nearestNodes.forEach(node -> {
                 float dist = node.getPos().dist(pos);
-                node.updatePenalty(aiConfig.obstacleScale * (aiConfig.getRobotCollisionDist() / dist));
+                node.updatePenalty(aiConfig.calculateRobotPenalty(dist, collisionExtension));
                 obstacles.add(node);
             });
         });
@@ -117,12 +119,12 @@ public class PathfindGrid {
             Vector2d foeVel = getVel(foe);
             Vector2d pos = predictPos(foe, aiConfig.collisionExtrapolation);
 
-            float collisionDist = aiConfig.getRobotCollisionDist()
-                    + aiConfig.collisionSpeedScale * foeVel.mag();
+            float collisionExtension = aiConfig.collisionSpeedScale * foeVel.mag();
+            float collisionDist = aiConfig.getRobotCollisionDist() + collisionExtension;
             List<Node2d> nearestNodes = getNearestNodes(pos, collisionDist);
             nearestNodes.forEach(node -> {
                 float dist = node.getPos().dist(pos);
-                node.updatePenalty(aiConfig.obstacleScale * (aiConfig.getRobotCollisionDist() / dist));
+                node.updatePenalty(aiConfig.calculateRobotPenalty(dist, collisionExtension));
                 obstacles.add(node);
             });
         });
@@ -134,7 +136,7 @@ public class PathfindGrid {
      * @param pos the point
      * @return the minimum distance from a point to the nearest bound, 0 if the point is not out of bounds
      */
-    private float getDistanceFromBound(Vector2d pos) {
+    public float getDistanceFromBound(Vector2d pos) {
         float boundMinX = -field.getFieldWidth() / 2f + aiConfig.getBoundCollisionDist();
         float boundMaxX = field.getFieldWidth() / 2f - aiConfig.getBoundCollisionDist();
         float boundMinY = -field.getFieldLength() / 2f + aiConfig.getBoundCollisionDist();
@@ -190,9 +192,7 @@ public class PathfindGrid {
      * @return the nearest node to a point
      */
     public Node2d getNearestNode(Vector2d pos) {
-        float nearestX = Math.round(pos.x / aiConfig.getNodeSpacing()) * aiConfig.getNodeSpacing();
-        float nearestY = Math.round(pos.y / aiConfig.getNodeSpacing()) * aiConfig.getNodeSpacing();
-        Vector2d nearestPos = new Vector2d(nearestX, nearestY);
+        Vector2d nearestPos = pos.getNearestOnGrid(aiConfig.getNodeSpacing());
         return nodeMap.get(nearestPos);
     }
 
@@ -202,8 +202,12 @@ public class PathfindGrid {
      * @param pos the point
      * @return the obstacle value of the node nearest to a point
      */
-    public double getObstacle(Vector2d pos) {
+    public double getPenalty(Vector2d pos) {
         Node2d node = getNearestNode(pos);
+        return getPenalty(node);
+    }
+
+    public double getPenalty(Node2d node) {
         if (node == null) return 0;
         return node.getPenalty();
     }
@@ -215,17 +219,17 @@ public class PathfindGrid {
      * @param to   the second point
      * @return the largest obstacle value between two points
      */
-    public double getMaxObstacle(Vector2d from, Vector2d to) {
+    public double getMaxPenalty(Vector2d from, Vector2d to) {
         Vector2d step = to.sub(from).norm().scale(aiConfig.nodeRadius);
         Vector2d currentPos = from;
-        double maxObstacle = 0;
+        double maxPenalty = 0;
         while (currentPos.dist(to) > aiConfig.nodeRadius) {
             Node2d currentNode = getNearestNode(currentPos);
-            if (currentNode != null && currentNode.getPenalty() > maxObstacle)
-                maxObstacle = currentNode.getPenalty();
+            if (currentNode.getPenalty() > maxPenalty)
+                maxPenalty = currentNode.getPenalty();
             currentPos = currentPos.add(step);
         }
-        return maxObstacle;
+        return maxPenalty;
     }
 
     /**
@@ -251,12 +255,15 @@ public class PathfindGrid {
             return null;
 
         Node2d from = route.getFirst();
-        double threshold = from.getPenalty();
+
+        if (from.getPenalty() >= aiConfig.penaltyScale) {
+            getNearestNodes(from.getPos(), aiConfig.getNodeSpacing());
+        }
 
         ReverseListIterator<Node2d> reverseListIterator = new ReverseListIterator<>(route);
         while (reverseListIterator.hasNext()) {
             Node2d to = reverseListIterator.next();
-            if (!checkObstacle(from.getPos(), to.getPos(), threshold))
+            if (!checkPenalty(from.getPos(), to.getPos(), from.getPenalty()))
                 return to.getPos();
         }
 
@@ -302,12 +309,12 @@ public class PathfindGrid {
      * @param threshold the threshold
      * @return whether any obstacle value between two points is larger than a threshold
      */
-    public boolean checkObstacle(Vector2d from, Vector2d to, double threshold) {
+    public boolean checkPenalty(Vector2d from, Vector2d to, double threshold) {
         Vector2d step = to.sub(from).norm().scale(aiConfig.nodeRadius);
         Vector2d currentPos = from;
         while (currentPos.dist(to) > aiConfig.nodeRadius) {
             Node2d currentNode = getNearestNode(currentPos);
-            if (currentNode != null && currentNode.getPenalty() > threshold)
+            if (currentNode.getPenalty() > threshold)
                 return true;
             currentPos = currentPos.add(step);
         }

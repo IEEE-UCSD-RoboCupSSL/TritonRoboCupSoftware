@@ -4,7 +4,7 @@ import com.triton.search.base.Scorer;
 
 public class Value1dScorer implements Scorer<Node1d> {
     @Override
-    public double computeCost(Node1d from, Node1d to) {
-        return Math.abs(to.getValue() - from.getValue());
+    public float computeCost(Node1d from, Node1d to) {
+        return (float) Math.abs(to.getValue() - from.getValue());
     }
 }

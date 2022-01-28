@@ -24,47 +24,52 @@ public final class ObjectWithMetadata {
     long getTimestamp();
 
     /**
-     * <code>float x = 2;</code>
+     * <code>float confidence = 2;</code>
+     */
+    float getConfidence();
+
+    /**
+     * <code>float x = 3;</code>
      */
     float getX();
 
     /**
-     * <code>float y = 3;</code>
+     * <code>float y = 4;</code>
      */
     float getY();
 
     /**
-     * <code>float z = 4;</code>
+     * <code>float z = 5;</code>
      */
     float getZ();
 
     /**
-     * <code>float vx = 5;</code>
+     * <code>float vx = 6;</code>
      */
     float getVx();
 
     /**
-     * <code>float vy = 6;</code>
+     * <code>float vy = 7;</code>
      */
     float getVy();
 
     /**
-     * <code>float vz = 7;</code>
+     * <code>float vz = 8;</code>
      */
     float getVz();
 
     /**
-     * <code>float accX = 8;</code>
+     * <code>float accX = 9;</code>
      */
     float getAccX();
 
     /**
-     * <code>float accY = 9;</code>
+     * <code>float accY = 10;</code>
      */
     float getAccY();
 
     /**
-     * <code>float accZ = 10;</code>
+     * <code>float accZ = 11;</code>
      */
     float getAccZ();
   }
@@ -82,6 +87,7 @@ public final class ObjectWithMetadata {
     }
     private Ball() {
       timestamp_ = 0L;
+      confidence_ = 0F;
       x_ = 0F;
       y_ = 0F;
       z_ = 0F;
@@ -124,45 +130,50 @@ public final class ObjectWithMetadata {
             }
             case 21: {
 
-              x_ = input.readFloat();
+              confidence_ = input.readFloat();
               break;
             }
             case 29: {
 
-              y_ = input.readFloat();
+              x_ = input.readFloat();
               break;
             }
             case 37: {
 
-              z_ = input.readFloat();
+              y_ = input.readFloat();
               break;
             }
             case 45: {
 
-              vx_ = input.readFloat();
+              z_ = input.readFloat();
               break;
             }
             case 53: {
 
-              vy_ = input.readFloat();
+              vx_ = input.readFloat();
               break;
             }
             case 61: {
 
-              vz_ = input.readFloat();
+              vy_ = input.readFloat();
               break;
             }
             case 69: {
 
-              accX_ = input.readFloat();
+              vz_ = input.readFloat();
               break;
             }
             case 77: {
 
-              accY_ = input.readFloat();
+              accX_ = input.readFloat();
               break;
             }
             case 85: {
+
+              accY_ = input.readFloat();
+              break;
+            }
+            case 93: {
 
               accZ_ = input.readFloat();
               break;
@@ -208,82 +219,91 @@ public final class ObjectWithMetadata {
       return timestamp_;
     }
 
-    public static final int X_FIELD_NUMBER = 2;
+    public static final int CONFIDENCE_FIELD_NUMBER = 2;
+    private float confidence_;
+    /**
+     * <code>float confidence = 2;</code>
+     */
+    public float getConfidence() {
+      return confidence_;
+    }
+
+    public static final int X_FIELD_NUMBER = 3;
     private float x_;
     /**
-     * <code>float x = 2;</code>
+     * <code>float x = 3;</code>
      */
     public float getX() {
       return x_;
     }
 
-    public static final int Y_FIELD_NUMBER = 3;
+    public static final int Y_FIELD_NUMBER = 4;
     private float y_;
     /**
-     * <code>float y = 3;</code>
+     * <code>float y = 4;</code>
      */
     public float getY() {
       return y_;
     }
 
-    public static final int Z_FIELD_NUMBER = 4;
+    public static final int Z_FIELD_NUMBER = 5;
     private float z_;
     /**
-     * <code>float z = 4;</code>
+     * <code>float z = 5;</code>
      */
     public float getZ() {
       return z_;
     }
 
-    public static final int VX_FIELD_NUMBER = 5;
+    public static final int VX_FIELD_NUMBER = 6;
     private float vx_;
     /**
-     * <code>float vx = 5;</code>
+     * <code>float vx = 6;</code>
      */
     public float getVx() {
       return vx_;
     }
 
-    public static final int VY_FIELD_NUMBER = 6;
+    public static final int VY_FIELD_NUMBER = 7;
     private float vy_;
     /**
-     * <code>float vy = 6;</code>
+     * <code>float vy = 7;</code>
      */
     public float getVy() {
       return vy_;
     }
 
-    public static final int VZ_FIELD_NUMBER = 7;
+    public static final int VZ_FIELD_NUMBER = 8;
     private float vz_;
     /**
-     * <code>float vz = 7;</code>
+     * <code>float vz = 8;</code>
      */
     public float getVz() {
       return vz_;
     }
 
-    public static final int ACCX_FIELD_NUMBER = 8;
+    public static final int ACCX_FIELD_NUMBER = 9;
     private float accX_;
     /**
-     * <code>float accX = 8;</code>
+     * <code>float accX = 9;</code>
      */
     public float getAccX() {
       return accX_;
     }
 
-    public static final int ACCY_FIELD_NUMBER = 9;
+    public static final int ACCY_FIELD_NUMBER = 10;
     private float accY_;
     /**
-     * <code>float accY = 9;</code>
+     * <code>float accY = 10;</code>
      */
     public float getAccY() {
       return accY_;
     }
 
-    public static final int ACCZ_FIELD_NUMBER = 10;
+    public static final int ACCZ_FIELD_NUMBER = 11;
     private float accZ_;
     /**
-     * <code>float accZ = 10;</code>
+     * <code>float accZ = 11;</code>
      */
     public float getAccZ() {
       return accZ_;
@@ -306,32 +326,35 @@ public final class ObjectWithMetadata {
       if (timestamp_ != 0L) {
         output.writeInt64(1, timestamp_);
       }
+      if (confidence_ != 0F) {
+        output.writeFloat(2, confidence_);
+      }
       if (x_ != 0F) {
-        output.writeFloat(2, x_);
+        output.writeFloat(3, x_);
       }
       if (y_ != 0F) {
-        output.writeFloat(3, y_);
+        output.writeFloat(4, y_);
       }
       if (z_ != 0F) {
-        output.writeFloat(4, z_);
+        output.writeFloat(5, z_);
       }
       if (vx_ != 0F) {
-        output.writeFloat(5, vx_);
+        output.writeFloat(6, vx_);
       }
       if (vy_ != 0F) {
-        output.writeFloat(6, vy_);
+        output.writeFloat(7, vy_);
       }
       if (vz_ != 0F) {
-        output.writeFloat(7, vz_);
+        output.writeFloat(8, vz_);
       }
       if (accX_ != 0F) {
-        output.writeFloat(8, accX_);
+        output.writeFloat(9, accX_);
       }
       if (accY_ != 0F) {
-        output.writeFloat(9, accY_);
+        output.writeFloat(10, accY_);
       }
       if (accZ_ != 0F) {
-        output.writeFloat(10, accZ_);
+        output.writeFloat(11, accZ_);
       }
       unknownFields.writeTo(output);
     }
@@ -346,41 +369,45 @@ public final class ObjectWithMetadata {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, timestamp_);
       }
+      if (confidence_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(2, confidence_);
+      }
       if (x_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, x_);
+          .computeFloatSize(3, x_);
       }
       if (y_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(3, y_);
+          .computeFloatSize(4, y_);
       }
       if (z_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(4, z_);
+          .computeFloatSize(5, z_);
       }
       if (vx_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(5, vx_);
+          .computeFloatSize(6, vx_);
       }
       if (vy_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(6, vy_);
+          .computeFloatSize(7, vy_);
       }
       if (vz_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(7, vz_);
+          .computeFloatSize(8, vz_);
       }
       if (accX_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(8, accX_);
+          .computeFloatSize(9, accX_);
       }
       if (accY_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(9, accY_);
+          .computeFloatSize(10, accY_);
       }
       if (accZ_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(10, accZ_);
+          .computeFloatSize(11, accZ_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -400,6 +427,10 @@ public final class ObjectWithMetadata {
       boolean result = true;
       result = result && (getTimestamp()
           == other.getTimestamp());
+      result = result && (
+          java.lang.Float.floatToIntBits(getConfidence())
+          == java.lang.Float.floatToIntBits(
+              other.getConfidence()));
       result = result && (
           java.lang.Float.floatToIntBits(getX())
           == java.lang.Float.floatToIntBits(
@@ -450,6 +481,9 @@ public final class ObjectWithMetadata {
       hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getTimestamp());
+      hash = (37 * hash) + CONFIDENCE_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getConfidence());
       hash = (37 * hash) + X_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getX());
@@ -612,6 +646,8 @@ public final class ObjectWithMetadata {
         super.clear();
         timestamp_ = 0L;
 
+        confidence_ = 0F;
+
         x_ = 0F;
 
         y_ = 0F;
@@ -657,6 +693,7 @@ public final class ObjectWithMetadata {
       public proto.triton.ObjectWithMetadata.Ball buildPartial() {
         proto.triton.ObjectWithMetadata.Ball result = new proto.triton.ObjectWithMetadata.Ball(this);
         result.timestamp_ = timestamp_;
+        result.confidence_ = confidence_;
         result.x_ = x_;
         result.y_ = y_;
         result.z_ = z_;
@@ -716,6 +753,9 @@ public final class ObjectWithMetadata {
         if (other == proto.triton.ObjectWithMetadata.Ball.getDefaultInstance()) return this;
         if (other.getTimestamp() != 0L) {
           setTimestamp(other.getTimestamp());
+        }
+        if (other.getConfidence() != 0F) {
+          setConfidence(other.getConfidence());
         }
         if (other.getX() != 0F) {
           setX(other.getX());
@@ -799,15 +839,41 @@ public final class ObjectWithMetadata {
         return this;
       }
 
+      private float confidence_ ;
+      /**
+       * <code>float confidence = 2;</code>
+       */
+      public float getConfidence() {
+        return confidence_;
+      }
+      /**
+       * <code>float confidence = 2;</code>
+       */
+      public Builder setConfidence(float value) {
+        
+        confidence_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float confidence = 2;</code>
+       */
+      public Builder clearConfidence() {
+        
+        confidence_ = 0F;
+        onChanged();
+        return this;
+      }
+
       private float x_ ;
       /**
-       * <code>float x = 2;</code>
+       * <code>float x = 3;</code>
        */
       public float getX() {
         return x_;
       }
       /**
-       * <code>float x = 2;</code>
+       * <code>float x = 3;</code>
        */
       public Builder setX(float value) {
         
@@ -816,7 +882,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float x = 2;</code>
+       * <code>float x = 3;</code>
        */
       public Builder clearX() {
         
@@ -827,13 +893,13 @@ public final class ObjectWithMetadata {
 
       private float y_ ;
       /**
-       * <code>float y = 3;</code>
+       * <code>float y = 4;</code>
        */
       public float getY() {
         return y_;
       }
       /**
-       * <code>float y = 3;</code>
+       * <code>float y = 4;</code>
        */
       public Builder setY(float value) {
         
@@ -842,7 +908,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float y = 3;</code>
+       * <code>float y = 4;</code>
        */
       public Builder clearY() {
         
@@ -853,13 +919,13 @@ public final class ObjectWithMetadata {
 
       private float z_ ;
       /**
-       * <code>float z = 4;</code>
+       * <code>float z = 5;</code>
        */
       public float getZ() {
         return z_;
       }
       /**
-       * <code>float z = 4;</code>
+       * <code>float z = 5;</code>
        */
       public Builder setZ(float value) {
         
@@ -868,7 +934,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float z = 4;</code>
+       * <code>float z = 5;</code>
        */
       public Builder clearZ() {
         
@@ -879,13 +945,13 @@ public final class ObjectWithMetadata {
 
       private float vx_ ;
       /**
-       * <code>float vx = 5;</code>
+       * <code>float vx = 6;</code>
        */
       public float getVx() {
         return vx_;
       }
       /**
-       * <code>float vx = 5;</code>
+       * <code>float vx = 6;</code>
        */
       public Builder setVx(float value) {
         
@@ -894,7 +960,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float vx = 5;</code>
+       * <code>float vx = 6;</code>
        */
       public Builder clearVx() {
         
@@ -905,13 +971,13 @@ public final class ObjectWithMetadata {
 
       private float vy_ ;
       /**
-       * <code>float vy = 6;</code>
+       * <code>float vy = 7;</code>
        */
       public float getVy() {
         return vy_;
       }
       /**
-       * <code>float vy = 6;</code>
+       * <code>float vy = 7;</code>
        */
       public Builder setVy(float value) {
         
@@ -920,7 +986,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float vy = 6;</code>
+       * <code>float vy = 7;</code>
        */
       public Builder clearVy() {
         
@@ -931,13 +997,13 @@ public final class ObjectWithMetadata {
 
       private float vz_ ;
       /**
-       * <code>float vz = 7;</code>
+       * <code>float vz = 8;</code>
        */
       public float getVz() {
         return vz_;
       }
       /**
-       * <code>float vz = 7;</code>
+       * <code>float vz = 8;</code>
        */
       public Builder setVz(float value) {
         
@@ -946,7 +1012,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float vz = 7;</code>
+       * <code>float vz = 8;</code>
        */
       public Builder clearVz() {
         
@@ -957,13 +1023,13 @@ public final class ObjectWithMetadata {
 
       private float accX_ ;
       /**
-       * <code>float accX = 8;</code>
+       * <code>float accX = 9;</code>
        */
       public float getAccX() {
         return accX_;
       }
       /**
-       * <code>float accX = 8;</code>
+       * <code>float accX = 9;</code>
        */
       public Builder setAccX(float value) {
         
@@ -972,7 +1038,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float accX = 8;</code>
+       * <code>float accX = 9;</code>
        */
       public Builder clearAccX() {
         
@@ -983,13 +1049,13 @@ public final class ObjectWithMetadata {
 
       private float accY_ ;
       /**
-       * <code>float accY = 9;</code>
+       * <code>float accY = 10;</code>
        */
       public float getAccY() {
         return accY_;
       }
       /**
-       * <code>float accY = 9;</code>
+       * <code>float accY = 10;</code>
        */
       public Builder setAccY(float value) {
         
@@ -998,7 +1064,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float accY = 9;</code>
+       * <code>float accY = 10;</code>
        */
       public Builder clearAccY() {
         
@@ -1009,13 +1075,13 @@ public final class ObjectWithMetadata {
 
       private float accZ_ ;
       /**
-       * <code>float accZ = 10;</code>
+       * <code>float accZ = 11;</code>
        */
       public float getAccZ() {
         return accZ_;
       }
       /**
-       * <code>float accZ = 10;</code>
+       * <code>float accZ = 11;</code>
        */
       public Builder setAccZ(float value) {
         
@@ -1024,7 +1090,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float accZ = 10;</code>
+       * <code>float accZ = 11;</code>
        */
       public Builder clearAccZ() {
         
@@ -1100,47 +1166,52 @@ public final class ObjectWithMetadata {
     int getId();
 
     /**
-     * <code>float x = 3;</code>
+     * <code>bool hasBall = 3;</code>
+     */
+    boolean getHasBall();
+
+    /**
+     * <code>float x = 4;</code>
      */
     float getX();
 
     /**
-     * <code>float y = 4;</code>
+     * <code>float y = 5;</code>
      */
     float getY();
 
     /**
-     * <code>float orientation = 5;</code>
+     * <code>float orientation = 6;</code>
      */
     float getOrientation();
 
     /**
-     * <code>float vx = 6;</code>
+     * <code>float vx = 7;</code>
      */
     float getVx();
 
     /**
-     * <code>float vy = 7;</code>
+     * <code>float vy = 8;</code>
      */
     float getVy();
 
     /**
-     * <code>float angular = 8;</code>
+     * <code>float angular = 9;</code>
      */
     float getAngular();
 
     /**
-     * <code>float accX = 9;</code>
+     * <code>float accX = 10;</code>
      */
     float getAccX();
 
     /**
-     * <code>float accY = 10;</code>
+     * <code>float accY = 11;</code>
      */
     float getAccY();
 
     /**
-     * <code>float accAngular = 11;</code>
+     * <code>float accAngular = 12;</code>
      */
     float getAccAngular();
   }
@@ -1159,6 +1230,7 @@ public final class ObjectWithMetadata {
     private Robot() {
       timestamp_ = 0L;
       id_ = 0;
+      hasBall_ = false;
       x_ = 0F;
       y_ = 0F;
       orientation_ = 0F;
@@ -1204,47 +1276,52 @@ public final class ObjectWithMetadata {
               id_ = input.readInt32();
               break;
             }
-            case 29: {
+            case 24: {
 
-              x_ = input.readFloat();
+              hasBall_ = input.readBool();
               break;
             }
             case 37: {
 
-              y_ = input.readFloat();
+              x_ = input.readFloat();
               break;
             }
             case 45: {
 
-              orientation_ = input.readFloat();
+              y_ = input.readFloat();
               break;
             }
             case 53: {
 
-              vx_ = input.readFloat();
+              orientation_ = input.readFloat();
               break;
             }
             case 61: {
 
-              vy_ = input.readFloat();
+              vx_ = input.readFloat();
               break;
             }
             case 69: {
 
-              angular_ = input.readFloat();
+              vy_ = input.readFloat();
               break;
             }
             case 77: {
 
-              accX_ = input.readFloat();
+              angular_ = input.readFloat();
               break;
             }
             case 85: {
 
-              accY_ = input.readFloat();
+              accX_ = input.readFloat();
               break;
             }
             case 93: {
+
+              accY_ = input.readFloat();
+              break;
+            }
+            case 101: {
 
               accAngular_ = input.readFloat();
               break;
@@ -1299,82 +1376,91 @@ public final class ObjectWithMetadata {
       return id_;
     }
 
-    public static final int X_FIELD_NUMBER = 3;
+    public static final int HASBALL_FIELD_NUMBER = 3;
+    private boolean hasBall_;
+    /**
+     * <code>bool hasBall = 3;</code>
+     */
+    public boolean getHasBall() {
+      return hasBall_;
+    }
+
+    public static final int X_FIELD_NUMBER = 4;
     private float x_;
     /**
-     * <code>float x = 3;</code>
+     * <code>float x = 4;</code>
      */
     public float getX() {
       return x_;
     }
 
-    public static final int Y_FIELD_NUMBER = 4;
+    public static final int Y_FIELD_NUMBER = 5;
     private float y_;
     /**
-     * <code>float y = 4;</code>
+     * <code>float y = 5;</code>
      */
     public float getY() {
       return y_;
     }
 
-    public static final int ORIENTATION_FIELD_NUMBER = 5;
+    public static final int ORIENTATION_FIELD_NUMBER = 6;
     private float orientation_;
     /**
-     * <code>float orientation = 5;</code>
+     * <code>float orientation = 6;</code>
      */
     public float getOrientation() {
       return orientation_;
     }
 
-    public static final int VX_FIELD_NUMBER = 6;
+    public static final int VX_FIELD_NUMBER = 7;
     private float vx_;
     /**
-     * <code>float vx = 6;</code>
+     * <code>float vx = 7;</code>
      */
     public float getVx() {
       return vx_;
     }
 
-    public static final int VY_FIELD_NUMBER = 7;
+    public static final int VY_FIELD_NUMBER = 8;
     private float vy_;
     /**
-     * <code>float vy = 7;</code>
+     * <code>float vy = 8;</code>
      */
     public float getVy() {
       return vy_;
     }
 
-    public static final int ANGULAR_FIELD_NUMBER = 8;
+    public static final int ANGULAR_FIELD_NUMBER = 9;
     private float angular_;
     /**
-     * <code>float angular = 8;</code>
+     * <code>float angular = 9;</code>
      */
     public float getAngular() {
       return angular_;
     }
 
-    public static final int ACCX_FIELD_NUMBER = 9;
+    public static final int ACCX_FIELD_NUMBER = 10;
     private float accX_;
     /**
-     * <code>float accX = 9;</code>
+     * <code>float accX = 10;</code>
      */
     public float getAccX() {
       return accX_;
     }
 
-    public static final int ACCY_FIELD_NUMBER = 10;
+    public static final int ACCY_FIELD_NUMBER = 11;
     private float accY_;
     /**
-     * <code>float accY = 10;</code>
+     * <code>float accY = 11;</code>
      */
     public float getAccY() {
       return accY_;
     }
 
-    public static final int ACCANGULAR_FIELD_NUMBER = 11;
+    public static final int ACCANGULAR_FIELD_NUMBER = 12;
     private float accAngular_;
     /**
-     * <code>float accAngular = 11;</code>
+     * <code>float accAngular = 12;</code>
      */
     public float getAccAngular() {
       return accAngular_;
@@ -1400,32 +1486,35 @@ public final class ObjectWithMetadata {
       if (id_ != 0) {
         output.writeInt32(2, id_);
       }
+      if (hasBall_ != false) {
+        output.writeBool(3, hasBall_);
+      }
       if (x_ != 0F) {
-        output.writeFloat(3, x_);
+        output.writeFloat(4, x_);
       }
       if (y_ != 0F) {
-        output.writeFloat(4, y_);
+        output.writeFloat(5, y_);
       }
       if (orientation_ != 0F) {
-        output.writeFloat(5, orientation_);
+        output.writeFloat(6, orientation_);
       }
       if (vx_ != 0F) {
-        output.writeFloat(6, vx_);
+        output.writeFloat(7, vx_);
       }
       if (vy_ != 0F) {
-        output.writeFloat(7, vy_);
+        output.writeFloat(8, vy_);
       }
       if (angular_ != 0F) {
-        output.writeFloat(8, angular_);
+        output.writeFloat(9, angular_);
       }
       if (accX_ != 0F) {
-        output.writeFloat(9, accX_);
+        output.writeFloat(10, accX_);
       }
       if (accY_ != 0F) {
-        output.writeFloat(10, accY_);
+        output.writeFloat(11, accY_);
       }
       if (accAngular_ != 0F) {
-        output.writeFloat(11, accAngular_);
+        output.writeFloat(12, accAngular_);
       }
       unknownFields.writeTo(output);
     }
@@ -1444,41 +1533,45 @@ public final class ObjectWithMetadata {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, id_);
       }
+      if (hasBall_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, hasBall_);
+      }
       if (x_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(3, x_);
+          .computeFloatSize(4, x_);
       }
       if (y_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(4, y_);
+          .computeFloatSize(5, y_);
       }
       if (orientation_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(5, orientation_);
+          .computeFloatSize(6, orientation_);
       }
       if (vx_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(6, vx_);
+          .computeFloatSize(7, vx_);
       }
       if (vy_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(7, vy_);
+          .computeFloatSize(8, vy_);
       }
       if (angular_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(8, angular_);
+          .computeFloatSize(9, angular_);
       }
       if (accX_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(9, accX_);
+          .computeFloatSize(10, accX_);
       }
       if (accY_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(10, accY_);
+          .computeFloatSize(11, accY_);
       }
       if (accAngular_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(11, accAngular_);
+          .computeFloatSize(12, accAngular_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1500,6 +1593,8 @@ public final class ObjectWithMetadata {
           == other.getTimestamp());
       result = result && (getId()
           == other.getId());
+      result = result && (getHasBall()
+          == other.getHasBall());
       result = result && (
           java.lang.Float.floatToIntBits(getX())
           == java.lang.Float.floatToIntBits(
@@ -1552,6 +1647,9 @@ public final class ObjectWithMetadata {
           getTimestamp());
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + getId();
+      hash = (37 * hash) + HASBALL_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getHasBall());
       hash = (37 * hash) + X_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getX());
@@ -1716,6 +1814,8 @@ public final class ObjectWithMetadata {
 
         id_ = 0;
 
+        hasBall_ = false;
+
         x_ = 0F;
 
         y_ = 0F;
@@ -1762,6 +1862,7 @@ public final class ObjectWithMetadata {
         proto.triton.ObjectWithMetadata.Robot result = new proto.triton.ObjectWithMetadata.Robot(this);
         result.timestamp_ = timestamp_;
         result.id_ = id_;
+        result.hasBall_ = hasBall_;
         result.x_ = x_;
         result.y_ = y_;
         result.orientation_ = orientation_;
@@ -1824,6 +1925,9 @@ public final class ObjectWithMetadata {
         }
         if (other.getId() != 0) {
           setId(other.getId());
+        }
+        if (other.getHasBall() != false) {
+          setHasBall(other.getHasBall());
         }
         if (other.getX() != 0F) {
           setX(other.getX());
@@ -1933,15 +2037,41 @@ public final class ObjectWithMetadata {
         return this;
       }
 
+      private boolean hasBall_ ;
+      /**
+       * <code>bool hasBall = 3;</code>
+       */
+      public boolean getHasBall() {
+        return hasBall_;
+      }
+      /**
+       * <code>bool hasBall = 3;</code>
+       */
+      public Builder setHasBall(boolean value) {
+        
+        hasBall_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool hasBall = 3;</code>
+       */
+      public Builder clearHasBall() {
+        
+        hasBall_ = false;
+        onChanged();
+        return this;
+      }
+
       private float x_ ;
       /**
-       * <code>float x = 3;</code>
+       * <code>float x = 4;</code>
        */
       public float getX() {
         return x_;
       }
       /**
-       * <code>float x = 3;</code>
+       * <code>float x = 4;</code>
        */
       public Builder setX(float value) {
         
@@ -1950,7 +2080,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float x = 3;</code>
+       * <code>float x = 4;</code>
        */
       public Builder clearX() {
         
@@ -1961,13 +2091,13 @@ public final class ObjectWithMetadata {
 
       private float y_ ;
       /**
-       * <code>float y = 4;</code>
+       * <code>float y = 5;</code>
        */
       public float getY() {
         return y_;
       }
       /**
-       * <code>float y = 4;</code>
+       * <code>float y = 5;</code>
        */
       public Builder setY(float value) {
         
@@ -1976,7 +2106,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float y = 4;</code>
+       * <code>float y = 5;</code>
        */
       public Builder clearY() {
         
@@ -1987,13 +2117,13 @@ public final class ObjectWithMetadata {
 
       private float orientation_ ;
       /**
-       * <code>float orientation = 5;</code>
+       * <code>float orientation = 6;</code>
        */
       public float getOrientation() {
         return orientation_;
       }
       /**
-       * <code>float orientation = 5;</code>
+       * <code>float orientation = 6;</code>
        */
       public Builder setOrientation(float value) {
         
@@ -2002,7 +2132,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float orientation = 5;</code>
+       * <code>float orientation = 6;</code>
        */
       public Builder clearOrientation() {
         
@@ -2013,13 +2143,13 @@ public final class ObjectWithMetadata {
 
       private float vx_ ;
       /**
-       * <code>float vx = 6;</code>
+       * <code>float vx = 7;</code>
        */
       public float getVx() {
         return vx_;
       }
       /**
-       * <code>float vx = 6;</code>
+       * <code>float vx = 7;</code>
        */
       public Builder setVx(float value) {
         
@@ -2028,7 +2158,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float vx = 6;</code>
+       * <code>float vx = 7;</code>
        */
       public Builder clearVx() {
         
@@ -2039,13 +2169,13 @@ public final class ObjectWithMetadata {
 
       private float vy_ ;
       /**
-       * <code>float vy = 7;</code>
+       * <code>float vy = 8;</code>
        */
       public float getVy() {
         return vy_;
       }
       /**
-       * <code>float vy = 7;</code>
+       * <code>float vy = 8;</code>
        */
       public Builder setVy(float value) {
         
@@ -2054,7 +2184,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float vy = 7;</code>
+       * <code>float vy = 8;</code>
        */
       public Builder clearVy() {
         
@@ -2065,13 +2195,13 @@ public final class ObjectWithMetadata {
 
       private float angular_ ;
       /**
-       * <code>float angular = 8;</code>
+       * <code>float angular = 9;</code>
        */
       public float getAngular() {
         return angular_;
       }
       /**
-       * <code>float angular = 8;</code>
+       * <code>float angular = 9;</code>
        */
       public Builder setAngular(float value) {
         
@@ -2080,7 +2210,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float angular = 8;</code>
+       * <code>float angular = 9;</code>
        */
       public Builder clearAngular() {
         
@@ -2091,13 +2221,13 @@ public final class ObjectWithMetadata {
 
       private float accX_ ;
       /**
-       * <code>float accX = 9;</code>
+       * <code>float accX = 10;</code>
        */
       public float getAccX() {
         return accX_;
       }
       /**
-       * <code>float accX = 9;</code>
+       * <code>float accX = 10;</code>
        */
       public Builder setAccX(float value) {
         
@@ -2106,7 +2236,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float accX = 9;</code>
+       * <code>float accX = 10;</code>
        */
       public Builder clearAccX() {
         
@@ -2117,13 +2247,13 @@ public final class ObjectWithMetadata {
 
       private float accY_ ;
       /**
-       * <code>float accY = 10;</code>
+       * <code>float accY = 11;</code>
        */
       public float getAccY() {
         return accY_;
       }
       /**
-       * <code>float accY = 10;</code>
+       * <code>float accY = 11;</code>
        */
       public Builder setAccY(float value) {
         
@@ -2132,7 +2262,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float accY = 10;</code>
+       * <code>float accY = 11;</code>
        */
       public Builder clearAccY() {
         
@@ -2143,13 +2273,13 @@ public final class ObjectWithMetadata {
 
       private float accAngular_ ;
       /**
-       * <code>float accAngular = 11;</code>
+       * <code>float accAngular = 12;</code>
        */
       public float getAccAngular() {
         return accAngular_;
       }
       /**
-       * <code>float accAngular = 11;</code>
+       * <code>float accAngular = 12;</code>
        */
       public Builder setAccAngular(float value) {
         
@@ -2158,7 +2288,7 @@ public final class ObjectWithMetadata {
         return this;
       }
       /**
-       * <code>float accAngular = 11;</code>
+       * <code>float accAngular = 12;</code>
        */
       public Builder clearAccAngular() {
         
@@ -2239,15 +2369,15 @@ public final class ObjectWithMetadata {
   static {
     java.lang.String[] descriptorData = {
       "\n\032object_with_metadata.proto\022\014proto.trit" +
-      "on\"\210\001\n\004Ball\022\021\n\ttimestamp\030\001 \001(\003\022\t\n\001x\030\002 \001(" +
-      "\002\022\t\n\001y\030\003 \001(\002\022\t\n\001z\030\004 \001(\002\022\n\n\002vx\030\005 \001(\002\022\n\n\002v" +
-      "y\030\006 \001(\002\022\n\n\002vz\030\007 \001(\002\022\014\n\004accX\030\010 \001(\002\022\014\n\004acc" +
-      "Y\030\t \001(\002\022\014\n\004accZ\030\n \001(\002\"\252\001\n\005Robot\022\021\n\ttimes" +
-      "tamp\030\001 \001(\003\022\n\n\002id\030\002 \001(\005\022\t\n\001x\030\003 \001(\002\022\t\n\001y\030\004" +
-      " \001(\002\022\023\n\013orientation\030\005 \001(\002\022\n\n\002vx\030\006 \001(\002\022\n\n" +
-      "\002vy\030\007 \001(\002\022\017\n\007angular\030\010 \001(\002\022\014\n\004accX\030\t \001(\002" +
-      "\022\014\n\004accY\030\n \001(\002\022\022\n\naccAngular\030\013 \001(\002b\006prot" +
-      "o3"
+      "on\"\234\001\n\004Ball\022\021\n\ttimestamp\030\001 \001(\003\022\022\n\nconfid" +
+      "ence\030\002 \001(\002\022\t\n\001x\030\003 \001(\002\022\t\n\001y\030\004 \001(\002\022\t\n\001z\030\005 " +
+      "\001(\002\022\n\n\002vx\030\006 \001(\002\022\n\n\002vy\030\007 \001(\002\022\n\n\002vz\030\010 \001(\002\022" +
+      "\014\n\004accX\030\t \001(\002\022\014\n\004accY\030\n \001(\002\022\014\n\004accZ\030\013 \001(" +
+      "\002\"\273\001\n\005Robot\022\021\n\ttimestamp\030\001 \001(\003\022\n\n\002id\030\002 \001" +
+      "(\005\022\017\n\007hasBall\030\003 \001(\010\022\t\n\001x\030\004 \001(\002\022\t\n\001y\030\005 \001(" +
+      "\002\022\023\n\013orientation\030\006 \001(\002\022\n\n\002vx\030\007 \001(\002\022\n\n\002vy" +
+      "\030\010 \001(\002\022\017\n\007angular\030\t \001(\002\022\014\n\004accX\030\n \001(\002\022\014\n" +
+      "\004accY\030\013 \001(\002\022\022\n\naccAngular\030\014 \001(\002b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2266,13 +2396,13 @@ public final class ObjectWithMetadata {
     internal_static_proto_triton_Ball_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_Ball_descriptor,
-        new java.lang.String[] { "Timestamp", "X", "Y", "Z", "Vx", "Vy", "Vz", "AccX", "AccY", "AccZ", });
+        new java.lang.String[] { "Timestamp", "Confidence", "X", "Y", "Z", "Vx", "Vy", "Vz", "AccX", "AccY", "AccZ", });
     internal_static_proto_triton_Robot_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_proto_triton_Robot_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_Robot_descriptor,
-        new java.lang.String[] { "Timestamp", "Id", "X", "Y", "Orientation", "Vx", "Vy", "Angular", "AccX", "AccY", "AccAngular", });
+        new java.lang.String[] { "Timestamp", "Id", "HasBall", "X", "Y", "Orientation", "Vx", "Vy", "Angular", "AccX", "AccY", "AccAngular", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

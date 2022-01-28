@@ -71,13 +71,17 @@ public class Pass extends Skill {
             } else {
                 Vector2d passerPos = getPos(passer);
                 Vector2d receiverPos = getPos(receiver);
-                Vector2d predictBallPos = predictPos(ball, 0.5f);
+                Vector2d predictBallPos = predictPos(ball, 0.25f);
                 if (receiverPos.dist(predictBallPos) < passerPos.dist(predictBallPos)) {
                     ChaseBall chaseBall = new ChaseBall(module, receiver, pathfindGridGroup, ball);
                     submitSkill(chaseBall);
+
+                    PathToTarget pathToTarget = new PathToTarget(module, passer, passFrom, passTo, pathfindGridGroup);
+                    submitSkill(pathToTarget);
                 } else {
                     ChaseBall chaseBall = new ChaseBall(module, passer, pathfindGridGroup, ball);
                     submitSkill(chaseBall);
+
                     PathToTarget pathToTarget = new PathToTarget(module, receiver, passTo, passFrom, pathfindGridGroup);
                     submitSkill(pathToTarget);
                 }

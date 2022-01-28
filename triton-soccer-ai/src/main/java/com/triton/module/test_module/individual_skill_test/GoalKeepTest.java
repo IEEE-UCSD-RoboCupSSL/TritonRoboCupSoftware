@@ -26,6 +26,7 @@ public class GoalKeepTest extends TestRunner {
     private MessagesRobocupSslGeometry.SSL_GeometryFieldSize field;
     private Ball ball;
     private Map<Integer, Robot> allies;
+    private Map<Integer, Robot> foes;
     private Map<Integer, RobotFeedback> feedbacks;
 
     public GoalKeepTest(ScheduledThreadPoolExecutor executor) {
@@ -37,7 +38,7 @@ public class GoalKeepTest extends TestRunner {
     protected void execute() {
         if (field == null || ball == null || allies == null || feedbacks == null) return;
 
-        GoalKeep goalKeep = new GoalKeep(this, allies.get(1), field, ball);
+        GoalKeep goalKeep = new GoalKeep(this, allies.get(1), field, ball, foes);
         submitSkill(goalKeep);
 
         if (feedbacks.get(1).getDribblerBallContact())
@@ -58,6 +59,7 @@ public class GoalKeepTest extends TestRunner {
         declareConsume(AI_BIASED_FIELD, this::callbackField);
         declareConsume(AI_FILTERED_BALL, this::callbackBalls);
         declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
+        declareConsume(AI_FILTERED_FOES, this::callbackFoes);
         declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
     }
 
@@ -71,6 +73,10 @@ public class GoalKeepTest extends TestRunner {
 
     private void callbackAllies(String s, Delivery delivery) {
         allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
+    }
+
+    private void callbackFoes(String s, Delivery delivery) {
+        foes = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
     }
 
     private void callbackFeedbacks(String s, Delivery delivery) {

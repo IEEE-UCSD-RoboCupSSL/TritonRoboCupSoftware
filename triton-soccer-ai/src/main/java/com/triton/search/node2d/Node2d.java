@@ -5,7 +5,7 @@ import com.triton.util.Vector2d;
 
 public class Node2d implements GraphNode {
     private final Vector2d pos;
-    private double penalty;
+    private float penalty;
 
     public Node2d(Vector2d pos) {
         this.pos = pos;
@@ -16,16 +16,16 @@ public class Node2d implements GraphNode {
         return pos;
     }
 
-    public double getPenalty() {
+    public float getPenalty() {
         return penalty;
     }
 
-    public void setPenalty(double penalty) {
+    public void setPenalty(float penalty) {
         this.penalty = penalty;
     }
 
-    public void updatePenalty(double obstacle) {
-        if (obstacle > this.penalty)
-            this.penalty = obstacle;
+    public void updatePenalty(float penalty) {
+        if (penalty > this.penalty)
+            this.penalty = penalty;
     }
 }

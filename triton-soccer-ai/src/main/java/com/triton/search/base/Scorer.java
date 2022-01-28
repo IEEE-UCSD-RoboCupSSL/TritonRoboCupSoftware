@@ -1,5 +1,5 @@
 package com.triton.search.base;
 
 public interface Scorer<T extends GraphNode> {
-    double computeCost(T from, T to);
+    float computeCost(T from, T to);
 }

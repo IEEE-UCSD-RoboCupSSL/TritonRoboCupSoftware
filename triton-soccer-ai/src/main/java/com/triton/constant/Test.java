@@ -7,6 +7,8 @@ import com.triton.module.test_module.basic_skill_test.MatchVelocityTest;
 import com.triton.module.test_module.coordinated_skill_test.PassTest;
 import com.triton.module.test_module.coordinated_skill_test.PathToFormationTest;
 import com.triton.module.test_module.individual_skill_test.*;
+import com.triton.module.test_module.tandem_skill_test.TandemGoalShootPrimaryTest;
+import com.triton.module.test_module.tandem_skill_test.TandemGoalShootSecondaryTest;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -23,9 +25,14 @@ public enum Test {
     KICK_TOWARD_TARGET(KickTowardTargetTest.class, "Test the ability of robots to kick the ball toward a specific point."),
     KICK_FROM_POSITION(KickFromPositionTest.class, "Test the ability of robots to kick the ball toward a target from " +
             "a specific position."),
+    GOAL_SHOOT(GoalShootTest.class, "Test the ability of robots to kick the ball toward the goal"),
     DRIBBLE_BALL(DribbleBallTest.class, "Test the ability of robots to dribble the ball to a specific position."),
     PATH_TO_FORMATION(PathToFormationTest.class, "Test the ability of robots to arrange themselves in a formation."),
     PASS(PassTest.class, "Test the ability of robots to pass the ball between themselves."),
+    TANDEM_GOAL_SHOOT_PRIMARY(TandemGoalShootPrimaryTest.class, "Test the ability of robots to shoot against a " +
+            "goalkeeper"),
+    TANDEM_GOAL_SHOOT_SECONDARY(TandemGoalShootSecondaryTest.class, "Test the ability of robots to defend against a " +
+            "shooter"),
     ;
 
     private final Class<? extends TestRunner> testClass;

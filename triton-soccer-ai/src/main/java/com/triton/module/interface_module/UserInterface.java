@@ -279,34 +279,33 @@ public class UserInterface extends Module {
                         (int) Math.toDegrees(a2));
             }
 
-            int goalDepth = field.getGoalDepth();
-            int goalWidth = field.getGoalWidth();
+            graphics2D.setColor(WHITE);
+            graphics2D.drawRect(-field.getGoalWidth() / 2,
+                    -field.getFieldLength() / 2 - field.getGoalDepth(),
+                    field.getGoalWidth(),
+                    field.getGoalDepth());
 
             graphics2D.setColor(WHITE);
-            graphics2D.drawRect(-goalWidth / 2,
-                    -field.getFieldLength() / 2 - goalDepth,
-                    goalWidth,
-                    goalDepth);
-
-            graphics2D.setColor(WHITE);
-            graphics2D.drawRect(-goalWidth / 2,
+            graphics2D.drawRect(-field.getGoalWidth() / 2,
                     field.getFieldLength() / 2,
-                    goalWidth,
-                    goalDepth);
+                    field.getGoalWidth(),
+                    field.getGoalDepth());
         }
 
         private void paintBall(Graphics2D graphics2D) {
             if (ball == null) return;
 
-            float radius = objectConfig.ballRadius * 1000;
+            float radius = objectConfig.objectToCameraFactor * objectConfig.ballRadius;
 
-            graphics2D.setColor(MAGENTA);
-            graphics2D.fillArc((int) (ball.getX() - radius),
-                    (int) (ball.getY() - radius),
-                    (int) radius * 2,
-                    (int) radius * 2,
-                    0,
-                    360);
+            if (ball.getConfidence() == 1f) {
+                graphics2D.setColor(MAGENTA);
+                graphics2D.fillArc((int) (ball.getX() - radius),
+                        (int) (ball.getY() - radius),
+                        (int) radius * 2,
+                        (int) radius * 2,
+                        0,
+                        360);
+            }
 
             graphics2D.setColor(BLACK);
             graphics2D.drawArc((int) (ball.getX() - radius),
@@ -357,7 +356,7 @@ public class UserInterface extends Module {
         }
 
         private void paintDebug(Graphics2D graphics2D) {
-            if (allies == null || foes == null) return;
+            if (field == null || allies == null || foes == null) return;
 
             if (pathfindGrid == null)
                 pathfindGrid = new PathfindGrid(field);
@@ -422,7 +421,7 @@ public class UserInterface extends Module {
         }
 
         private void paintRobot(Graphics2D graphics2D, ObjectWithMetadata.Robot robot, Color fillColor, Color outlineColor) {
-            float radius = objectConfig.robotRadius * 1000;
+            float radius = objectConfig.objectToCameraFactor * objectConfig.robotRadius;
 
             graphics2D.setColor(fillColor);
             graphics2D.fillArc((int) (robot.getX() - radius),
@@ -474,14 +473,9 @@ public class UserInterface extends Module {
         }
 
         private void paintNode(Graphics2D graphics2D, Node2d node) {
-            Color color;
-            if (node.getPenalty() == 0)
-                color = BLACK;
-            else {
-                Sigmoid sigmoid = new Sigmoid();
-                float scaled = (float) sigmoid.value(node.getPenalty() / aiConfig.obstacleScale);
-                color = Color.getHSBColor(scaled, scaled, scaled);
-            }
+            Sigmoid sigmoid = new Sigmoid();
+            float scaled = (float) sigmoid.value(node.getPenalty() / aiConfig.penaltyScale);
+            Color color = Color.getHSBColor(scaled, scaled, scaled);
             graphics2D.setColor(color);
 
             float x = node.getPos().x;

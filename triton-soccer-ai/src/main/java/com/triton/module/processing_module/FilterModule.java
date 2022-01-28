@@ -9,12 +9,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
+import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
@@ -23,9 +25,12 @@ import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 public class FilterModule extends Module {
     private static final long DEFAULT_PUBLISH_PERIOD = 10;
 
+    private Map<Integer, RobotFeedback> feedbacks;
     private Ball filteredBall;
     private Map<Integer, Robot> filteredAllies;
     private Map<Integer, Robot> filteredFoes;
+
+    private Future publishFilteredObjectFuture;
 
     public FilterModule(ScheduledThreadPoolExecutor executor) {
         super(executor);
@@ -35,14 +40,27 @@ public class FilterModule extends Module {
     public void run() {
         super.run();
         initDefaults();
-        executor.scheduleAtFixedRate(this::publishFilteredObjects, 0, DEFAULT_PUBLISH_PERIOD, TimeUnit.MILLISECONDS);
+        publishFilteredObjectFuture = executor.scheduleAtFixedRate(this::publishFilteredObjects, 0,
+                DEFAULT_PUBLISH_PERIOD, TimeUnit.MILLISECONDS);
     }
 
     private void initDefaults() {
         long timestamp = System.currentTimeMillis();
+        initDefaultBall(timestamp);
+        initDefaultAllies(timestamp);
+        initDefaultFoes(timestamp);
+    }
 
+    private void publishFilteredObjects() {
+        publish(AI_FILTERED_BALL, filteredBall);
+        publish(AI_FILTERED_ALLIES, filteredAllies);
+        publish(AI_FILTERED_FOES, filteredFoes);
+    }
+
+    private void initDefaultBall(long timestamp) {
         Ball.Builder ball = Ball.newBuilder();
         ball.setTimestamp(timestamp);
+        ball.setConfidence(0);
         ball.setX(0);
         ball.setY(0);
         ball.setZ(0);
@@ -53,7 +71,9 @@ public class FilterModule extends Module {
         ball.setAccY(0);
         ball.setAccZ(0);
         filteredBall = ball.build();
+    }
 
+    private void initDefaultAllies(long timestamp) {
         for (int id = 0; id < ProgramConstants.gameConfig.numBots; id++) {
             Robot.Builder filteredAlly = Robot.newBuilder();
             filteredAlly.setTimestamp(timestamp);
@@ -69,7 +89,9 @@ public class FilterModule extends Module {
             filteredAlly.setAccAngular(0);
             filteredAllies.put(id, filteredAlly.build());
         }
+    }
 
+    private void initDefaultFoes(long timestamp) {
         for (int id = 0; id < ProgramConstants.gameConfig.numBots; id++) {
             Robot.Builder filteredFoe = Robot.newBuilder();
             filteredFoe.setTimestamp(timestamp);
@@ -85,12 +107,6 @@ public class FilterModule extends Module {
             filteredFoe.setAccAngular(0);
             filteredFoes.put(id, filteredFoe.build());
         }
-    }
-
-    private void publishFilteredObjects() {
-        publish(AI_FILTERED_BALL, filteredBall);
-        publish(AI_FILTERED_ALLIES, filteredAllies);
-        publish(AI_FILTERED_FOES, filteredFoes);
     }
 
     @Override
@@ -112,11 +128,23 @@ public class FilterModule extends Module {
         declareConsume(AI_BIASED_BALLS, this::callbackBalls);
         declareConsume(AI_BIASED_ALLIES, this::callbackAllies);
         declareConsume(AI_BIASED_FOES, this::callbackFoes);
+        declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
     }
 
     private void callbackBalls(String s, Delivery delivery) {
         ArrayList<SSL_DetectionBall> balls = (ArrayList<SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
-        if (balls.size() == 0) return;
+
+        long timestamp = System.currentTimeMillis();
+
+        if (balls.size() == 0) {
+            // TODO, IF BALL DISAPPEARS SUDDENLY, MARK CLOSEST FOE TO THE LAST BALL LOCATION AS THE HOLDER
+            // USE ROBOT FEEDBACKS FOR ALLIES
+            Ball.Builder lastBall = filteredBall.toBuilder();
+            lastBall.setTimestamp(timestamp);
+            lastBall.setConfidence(0f);
+            this.filteredBall = lastBall.build();
+            return;
+        }
 
         float x = 0;
         float y = 0;
@@ -130,7 +158,6 @@ public class FilterModule extends Module {
         y /= balls.size();
         z /= balls.size();
 
-        long timestamp = System.currentTimeMillis();
         float deltaSeconds = (timestamp - filteredBall.getTimestamp()) / 1000f;
         float vx = (x - filteredBall.getX()) / deltaSeconds;
         float vy = (y - filteredBall.getY()) / deltaSeconds;
@@ -141,6 +168,7 @@ public class FilterModule extends Module {
 
         Ball.Builder filteredBall = Ball.newBuilder();
         filteredBall.setTimestamp(timestamp);
+        filteredBall.setConfidence(1);
         filteredBall.setX(x);
         filteredBall.setY(y);
         filteredBall.setZ(z);
@@ -178,6 +206,10 @@ public class FilterModule extends Module {
         }
     }
 
+    private void callbackFeedbacks(String s, Delivery delivery) {
+        feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+    }
+
     private Robot createFilteredRobot(long timestamp, SSL_DetectionRobot robot, Robot lastRobot) {
         float deltaSeconds = (timestamp - lastRobot.getTimestamp()) / 1000f;
         float vx = (robot.getX() - lastRobot.getX()) / deltaSeconds;
@@ -205,5 +237,6 @@ public class FilterModule extends Module {
     @Override
     public void interrupt() {
         super.interrupt();
+        publishFilteredObjectFuture.cancel(false);
     }
 }

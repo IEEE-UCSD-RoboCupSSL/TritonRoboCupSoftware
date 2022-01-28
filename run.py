@@ -78,7 +78,7 @@ if (args.team == 'yellow' or args.team == 'both'):
         time.sleep(0.1)
 
 if (args.team == 'blue' or args.team == 'both'):
-    if (args.test == 'false'):
+    if (args.test == 'true'):
         run_cmd(["java", "-jar", triton_soccer_ai_jar, "--team", "blue", "--test"], triton_soccer_ai_jar_path, "tab")
         time.sleep(0.1)
     else:

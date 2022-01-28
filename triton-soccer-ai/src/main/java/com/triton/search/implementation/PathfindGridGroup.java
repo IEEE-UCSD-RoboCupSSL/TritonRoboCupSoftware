@@ -5,6 +5,7 @@ import com.triton.util.Vector2d;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import static proto.triton.ObjectWithMetadata.Robot;
@@ -38,5 +39,20 @@ public class PathfindGridGroup {
     public LinkedList<Node2d> findRoute(int id, Vector2d fromPos, Vector2d toPos) {
         PathfindGrid pathfindGrid = pathfindGrids.get(id);
         return pathfindGrid.findRoute(fromPos, toPos);
+    }
+
+    public List<Node2d> getNearestNodes(int id, Vector2d pos, float dist) {
+        PathfindGrid pathfindGrid = pathfindGrids.get(id);
+        return pathfindGrid.getNearestNodes(pos, dist);
+    }
+
+    public boolean checkObstacle(int id, Vector2d from, Vector2d to, double threshold) {
+        PathfindGrid pathfindGrid = pathfindGrids.get(id);
+        return pathfindGrid.checkPenalty(from, to, threshold);
+    }
+
+    public double getMaxPenalty(int id, Vector2d from, Vector2d to) {
+        PathfindGrid pathfindGrid = pathfindGrids.get(id);
+        return pathfindGrid.getMaxPenalty(from, to);
     }
 }

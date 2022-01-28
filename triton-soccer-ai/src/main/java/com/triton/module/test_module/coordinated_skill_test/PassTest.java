@@ -105,6 +105,9 @@ public class PassTest extends TestRunner {
             int tmp = receiverId;
             receiverId = passerId;
             passerId = tmp;
+
+            System.out.println("PASSER: " + passerId);
+            System.out.println("RECEIVER: " + receiverId);
         } else {
             Pass pass = new Pass(this, passer, receiver, passFrom, passTo, pathfindGridGroup, ball, feedbacks);
             submitSkill(pass);

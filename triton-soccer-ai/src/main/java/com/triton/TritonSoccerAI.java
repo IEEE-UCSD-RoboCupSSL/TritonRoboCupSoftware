@@ -69,8 +69,15 @@ public class TritonSoccerAI {
 
         try {
             CommandLine cmd = parser.parse(options, args);
-            if (cmd.hasOption(teamOption))
-                ProgramConstants.team = parseTeam(cmd.getOptionValue(teamOption));
+            if (cmd.hasOption(teamOption)) {
+                if (cmd.getOptionValue(teamOption).equals(Team.YELLOW.getTeamString())) {
+                    ProgramConstants.team = Team.YELLOW;
+                    ProgramConstants.foeTeam = Team.BLUE;
+                } else {
+                    ProgramConstants.team = Team.BLUE;
+                    ProgramConstants.foeTeam = Team.YELLOW;
+                }
+            }
             if (cmd.hasOption(testOption)) {
                 ProgramConstants.test = true;
             }
@@ -127,13 +134,6 @@ public class TritonSoccerAI {
                 }
             }
         }
-    }
-
-    private static Team parseTeam(String teamString) {
-        for (Team team : Team.values())
-            if (teamString.equals(team.getTeamString()))
-                return team;
-        return Team.YELLOW;
     }
 
     public void startProcessingModules() {

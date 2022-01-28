@@ -1,21 +1,33 @@
-nodeRadius: 50
-boundSafety: 0
-robotSafety: 10
-obstacleScale: 10000
-gridExtend: 250
-collisionSpeedScale: 0.1
-collisionExtrapolation: 0.1
-
-kickToPointAngleTolerance: 0.0872665
-
-kickFromPosDistTolerance: 300
-
-passCatchBallSpeedThreshold: 10
-passCatchBallAngleTolerance: 0.523599
-
-kpPos: 0.002
+# MoveToPoint
+kpPos: 0.003
 kiPos: 0.000000
 kdPos: 0.0000
 kpOrientation: 4
 kiOrientation: 0.000000
 kdOrientation: 0.0000
+
+# Pathfinding
+nodeRadius: 50
+boundSafety: 0
+robotSafety: 10
+penaltyScale: 10000
+gridExtend: 250
+collisionSpeedScale: 0.1
+collisionExtrapolation: 0.2
+
+# KickToPoint
+kickToPointAngleTolerance: 0.174533
+
+# KickFromPos
+kickFromPosDistTolerance: 200
+
+# GoalShoot
+goalKickFromSearchDist: 1000
+goalKickFromSearchSpacing: 100
+goalKickToSearchSpacing: 100
+goalDistToShooterScoreFactor: 1
+goalDistToObstaclesScoreFactor: 20
+
+# Pass
+passCatchBallSpeedThreshold: 500
+passCatchBallAngleTolerance: 0.523599

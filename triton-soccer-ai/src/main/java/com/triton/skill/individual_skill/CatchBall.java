@@ -36,7 +36,7 @@ public class CatchBall extends Skill {
         Vector2d ballVel = getVel(ball);
 
         Vector2d diff = allyPos.sub(ballPos);
-        Vector2d offset = diff.proj(ballVel);
+        Vector2d offset = diff.project(ballVel);
         Vector2d targetPos = ballPos.add(offset);
 
         PathToTarget pathToTarget = new PathToTarget(module,

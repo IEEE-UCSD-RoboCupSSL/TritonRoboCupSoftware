@@ -86,14 +86,14 @@ public abstract class Module extends Thread {
 
         DeliverCallback wrappedCallback = (s, delivery) -> {
             try {
-                long timeDiff = new Date().getTime() - delivery.getProperties().getTimestamp().getTime();
-                if (timeDiff > 10000) {
-                    System.out.println("RabbitMQ Bottleneck Warning: " + timeDiff + " ms");
-                    System.out.println("Class: " + this.getClass());
-                    System.out.println("Exchange: " + exchange.name());
-                } else {
+//                long timeDiff = new Date().getTime() - delivery.getProperties().getTimestamp().getTime();
+//                if (timeDiff > 10000) {
+//                    System.out.println("RabbitMQ Bottleneck Warning: " + timeDiff + " ms");
+//                    System.out.println("Class: " + this.getClass());
+//                    System.out.println("Exchange: " + exchange.name());
+//                } else {
                     callback.handle(s, delivery);
-                }
+//                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -117,6 +117,7 @@ public abstract class Module extends Thread {
                 publish_channel.basicPublish(exchange.name() + ProgramConstants.team.name(), "", properties, simpleSerialize(object));
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (AlreadyClosedException ignored) {
             }
         }
     }
