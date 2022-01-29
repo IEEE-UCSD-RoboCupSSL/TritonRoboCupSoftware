@@ -24,8 +24,7 @@ public class KickTest extends TestRunner {
     private FilteredWrapperPacket wrapper;
 
     public KickTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
-        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
+        super(executor, 0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -33,7 +32,7 @@ public class KickTest extends TestRunner {
         if (wrapper == null) return;
         Map<Integer, Robot> allies = wrapper.getAlliesMap();
 
-        Kick kick = new Kick(this, allies.get(1), true, false);
+        Kick kick = new Kick(this, allies.get(1), 1000f, false);
         submitSkill(kick);
     }
 

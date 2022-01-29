@@ -30,8 +30,7 @@ public class KickFromPositionTest extends TestRunner {
     private FilteredWrapperPacket wrapper;
 
     public KickFromPositionTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
-        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
+        super(executor, 0, 5000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -67,11 +66,10 @@ public class KickFromPositionTest extends TestRunner {
         SSL_GeometryFieldSize field = wrapper.getField();
         Ball ball = wrapper.getBall();
         Map<Integer, Robot> allies = wrapper.getAlliesMap();
-        Map<Integer, Robot> foes = wrapper.getFoesMap();
 
         if (pathfindGridGroup == null)
             pathfindGridGroup = new PathfindGridGroup(gameConfig.numBots, field);
-        pathfindGridGroup.updateObstacles(allies, foes);
+        pathfindGridGroup.updateObstacles(wrapper);
 
         int passerId = 1;
         int receiverId = 2;
@@ -84,16 +82,24 @@ public class KickFromPositionTest extends TestRunner {
             System.out.println("SUCCESSFUL PASS");
         } else {
             if (allies.get(passerId).getHasBall()) {
-                KickFromPosition kickFromPosition = new KickFromPosition(this, passer, kickFrom, kickTo,
+                KickFromPosition kickFromPosition = new KickFromPosition(this,
+                        passer,
+                        kickFrom,
+                        kickTo,
+                        1000f,
                         pathfindGridGroup);
                 submitSkill(kickFromPosition);
             } else {
                 if (isMovingTowardTarget(ball, kickTo, 100, (float) Math.toRadians(30))) {
-                    KickFromPosition kickFromPosition = new KickFromPosition(this, passer, kickFrom, kickTo,
+                    KickFromPosition kickFromPosition = new KickFromPosition(this,
+                            passer,
+                            kickFrom,
+                            kickTo,
+                            1000f,
                             pathfindGridGroup);
                     submitSkill(kickFromPosition);
                 } else {
-                    ChaseBall chaseBall = new ChaseBall(this, passer, pathfindGridGroup, wrapper);
+                    ChaseBall chaseBall = new ChaseBall(this, passer, wrapper, pathfindGridGroup);
                     submitSkill(chaseBall);
                 }
             }

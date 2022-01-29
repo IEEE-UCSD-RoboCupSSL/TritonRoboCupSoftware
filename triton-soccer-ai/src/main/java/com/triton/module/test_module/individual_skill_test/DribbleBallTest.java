@@ -10,6 +10,7 @@ import proto.simulation.SslSimulationControl;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
@@ -24,8 +25,7 @@ public class DribbleBallTest extends TestRunner {
     private FilteredWrapperPacket wrapper;
 
     public DribbleBallTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
-        setupTest();
+        super(executor, 0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override

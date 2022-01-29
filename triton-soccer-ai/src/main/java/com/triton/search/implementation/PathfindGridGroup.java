@@ -2,12 +2,14 @@ package com.triton.search.implementation;
 
 import com.triton.search.node2d.Node2d;
 import com.triton.util.Vector2d;
+import proto.triton.FilteredObject;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static proto.triton.FilteredObject.*;
 import static proto.triton.FilteredObject.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
@@ -20,7 +22,11 @@ public class PathfindGridGroup {
             pathfindGrids.put(i, new PathfindGrid(field));
     }
 
-    public void updateObstacles(Map<Integer, Robot> allies, Map<Integer, Robot> foes) {
+    public void updateObstacles(FilteredWrapperPacket wrapper) {
+        updateObstacles(wrapper.getAlliesMap(), wrapper.getFoesMap());
+    }
+
+    private void updateObstacles(Map<Integer, Robot> allies, Map<Integer, Robot> foes) {
         pathfindGrids.forEach((id, pathfindGrid) -> {
             Robot excludeAlly = allies.get(id);
             pathfindGrid.updateObstacles(allies, foes, excludeAlly);

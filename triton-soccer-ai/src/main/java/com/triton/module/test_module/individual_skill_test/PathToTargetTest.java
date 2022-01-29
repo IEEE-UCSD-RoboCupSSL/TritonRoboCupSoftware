@@ -27,8 +27,7 @@ public class PathToTargetTest extends TestRunner {
     private FilteredWrapperPacket wrapper;
 
     public PathToTargetTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
-        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
+        super(executor, 0, 5000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -65,13 +64,11 @@ public class PathToTargetTest extends TestRunner {
     protected void execute() {
         if (wrapper == null) return;
         SSL_GeometryFieldSize field = wrapper.getField();
-        Ball ball = wrapper.getBall();
         Map<Integer, Robot> allies = wrapper.getAlliesMap();
-        Map<Integer, Robot> foes = wrapper.getFoesMap();
 
         if (pathfindGridGroup == null)
             pathfindGridGroup = new PathfindGridGroup(gameConfig.numBots, field);
-        pathfindGridGroup.updateObstacles(allies, foes);
+        pathfindGridGroup.updateObstacles(wrapper);
 
         for (int id = 0; id < gameConfig.numBots; id++) {
             PathToTarget pathToTarget = switch (id) {

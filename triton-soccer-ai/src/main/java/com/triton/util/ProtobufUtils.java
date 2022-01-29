@@ -69,6 +69,10 @@ public class ProtobufUtils {
         return new Vector2d(robot.getX(), robot.getY());
     }
 
+    public static Vector2d getDribbleStartPos(Robot robot) {
+        return new Vector2d(robot.getDribbleStartX(), robot.getDribbleStartY());
+    }
+
     public static Vector2d getVel(Robot robot) {
         return new Vector2d(robot.getVx(), robot.getVy());
     }

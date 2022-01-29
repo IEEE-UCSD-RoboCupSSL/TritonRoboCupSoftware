@@ -45,7 +45,9 @@ message Robot {
   float acc_x = 9;
   float acc_y = 10;
   float acc_angular = 11;
-  bool hasBall = 12;
+  bool has_ball = 12;
+  float dribble_start_x = 13;
+  float dribble_start_y = 14;
 }
 
 message FilteredWrapperPacket {

@@ -88,6 +88,14 @@ public class ObjectHelper {
                 + delta * angular;
     }
 
+    public static Vector2d getAllyGoal(SSL_GeometryFieldSize field) {
+        return new Vector2d(0, -field.getFieldLength() / 2f);
+    }
+
+    public static Vector2d getFoeGoal(SSL_GeometryFieldSize field) {
+        return new Vector2d(0, field.getFieldLength() / 2f);
+    }
+
     public static boolean isInAllyGoal(Ball ball, SSL_GeometryFieldSize field) {
         float goalX = -field.getGoalWidth() / 2f;
         float goalY = -field.getFieldLength() / 2f - field.getGoalDepth();
@@ -131,7 +139,21 @@ public class ObjectHelper {
         return Vector2d.checkDistToPath(from, to, points, dist);
     }
 
-    public static Robot getNearest(Vector2d target, List<Robot> robots) {
+    public static boolean isWithinDist(Vector2d target, List<Robot> robots, float dist) {
+        for (Robot robot : robots)
+            if (target.dist(getPos(robot)) < dist)
+                return true;
+        return false;
+    }
+
+    public static float getMinDist(Vector2d target, List<Robot> robots) {
+        float minDist = Float.MAX_VALUE;
+        for (Robot robot : robots)
+            minDist = Math.min(minDist, target.dist(getPos(robot)));
+        return minDist;
+    }
+
+    public static Robot getNearestRobot(Vector2d target, List<Robot> robots) {
         Robot closestRobot = null;
         float minDist = Float.MAX_VALUE;
         for (Robot robot : robots) {
@@ -142,5 +164,16 @@ public class ObjectHelper {
             }
         }
         return closestRobot;
+    }
+
+    public static List<Robot> getNearRobots(Vector2d target, List<Robot> robots, float distThreshold) {
+        List<Robot> nearRobots = new ArrayList<>();
+        for (Robot robot : robots) {
+            float dist = target.dist(getPos(robot));
+            if (dist < distThreshold) {
+                nearRobots.add(robot);
+            }
+        }
+        return nearRobots;
     }
 }

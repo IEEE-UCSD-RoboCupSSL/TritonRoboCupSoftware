@@ -24,8 +24,7 @@ public class MoveToTargetTest extends TestRunner {
     private FilteredWrapperPacket wrapper;
 
     public MoveToTargetTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
-        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
+        super(executor, 0, 5000, TimeUnit.MILLISECONDS);
     }
 
     @Override

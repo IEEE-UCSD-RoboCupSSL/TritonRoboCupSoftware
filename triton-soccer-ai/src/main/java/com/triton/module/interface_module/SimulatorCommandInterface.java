@@ -123,49 +123,52 @@ public class SimulatorCommandInterface extends Module {
         publish(AI_SIMULATOR_CONTROL, simulatorControl.build());
 
         SimulatorConfig.Builder simulatorConfig = SimulatorConfig.newBuilder();
-        for (int i = 0; i < 6; i++) {
+        for (int id = 0; id < 6; id++) {
             SslSimulationConfig.RobotSpecs.Builder specs = SslSimulationConfig.RobotSpecs.newBuilder();
-
-            RobotId.Builder robotId = RobotId.newBuilder();
-            if (ProgramConstants.team == Team.YELLOW)
-                robotId.setTeam(YELLOW);
-            else
-                robotId.setTeam(BLUE);
-            robotId.setId(i);
-
-            specs.setId(robotId);
-            specs.setRadius(ProgramConstants.objectConfig.robotRadius);
-            specs.setHeight(ProgramConstants.objectConfig.robotHeight);
-            specs.setMass(ProgramConstants.objectConfig.robotMass);
-            specs.setMaxLinearKickSpeed(ProgramConstants.objectConfig.robotMaxLinearKickSpeed);
-            specs.setMaxChipKickSpeed(ProgramConstants.objectConfig.robotMaxChipKickSpeed);
-            specs.setCenterToDribbler(ProgramConstants.objectConfig.robotCenterToDribbler);
-
-            SslSimulationConfig.RobotLimits.Builder limits = SslSimulationConfig.RobotLimits.newBuilder();
-            limits.setAccSpeedupAbsoluteMax(ProgramConstants.objectConfig.robotAccSpeedupAbsoluteMax);
-            limits.setAccSpeedupAngularMax(ProgramConstants.objectConfig.robotAccSpeedupAngularMax);
-            limits.setAccBrakeAbsoluteMax(ProgramConstants.objectConfig.robotAccBrakeAbsoluteMax);
-            limits.setAccBrakeAngularMax(ProgramConstants.objectConfig.robotAccBrakeAngularMax);
-            limits.setVelAbsoluteMax(ProgramConstants.objectConfig.robotVelAbsoluteMax);
-            limits.setVelAngularMax(ProgramConstants.objectConfig.robotVelAngularMax);
-            specs.setLimits(limits);
-
-            SslSimulationConfig.RobotWheelAngles.Builder wheelAngles = SslSimulationConfig.RobotWheelAngles.newBuilder();
-            wheelAngles.setFrontRight(ProgramConstants.objectConfig.robotFrontRight);
-            wheelAngles.setBackRight(ProgramConstants.objectConfig.robotBackRight);
-            wheelAngles.setBackLeft(ProgramConstants.objectConfig.robotBackLeft);
-            wheelAngles.setFrontLeft(ProgramConstants.objectConfig.robotFrontLeft);
-            specs.setWheelAngles(wheelAngles);
-
-            RobotSpecErForce.Builder specErForce = RobotSpecErForce.newBuilder();
-            specErForce.setShootRadius(ProgramConstants.objectConfig.shootRadius);
-            specErForce.setDribblerHeight(ProgramConstants.objectConfig.dribblerHeight);
-            specErForce.setDribblerWidth(ProgramConstants.objectConfig.dribblerWidth);
-            specs.addCustom(Any.pack(specErForce.build()));
-
+            addSpecs(Team.YELLOW, id, specs);
+            addSpecs(Team.BLUE, id, specs);
             simulatorConfig.addRobotSpecs(specs);
         }
 
         publish(AI_SIMULATOR_CONFIG, simulatorConfig.build());
+    }
+
+    private void addSpecs(Team team, int id, SslSimulationConfig.RobotSpecs.Builder specs) {
+        RobotId.Builder robotId = RobotId.newBuilder();
+        if (team == Team.YELLOW)
+            robotId.setTeam(YELLOW);
+        else
+            robotId.setTeam(BLUE);
+        robotId.setId(id);
+
+        specs.setId(robotId);
+        specs.setRadius(ProgramConstants.objectConfig.robotRadius);
+        specs.setHeight(ProgramConstants.objectConfig.robotHeight);
+        specs.setMass(ProgramConstants.objectConfig.robotMass);
+        specs.setMaxLinearKickSpeed(ProgramConstants.objectConfig.robotMaxLinearKickSpeed);
+        specs.setMaxChipKickSpeed(ProgramConstants.objectConfig.robotMaxChipKickSpeed);
+        specs.setCenterToDribbler(ProgramConstants.objectConfig.robotCenterToDribbler);
+
+        SslSimulationConfig.RobotLimits.Builder limits = SslSimulationConfig.RobotLimits.newBuilder();
+        limits.setAccSpeedupAbsoluteMax(ProgramConstants.objectConfig.robotAccSpeedupAbsoluteMax);
+        limits.setAccSpeedupAngularMax(ProgramConstants.objectConfig.robotAccSpeedupAngularMax);
+        limits.setAccBrakeAbsoluteMax(ProgramConstants.objectConfig.robotAccBrakeAbsoluteMax);
+        limits.setAccBrakeAngularMax(ProgramConstants.objectConfig.robotAccBrakeAngularMax);
+        limits.setVelAbsoluteMax(ProgramConstants.objectConfig.robotVelAbsoluteMax);
+        limits.setVelAngularMax(ProgramConstants.objectConfig.robotVelAngularMax);
+        specs.setLimits(limits);
+
+        SslSimulationConfig.RobotWheelAngles.Builder wheelAngles = SslSimulationConfig.RobotWheelAngles.newBuilder();
+        wheelAngles.setFrontRight(ProgramConstants.objectConfig.robotFrontRight);
+        wheelAngles.setBackRight(ProgramConstants.objectConfig.robotBackRight);
+        wheelAngles.setBackLeft(ProgramConstants.objectConfig.robotBackLeft);
+        wheelAngles.setFrontLeft(ProgramConstants.objectConfig.robotFrontLeft);
+        specs.setWheelAngles(wheelAngles);
+
+        RobotSpecErForce.Builder specErForce = RobotSpecErForce.newBuilder();
+        specErForce.setShootRadius(ProgramConstants.objectConfig.shootRadius);
+        specErForce.setDribblerHeight(ProgramConstants.objectConfig.dribblerHeight);
+        specErForce.setDribblerWidth(ProgramConstants.objectConfig.dribblerWidth);
+        specs.addCustom(Any.pack(specErForce.build()));
     }
 }

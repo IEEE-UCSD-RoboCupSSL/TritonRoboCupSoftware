@@ -7,6 +7,7 @@ import com.triton.skill.individual_skill.GoalKeep;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
@@ -15,11 +16,11 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.triton.FilteredObject.*;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
-public class TandemGoalShootSecondaryTest extends TestRunner {
+public class TandemShootAndKeepSecondaryTest extends TestRunner {
     private FilteredWrapperPacket wrapper;
 
-    public TandemGoalShootSecondaryTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
+    public TandemShootAndKeepSecondaryTest(ScheduledThreadPoolExecutor executor) {
+        super(executor, 0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -29,13 +30,9 @@ public class TandemGoalShootSecondaryTest extends TestRunner {
     @Override
     protected void execute() {
         if (wrapper == null) return;
-        SSL_GeometryFieldSize field = wrapper.getField();
-        Ball ball = wrapper.getBall();
         Map<Integer, Robot> allies = wrapper.getAlliesMap();
-        Map<Integer, Robot> foes = wrapper.getFoesMap();
 
-        int id = 1;
-        Robot keeper = allies.get(id);
+        Robot keeper = allies.get(0);
 
         GoalKeep goalKeep = new GoalKeep(this, keeper, wrapper);
         submitSkill(goalKeep);

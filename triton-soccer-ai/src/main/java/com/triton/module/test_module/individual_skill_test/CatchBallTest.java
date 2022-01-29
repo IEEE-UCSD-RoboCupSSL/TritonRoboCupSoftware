@@ -27,8 +27,7 @@ public class CatchBallTest extends TestRunner {
     private PathfindGridGroup pathfindGridGroup;
 
     public CatchBallTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
-        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
+        super(executor, 0, 5000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -61,15 +60,13 @@ public class CatchBallTest extends TestRunner {
     protected void execute() {
         if (wrapper == null) return;
         SSL_GeometryFieldSize field = wrapper.getField();
-        Ball ball = wrapper.getBall();
         Map<Integer, Robot> allies = wrapper.getAlliesMap();
-        Map<Integer, Robot> foes = wrapper.getFoesMap();
 
         if (pathfindGridGroup == null)
             pathfindGridGroup = new PathfindGridGroup(ProgramConstants.gameConfig.numBots, field);
-        pathfindGridGroup.updateObstacles(allies, foes);
+        pathfindGridGroup.updateObstacles(wrapper);
 
-        CatchBall catchBall = new CatchBall(this, allies.get(1), pathfindGridGroup, wrapper);
+        CatchBall catchBall = new CatchBall(this, allies.get(1), wrapper, pathfindGridGroup);
         submitSkill(catchBall);
     }
 }

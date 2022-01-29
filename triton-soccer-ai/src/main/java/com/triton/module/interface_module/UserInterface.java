@@ -298,7 +298,6 @@ public class UserInterface extends Module {
 
         private void paintDebug(Graphics2D graphics2D) {
             SSL_GeometryFieldSize field = wrapper.getField();
-            Ball ball = wrapper.getBall();
             Map<Integer, FilteredObject.Robot> allies = wrapper.getAlliesMap();
             Map<Integer, FilteredObject.Robot> foes = wrapper.getFoesMap();
 

@@ -4,6 +4,8 @@ import static com.triton.constant.ProgramConstants.aiConfig;
 import static com.triton.constant.ProgramConstants.objectConfig;
 
 public class AIConfig {
+    public int goalkeeperId;
+
     public float nodeRadius;
     public float boundSafety;
     public float robotSafety;
@@ -12,19 +14,27 @@ public class AIConfig {
     public float collisionSpeedScale;
     public float collisionExtrapolation;
 
+    public float pathToFormationOccupyDist;
+
     public float kickToPointAngleTolerance;
 
     public float kickFromPosDistTolerance;
 
-    public float goalKickFromSearchDist;
-    public float goalKickFromSearchSpacing;
-    public float goalKickToSearchSpacing;
-    public float goalDistToShooterScoreFactor;
-    public float goalDistToObstaclesScoreFactor;
+    public float goalShootKickFromSearchDist;
+    public float goalShootKickFromSearchSpacing;
+    public float goalShootKickToSearchSpacing;
+    public float goalShootDistToObstaclesScoreFactor;
+    public float goalShootDistToShooterScoreFactor;
+    public float goalShootKickSpeed;
 
     public float passKickReceiverDistThreshold;
+    public float passKickFromSearchDist;
+    public float passKickFromSearchSpacing;
+    public float passDistToObstaclesScoreFactor;
+    public float passDistToPasserScoreFactor;
     public float passCatchBallSpeedThreshold;
     public float passCatchBallAngleTolerance;
+    public float passKickSpeed;
 
     public float kpPos;
     public float kiPos;

@@ -18,7 +18,7 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static com.triton.util.ObjectHelper.getNearest;
+import static com.triton.util.ObjectHelper.getNearestRobot;
 import static com.triton.util.ProtobufUtils.getPos;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
 import static proto.triton.FilteredObject.*;
@@ -168,7 +168,7 @@ public class FilterModule extends Module {
 
             if (captureStateCase != ALLY_CAPTURE) {
                 captureStateCase = FOE_CAPTURE;
-                Robot nearestFoe = getNearest(getPos(lastBall), lastFoes.values().stream().toList());
+                Robot nearestFoe = getNearestRobot(getPos(lastBall), lastFoes.values().stream().toList());
                 captureId = nearestFoe.getId();
             }
 
@@ -200,7 +200,7 @@ public class FilterModule extends Module {
         float accY = (vy - lastBall.getVy()) / deltaSeconds;
         float accZ = (vz - lastBall.getAccZ()) / deltaSeconds;
 
-        Ball.Builder filteredBall = newBuilder();
+        Ball.Builder filteredBall = lastBall.toBuilder();
         filteredBall.setTimestamp(timestamp);
         filteredBall.setConfidence(1f);
         filteredBall.setX(x);
@@ -281,7 +281,7 @@ public class FilterModule extends Module {
         float accY = (vy - lastRobot.getVy()) / deltaSeconds;
         float accAngular = (angular - lastRobot.getAngular()) / deltaSeconds;
 
-        Robot.Builder filteredRobot = Robot.newBuilder();
+        Robot.Builder filteredRobot = lastRobot.toBuilder();
         filteredRobot.setTimestamp(timestamp);
         filteredRobot.setId(robot.getRobotId());
         filteredRobot.setX(robot.getX());
@@ -294,6 +294,11 @@ public class FilterModule extends Module {
         filteredRobot.setAccY(accY);
         filteredRobot.setAccAngular(accAngular);
         filteredRobot.setHasBall(hasBall);
+
+        if (hasBall && !lastRobot.getHasBall()) {
+            filteredRobot.setDribbleStartX(lastRobot.getX());
+            filteredRobot.setDribbleStartY(lastRobot.getY());
+        }
         return filteredRobot.build();
     }
 

@@ -24,8 +24,7 @@ public class MatchVelocityTest extends TestRunner {
     private FilteredWrapperPacket wrapper;
 
     public MatchVelocityTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
-        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
+        super(executor, 0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override

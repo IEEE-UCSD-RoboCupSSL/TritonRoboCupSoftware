@@ -10,6 +10,7 @@ import proto.triton.FilteredObject;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+import static com.triton.util.ObjectHelper.predictPos;
 import static com.triton.util.ProtobufUtils.getPos;
 import static com.triton.util.ProtobufUtils.getVel;
 import static proto.triton.FilteredObject.*;
@@ -18,29 +19,26 @@ import static proto.triton.FilteredObject.Robot;
 
 public class CatchBall extends Skill {
     private final Robot actor;
-    private final PathfindGridGroup pathfindGridGroup;
     private final FilteredWrapperPacket wrapper;
+    private final PathfindGridGroup pathfindGridGroup;
 
     public CatchBall(Module module,
                      Robot actor,
-                     PathfindGridGroup pathfindGridGroup,
-                     FilteredWrapperPacket wrapper) {
+                     FilteredWrapperPacket wrapper,
+                     PathfindGridGroup pathfindGridGroup) {
         super(module);
         this.actor = actor;
-        this.pathfindGridGroup = pathfindGridGroup;
         this.wrapper = wrapper;
+        this.pathfindGridGroup = pathfindGridGroup;
     }
 
     @Override
     protected void execute() {
         Ball ball = wrapper.getBall();
 
-        Vector2d allyPos = getPos(actor);
         Vector2d ballPos = getPos(ball);
-        Vector2d ballVel = getVel(ball);
-
-        Vector2d diff = allyPos.sub(ballPos);
-        Vector2d offset = diff.project(ballVel);
+        Vector2d ballToActor = getPos(actor).sub(ballPos);
+        Vector2d offset = ballToActor.project(getVel(ball));
         Vector2d targetPos = ballPos.add(offset);
 
         PathToTarget pathToTarget = new PathToTarget(module,

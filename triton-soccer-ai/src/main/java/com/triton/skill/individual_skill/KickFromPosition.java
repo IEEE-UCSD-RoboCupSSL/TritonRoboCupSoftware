@@ -19,24 +19,27 @@ public class KickFromPosition extends Skill {
     private final Robot actor;
     private final Vector2d kickFrom;
     private final Vector2d target;
+    private final float kickSpeed;
     private final PathfindGridGroup pathfindGridGroup;
 
     public KickFromPosition(Module module,
                             Robot actor,
                             Vector2d kickFrom,
                             Vector2d target,
+                            float kickSpeed,
                             PathfindGridGroup pathfindGridGroup) {
         super(module);
         this.actor = actor;
         this.kickFrom = kickFrom;
         this.target = target;
+        this.kickSpeed = kickSpeed;
         this.pathfindGridGroup = pathfindGridGroup;
     }
 
     @Override
     protected void execute() {
         if (hasPos(actor, kickFrom, aiConfig.kickFromPosDistTolerance)) {
-            KickToTarget kickToTarget = new KickToTarget(module, actor, target);
+            KickToTarget kickToTarget = new KickToTarget(module, actor, target, kickSpeed);
             submitSkill(kickToTarget);
         } else {
             PathToTarget pathToTarget = new PathToTarget(module,

@@ -25,8 +25,7 @@ public class GoalKeepTest extends TestRunner {
     private FilteredWrapperPacket wrapper;
 
     public GoalKeepTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
-        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
+        super(executor, 0, 5000, TimeUnit.MILLISECONDS);
     }
 
     @Override

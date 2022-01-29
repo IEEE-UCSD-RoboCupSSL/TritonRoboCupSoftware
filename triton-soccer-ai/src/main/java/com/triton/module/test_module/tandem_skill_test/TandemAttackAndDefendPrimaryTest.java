@@ -4,13 +4,11 @@ import com.rabbitmq.client.Delivery;
 import com.triton.constant.ProgramConstants;
 import com.triton.module.TestRunner;
 import com.triton.search.implementation.PathfindGridGroup;
-import com.triton.skill.individual_skill.ChaseBall;
-import com.triton.skill.individual_skill.GoalShoot;
-import com.triton.util.Vector2d;
+import com.triton.skill.team_skill.Attack;
 import proto.simulation.SslSimulationControl;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -19,27 +17,34 @@ import static com.triton.constant.ProgramConstants.gameConfig;
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
 import static com.triton.messaging.Exchange.AI_FILTERED_VISION_WRAPPER;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static com.triton.util.ObjectHelper.*;
+import static com.triton.util.ObjectHelper.isInBounds;
+import static com.triton.util.ObjectHelper.isInFoeGoal;
 import static com.triton.util.ProtobufUtils.createTeleportBall;
 import static com.triton.util.ProtobufUtils.createTeleportRobot;
-import static proto.triton.FilteredObject.*;
+import static proto.triton.FilteredObject.Ball;
+import static proto.triton.FilteredObject.FilteredWrapperPacket;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
-public class TandemGoalShootPrimaryTest extends TestRunner {
+public class TandemAttackAndDefendPrimaryTest extends TestRunner {
     private PathfindGridGroup pathfindGridGroup;
     private FilteredWrapperPacket wrapper;
 
-    public TandemGoalShootPrimaryTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
-        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
+    public TandemAttackAndDefendPrimaryTest(ScheduledThreadPoolExecutor executor) {
+        super(executor, 0, 20000, TimeUnit.MILLISECONDS);
     }
 
     @Override
     protected void setupTest() {
         SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
-        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.team, 1, 0, 3500, 0));
-        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.foeTeam, 1, 0, 4000, 0));
-        simulatorControl.setTeleportBall(createTeleportBall(0, 3000, 0));
+
+        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.foeTeam, 1, 0, 0, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.foeTeam, 2, -1000, -1000, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.foeTeam, 3, -1000, 1000, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.foeTeam, 4, 1000, -1000, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.foeTeam, 5, 1000, 1000, 0));
+
+        Random random = new Random();
+        simulatorControl.setTeleportBall(createTeleportBall(random.nextFloat(-500, 500), -3000, 0));
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 
@@ -48,34 +53,16 @@ public class TandemGoalShootPrimaryTest extends TestRunner {
         if (wrapper == null) return;
         SSL_GeometryFieldSize field = wrapper.getField();
         Ball ball = wrapper.getBall();
-        Map<Integer, Robot> allies = wrapper.getAlliesMap();
-        Map<Integer, Robot> foes = wrapper.getFoesMap();
 
         if (isInFoeGoal(ball, field) || (!isInFoeGoal(ball, field) && !isInBounds(ball, field)))
             reset();
 
-        int id = 1;
-        Robot shooter = allies.get(id);
-
-        float goalX = 0;
-        float goalY = field.getFieldLength() / 2f;
-        Vector2d goalPos = new Vector2d(goalX, goalY);
-
         if (pathfindGridGroup == null)
             pathfindGridGroup = new PathfindGridGroup(gameConfig.numBots, field);
-        pathfindGridGroup.updateObstacles(allies, foes);
+        pathfindGridGroup.updateObstacles(wrapper);
 
-        if (allies.get(id).getHasBall()) {
-            Vector2d kickFrom = new Vector2d(0, 3500);
-            GoalShoot goalShoot = new GoalShoot(this, shooter, kickFrom, pathfindGridGroup, wrapper);
-            submitSkill(goalShoot);
-        } else if (!isMovingTowardTarget(ball, goalPos, 1000, (float) Math.toRadians(10))) {
-            ChaseBall chaseBall = new ChaseBall(this,
-                    allies.get(id),
-                    pathfindGridGroup,
-                    wrapper);
-            submitSkill(chaseBall);
-        }
+        Attack attack = new Attack(this, pathfindGridGroup, wrapper);
+        submitSkill(attack);
     }
 
     @Override

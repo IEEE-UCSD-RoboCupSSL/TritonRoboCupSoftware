@@ -3296,9 +3296,19 @@ public final class FilteredObject {
     float getAccAngular();
 
     /**
-     * <code>bool hasBall = 12;</code>
+     * <code>bool has_ball = 12;</code>
      */
     boolean getHasBall();
+
+    /**
+     * <code>float dribble_start_x = 13;</code>
+     */
+    float getDribbleStartX();
+
+    /**
+     * <code>float dribble_start_y = 14;</code>
+     */
+    float getDribbleStartY();
   }
   /**
    * Protobuf type {@code proto.triton.Robot}
@@ -3325,6 +3335,8 @@ public final class FilteredObject {
       accY_ = 0F;
       accAngular_ = 0F;
       hasBall_ = false;
+      dribbleStartX_ = 0F;
+      dribbleStartY_ = 0F;
     }
 
     @java.lang.Override
@@ -3409,6 +3421,16 @@ public final class FilteredObject {
             case 96: {
 
               hasBall_ = input.readBool();
+              break;
+            }
+            case 109: {
+
+              dribbleStartX_ = input.readFloat();
+              break;
+            }
+            case 117: {
+
+              dribbleStartY_ = input.readFloat();
               break;
             }
             default: {
@@ -3542,13 +3564,31 @@ public final class FilteredObject {
       return accAngular_;
     }
 
-    public static final int HASBALL_FIELD_NUMBER = 12;
+    public static final int HAS_BALL_FIELD_NUMBER = 12;
     private boolean hasBall_;
     /**
-     * <code>bool hasBall = 12;</code>
+     * <code>bool has_ball = 12;</code>
      */
     public boolean getHasBall() {
       return hasBall_;
+    }
+
+    public static final int DRIBBLE_START_X_FIELD_NUMBER = 13;
+    private float dribbleStartX_;
+    /**
+     * <code>float dribble_start_x = 13;</code>
+     */
+    public float getDribbleStartX() {
+      return dribbleStartX_;
+    }
+
+    public static final int DRIBBLE_START_Y_FIELD_NUMBER = 14;
+    private float dribbleStartY_;
+    /**
+     * <code>float dribble_start_y = 14;</code>
+     */
+    public float getDribbleStartY() {
+      return dribbleStartY_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -3600,6 +3640,12 @@ public final class FilteredObject {
       }
       if (hasBall_ != false) {
         output.writeBool(12, hasBall_);
+      }
+      if (dribbleStartX_ != 0F) {
+        output.writeFloat(13, dribbleStartX_);
+      }
+      if (dribbleStartY_ != 0F) {
+        output.writeFloat(14, dribbleStartY_);
       }
       unknownFields.writeTo(output);
     }
@@ -3657,6 +3703,14 @@ public final class FilteredObject {
       if (hasBall_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(12, hasBall_);
+      }
+      if (dribbleStartX_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(13, dribbleStartX_);
+      }
+      if (dribbleStartY_ != 0F) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(14, dribbleStartY_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3716,6 +3770,14 @@ public final class FilteredObject {
               other.getAccAngular()));
       result = result && (getHasBall()
           == other.getHasBall());
+      result = result && (
+          java.lang.Float.floatToIntBits(getDribbleStartX())
+          == java.lang.Float.floatToIntBits(
+              other.getDribbleStartX()));
+      result = result && (
+          java.lang.Float.floatToIntBits(getDribbleStartY())
+          == java.lang.Float.floatToIntBits(
+              other.getDribbleStartY()));
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -3759,9 +3821,15 @@ public final class FilteredObject {
       hash = (37 * hash) + ACC_ANGULAR_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getAccAngular());
-      hash = (37 * hash) + HASBALL_FIELD_NUMBER;
+      hash = (37 * hash) + HAS_BALL_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getHasBall());
+      hash = (37 * hash) + DRIBBLE_START_X_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getDribbleStartX());
+      hash = (37 * hash) + DRIBBLE_START_Y_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getDribbleStartY());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3919,6 +3987,10 @@ public final class FilteredObject {
 
         hasBall_ = false;
 
+        dribbleStartX_ = 0F;
+
+        dribbleStartY_ = 0F;
+
         return this;
       }
 
@@ -3957,6 +4029,8 @@ public final class FilteredObject {
         result.accY_ = accY_;
         result.accAngular_ = accAngular_;
         result.hasBall_ = hasBall_;
+        result.dribbleStartX_ = dribbleStartX_;
+        result.dribbleStartY_ = dribbleStartY_;
         onBuilt();
         return result;
       }
@@ -4040,6 +4114,12 @@ public final class FilteredObject {
         }
         if (other.getHasBall() != false) {
           setHasBall(other.getHasBall());
+        }
+        if (other.getDribbleStartX() != 0F) {
+          setDribbleStartX(other.getDribbleStartX());
+        }
+        if (other.getDribbleStartY() != 0F) {
+          setDribbleStartY(other.getDribbleStartY());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -4358,13 +4438,13 @@ public final class FilteredObject {
 
       private boolean hasBall_ ;
       /**
-       * <code>bool hasBall = 12;</code>
+       * <code>bool has_ball = 12;</code>
        */
       public boolean getHasBall() {
         return hasBall_;
       }
       /**
-       * <code>bool hasBall = 12;</code>
+       * <code>bool has_ball = 12;</code>
        */
       public Builder setHasBall(boolean value) {
         
@@ -4373,11 +4453,63 @@ public final class FilteredObject {
         return this;
       }
       /**
-       * <code>bool hasBall = 12;</code>
+       * <code>bool has_ball = 12;</code>
        */
       public Builder clearHasBall() {
         
         hasBall_ = false;
+        onChanged();
+        return this;
+      }
+
+      private float dribbleStartX_ ;
+      /**
+       * <code>float dribble_start_x = 13;</code>
+       */
+      public float getDribbleStartX() {
+        return dribbleStartX_;
+      }
+      /**
+       * <code>float dribble_start_x = 13;</code>
+       */
+      public Builder setDribbleStartX(float value) {
+        
+        dribbleStartX_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float dribble_start_x = 13;</code>
+       */
+      public Builder clearDribbleStartX() {
+        
+        dribbleStartX_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float dribbleStartY_ ;
+      /**
+       * <code>float dribble_start_y = 14;</code>
+       */
+      public float getDribbleStartY() {
+        return dribbleStartY_;
+      }
+      /**
+       * <code>float dribble_start_y = 14;</code>
+       */
+      public Builder setDribbleStartY(float value) {
+        
+        dribbleStartY_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float dribble_start_y = 14;</code>
+       */
+      public Builder clearDribbleStartY() {
+        
+        dribbleStartY_ = 0F;
         onChanged();
         return this;
       }
@@ -5961,22 +6093,23 @@ public final class FilteredObject {
       "eH\000\022/\n\013foe_capture\030\016 \001(\0132\030.proto.triton." +
       "FoeCaptureH\000B\017\n\rcapture_state\"\006\n\004Free\"\031\n" +
       "\013AllyCapture\022\n\n\002id\030\001 \001(\005\"\030\n\nFoeCapture\022\n" +
-      "\n\002id\030\001 \001(\005\"\276\001\n\005Robot\022\021\n\ttimestamp\030\001 \001(\003\022" +
+      "\n\002id\030\001 \001(\005\"\361\001\n\005Robot\022\021\n\ttimestamp\030\001 \001(\003\022" +
       "\n\n\002id\030\002 \001(\005\022\t\n\001x\030\003 \001(\002\022\t\n\001y\030\004 \001(\002\022\023\n\013ori" +
       "entation\030\005 \001(\002\022\n\n\002vx\030\006 \001(\002\022\n\n\002vy\030\007 \001(\002\022\017" +
       "\n\007angular\030\010 \001(\002\022\r\n\005acc_x\030\t \001(\002\022\r\n\005acc_y\030" +
-      "\n \001(\002\022\023\n\013acc_angular\030\013 \001(\002\022\017\n\007hasBall\030\014 " +
-      "\001(\010\"\204\003\n\025FilteredWrapperPacket\022\021\n\ttimesta" +
-      "mp\030\001 \001(\003\0222\n\005field\030\002 \001(\0132#.proto.vision.S" +
-      "SL_GeometryFieldSize\022 \n\004ball\030\003 \001(\0132\022.pro" +
-      "to.triton.Ball\022?\n\006allies\030\004 \003(\0132/.proto.t" +
-      "riton.FilteredWrapperPacket.AlliesEntry\022" +
-      ";\n\004foes\030\005 \003(\0132-.proto.triton.FilteredWra" +
-      "pperPacket.FoesEntry\032B\n\013AlliesEntry\022\013\n\003k" +
-      "ey\030\001 \001(\005\022\"\n\005value\030\002 \001(\0132\023.proto.triton.R" +
-      "obot:\0028\001\032@\n\tFoesEntry\022\013\n\003key\030\001 \001(\005\022\"\n\005va" +
-      "lue\030\002 \001(\0132\023.proto.triton.Robot:\0028\001b\006prot" +
-      "o3"
+      "\n \001(\002\022\023\n\013acc_angular\030\013 \001(\002\022\020\n\010has_ball\030\014" +
+      " \001(\010\022\027\n\017dribble_start_x\030\r \001(\002\022\027\n\017dribble" +
+      "_start_y\030\016 \001(\002\"\204\003\n\025FilteredWrapperPacket" +
+      "\022\021\n\ttimestamp\030\001 \001(\003\0222\n\005field\030\002 \001(\0132#.pro" +
+      "to.vision.SSL_GeometryFieldSize\022 \n\004ball\030" +
+      "\003 \001(\0132\022.proto.triton.Ball\022?\n\006allies\030\004 \003(" +
+      "\0132/.proto.triton.FilteredWrapperPacket.A" +
+      "lliesEntry\022;\n\004foes\030\005 \003(\0132-.proto.triton." +
+      "FilteredWrapperPacket.FoesEntry\032B\n\013Allie" +
+      "sEntry\022\013\n\003key\030\001 \001(\005\022\"\n\005value\030\002 \001(\0132\023.pro" +
+      "to.triton.Robot:\0028\001\032@\n\tFoesEntry\022\013\n\003key\030" +
+      "\001 \001(\005\022\"\n\005value\030\002 \001(\0132\023.proto.triton.Robo" +
+      "t:\0028\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6020,7 +6153,7 @@ public final class FilteredObject {
     internal_static_proto_triton_Robot_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_Robot_descriptor,
-        new java.lang.String[] { "Timestamp", "Id", "X", "Y", "Orientation", "Vx", "Vy", "Angular", "AccX", "AccY", "AccAngular", "HasBall", });
+        new java.lang.String[] { "Timestamp", "Id", "X", "Y", "Orientation", "Vx", "Vy", "Angular", "AccX", "AccY", "AccAngular", "HasBall", "DribbleStartX", "DribbleStartY", });
     internal_static_proto_triton_FilteredWrapperPacket_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_proto_triton_FilteredWrapperPacket_fieldAccessorTable = new

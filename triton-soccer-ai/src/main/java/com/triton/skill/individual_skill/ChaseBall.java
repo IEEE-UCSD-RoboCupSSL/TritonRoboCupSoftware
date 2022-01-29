@@ -18,17 +18,17 @@ import static proto.triton.FilteredObject.Robot;
 
 public class ChaseBall extends Skill {
     private final Robot actor;
-    private final PathfindGridGroup pathfindGridGroup;
     private final FilteredWrapperPacket wrapper;
+    private final PathfindGridGroup pathfindGridGroup;
 
     public ChaseBall(Module module,
                      Robot actor,
-                     PathfindGridGroup pathfindGridGroup,
-                     FilteredWrapperPacket wrapper) {
+                     FilteredWrapperPacket wrapper,
+                     PathfindGridGroup pathfindGridGroup) {
         super(module);
         this.actor = actor;
-        this.pathfindGridGroup = pathfindGridGroup;
         this.wrapper = wrapper;
+        this.pathfindGridGroup = pathfindGridGroup;
     }
 
     @Override

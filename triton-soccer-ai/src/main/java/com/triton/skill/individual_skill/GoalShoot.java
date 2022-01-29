@@ -4,7 +4,6 @@ import com.triton.module.Module;
 import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.Skill;
 import com.triton.util.Vector2d;
-import proto.triton.FilteredObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,7 +40,6 @@ public class GoalShoot extends Skill {
     @Override
     protected void execute() {
         SSL_GeometryFieldSize field = wrapper.getField();
-        Ball ball = wrapper.getBall();
         Map<Integer, Robot> allies = wrapper.getAlliesMap();
         Map<Integer, Robot> foes = wrapper.getFoesMap();
 
@@ -52,15 +50,15 @@ public class GoalShoot extends Skill {
         });
         obstacles.addAll(foes.values());
 
-        List<Vector2d> kickFroms = kickFromNear.getGridNeighbors(aiConfig.goalKickFromSearchDist,
-                aiConfig.goalKickFromSearchSpacing);
+        List<Vector2d> kickFroms = kickFromNear.getGridNeighbors(aiConfig.goalShootKickFromSearchDist,
+                aiConfig.goalShootKickFromSearchSpacing);
 
         float goalMinX = -field.getGoalWidth() / 2f + 300f;
         float goalMaxX = field.getGoalWidth() / 2f - 300f;
         float goalY = field.getFieldLength() / 2f;
 
         List<Vector2d> kickTos = new ArrayList<>();
-        for (float goalX = goalMinX; goalX < goalMaxX; goalX += aiConfig.goalKickToSearchSpacing)
+        for (float goalX = goalMinX; goalX < goalMaxX; goalX += aiConfig.goalShootKickToSearchSpacing)
             kickTos.add(new Vector2d(goalX, goalY));
 
         Vector2d bestKickFrom = null;
@@ -70,8 +68,8 @@ public class GoalShoot extends Skill {
             for (Vector2d kickTo : kickTos) {
                 float distToObstacles = distToPath(kickFrom, kickTo, obstacles);
                 float distToShooter = getPos(actor).dist(kickFrom);
-                float score = aiConfig.goalDistToObstaclesScoreFactor * distToObstacles
-                        - aiConfig.goalDistToShooterScoreFactor * distToShooter;
+                float score = aiConfig.goalShootDistToObstaclesScoreFactor * distToObstacles
+                        - aiConfig.goalShootDistToShooterScoreFactor * distToShooter;
                 if (score > maxScore) {
                     bestKickFrom = kickFrom;
                     bestKickTo = kickTo;
@@ -80,7 +78,8 @@ public class GoalShoot extends Skill {
             }
         }
 
-        KickFromPosition kickFromPosition = new KickFromPosition(module, actor, bestKickFrom, bestKickTo, pathfindGridGroup);
+        KickFromPosition kickFromPosition = new KickFromPosition(module, actor, bestKickFrom, bestKickTo,
+                aiConfig.goalShootKickSpeed, pathfindGridGroup);
         submitSkill(kickFromPosition);
     }
 

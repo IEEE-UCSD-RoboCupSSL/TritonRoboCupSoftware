@@ -27,8 +27,7 @@ public class ChaseBallTest extends TestRunner {
     private FilteredWrapperPacket wrapper;
 
     public ChaseBallTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
-        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
+        super(executor, 0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -42,14 +41,12 @@ public class ChaseBallTest extends TestRunner {
     protected void execute() {
         if (wrapper == null) return;
         SSL_GeometryFieldSize field = wrapper.getField();
-        Ball ball = wrapper.getBall();
         Map<Integer, Robot> allies = wrapper.getAlliesMap();
-        Map<Integer, Robot> foes = wrapper.getFoesMap();
 
         int id = 1;
         if (pathfindGridGroup == null)
             pathfindGridGroup = new PathfindGridGroup(gameConfig.numBots, field);
-        pathfindGridGroup.updateObstacles(allies, foes);
+        pathfindGridGroup.updateObstacles(wrapper);
 
         if (allies.get(id).getHasBall()) {
             System.out.println("CONTACT");
@@ -62,8 +59,8 @@ public class ChaseBallTest extends TestRunner {
         } else {
             ChaseBall chaseBall = new ChaseBall(this,
                     allies.get(id),
-                    pathfindGridGroup,
-                    wrapper);
+                    wrapper,
+                    pathfindGridGroup);
             submitSkill(chaseBall);
         }
     }

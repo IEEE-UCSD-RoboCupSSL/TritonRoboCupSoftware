@@ -7,7 +7,9 @@ import com.triton.skill.coordinated_skill.PathToFormation;
 import com.triton.util.Vector2d;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -30,8 +32,7 @@ public class PathToFormationTest extends TestRunner {
     private FilteredWrapperPacket wrapper;
 
     public PathToFormationTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
-        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
+        super(executor, 0, 5000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -68,12 +69,10 @@ public class PathToFormationTest extends TestRunner {
     protected void execute() {
         if (wrapper == null) return;
         SSL_GeometryFieldSize field = wrapper.getField();
-        Map<Integer, Robot> allies = wrapper.getAlliesMap();
-        Map<Integer, Robot> foes = wrapper.getFoesMap();
 
         if (pathfindGridGroup == null)
             pathfindGridGroup = new PathfindGridGroup(gameConfig.numBots, field);
-        pathfindGridGroup.updateObstacles(allies, foes);
+        pathfindGridGroup.updateObstacles(wrapper);
 
         HashMap<Vector2d, Float> positions = new HashMap<>();
         positions.put(new Vector2d(-1000, 0), 0f);
@@ -83,7 +82,8 @@ public class PathToFormationTest extends TestRunner {
         positions.put(new Vector2d(600, 0), 0f);
         positions.put(new Vector2d(1000, 0), (float) Math.PI);
 
-        PathToFormation pathToFormation = new PathToFormation(this, positions, allies, foes, pathfindGridGroup);
+        List<Robot> actors = new ArrayList<>(wrapper.getAlliesMap().values());
+        PathToFormation pathToFormation = new PathToFormation(this, positions, actors, wrapper, pathfindGridGroup);
         submitSkill(pathToFormation);
     }
 }

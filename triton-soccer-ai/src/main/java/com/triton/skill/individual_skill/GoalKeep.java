@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.util.ObjectHelper.getNearest;
+import static com.triton.util.ObjectHelper.getNearestRobot;
 import static com.triton.util.ProtobufUtils.getPos;
 import static proto.triton.FilteredObject.*;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
@@ -51,7 +51,7 @@ public class GoalKeep extends Skill {
                 float goalX = 0;
                 float goalY = -field.getFieldLength() / 2f;
                 Vector2d goalPos = new Vector2d(goalX, goalY);
-                foe = getNearest(goalPos, foes.values().stream().toList());
+                foe = getNearestRobot(goalPos, foes.values().stream().toList());
             }
 
             Vector2d nearestFoeFaceDir = new Vector2d(foe.getOrientation());

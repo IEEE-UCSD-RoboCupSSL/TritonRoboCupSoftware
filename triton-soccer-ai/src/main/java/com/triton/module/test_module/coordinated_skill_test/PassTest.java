@@ -6,16 +6,20 @@ import com.triton.module.TestRunner;
 import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.coordinated_skill.Pass;
 import com.triton.util.Vector2d;
+import proto.triton.FilteredObject;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.ProgramConstants.gameConfig;
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
 import static com.triton.messaging.Exchange.AI_FILTERED_VISION_WRAPPER;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
+import static com.triton.util.ObjectHelper.isInBounds;
+import static com.triton.util.ObjectHelper.isInFoeGoal;
 import static com.triton.util.ProtobufUtils.createTeleportBall;
 import static com.triton.util.ProtobufUtils.createTeleportRobot;
 import static proto.simulation.SslSimulationControl.SimulatorControl;
@@ -31,9 +35,7 @@ public class PassTest extends TestRunner {
     private int receiverId = 2;
 
     public PassTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
-        setupTest();
-//        scheduleSetupTest(0, 5000, TimeUnit.MILLISECONDS);
+        super(executor, 0, 15000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -41,7 +43,8 @@ public class PassTest extends TestRunner {
         SimulatorControl.Builder simulatorControl = SimulatorControl.newBuilder();
         simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.team, 1, 0, 2000, 0));
         simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.team, 2, 0, -2000, 0));
-        simulatorControl.setTeleportBall(createTeleportBall(0, 0, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.team, 3, 0, 0, 0));
+        simulatorControl.setTeleportBall(createTeleportBall(0, 3000, 0));
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
     }
 
@@ -68,12 +71,15 @@ public class PassTest extends TestRunner {
     protected void execute() {
         if (wrapper == null) return;
         SSL_GeometryFieldSize field = wrapper.getField();
+        FilteredObject.Ball ball = wrapper.getBall();
         Map<Integer, Robot> allies = wrapper.getAlliesMap();
-        Map<Integer, Robot> foes = wrapper.getFoesMap();
+
+        if (isInFoeGoal(ball, field) || (!isInFoeGoal(ball, field) && !isInBounds(ball, field)))
+            reset();
 
         if (pathfindGridGroup == null)
             pathfindGridGroup = new PathfindGridGroup(gameConfig.numBots, field);
-        pathfindGridGroup.updateObstacles(allies, foes);
+        pathfindGridGroup.updateObstacles(wrapper);
 
         Robot passer = allies.get(passerId);
         Robot receiver = allies.get(receiverId);

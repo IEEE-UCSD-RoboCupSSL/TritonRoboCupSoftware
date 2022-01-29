@@ -91,10 +91,6 @@ public class Vector2d {
         return dot(vector) / vector.mag();
     }
 
-    public float dist(Vector2d vector) {
-        return sub(vector).mag();
-    }
-
     public float angle(Vector2d vector) {
         return (float) Math.acos(dot(vector) / (mag() * vector.mag()));
     }
@@ -164,5 +160,16 @@ public class Vector2d {
         Vector2d dir = pointB.sub(pointA).norm();
         Vector2d dirToPoint = this.sub(pointA).norm();
         return dir.reject(dirToPoint).mag();
+    }
+
+    public float getMinDist(List<Vector2d> vectors) {
+        float minDist = Float.MAX_VALUE;
+        for (Vector2d vector : vectors)
+            minDist = Math.min(minDist, dist(vector));
+        return minDist;
+    }
+
+    public float dist(Vector2d vector) {
+        return sub(vector).mag();
     }
 }

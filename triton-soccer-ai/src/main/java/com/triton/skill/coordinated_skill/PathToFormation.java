@@ -7,35 +7,37 @@ import com.triton.skill.individual_skill.PathToTarget;
 import com.triton.util.Vector2d;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeoutException;
 
+import static com.triton.constant.ProgramConstants.*;
+import static com.triton.util.ObjectHelper.*;
 import static com.triton.util.ProtobufUtils.getPos;
+import static proto.triton.FilteredObject.*;
 import static proto.triton.FilteredObject.Robot;
 
 public class PathToFormation extends Skill {
-    private final HashMap<Vector2d, Float> positions;
-    private final Map<Integer, Robot> allies;
-    private final Map<Integer, Robot> foes;
+    private final Map<Vector2d, Float> positions;
+    private final List<Robot> actors;
+    private final FilteredWrapperPacket wrapper;
     private final PathfindGridGroup pathfindGridGroup;
 
     public PathToFormation(Module module,
-                           HashMap<Vector2d, Float> positions,
-                           Map<Integer, Robot> allies,
-                           Map<Integer, Robot> foes,
+                           Map<Vector2d, Float> positions,
+                           List<Robot> actors,
+                           FilteredWrapperPacket wrapper,
                            PathfindGridGroup pathfindGridGroup) {
         super(module);
         this.positions = positions;
-        this.allies = allies;
-        this.foes = foes;
+        this.actors = actors;
+        this.wrapper = wrapper;
         this.pathfindGridGroup = pathfindGridGroup;
     }
 
     @Override
     protected void execute() {
+        Map<Integer, Robot> allies = wrapper.getAlliesMap();
+
         Set<Integer> usedIds = new HashSet<>();
 
         for (Map.Entry<Vector2d, Float> positionEntry : positions.entrySet()) {
@@ -45,19 +47,24 @@ public class PathToFormation extends Skill {
             Robot closetAlly = null;
             float minDist = Float.MAX_VALUE;
 
-            for (Map.Entry<Integer, Robot> allyEntry : allies.entrySet()) {
-                int id = allyEntry.getKey();
-                Robot ally = allyEntry.getValue();
-
+            for (Robot actor : actors) {
+                int id = actor.getId();
                 if (usedIds.contains(id)) continue;
 
-                Vector2d allyPos = getPos(ally);
+                Vector2d allyPos = getPos(actor);
                 float dist = pos.dist(allyPos);
                 if (dist < minDist) {
-                    closetAlly = ally;
+                    closetAlly = actor;
                     minDist = dist;
                 }
             }
+
+            if (closetAlly == null) return;
+
+            List<Robot> alliesWithoutClosestAlly = new ArrayList<>(allies.values());
+            alliesWithoutClosestAlly.remove(closetAlly);
+            if (isWithinDist(pos, alliesWithoutClosestAlly, aiConfig.pathToFormationOccupyDist))
+                continue;
 
             PathToTarget pathToTarget = new PathToTarget(module,
                     closetAlly,

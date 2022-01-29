@@ -31,8 +31,7 @@ public class GoalShootTest extends TestRunner {
     private FilteredWrapperPacket wrapper;
 
     public GoalShootTest(ScheduledThreadPoolExecutor executor) {
-        super(executor);
-        scheduleSetupTest(0, 10000, TimeUnit.MILLISECONDS);
+        super(executor, 0, 10000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -50,7 +49,6 @@ public class GoalShootTest extends TestRunner {
         SSL_GeometryFieldSize field = wrapper.getField();
         Ball ball = wrapper.getBall();
         Map<Integer, Robot> allies = wrapper.getAlliesMap();
-        Map<Integer, Robot> foes = wrapper.getFoesMap();
 
         if (isInFoeGoal(ball, field)) reset();
 
@@ -63,17 +61,17 @@ public class GoalShootTest extends TestRunner {
 
         if (pathfindGridGroup == null)
             pathfindGridGroup = new PathfindGridGroup(gameConfig.numBots, field);
-        pathfindGridGroup.updateObstacles(allies, foes);
+        pathfindGridGroup.updateObstacles(wrapper);
 
         if (allies.get(id).getHasBall()) {
             Vector2d kickFrom = new Vector2d(0, 2000);
             GoalShoot goalShoot = new GoalShoot(this, actor, kickFrom, pathfindGridGroup, wrapper);
             submitSkill(goalShoot);
-        } else if (!isMovingTowardTarget(ball, goalPos, 1000, (float) Math.toRadians(10))) {
+        } else if (!isMovingTowardTarget(ball, goalPos, 1000, (float) Math.toRadians(30))) {
             ChaseBall chaseBall = new ChaseBall(this,
                     allies.get(id),
-                    pathfindGridGroup,
-                    wrapper);
+                    wrapper,
+                    pathfindGridGroup);
             submitSkill(chaseBall);
         }
     }
