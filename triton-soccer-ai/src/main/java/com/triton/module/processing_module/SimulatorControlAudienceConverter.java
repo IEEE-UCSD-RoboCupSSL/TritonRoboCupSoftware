@@ -35,23 +35,23 @@ public class SimulatorControlAudienceConverter extends Module {
 
     private void callbackBiasedSimulatorControl(String s, Delivery delivery) {
         SimulatorControl biasedSimulatorControl = (SimulatorControl) simpleDeserialize(delivery.getBody());
-        SimulatorControl simulatorControl = biasedToAudience(biasedSimulatorControl);
+        SimulatorControl simulatorControl = controlBiasedToAudience(biasedSimulatorControl);
         publish(AI_SIMULATOR_CONTROL, simulatorControl);
     }
 
-    private static SimulatorControl biasedToAudience(SimulatorControl control) {
+    private static SimulatorControl controlBiasedToAudience(SimulatorControl control) {
         SimulatorControl.Builder audienceControl = control.toBuilder();
-        audienceControl.setTeleportBall(biasedToAudience(control.getTeleportBall()));
+        audienceControl.setTeleportBall(teleportBallBiasedToAudience(control.getTeleportBall()));
 
         audienceControl.clearTeleportRobot();
-        for (TeleportRobot telportRobot : control.getTeleportRobotList()) {
-            audienceControl.addTeleportRobot(biasedToAudience(telportRobot));
+        for (TeleportRobot teleportRobot : control.getTeleportRobotList()) {
+            audienceControl.addTeleportRobot(teleportRobotBiasedToAudience(teleportRobot));
         }
 
         return audienceControl.build();
     }
 
-    private static TeleportBall biasedToAudience(TeleportBall teleportBall) {
+    private static TeleportBall teleportBallBiasedToAudience(TeleportBall teleportBall) {
         TeleportBall.Builder audienceTeleportBall = teleportBall.toBuilder();
 
         Vector2d audiencePosition = ConvertCoordinate.biasedToAudience(teleportBall.getX(), teleportBall.getY());
@@ -65,7 +65,7 @@ public class SimulatorControlAudienceConverter extends Module {
         return audienceTeleportBall.build();
     }
 
-    private static TeleportRobot biasedToAudience(TeleportRobot teleportRobot) {
+    private static TeleportRobot teleportRobotBiasedToAudience(TeleportRobot teleportRobot) {
         TeleportRobot.Builder audienceTeleportRobot = teleportRobot.toBuilder();
 
         Vector2d audiencePosition = ConvertCoordinate.biasedToAudience(teleportRobot.getX(), teleportRobot.getY());

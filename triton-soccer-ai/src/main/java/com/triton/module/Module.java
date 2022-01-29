@@ -92,7 +92,7 @@ public abstract class Module extends Thread {
 //                    System.out.println("Class: " + this.getClass());
 //                    System.out.println("Exchange: " + exchange.name());
 //                } else {
-                    callback.handle(s, delivery);
+                callback.handle(s, delivery);
 //                }
             } catch (Exception e) {
                 e.printStackTrace();

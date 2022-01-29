@@ -26,7 +26,8 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import static com.triton.constant.ProgramConstants.*;
-import static com.triton.messaging.Exchange.*;
+import static com.triton.messaging.Exchange.AI_DEBUG;
+import static com.triton.messaging.Exchange.AI_FILTERED_VISION_WRAPPER;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.util.ObjectHelper.predictOrientation;
 import static com.triton.util.ObjectHelper.predictPos;
@@ -36,6 +37,7 @@ import static javax.swing.BoxLayout.Y_AXIS;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import static proto.triton.AiDebugInfo.*;
 import static proto.triton.ObjectWithMetadata.Ball;
+import static proto.triton.ObjectWithMetadata.FilteredWrapperPacket;
 
 public class UserInterface extends Module {
     private static final String MAIN_FRAME_TITLE = "Triton Soccer AI";
@@ -98,34 +100,13 @@ public class UserInterface extends Module {
 
     @Override
     protected void declareConsumes() throws IOException, TimeoutException {
-        declareConsume(AI_BIASED_FIELD, this::callbackField);
-        declareConsume(AI_FILTERED_BALL, this::callbackBall);
-        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
-        declareConsume(AI_FILTERED_FOES, this::callbackFoes);
+        declareConsume(AI_FILTERED_VISION_WRAPPER, this::callbackWrapper);
         declareConsume(AI_DEBUG, this::callbackDebug);
     }
 
-    private void callbackField(String s, Delivery delivery) {
-        SSL_GeometryFieldSize field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
-        fieldPanel.setField(field);
-        fieldPanel.repaint();
-    }
-
-    private void callbackBall(String s, Delivery delivery) {
-        Ball ball = (Ball) simpleDeserialize(delivery.getBody());
-        fieldPanel.setBall(ball);
-        fieldPanel.repaint();
-    }
-
-    private void callbackAllies(String s, Delivery delivery) {
-        Map<Integer, ObjectWithMetadata.Robot> allies = (Map<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
-        fieldPanel.setAllies(allies);
-        fieldPanel.repaint();
-    }
-
-    private void callbackFoes(String s, Delivery delivery) {
-        Map<Integer, ObjectWithMetadata.Robot> foes = (Map<Integer, ObjectWithMetadata.Robot>) simpleDeserialize(delivery.getBody());
-        fieldPanel.setFoes(foes);
+    private void callbackWrapper(String s, Delivery delivery) {
+        FilteredWrapperPacket wrapper = (FilteredWrapperPacket) simpleDeserialize(delivery.getBody());
+        fieldPanel.setWrapper(wrapper);
         fieldPanel.repaint();
     }
 
@@ -136,29 +117,18 @@ public class UserInterface extends Module {
     }
 
     private class FieldPanel extends JPanel {
+        private final ReadWriteLock wrapperLock;
         private final List<Debug> debug;
         private final Map<Integer, DebugPath> alliesPaths;
-        private final ReadWriteLock fieldLock;
-        private final ReadWriteLock ballLock;
-        private final ReadWriteLock alliesLock;
-        private final ReadWriteLock foesLock;
         private final ReadWriteLock debugLock;
-        private SSL_GeometryFieldSize field;
-        private Ball ball;
-        private Map<Integer, ObjectWithMetadata.Robot> allies;
-        private Map<Integer, ObjectWithMetadata.Robot> foes;
-
+        private FilteredWrapperPacket wrapper;
         private PathfindGrid pathfindGrid;
 
         public FieldPanel() {
-            debug = new ArrayList<>();
-
-            fieldLock = new ReentrantReadWriteLock();
-            ballLock = new ReentrantReadWriteLock();
-            alliesLock = new ReentrantReadWriteLock();
-            foesLock = new ReentrantReadWriteLock();
+            wrapperLock = new ReentrantReadWriteLock();
             debugLock = new ReentrantReadWriteLock();
 
+            debug = new ArrayList<>();
             alliesPaths = new HashMap<>();
         }
 
@@ -167,53 +137,24 @@ public class UserInterface extends Module {
             super.paintComponent(g);
 
             Graphics2D graphics2D = (Graphics2D) g;
-            try {
-                paintField(graphics2D);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        private synchronized void paintField(Graphics2D graphics2D) throws IOException {
-            fieldLock.readLock().lock();
-            try {
-                transformGraphics(graphics2D);
-                paintGeometry(graphics2D);
-            } finally {
-                fieldLock.readLock().unlock();
-            }
-
-            ballLock.readLock().lock();
-            try {
-                paintBall(graphics2D);
-            } finally {
-                ballLock.readLock().unlock();
-            }
-
-            alliesLock.readLock().lock();
-            try {
-                paintAllies(graphics2D);
-            } finally {
-                alliesLock.readLock().unlock();
-            }
-
-            foesLock.readLock().lock();
-            try {
-                paintFoes(graphics2D);
-            } finally {
-                foesLock.readLock().unlock();
-            }
-
+            wrapperLock.readLock().lock();
             debugLock.readLock().lock();
             try {
+                if (wrapper == null) return;
+                transformGraphics(graphics2D);
+                paintField(graphics2D);
+                paintBall(graphics2D);
+                paintAllies(graphics2D);
+                paintFoes(graphics2D);
                 paintDebug(graphics2D);
             } finally {
+                wrapperLock.readLock().unlock();
                 debugLock.readLock().unlock();
             }
         }
 
         private void transformGraphics(Graphics2D graphics2D) {
-            if (field == null) return;
+            SSL_GeometryFieldSize field = wrapper.getField();
 
             int totalFieldDisplayWidth = field.getFieldWidth()
                     + 2 * field.getBoundaryWidth()
@@ -236,8 +177,8 @@ public class UserInterface extends Module {
             graphics2D.translate(totalFieldDisplayWidth / 2, -totalFieldDisplayLength / 2);
         }
 
-        private void paintGeometry(Graphics2D graphics2D) {
-            if (field == null) return;
+        private void paintField(Graphics2D graphics2D) {
+            SSL_GeometryFieldSize field = wrapper.getField();
 
             int totalFieldDisplayWidth = field.getFieldWidth()
                     + 2 * field.getBoundaryWidth()
@@ -293,7 +234,7 @@ public class UserInterface extends Module {
         }
 
         private void paintBall(Graphics2D graphics2D) {
-            if (ball == null) return;
+            Ball ball = wrapper.getBall();
 
             float radius = objectConfig.objectToCameraFactor * objectConfig.ballRadius;
 
@@ -328,7 +269,7 @@ public class UserInterface extends Module {
         }
 
         private void paintAllies(Graphics2D graphics2D) {
-            if (allies == null) return;
+            Map<Integer, ObjectWithMetadata.Robot> allies = wrapper.getAlliesMap();
 
             for (ObjectWithMetadata.Robot ally : allies.values()) {
                 Color fillColor;
@@ -342,7 +283,7 @@ public class UserInterface extends Module {
         }
 
         private void paintFoes(Graphics2D graphics2D) {
-            if (foes == null) return;
+            Map<Integer, ObjectWithMetadata.Robot> foes = wrapper.getFoesMap();
 
             for (ObjectWithMetadata.Robot foe : foes.values()) {
                 Color fillColor;
@@ -356,20 +297,16 @@ public class UserInterface extends Module {
         }
 
         private void paintDebug(Graphics2D graphics2D) {
-            if (field == null || allies == null || foes == null) return;
+            SSL_GeometryFieldSize field = wrapper.getField();
+            Ball ball = wrapper.getBall();
+            Map<Integer, ObjectWithMetadata.Robot> allies = wrapper.getAlliesMap();
+            Map<Integer, ObjectWithMetadata.Robot> foes = wrapper.getFoesMap();
 
             if (pathfindGrid == null)
                 pathfindGrid = new PathfindGrid(field);
 
             if (displayConfig.showNodeGrid) {
-                alliesLock.readLock().lock();
-                foesLock.readLock().lock();
-                try {
-                    pathfindGrid.updateObstacles(allies, foes, null);
-                } finally {
-                    alliesLock.readLock().unlock();
-                    foesLock.readLock().unlock();
-                }
+                pathfindGrid.updateObstacles(allies, foes, null);
 
                 if (displayConfig.showOnlyObstacles) {
                     List<Node2d> obstacles = pathfindGrid.getObstacles();
@@ -489,42 +426,6 @@ public class UserInterface extends Module {
                     360);
         }
 
-        public void setField(SSL_GeometryFieldSize field) {
-            fieldLock.writeLock().lock();
-            try {
-                this.field = field;
-            } finally {
-                fieldLock.writeLock().unlock();
-            }
-        }
-
-        public void setBall(Ball ball) {
-            ballLock.writeLock().lock();
-            try {
-                this.ball = ball;
-            } finally {
-                ballLock.writeLock().unlock();
-            }
-        }
-
-        public void setAllies(Map<Integer, ObjectWithMetadata.Robot> allies) {
-            foesLock.writeLock().lock();
-            try {
-                this.allies = allies;
-            } finally {
-                foesLock.writeLock().unlock();
-            }
-        }
-
-        public void setFoes(Map<Integer, ObjectWithMetadata.Robot> foes) {
-            foesLock.writeLock().lock();
-            try {
-                this.foes = foes;
-            } finally {
-                foesLock.writeLock().unlock();
-            }
-        }
-
         public void addDebug(Debug debug) {
             debugLock.writeLock().lock();
             try {
@@ -536,6 +437,10 @@ public class UserInterface extends Module {
             } finally {
                 debugLock.writeLock().unlock();
             }
+        }
+
+        public void setWrapper(FilteredWrapperPacket wrapper) {
+            this.wrapper = wrapper;
         }
     }
 }

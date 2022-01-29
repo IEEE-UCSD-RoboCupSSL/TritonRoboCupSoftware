@@ -9,14 +9,14 @@ kdOrientation: 0.0000
 # Pathfinding
 nodeRadius: 50
 boundSafety: 0
-robotSafety: 10
+robotSafety: 20
 penaltyScale: 10000
 gridExtend: 250
 collisionSpeedScale: 0.1
 collisionExtrapolation: 0.2
 
 # KickToPoint
-kickToPointAngleTolerance: 0.174533
+kickToPointAngleTolerance: 0.0872665
 
 # KickFromPos
 kickFromPosDistTolerance: 200
@@ -29,5 +29,6 @@ goalDistToShooterScoreFactor: 1
 goalDistToObstaclesScoreFactor: 20
 
 # Pass
+passKickReceiverDistThreshold: 200
 passCatchBallSpeedThreshold: 500
 passCatchBallAngleTolerance: 0.523599

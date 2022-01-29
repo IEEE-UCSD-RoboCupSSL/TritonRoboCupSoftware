@@ -7,6 +7,7 @@ import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.individual_skill.ChaseBall;
 import com.triton.skill.individual_skill.KickFromPosition;
 import com.triton.util.Vector2d;
+import proto.triton.ObjectWithMetadata;
 
 import java.io.IOException;
 import java.util.Map;
@@ -22,17 +23,14 @@ import static com.triton.util.ProtobufUtils.createTeleportBall;
 import static com.triton.util.ProtobufUtils.createTeleportRobot;
 import static proto.simulation.SslSimulationControl.SimulatorControl;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
+import static proto.triton.ObjectWithMetadata.*;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class KickFromPositionTest extends TestRunner {
     private PathfindGridGroup pathfindGridGroup;
-    private SSL_GeometryFieldSize field;
-    private Ball ball;
-    private Map<Integer, Robot> allies;
-    private Map<Integer, Robot> foes;
-    private Map<Integer, RobotFeedback> feedbacks;
+    private FilteredWrapperPacket wrapper;
 
     public KickFromPositionTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
@@ -50,31 +48,11 @@ public class KickFromPositionTest extends TestRunner {
 
     @Override
     protected void declareConsumes() throws IOException, TimeoutException {
-        declareConsume(AI_BIASED_FIELD, this::callbackField);
-        declareConsume(AI_FILTERED_BALL, this::callbackBalls);
-        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
-        declareConsume(AI_FILTERED_FOES, this::callbackFoes);
-        declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
+        declareConsume(AI_FILTERED_VISION_WRAPPER, this::callbackWrapper);
     }
 
-    private void callbackField(String s, Delivery delivery) {
-        field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackBalls(String s, Delivery delivery) {
-        ball = (Ball) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackAllies(String s, Delivery delivery) {
-        allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackFoes(String s, Delivery delivery) {
-        foes = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackFeedbacks(String s, Delivery delivery) {
-        feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+    private void callbackWrapper(String s, Delivery delivery) {
+        wrapper = (FilteredWrapperPacket) simpleDeserialize(delivery.getBody());
     }
 
     @Override
@@ -88,7 +66,11 @@ public class KickFromPositionTest extends TestRunner {
 
     @Override
     protected void execute() {
-        if (field == null || ball == null || allies == null || foes == null || feedbacks == null) return;
+        if (wrapper == null) return;
+        SSL_GeometryFieldSize field = wrapper.getField();
+        Ball ball = wrapper.getBall();
+        Map<Integer, Robot> allies = wrapper.getAlliesMap();
+        Map<Integer, Robot> foes = wrapper.getFoesMap();
 
         if (pathfindGridGroup == null)
             pathfindGridGroup = new PathfindGridGroup(gameConfig.numBots, field);
@@ -101,10 +83,10 @@ public class KickFromPositionTest extends TestRunner {
         Vector2d kickFrom = new Vector2d(-1000, 2000);
         Vector2d kickTo = new Vector2d(0, -2000);
 
-        if (feedbacks.get(receiverId).getDribblerBallContact()) {
+        if (allies.get(receiverId).getHasBall()) {
             System.out.println("SUCCESSFUL PASS");
         } else {
-            if (feedbacks.get(passerId).getDribblerBallContact()) {
+            if (allies.get(passerId).getHasBall()) {
                 KickFromPosition kickFromPosition = new KickFromPosition(this, passer, kickFrom, kickTo, pathfindGridGroup, ball);
                 submitSkill(kickFromPosition);
             } else {

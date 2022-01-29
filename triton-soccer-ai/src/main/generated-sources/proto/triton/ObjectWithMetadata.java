@@ -2349,6 +2349,1473 @@ public final class ObjectWithMetadata {
 
   }
 
+  public interface FilteredWrapperPacketOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:proto.triton.FilteredWrapperPacket)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int64 timestamp = 1;</code>
+     */
+    long getTimestamp();
+
+    /**
+     * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+     */
+    boolean hasField();
+    /**
+     * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+     */
+    proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize getField();
+    /**
+     * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+     */
+    proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSizeOrBuilder getFieldOrBuilder();
+
+    /**
+     * <code>.proto.triton.Ball ball = 3;</code>
+     */
+    boolean hasBall();
+    /**
+     * <code>.proto.triton.Ball ball = 3;</code>
+     */
+    proto.triton.ObjectWithMetadata.Ball getBall();
+    /**
+     * <code>.proto.triton.Ball ball = 3;</code>
+     */
+    proto.triton.ObjectWithMetadata.BallOrBuilder getBallOrBuilder();
+
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+     */
+    int getAlliesCount();
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+     */
+    boolean containsAllies(
+        int key);
+    /**
+     * Use {@link #getAlliesMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+    getAllies();
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+     */
+    java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+    getAlliesMap();
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+     */
+
+    proto.triton.ObjectWithMetadata.Robot getAlliesOrDefault(
+        int key,
+        proto.triton.ObjectWithMetadata.Robot defaultValue);
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+     */
+
+    proto.triton.ObjectWithMetadata.Robot getAlliesOrThrow(
+        int key);
+
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+     */
+    int getFoesCount();
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+     */
+    boolean containsFoes(
+        int key);
+    /**
+     * Use {@link #getFoesMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+    getFoes();
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+     */
+    java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+    getFoesMap();
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+     */
+
+    proto.triton.ObjectWithMetadata.Robot getFoesOrDefault(
+        int key,
+        proto.triton.ObjectWithMetadata.Robot defaultValue);
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+     */
+
+    proto.triton.ObjectWithMetadata.Robot getFoesOrThrow(
+        int key);
+  }
+  /**
+   * Protobuf type {@code proto.triton.FilteredWrapperPacket}
+   */
+  public  static final class FilteredWrapperPacket extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:proto.triton.FilteredWrapperPacket)
+      FilteredWrapperPacketOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use FilteredWrapperPacket.newBuilder() to construct.
+    private FilteredWrapperPacket(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FilteredWrapperPacket() {
+      timestamp_ = 0L;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FilteredWrapperPacket(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              timestamp_ = input.readInt64();
+              break;
+            }
+            case 18: {
+              proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize.Builder subBuilder = null;
+              if (field_ != null) {
+                subBuilder = field_.toBuilder();
+              }
+              field_ = input.readMessage(proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(field_);
+                field_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 26: {
+              proto.triton.ObjectWithMetadata.Ball.Builder subBuilder = null;
+              if (ball_ != null) {
+                subBuilder = ball_.toBuilder();
+              }
+              ball_ = input.readMessage(proto.triton.ObjectWithMetadata.Ball.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(ball_);
+                ball_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                allies_ = com.google.protobuf.MapField.newMapField(
+                    AlliesDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00000008;
+              }
+              com.google.protobuf.MapEntry<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+              allies__ = input.readMessage(
+                  AlliesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              allies_.getMutableMap().put(
+                  allies__.getKey(), allies__.getValue());
+              break;
+            }
+            case 42: {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                foes_ = com.google.protobuf.MapField.newMapField(
+                    FoesDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00000010;
+              }
+              com.google.protobuf.MapEntry<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+              foes__ = input.readMessage(
+                  FoesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              foes_.getMutableMap().put(
+                  foes__.getKey(), foes__.getValue());
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return proto.triton.ObjectWithMetadata.internal_static_proto_triton_FilteredWrapperPacket_descriptor;
+    }
+
+    @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 4:
+          return internalGetAllies();
+        case 5:
+          return internalGetFoes();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return proto.triton.ObjectWithMetadata.internal_static_proto_triton_FilteredWrapperPacket_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              proto.triton.ObjectWithMetadata.FilteredWrapperPacket.class, proto.triton.ObjectWithMetadata.FilteredWrapperPacket.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int TIMESTAMP_FIELD_NUMBER = 1;
+    private long timestamp_;
+    /**
+     * <code>int64 timestamp = 1;</code>
+     */
+    public long getTimestamp() {
+      return timestamp_;
+    }
+
+    public static final int FIELD_FIELD_NUMBER = 2;
+    private proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize field_;
+    /**
+     * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+     */
+    public boolean hasField() {
+      return field_ != null;
+    }
+    /**
+     * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+     */
+    public proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize getField() {
+      return field_ == null ? proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize.getDefaultInstance() : field_;
+    }
+    /**
+     * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+     */
+    public proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSizeOrBuilder getFieldOrBuilder() {
+      return getField();
+    }
+
+    public static final int BALL_FIELD_NUMBER = 3;
+    private proto.triton.ObjectWithMetadata.Ball ball_;
+    /**
+     * <code>.proto.triton.Ball ball = 3;</code>
+     */
+    public boolean hasBall() {
+      return ball_ != null;
+    }
+    /**
+     * <code>.proto.triton.Ball ball = 3;</code>
+     */
+    public proto.triton.ObjectWithMetadata.Ball getBall() {
+      return ball_ == null ? proto.triton.ObjectWithMetadata.Ball.getDefaultInstance() : ball_;
+    }
+    /**
+     * <code>.proto.triton.Ball ball = 3;</code>
+     */
+    public proto.triton.ObjectWithMetadata.BallOrBuilder getBallOrBuilder() {
+      return getBall();
+    }
+
+    public static final int ALLIES_FIELD_NUMBER = 4;
+    private static final class AlliesDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>newDefaultInstance(
+                  proto.triton.ObjectWithMetadata.internal_static_proto_triton_FilteredWrapperPacket_AlliesEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.INT32,
+                  0,
+                  com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                  proto.triton.ObjectWithMetadata.Robot.getDefaultInstance());
+    }
+    private com.google.protobuf.MapField<
+        java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> allies_;
+    private com.google.protobuf.MapField<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+    internalGetAllies() {
+      if (allies_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            AlliesDefaultEntryHolder.defaultEntry);
+      }
+      return allies_;
+    }
+
+    public int getAlliesCount() {
+      return internalGetAllies().getMap().size();
+    }
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+     */
+
+    public boolean containsAllies(
+        int key) {
+      
+      return internalGetAllies().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getAlliesMap()} instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> getAllies() {
+      return getAlliesMap();
+    }
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+     */
+
+    public java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> getAlliesMap() {
+      return internalGetAllies().getMap();
+    }
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+     */
+
+    public proto.triton.ObjectWithMetadata.Robot getAlliesOrDefault(
+        int key,
+        proto.triton.ObjectWithMetadata.Robot defaultValue) {
+      
+      java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> map =
+          internalGetAllies().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+     */
+
+    public proto.triton.ObjectWithMetadata.Robot getAlliesOrThrow(
+        int key) {
+      
+      java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> map =
+          internalGetAllies().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    public static final int FOES_FIELD_NUMBER = 5;
+    private static final class FoesDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>newDefaultInstance(
+                  proto.triton.ObjectWithMetadata.internal_static_proto_triton_FilteredWrapperPacket_FoesEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.INT32,
+                  0,
+                  com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                  proto.triton.ObjectWithMetadata.Robot.getDefaultInstance());
+    }
+    private com.google.protobuf.MapField<
+        java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> foes_;
+    private com.google.protobuf.MapField<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+    internalGetFoes() {
+      if (foes_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            FoesDefaultEntryHolder.defaultEntry);
+      }
+      return foes_;
+    }
+
+    public int getFoesCount() {
+      return internalGetFoes().getMap().size();
+    }
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+     */
+
+    public boolean containsFoes(
+        int key) {
+      
+      return internalGetFoes().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getFoesMap()} instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> getFoes() {
+      return getFoesMap();
+    }
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+     */
+
+    public java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> getFoesMap() {
+      return internalGetFoes().getMap();
+    }
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+     */
+
+    public proto.triton.ObjectWithMetadata.Robot getFoesOrDefault(
+        int key,
+        proto.triton.ObjectWithMetadata.Robot defaultValue) {
+      
+      java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> map =
+          internalGetFoes().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+     */
+
+    public proto.triton.ObjectWithMetadata.Robot getFoesOrThrow(
+        int key) {
+      
+      java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> map =
+          internalGetFoes().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (hasField()) {
+        if (!getField().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (timestamp_ != 0L) {
+        output.writeInt64(1, timestamp_);
+      }
+      if (field_ != null) {
+        output.writeMessage(2, getField());
+      }
+      if (ball_ != null) {
+        output.writeMessage(3, getBall());
+      }
+      com.google.protobuf.GeneratedMessageV3
+        .serializeIntegerMapTo(
+          output,
+          internalGetAllies(),
+          AlliesDefaultEntryHolder.defaultEntry,
+          4);
+      com.google.protobuf.GeneratedMessageV3
+        .serializeIntegerMapTo(
+          output,
+          internalGetFoes(),
+          FoesDefaultEntryHolder.defaultEntry,
+          5);
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (timestamp_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, timestamp_);
+      }
+      if (field_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getField());
+      }
+      if (ball_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getBall());
+      }
+      for (java.util.Map.Entry<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> entry
+           : internalGetAllies().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+        allies__ = AlliesDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(4, allies__);
+      }
+      for (java.util.Map.Entry<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> entry
+           : internalGetFoes().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+        foes__ = FoesDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(5, foes__);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof proto.triton.ObjectWithMetadata.FilteredWrapperPacket)) {
+        return super.equals(obj);
+      }
+      proto.triton.ObjectWithMetadata.FilteredWrapperPacket other = (proto.triton.ObjectWithMetadata.FilteredWrapperPacket) obj;
+
+      boolean result = true;
+      result = result && (getTimestamp()
+          == other.getTimestamp());
+      result = result && (hasField() == other.hasField());
+      if (hasField()) {
+        result = result && getField()
+            .equals(other.getField());
+      }
+      result = result && (hasBall() == other.hasBall());
+      if (hasBall()) {
+        result = result && getBall()
+            .equals(other.getBall());
+      }
+      result = result && internalGetAllies().equals(
+          other.internalGetAllies());
+      result = result && internalGetFoes().equals(
+          other.internalGetFoes());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTimestamp());
+      if (hasField()) {
+        hash = (37 * hash) + FIELD_FIELD_NUMBER;
+        hash = (53 * hash) + getField().hashCode();
+      }
+      if (hasBall()) {
+        hash = (37 * hash) + BALL_FIELD_NUMBER;
+        hash = (53 * hash) + getBall().hashCode();
+      }
+      if (!internalGetAllies().getMap().isEmpty()) {
+        hash = (37 * hash) + ALLIES_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetAllies().hashCode();
+      }
+      if (!internalGetFoes().getMap().isEmpty()) {
+        hash = (37 * hash) + FOES_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetFoes().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static proto.triton.ObjectWithMetadata.FilteredWrapperPacket parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static proto.triton.ObjectWithMetadata.FilteredWrapperPacket parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static proto.triton.ObjectWithMetadata.FilteredWrapperPacket parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static proto.triton.ObjectWithMetadata.FilteredWrapperPacket parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static proto.triton.ObjectWithMetadata.FilteredWrapperPacket parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static proto.triton.ObjectWithMetadata.FilteredWrapperPacket parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static proto.triton.ObjectWithMetadata.FilteredWrapperPacket parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static proto.triton.ObjectWithMetadata.FilteredWrapperPacket parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static proto.triton.ObjectWithMetadata.FilteredWrapperPacket parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static proto.triton.ObjectWithMetadata.FilteredWrapperPacket parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static proto.triton.ObjectWithMetadata.FilteredWrapperPacket parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static proto.triton.ObjectWithMetadata.FilteredWrapperPacket parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(proto.triton.ObjectWithMetadata.FilteredWrapperPacket prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code proto.triton.FilteredWrapperPacket}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:proto.triton.FilteredWrapperPacket)
+        proto.triton.ObjectWithMetadata.FilteredWrapperPacketOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return proto.triton.ObjectWithMetadata.internal_static_proto_triton_FilteredWrapperPacket_descriptor;
+      }
+
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMapField(
+          int number) {
+        switch (number) {
+          case 4:
+            return internalGetAllies();
+          case 5:
+            return internalGetFoes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMutableMapField(
+          int number) {
+        switch (number) {
+          case 4:
+            return internalGetMutableAllies();
+          case 5:
+            return internalGetMutableFoes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return proto.triton.ObjectWithMetadata.internal_static_proto_triton_FilteredWrapperPacket_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                proto.triton.ObjectWithMetadata.FilteredWrapperPacket.class, proto.triton.ObjectWithMetadata.FilteredWrapperPacket.Builder.class);
+      }
+
+      // Construct using proto.triton.ObjectWithMetadata.FilteredWrapperPacket.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        timestamp_ = 0L;
+
+        if (fieldBuilder_ == null) {
+          field_ = null;
+        } else {
+          field_ = null;
+          fieldBuilder_ = null;
+        }
+        if (ballBuilder_ == null) {
+          ball_ = null;
+        } else {
+          ball_ = null;
+          ballBuilder_ = null;
+        }
+        internalGetMutableAllies().clear();
+        internalGetMutableFoes().clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return proto.triton.ObjectWithMetadata.internal_static_proto_triton_FilteredWrapperPacket_descriptor;
+      }
+
+      @java.lang.Override
+      public proto.triton.ObjectWithMetadata.FilteredWrapperPacket getDefaultInstanceForType() {
+        return proto.triton.ObjectWithMetadata.FilteredWrapperPacket.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public proto.triton.ObjectWithMetadata.FilteredWrapperPacket build() {
+        proto.triton.ObjectWithMetadata.FilteredWrapperPacket result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public proto.triton.ObjectWithMetadata.FilteredWrapperPacket buildPartial() {
+        proto.triton.ObjectWithMetadata.FilteredWrapperPacket result = new proto.triton.ObjectWithMetadata.FilteredWrapperPacket(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.timestamp_ = timestamp_;
+        if (fieldBuilder_ == null) {
+          result.field_ = field_;
+        } else {
+          result.field_ = fieldBuilder_.build();
+        }
+        if (ballBuilder_ == null) {
+          result.ball_ = ball_;
+        } else {
+          result.ball_ = ballBuilder_.build();
+        }
+        result.allies_ = internalGetAllies();
+        result.allies_.makeImmutable();
+        result.foes_ = internalGetFoes();
+        result.foes_.makeImmutable();
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof proto.triton.ObjectWithMetadata.FilteredWrapperPacket) {
+          return mergeFrom((proto.triton.ObjectWithMetadata.FilteredWrapperPacket)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(proto.triton.ObjectWithMetadata.FilteredWrapperPacket other) {
+        if (other == proto.triton.ObjectWithMetadata.FilteredWrapperPacket.getDefaultInstance()) return this;
+        if (other.getTimestamp() != 0L) {
+          setTimestamp(other.getTimestamp());
+        }
+        if (other.hasField()) {
+          mergeField(other.getField());
+        }
+        if (other.hasBall()) {
+          mergeBall(other.getBall());
+        }
+        internalGetMutableAllies().mergeFrom(
+            other.internalGetAllies());
+        internalGetMutableFoes().mergeFrom(
+            other.internalGetFoes());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        if (hasField()) {
+          if (!getField().isInitialized()) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        proto.triton.ObjectWithMetadata.FilteredWrapperPacket parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (proto.triton.ObjectWithMetadata.FilteredWrapperPacket) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private long timestamp_ ;
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public long getTimestamp() {
+        return timestamp_;
+      }
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public Builder setTimestamp(long value) {
+        
+        timestamp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 timestamp = 1;</code>
+       */
+      public Builder clearTimestamp() {
+        
+        timestamp_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize field_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize, proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize.Builder, proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSizeOrBuilder> fieldBuilder_;
+      /**
+       * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+       */
+      public boolean hasField() {
+        return fieldBuilder_ != null || field_ != null;
+      }
+      /**
+       * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+       */
+      public proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize getField() {
+        if (fieldBuilder_ == null) {
+          return field_ == null ? proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize.getDefaultInstance() : field_;
+        } else {
+          return fieldBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+       */
+      public Builder setField(proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize value) {
+        if (fieldBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          field_ = value;
+          onChanged();
+        } else {
+          fieldBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+       */
+      public Builder setField(
+          proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize.Builder builderForValue) {
+        if (fieldBuilder_ == null) {
+          field_ = builderForValue.build();
+          onChanged();
+        } else {
+          fieldBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+       */
+      public Builder mergeField(proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize value) {
+        if (fieldBuilder_ == null) {
+          if (field_ != null) {
+            field_ =
+              proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize.newBuilder(field_).mergeFrom(value).buildPartial();
+          } else {
+            field_ = value;
+          }
+          onChanged();
+        } else {
+          fieldBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+       */
+      public Builder clearField() {
+        if (fieldBuilder_ == null) {
+          field_ = null;
+          onChanged();
+        } else {
+          field_ = null;
+          fieldBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+       */
+      public proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize.Builder getFieldBuilder() {
+        
+        onChanged();
+        return getFieldFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+       */
+      public proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSizeOrBuilder getFieldOrBuilder() {
+        if (fieldBuilder_ != null) {
+          return fieldBuilder_.getMessageOrBuilder();
+        } else {
+          return field_ == null ?
+              proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize.getDefaultInstance() : field_;
+        }
+      }
+      /**
+       * <code>.proto.vision.SSL_GeometryFieldSize field = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize, proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize.Builder, proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSizeOrBuilder> 
+          getFieldFieldBuilder() {
+        if (fieldBuilder_ == null) {
+          fieldBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize, proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize.Builder, proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSizeOrBuilder>(
+                  getField(),
+                  getParentForChildren(),
+                  isClean());
+          field_ = null;
+        }
+        return fieldBuilder_;
+      }
+
+      private proto.triton.ObjectWithMetadata.Ball ball_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          proto.triton.ObjectWithMetadata.Ball, proto.triton.ObjectWithMetadata.Ball.Builder, proto.triton.ObjectWithMetadata.BallOrBuilder> ballBuilder_;
+      /**
+       * <code>.proto.triton.Ball ball = 3;</code>
+       */
+      public boolean hasBall() {
+        return ballBuilder_ != null || ball_ != null;
+      }
+      /**
+       * <code>.proto.triton.Ball ball = 3;</code>
+       */
+      public proto.triton.ObjectWithMetadata.Ball getBall() {
+        if (ballBuilder_ == null) {
+          return ball_ == null ? proto.triton.ObjectWithMetadata.Ball.getDefaultInstance() : ball_;
+        } else {
+          return ballBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.proto.triton.Ball ball = 3;</code>
+       */
+      public Builder setBall(proto.triton.ObjectWithMetadata.Ball value) {
+        if (ballBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ball_ = value;
+          onChanged();
+        } else {
+          ballBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.proto.triton.Ball ball = 3;</code>
+       */
+      public Builder setBall(
+          proto.triton.ObjectWithMetadata.Ball.Builder builderForValue) {
+        if (ballBuilder_ == null) {
+          ball_ = builderForValue.build();
+          onChanged();
+        } else {
+          ballBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.proto.triton.Ball ball = 3;</code>
+       */
+      public Builder mergeBall(proto.triton.ObjectWithMetadata.Ball value) {
+        if (ballBuilder_ == null) {
+          if (ball_ != null) {
+            ball_ =
+              proto.triton.ObjectWithMetadata.Ball.newBuilder(ball_).mergeFrom(value).buildPartial();
+          } else {
+            ball_ = value;
+          }
+          onChanged();
+        } else {
+          ballBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.proto.triton.Ball ball = 3;</code>
+       */
+      public Builder clearBall() {
+        if (ballBuilder_ == null) {
+          ball_ = null;
+          onChanged();
+        } else {
+          ball_ = null;
+          ballBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.proto.triton.Ball ball = 3;</code>
+       */
+      public proto.triton.ObjectWithMetadata.Ball.Builder getBallBuilder() {
+        
+        onChanged();
+        return getBallFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.proto.triton.Ball ball = 3;</code>
+       */
+      public proto.triton.ObjectWithMetadata.BallOrBuilder getBallOrBuilder() {
+        if (ballBuilder_ != null) {
+          return ballBuilder_.getMessageOrBuilder();
+        } else {
+          return ball_ == null ?
+              proto.triton.ObjectWithMetadata.Ball.getDefaultInstance() : ball_;
+        }
+      }
+      /**
+       * <code>.proto.triton.Ball ball = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          proto.triton.ObjectWithMetadata.Ball, proto.triton.ObjectWithMetadata.Ball.Builder, proto.triton.ObjectWithMetadata.BallOrBuilder> 
+          getBallFieldBuilder() {
+        if (ballBuilder_ == null) {
+          ballBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              proto.triton.ObjectWithMetadata.Ball, proto.triton.ObjectWithMetadata.Ball.Builder, proto.triton.ObjectWithMetadata.BallOrBuilder>(
+                  getBall(),
+                  getParentForChildren(),
+                  isClean());
+          ball_ = null;
+        }
+        return ballBuilder_;
+      }
+
+      private com.google.protobuf.MapField<
+          java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> allies_;
+      private com.google.protobuf.MapField<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+      internalGetAllies() {
+        if (allies_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              AlliesDefaultEntryHolder.defaultEntry);
+        }
+        return allies_;
+      }
+      private com.google.protobuf.MapField<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+      internalGetMutableAllies() {
+        onChanged();;
+        if (allies_ == null) {
+          allies_ = com.google.protobuf.MapField.newMapField(
+              AlliesDefaultEntryHolder.defaultEntry);
+        }
+        if (!allies_.isMutable()) {
+          allies_ = allies_.copy();
+        }
+        return allies_;
+      }
+
+      public int getAlliesCount() {
+        return internalGetAllies().getMap().size();
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+       */
+
+      public boolean containsAllies(
+          int key) {
+        
+        return internalGetAllies().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getAlliesMap()} instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> getAllies() {
+        return getAlliesMap();
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+       */
+
+      public java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> getAlliesMap() {
+        return internalGetAllies().getMap();
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+       */
+
+      public proto.triton.ObjectWithMetadata.Robot getAlliesOrDefault(
+          int key,
+          proto.triton.ObjectWithMetadata.Robot defaultValue) {
+        
+        java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> map =
+            internalGetAllies().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+       */
+
+      public proto.triton.ObjectWithMetadata.Robot getAlliesOrThrow(
+          int key) {
+        
+        java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> map =
+            internalGetAllies().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public Builder clearAllies() {
+        internalGetMutableAllies().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+       */
+
+      public Builder removeAllies(
+          int key) {
+        
+        internalGetMutableAllies().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+      getMutableAllies() {
+        return internalGetMutableAllies().getMutableMap();
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+       */
+      public Builder putAllies(
+          int key,
+          proto.triton.ObjectWithMetadata.Robot value) {
+        
+        if (value == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableAllies().getMutableMap()
+            .put(key, value);
+        return this;
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; allies = 4;</code>
+       */
+
+      public Builder putAllAllies(
+          java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> values) {
+        internalGetMutableAllies().getMutableMap()
+            .putAll(values);
+        return this;
+      }
+
+      private com.google.protobuf.MapField<
+          java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> foes_;
+      private com.google.protobuf.MapField<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+      internalGetFoes() {
+        if (foes_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              FoesDefaultEntryHolder.defaultEntry);
+        }
+        return foes_;
+      }
+      private com.google.protobuf.MapField<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+      internalGetMutableFoes() {
+        onChanged();;
+        if (foes_ == null) {
+          foes_ = com.google.protobuf.MapField.newMapField(
+              FoesDefaultEntryHolder.defaultEntry);
+        }
+        if (!foes_.isMutable()) {
+          foes_ = foes_.copy();
+        }
+        return foes_;
+      }
+
+      public int getFoesCount() {
+        return internalGetFoes().getMap().size();
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+       */
+
+      public boolean containsFoes(
+          int key) {
+        
+        return internalGetFoes().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getFoesMap()} instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> getFoes() {
+        return getFoesMap();
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+       */
+
+      public java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> getFoesMap() {
+        return internalGetFoes().getMap();
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+       */
+
+      public proto.triton.ObjectWithMetadata.Robot getFoesOrDefault(
+          int key,
+          proto.triton.ObjectWithMetadata.Robot defaultValue) {
+        
+        java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> map =
+            internalGetFoes().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+       */
+
+      public proto.triton.ObjectWithMetadata.Robot getFoesOrThrow(
+          int key) {
+        
+        java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> map =
+            internalGetFoes().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public Builder clearFoes() {
+        internalGetMutableFoes().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+       */
+
+      public Builder removeFoes(
+          int key) {
+        
+        internalGetMutableFoes().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot>
+      getMutableFoes() {
+        return internalGetMutableFoes().getMutableMap();
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+       */
+      public Builder putFoes(
+          int key,
+          proto.triton.ObjectWithMetadata.Robot value) {
+        
+        if (value == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableFoes().getMutableMap()
+            .put(key, value);
+        return this;
+      }
+      /**
+       * <code>map&lt;int32, .proto.triton.Robot&gt; foes = 5;</code>
+       */
+
+      public Builder putAllFoes(
+          java.util.Map<java.lang.Integer, proto.triton.ObjectWithMetadata.Robot> values) {
+        internalGetMutableFoes().getMutableMap()
+            .putAll(values);
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:proto.triton.FilteredWrapperPacket)
+    }
+
+    // @@protoc_insertion_point(class_scope:proto.triton.FilteredWrapperPacket)
+    private static final proto.triton.ObjectWithMetadata.FilteredWrapperPacket DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new proto.triton.ObjectWithMetadata.FilteredWrapperPacket();
+    }
+
+    public static proto.triton.ObjectWithMetadata.FilteredWrapperPacket getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FilteredWrapperPacket>
+        PARSER = new com.google.protobuf.AbstractParser<FilteredWrapperPacket>() {
+      @java.lang.Override
+      public FilteredWrapperPacket parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FilteredWrapperPacket(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FilteredWrapperPacket> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FilteredWrapperPacket> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public proto.triton.ObjectWithMetadata.FilteredWrapperPacket getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_proto_triton_Ball_descriptor;
   private static final 
@@ -2359,6 +3826,21 @@ public final class ObjectWithMetadata {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_proto_triton_Robot_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_proto_triton_FilteredWrapperPacket_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_proto_triton_FilteredWrapperPacket_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_proto_triton_FilteredWrapperPacket_AlliesEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_proto_triton_FilteredWrapperPacket_AlliesEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_proto_triton_FilteredWrapperPacket_FoesEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_proto_triton_FilteredWrapperPacket_FoesEntry_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2369,15 +3851,26 @@ public final class ObjectWithMetadata {
   static {
     java.lang.String[] descriptorData = {
       "\n\032object_with_metadata.proto\022\014proto.trit" +
-      "on\"\234\001\n\004Ball\022\021\n\ttimestamp\030\001 \001(\003\022\022\n\nconfid" +
-      "ence\030\002 \001(\002\022\t\n\001x\030\003 \001(\002\022\t\n\001y\030\004 \001(\002\022\t\n\001z\030\005 " +
-      "\001(\002\022\n\n\002vx\030\006 \001(\002\022\n\n\002vy\030\007 \001(\002\022\n\n\002vz\030\010 \001(\002\022" +
-      "\014\n\004accX\030\t \001(\002\022\014\n\004accY\030\n \001(\002\022\014\n\004accZ\030\013 \001(" +
-      "\002\"\273\001\n\005Robot\022\021\n\ttimestamp\030\001 \001(\003\022\n\n\002id\030\002 \001" +
-      "(\005\022\017\n\007hasBall\030\003 \001(\010\022\t\n\001x\030\004 \001(\002\022\t\n\001y\030\005 \001(" +
-      "\002\022\023\n\013orientation\030\006 \001(\002\022\n\n\002vx\030\007 \001(\002\022\n\n\002vy" +
-      "\030\010 \001(\002\022\017\n\007angular\030\t \001(\002\022\014\n\004accX\030\n \001(\002\022\014\n" +
-      "\004accY\030\013 \001(\002\022\022\n\naccAngular\030\014 \001(\002b\006proto3"
+      "on\032#messages_robocup_ssl_geometry.proto\"" +
+      "\234\001\n\004Ball\022\021\n\ttimestamp\030\001 \001(\003\022\022\n\nconfidenc" +
+      "e\030\002 \001(\002\022\t\n\001x\030\003 \001(\002\022\t\n\001y\030\004 \001(\002\022\t\n\001z\030\005 \001(\002" +
+      "\022\n\n\002vx\030\006 \001(\002\022\n\n\002vy\030\007 \001(\002\022\n\n\002vz\030\010 \001(\002\022\014\n\004" +
+      "accX\030\t \001(\002\022\014\n\004accY\030\n \001(\002\022\014\n\004accZ\030\013 \001(\002\"\273" +
+      "\001\n\005Robot\022\021\n\ttimestamp\030\001 \001(\003\022\n\n\002id\030\002 \001(\005\022" +
+      "\017\n\007hasBall\030\003 \001(\010\022\t\n\001x\030\004 \001(\002\022\t\n\001y\030\005 \001(\002\022\023" +
+      "\n\013orientation\030\006 \001(\002\022\n\n\002vx\030\007 \001(\002\022\n\n\002vy\030\010 " +
+      "\001(\002\022\017\n\007angular\030\t \001(\002\022\014\n\004accX\030\n \001(\002\022\014\n\004ac" +
+      "cY\030\013 \001(\002\022\022\n\naccAngular\030\014 \001(\002\"\204\003\n\025Filtere" +
+      "dWrapperPacket\022\021\n\ttimestamp\030\001 \001(\003\0222\n\005fie" +
+      "ld\030\002 \001(\0132#.proto.vision.SSL_GeometryFiel" +
+      "dSize\022 \n\004ball\030\003 \001(\0132\022.proto.triton.Ball\022" +
+      "?\n\006allies\030\004 \003(\0132/.proto.triton.FilteredW" +
+      "rapperPacket.AlliesEntry\022;\n\004foes\030\005 \003(\0132-" +
+      ".proto.triton.FilteredWrapperPacket.Foes" +
+      "Entry\032B\n\013AlliesEntry\022\013\n\003key\030\001 \001(\005\022\"\n\005val" +
+      "ue\030\002 \001(\0132\023.proto.triton.Robot:\0028\001\032@\n\tFoe" +
+      "sEntry\022\013\n\003key\030\001 \001(\005\022\"\n\005value\030\002 \001(\0132\023.pro" +
+      "to.triton.Robot:\0028\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2390,6 +3883,7 @@ public final class ObjectWithMetadata {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          proto.vision.MessagesRobocupSslGeometry.getDescriptor(),
         }, assigner);
     internal_static_proto_triton_Ball_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -2403,6 +3897,25 @@ public final class ObjectWithMetadata {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_triton_Robot_descriptor,
         new java.lang.String[] { "Timestamp", "Id", "HasBall", "X", "Y", "Orientation", "Vx", "Vy", "Angular", "AccX", "AccY", "AccAngular", });
+    internal_static_proto_triton_FilteredWrapperPacket_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_proto_triton_FilteredWrapperPacket_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_proto_triton_FilteredWrapperPacket_descriptor,
+        new java.lang.String[] { "Timestamp", "Field", "Ball", "Allies", "Foes", });
+    internal_static_proto_triton_FilteredWrapperPacket_AlliesEntry_descriptor =
+      internal_static_proto_triton_FilteredWrapperPacket_descriptor.getNestedTypes().get(0);
+    internal_static_proto_triton_FilteredWrapperPacket_AlliesEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_proto_triton_FilteredWrapperPacket_AlliesEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_proto_triton_FilteredWrapperPacket_FoesEntry_descriptor =
+      internal_static_proto_triton_FilteredWrapperPacket_descriptor.getNestedTypes().get(1);
+    internal_static_proto_triton_FilteredWrapperPacket_FoesEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_proto_triton_FilteredWrapperPacket_FoesEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    proto.vision.MessagesRobocupSslGeometry.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

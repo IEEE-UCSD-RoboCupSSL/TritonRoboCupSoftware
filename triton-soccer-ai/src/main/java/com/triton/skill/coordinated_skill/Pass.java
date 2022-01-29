@@ -8,16 +8,17 @@ import com.triton.skill.individual_skill.ChaseBall;
 import com.triton.skill.individual_skill.KickFromPosition;
 import com.triton.skill.individual_skill.PathToTarget;
 import com.triton.util.Vector2d;
+import proto.triton.ObjectWithMetadata;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.ProgramConstants.aiConfig;
-import static com.triton.util.ObjectHelper.isMovingTowardTarget;
-import static com.triton.util.ObjectHelper.predictPos;
+import static com.triton.util.ObjectHelper.*;
 import static com.triton.util.ProtobufUtils.getPos;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
+import static proto.triton.ObjectWithMetadata.*;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
 
@@ -26,43 +27,53 @@ public class Pass extends Skill {
     private final Robot receiver;
     private final Vector2d passFrom;
     private final Vector2d passTo;
+    private final FilteredWrapperPacket wrapper;
     private final PathfindGridGroup pathfindGridGroup;
-    private final Ball ball;
-    private final Map<Integer, RobotFeedback> feedbacks;
 
     public Pass(Module module,
                 Robot passer,
                 Robot receiver,
                 Vector2d passFrom,
                 Vector2d passTo,
-                PathfindGridGroup pathfindGridGroup,
-                Ball ball,
-                Map<Integer, RobotFeedback> feedbacks) {
+                FilteredWrapperPacket wrapper,
+                PathfindGridGroup pathfindGridGroup) {
         super(module);
         this.passer = passer;
         this.receiver = receiver;
         this.passFrom = passFrom;
         this.passTo = passTo;
+        this.wrapper = wrapper;
         this.pathfindGridGroup = pathfindGridGroup;
-        this.ball = ball;
-        this.feedbacks = feedbacks;
     }
 
     @Override
     protected void execute() {
-        if (feedbacks.get(receiver.getId()).getDribblerBallContact()) return;
+        Ball ball = wrapper.getBall();
+        Map<Integer, Robot> allies = wrapper.getAlliesMap();
 
-        if (feedbacks.get(passer.getId()).getDribblerBallContact()) {
-            KickFromPosition kickFromPosition = new KickFromPosition(module,
-                    passer,
-                    passFrom,
-                    passTo,
-                    pathfindGridGroup,
-                    ball);
-            submitSkill(kickFromPosition);
+        if (allies.get(receiver.getId()).getHasBall()) return;
 
-            PathToTarget pathToTarget = new PathToTarget(module, receiver, passTo, passFrom, pathfindGridGroup);
-            submitSkill(pathToTarget);
+        if (allies.get(passer.getId()).getHasBall()) {
+            if (hasPos(receiver, passTo, aiConfig.passKickReceiverDistThreshold)) {
+                KickFromPosition kickFromPosition = new KickFromPosition(module,
+                        passer,
+                        passFrom,
+                        passTo,
+                        pathfindGridGroup,
+                        ball);
+                submitSkill(kickFromPosition);
+
+                PathToTarget pathToTarget = new PathToTarget(module, receiver, passTo, passFrom,
+                        pathfindGridGroup);
+                submitSkill(pathToTarget);
+            } else {
+                PathToTarget passerPathToTarget = new PathToTarget(module, passer, passFrom, passTo, pathfindGridGroup);
+                submitSkill(passerPathToTarget);
+
+                PathToTarget receiverPathToTarget = new PathToTarget(module, receiver, passTo, passFrom,
+                        pathfindGridGroup);
+                submitSkill(receiverPathToTarget);
+            }
         } else {
             if (isMovingTowardTarget(ball, getPos(receiver), aiConfig.passCatchBallSpeedThreshold,
                     aiConfig.passCatchBallAngleTolerance)) {

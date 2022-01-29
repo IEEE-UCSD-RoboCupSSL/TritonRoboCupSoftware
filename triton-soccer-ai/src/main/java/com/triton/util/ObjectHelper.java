@@ -134,7 +134,7 @@ public class ObjectHelper {
     public static Robot getNearest(Vector2d target, List<Robot> robots) {
         Robot closestRobot = null;
         float minDist = Float.MAX_VALUE;
-        for (Robot robot: robots) {
+        for (Robot robot : robots) {
             float dist = target.dist(getPos(robot));
             if (dist < minDist) {
                 closestRobot = robot;

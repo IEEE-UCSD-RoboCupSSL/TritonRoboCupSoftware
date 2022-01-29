@@ -2,12 +2,14 @@ package com.triton.module.processing_module;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.constant.ProgramConstants;
+import com.triton.constant.Team;
 import com.triton.module.Module;
 import com.triton.util.Vector2d;
+import proto.vision.MessagesRobocupSslWrapper.SSL_WrapperPacket;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -17,20 +19,18 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.ObjectWithMetadata.*;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
+import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class FilterModule extends Module {
     private static final long DEFAULT_PUBLISH_PERIOD = 10;
 
+    private FilteredWrapperPacket filteredWrapper;
     private Map<Integer, RobotFeedback> feedbacks;
-    private Ball filteredBall;
-    private Map<Integer, Robot> filteredAllies;
-    private Map<Integer, Robot> filteredFoes;
 
-    private Future publishFilteredObjectFuture;
+    private Future publishFilteredWrapperFuture;
 
     public FilterModule(ScheduledThreadPoolExecutor executor) {
         super(executor);
@@ -39,111 +39,141 @@ public class FilterModule extends Module {
     @Override
     public void run() {
         super.run();
-        initDefaults();
-        publishFilteredObjectFuture = executor.scheduleAtFixedRate(this::publishFilteredObjects, 0,
+        initDefaultFilteredWrapper();
+        publishFilteredWrapperFuture = executor.scheduleAtFixedRate(this::publishFilteredWrapper, 0,
                 DEFAULT_PUBLISH_PERIOD, TimeUnit.MILLISECONDS);
     }
 
-    private void initDefaults() {
+    private void initDefaultFilteredWrapper() {
         long timestamp = System.currentTimeMillis();
-        initDefaultBall(timestamp);
-        initDefaultAllies(timestamp);
-        initDefaultFoes(timestamp);
+        FilteredWrapperPacket.Builder filteredWrapper = FilteredWrapperPacket.newBuilder();
+        filteredWrapper.setField(initDefaultField());
+        filteredWrapper.setBall(initDefaultBall(timestamp));
+        filteredWrapper.putAllAllies(initDefaultAllies(timestamp));
+        filteredWrapper.putAllFoes(initDefaultFoes(timestamp));
+        this.filteredWrapper = filteredWrapper.build();
     }
 
-    private void publishFilteredObjects() {
-        publish(AI_FILTERED_BALL, filteredBall);
-        publish(AI_FILTERED_ALLIES, filteredAllies);
-        publish(AI_FILTERED_FOES, filteredFoes);
+    private void publishFilteredWrapper() {
+        publish(AI_FILTERED_VISION_WRAPPER, filteredWrapper);
     }
 
-    private void initDefaultBall(long timestamp) {
-        Ball.Builder ball = Ball.newBuilder();
-        ball.setTimestamp(timestamp);
-        ball.setConfidence(0);
-        ball.setX(0);
-        ball.setY(0);
-        ball.setZ(0);
-        ball.setVx(0);
-        ball.setVy(0);
-        ball.setVz(0);
-        ball.setAccX(0);
-        ball.setAccY(0);
-        ball.setAccZ(0);
-        filteredBall = ball.build();
+    private SSL_GeometryFieldSize initDefaultField() {
+        SSL_GeometryFieldSize.Builder defaultField = SSL_GeometryFieldSize.newBuilder();
+        defaultField.setFieldLength(0);
+        defaultField.setFieldWidth(0);
+        defaultField.setGoalWidth(0);
+        defaultField.setGoalDepth(0);
+        defaultField.setBoundaryWidth(0);
+        return defaultField.build();
     }
 
-    private void initDefaultAllies(long timestamp) {
+    private Ball initDefaultBall(long timestamp) {
+        Ball.Builder defaultBall = Ball.newBuilder();
+        defaultBall.setTimestamp(timestamp);
+        defaultBall.setConfidence(0);
+        defaultBall.setX(0);
+        defaultBall.setY(0);
+        defaultBall.setZ(0);
+        defaultBall.setVx(0);
+        defaultBall.setVy(0);
+        defaultBall.setVz(0);
+        defaultBall.setAccX(0);
+        defaultBall.setAccY(0);
+        defaultBall.setAccZ(0);
+        return defaultBall.build();
+    }
+
+    private Map<Integer, Robot> initDefaultAllies(long timestamp) {
+        Map<Integer, Robot> defaultFilteredAllies = new HashMap<>();
         for (int id = 0; id < ProgramConstants.gameConfig.numBots; id++) {
-            Robot.Builder filteredAlly = Robot.newBuilder();
-            filteredAlly.setTimestamp(timestamp);
-            filteredAlly.setId(id);
-            filteredAlly.setX(0);
-            filteredAlly.setY(0);
-            filteredAlly.setOrientation(0);
-            filteredAlly.setVx(0);
-            filteredAlly.setVy(0);
-            filteredAlly.setAngular(0);
-            filteredAlly.setAccX(0);
-            filteredAlly.setAccY(0);
-            filteredAlly.setAccAngular(0);
-            filteredAllies.put(id, filteredAlly.build());
+            Robot.Builder defaultFilteredAlly = Robot.newBuilder();
+            defaultFilteredAlly.setTimestamp(timestamp);
+            defaultFilteredAlly.setId(id);
+            defaultFilteredAlly.setX(0);
+            defaultFilteredAlly.setY(0);
+            defaultFilteredAlly.setOrientation(0);
+            defaultFilteredAlly.setVx(0);
+            defaultFilteredAlly.setVy(0);
+            defaultFilteredAlly.setAngular(0);
+            defaultFilteredAlly.setAccX(0);
+            defaultFilteredAlly.setAccY(0);
+            defaultFilteredAlly.setAccAngular(0);
+            defaultFilteredAllies.put(id, defaultFilteredAlly.build());
         }
+        return defaultFilteredAllies;
     }
 
-    private void initDefaultFoes(long timestamp) {
+    private Map<Integer, Robot> initDefaultFoes(long timestamp) {
+        Map<Integer, Robot> defaultFilteredFoes = new HashMap<>();
         for (int id = 0; id < ProgramConstants.gameConfig.numBots; id++) {
-            Robot.Builder filteredFoe = Robot.newBuilder();
-            filteredFoe.setTimestamp(timestamp);
-            filteredFoe.setId(id);
-            filteredFoe.setX(0);
-            filteredFoe.setY(0);
-            filteredFoe.setOrientation(0);
-            filteredFoe.setVx(0);
-            filteredFoe.setVy(0);
-            filteredFoe.setAngular(0);
-            filteredFoe.setAccX(0);
-            filteredFoe.setAccY(0);
-            filteredFoe.setAccAngular(0);
-            filteredFoes.put(id, filteredFoe.build());
+            Robot.Builder defaultFilteredFoe = Robot.newBuilder();
+            defaultFilteredFoe.setTimestamp(timestamp);
+            defaultFilteredFoe.setId(id);
+            defaultFilteredFoe.setX(0);
+            defaultFilteredFoe.setY(0);
+            defaultFilteredFoe.setOrientation(0);
+            defaultFilteredFoe.setVx(0);
+            defaultFilteredFoe.setVy(0);
+            defaultFilteredFoe.setAngular(0);
+            defaultFilteredFoe.setAccX(0);
+            defaultFilteredFoe.setAccY(0);
+            defaultFilteredFoe.setAccAngular(0);
+            defaultFilteredFoes.put(id, defaultFilteredFoe.build());
         }
+        return defaultFilteredFoes;
     }
 
     @Override
     protected void prepare() {
-        filteredBall = Ball.getDefaultInstance();
-        filteredAllies = new HashMap<>();
-        filteredFoes = new HashMap<>();
+        initDefaultFilteredWrapper();
     }
 
     @Override
     protected void declarePublishes() throws IOException, TimeoutException {
-        declarePublish(AI_FILTERED_BALL);
-        declarePublish(AI_FILTERED_ALLIES);
-        declarePublish(AI_FILTERED_FOES);
+        declarePublish(AI_FILTERED_VISION_WRAPPER);
     }
 
     @Override
     protected void declareConsumes() throws IOException, TimeoutException {
-        declareConsume(AI_BIASED_BALLS, this::callbackBalls);
-        declareConsume(AI_BIASED_ALLIES, this::callbackAllies);
-        declareConsume(AI_BIASED_FOES, this::callbackFoes);
+        declareConsume(AI_BIASED_VISION_WRAPPER, this::callbackWrapper);
         declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
     }
 
-    private void callbackBalls(String s, Delivery delivery) {
-        ArrayList<SSL_DetectionBall> balls = (ArrayList<SSL_DetectionBall>) simpleDeserialize(delivery.getBody());
+    private void callbackWrapper(String s, Delivery delivery) {
+        SSL_WrapperPacket wrapper = (SSL_WrapperPacket) simpleDeserialize(delivery.getBody());
 
         long timestamp = System.currentTimeMillis();
 
+        FilteredWrapperPacket.Builder filteredWrapper = this.filteredWrapper.toBuilder();
+        filteredWrapper.setField(wrapper.getGeometry().getField());
+        filteredWrapper.setBall(filterBalls(wrapper.getDetection().getBallsList(), this.filteredWrapper.getBall(), timestamp));
+
+        List<SSL_DetectionRobot> allies;
+        List<SSL_DetectionRobot> foes;
+        if (ProgramConstants.team == Team.YELLOW) {
+            allies = wrapper.getDetection().getRobotsYellowList();
+            foes = wrapper.getDetection().getRobotsBlueList();
+        } else {
+            allies = wrapper.getDetection().getRobotsBlueList();
+            foes = wrapper.getDetection().getRobotsYellowList();
+        }
+
+        filteredWrapper.putAllAllies(filterAllies(allies, this.filteredWrapper.getAlliesMap(), feedbacks, timestamp));
+        filteredWrapper.putAllFoes(filterFoes(foes, this.filteredWrapper.getFoesMap(), feedbacks, timestamp));
+        this.filteredWrapper = filteredWrapper.build();
+    }
+
+    private void callbackFeedbacks(String s, Delivery delivery) {
+        feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+    }
+
+    private Ball filterBalls(List<SSL_DetectionBall> balls, Ball lastBall, long timestamp) {
         if (balls.size() == 0) {
-            // TODO, IF BALL DISAPPEARS SUDDENLY, MARK CLOSEST FOE TO THE LAST BALL LOCATION AS THE HOLDER
-            // USE ROBOT FEEDBACKS FOR ALLIES
-            Ball.Builder lastBall = filteredBall.toBuilder();
-            lastBall.setTimestamp(timestamp);
-            lastBall.setConfidence(0f);
-            this.filteredBall = lastBall.build();
-            return;
+            Ball.Builder lastKnownBall = lastBall.toBuilder();
+            lastKnownBall.setTimestamp(timestamp);
+            lastKnownBall.setConfidence(0f);
+            return lastKnownBall.build();
         }
 
         float x = 0;
@@ -158,17 +188,17 @@ public class FilterModule extends Module {
         y /= balls.size();
         z /= balls.size();
 
-        float deltaSeconds = (timestamp - filteredBall.getTimestamp()) / 1000f;
-        float vx = (x - filteredBall.getX()) / deltaSeconds;
-        float vy = (y - filteredBall.getY()) / deltaSeconds;
-        float vz = (z - filteredBall.getZ()) / deltaSeconds;
-        float accX = (vx - filteredBall.getVx()) / deltaSeconds;
-        float accY = (vy - filteredBall.getVy()) / deltaSeconds;
-        float accZ = (vz - filteredBall.getAccZ()) / deltaSeconds;
+        float deltaSeconds = (timestamp - lastBall.getTimestamp()) / 1000f;
+        float vx = (x - lastBall.getX()) / deltaSeconds;
+        float vy = (y - lastBall.getY()) / deltaSeconds;
+        float vz = (z - lastBall.getZ()) / deltaSeconds;
+        float accX = (vx - lastBall.getVx()) / deltaSeconds;
+        float accY = (vy - lastBall.getVy()) / deltaSeconds;
+        float accZ = (vz - lastBall.getAccZ()) / deltaSeconds;
 
         Ball.Builder filteredBall = Ball.newBuilder();
         filteredBall.setTimestamp(timestamp);
-        filteredBall.setConfidence(1);
+        filteredBall.setConfidence(1f);
         filteredBall.setX(x);
         filteredBall.setY(y);
         filteredBall.setZ(z);
@@ -179,38 +209,60 @@ public class FilterModule extends Module {
         filteredBall.setAccY(accY);
         filteredBall.setAccZ(accZ);
 
-        this.filteredBall = filteredBall.build();
+        return filteredBall.build();
     }
 
-    private void callbackAllies(String s, Delivery delivery) {
-        Map<Integer, SSL_DetectionRobot> allies = (Map<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
-        long timestamp = System.currentTimeMillis();
-        for (SSL_DetectionRobot ally : allies.values()) {
+    private Map<Integer, Robot> filterAllies(List<SSL_DetectionRobot> allies,
+                                             Map<Integer, Robot> lastAllies,
+                                             Map<Integer, RobotFeedback> feedbacks,
+                                             long timestamp) {
+        Map<Integer, Robot> filteredAllies = new HashMap<>();
+        for (SSL_DetectionRobot ally : allies) {
             if (ally.getRobotId() < ProgramConstants.gameConfig.numBots) {
-                Robot lastAlly = filteredAllies.get(ally.getRobotId());
-                Robot filteredAlly = createFilteredRobot(timestamp, ally, lastAlly);
+                Robot lastAlly = lastAllies.get(ally.getRobotId());
+                boolean hasBall = feedbacks != null && feedbacks.get(ally.getRobotId()).getDribblerBallContact();
+                Robot filteredAlly = filterRobot(timestamp, ally, lastAlly, hasBall);
                 filteredAllies.put(ally.getRobotId(), filteredAlly);
             }
         }
+
+        return filteredAllies;
     }
 
-    private void callbackFoes(String s, Delivery delivery) {
-        Map<Integer, SSL_DetectionRobot> foes = (Map<Integer, SSL_DetectionRobot>) simpleDeserialize(delivery.getBody());
-        long timestamp = System.currentTimeMillis();
-        for (SSL_DetectionRobot foe : foes.values()) {
+    private Map<Integer, Robot> filterFoes(List<SSL_DetectionRobot> foes,
+                                           Map<Integer, Robot> lastFoes,
+                                           Map<Integer, RobotFeedback> feedbacks,
+                                           long timestamp) {
+        boolean allyHasBall = false;
+        if (feedbacks != null) {
+            for (RobotFeedback feedback : feedbacks.values()) {
+                if (feedback.getDribblerBallContact()) {
+                    allyHasBall = true;
+                    break;
+                }
+            }
+        }
+
+        Map<Integer, Robot> filteredFoes = new HashMap<>();
+        for (SSL_DetectionRobot foe : foes) {
             if (foe.getRobotId() < ProgramConstants.gameConfig.numBots) {
-                Robot lastFoe = filteredFoes.get(foe.getRobotId());
-                Robot filteredFoe = createFilteredRobot(timestamp, foe, lastFoe);
+                Robot lastFoe = lastFoes.get(foe.getRobotId());
+                boolean hasBall = false;
+
+                if (!allyHasBall) {
+                    // TODO
+                }
+
+                Robot filteredFoe = filterRobot(timestamp, foe, lastFoe, hasBall);
+                if (allyHasBall)
+                    filteredFoe = filteredFoe.toBuilder().setHasBall(false).build();
                 filteredFoes.put(foe.getRobotId(), filteredFoe);
             }
         }
+        return filteredFoes;
     }
 
-    private void callbackFeedbacks(String s, Delivery delivery) {
-        feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
-    }
-
-    private Robot createFilteredRobot(long timestamp, SSL_DetectionRobot robot, Robot lastRobot) {
+    private Robot filterRobot(long timestamp, SSL_DetectionRobot robot, Robot lastRobot, boolean hasBall) {
         float deltaSeconds = (timestamp - lastRobot.getTimestamp()) / 1000f;
         float vx = (robot.getX() - lastRobot.getX()) / deltaSeconds;
         float vy = (robot.getY() - lastRobot.getY()) / deltaSeconds;
@@ -231,12 +283,13 @@ public class FilterModule extends Module {
         filteredRobot.setAccX(accX);
         filteredRobot.setAccY(accY);
         filteredRobot.setAccAngular(accAngular);
+        filteredRobot.setHasBall(hasBall);
         return filteredRobot.build();
     }
 
     @Override
     public void interrupt() {
         super.interrupt();
-        publishFilteredObjectFuture.cancel(false);
+        publishFilteredWrapperFuture.cancel(false);
     }
 }

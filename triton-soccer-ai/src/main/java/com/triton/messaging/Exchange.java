@@ -8,15 +8,10 @@ public enum Exchange {
     AI_ROBOT_FEEDBACKS,
 
     // Camera data processed into a biased team perspective
-    AI_BIASED_FIELD,
-    AI_BIASED_BALLS,
-    AI_BIASED_ALLIES,
-    AI_BIASED_FOES,
+    AI_BIASED_VISION_WRAPPER,
 
     // Camera data processed into a biased team perspective, then filtered to reduce noise
-    AI_FILTERED_BALL,
-    AI_FILTERED_ALLIES,
-    AI_FILTERED_FOES,
+    AI_FILTERED_VISION_WRAPPER,
 
     // Commands sent from our team perspective
     AI_BIASED_SIMULATOR_CONTROL,

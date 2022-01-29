@@ -14,13 +14,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
-import static com.triton.messaging.Exchange.AI_FILTERED_ALLIES;
+import static com.triton.messaging.Exchange.AI_FILTERED_VISION_WRAPPER;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.util.ProtobufUtils.createTeleportRobot;
+import static proto.triton.ObjectWithMetadata.FilteredWrapperPacket;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class MatchVelocityTest extends TestRunner {
-    private Map<Integer, Robot> allies;
+    private FilteredWrapperPacket wrapper;
 
     public MatchVelocityTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
@@ -29,7 +30,9 @@ public class MatchVelocityTest extends TestRunner {
 
     @Override
     protected void execute() {
-        if (allies == null) return;
+        if (wrapper == null) return;
+        Map<Integer, Robot> allies = wrapper.getAlliesMap();
+
         MatchVelocity matchVelocity = new MatchVelocity(this, allies.get(1), new Vector2d(0, 2), 2f);
         submitSkill(matchVelocity);
     }
@@ -45,11 +48,11 @@ public class MatchVelocityTest extends TestRunner {
 
     @Override
     protected void declareConsumes() throws IOException, TimeoutException {
-        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
+        declareConsume(AI_FILTERED_VISION_WRAPPER, this::callbackWrapper);
     }
 
-    private void callbackAllies(String s, Delivery delivery) {
-        allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
+    private void callbackWrapper(String s, Delivery delivery) {
+        wrapper = (FilteredWrapperPacket) simpleDeserialize(delivery.getBody());
     }
 
     @Override

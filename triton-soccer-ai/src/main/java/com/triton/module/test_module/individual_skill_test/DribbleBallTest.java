@@ -17,11 +17,11 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.util.ProtobufUtils.createTeleportBall;
 import static com.triton.util.ProtobufUtils.createTeleportRobot;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
+import static proto.triton.ObjectWithMetadata.*;
 import static proto.triton.ObjectWithMetadata.Robot;
 
 public class DribbleBallTest extends TestRunner {
-    private Map<Integer, Robot> allies;
-    private Map<Integer, RobotFeedback> feedbacks;
+    private FilteredWrapperPacket wrapper;
 
     public DribbleBallTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
@@ -38,6 +38,9 @@ public class DribbleBallTest extends TestRunner {
 
     @Override
     protected void execute() {
+        if (wrapper == null) return;
+        Map<Integer, Robot> allies = wrapper.getAlliesMap();
+
         if (allies == null) return;
         MatchVelocity matchVelocity = new MatchVelocity(this, allies.get(1), new Vector2d(0, 2), 0);
         submitSkill(matchVelocity);
@@ -54,15 +57,10 @@ public class DribbleBallTest extends TestRunner {
 
     @Override
     protected void declareConsumes() throws IOException, TimeoutException {
-        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
-        declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
+        declareConsume(AI_FILTERED_VISION_WRAPPER, this::callbackWrapper);
     }
 
-    private void callbackAllies(String s, Delivery delivery) {
-        allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackFeedbacks(String s, Delivery delivery) {
-        feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+    private void callbackWrapper(String s, Delivery delivery) {
+        wrapper = (FilteredWrapperPacket) simpleDeserialize(delivery.getBody());
     }
 }

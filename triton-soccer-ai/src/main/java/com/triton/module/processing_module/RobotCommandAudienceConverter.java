@@ -36,27 +36,27 @@ public class RobotCommandAudienceConverter extends Module {
 
     private void callbackBiasedRobotCommand(String s, Delivery delivery) {
         RobotCommand biasedRobotCommand = (RobotCommand) simpleDeserialize(delivery.getBody());
-        RobotCommand robotCommand = biasedToAudience(biasedRobotCommand);
+        RobotCommand robotCommand = commandBiasedToAudience(biasedRobotCommand);
         publish(AI_ROBOT_COMMAND, robotCommand);
     }
 
-    private static RobotCommand biasedToAudience(RobotCommand command) {
+    private static RobotCommand commandBiasedToAudience(RobotCommand command) {
         RobotCommand.Builder audienceCommand = command.toBuilder();
-        audienceCommand.setMoveCommand(biasedToAudience(command.getMoveCommand()));
+        audienceCommand.setMoveCommand(moveCommandBiasedToAudience(command.getMoveCommand()));
         return audienceCommand.build();
     }
 
-    private static RobotMoveCommand biasedToAudience(RobotMoveCommand moveCommand) {
+    private static RobotMoveCommand moveCommandBiasedToAudience(RobotMoveCommand moveCommand) {
         if (moveCommand.hasGlobalVelocity()) {
             RobotMoveCommand.Builder audienceMoveCommand = moveCommand.toBuilder();
-            audienceMoveCommand.setGlobalVelocity(biasedToAudience(audienceMoveCommand.getGlobalVelocity()));
+            audienceMoveCommand.setGlobalVelocity(moveGlobalVelocityBiasedToAudience(audienceMoveCommand.getGlobalVelocity()));
             return audienceMoveCommand.build();
         }
 
         return moveCommand;
     }
 
-    private static MoveGlobalVelocity biasedToAudience(MoveGlobalVelocity globalVelocity) {
+    private static MoveGlobalVelocity moveGlobalVelocityBiasedToAudience(MoveGlobalVelocity globalVelocity) {
         MoveGlobalVelocity.Builder audienceGlobalVelocity = globalVelocity.toBuilder();
 
         Vector2d audiencePosition = ConvertCoordinate.biasedToAudience(globalVelocity.getX(), globalVelocity.getY());

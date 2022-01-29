@@ -52,6 +52,7 @@ proto/simulation/SslGcCommon$RobotIdOrBuilder.class
 proto/vision/MessagesRobocupSslDetectionTracked$TeamColor.class
 sslsim/SslSimulationCustomErforceRobotSpec$RobotSpecErForce$Builder.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedBall.class
+proto/triton/ObjectWithMetadata$FilteredWrapperPacket.class
 proto/simulation/SslSimulationConfig$RealismConfig$Builder.class
 proto/vision/MessagesRobocupSslWrapper$1.class
 com/triton/config/NetworkConfig.class
@@ -64,6 +65,7 @@ com/triton/networking/UDP_Client.class
 com/triton/messaging/Exchange.class
 proto/simulation/SslSimulationRobotControl$RobotMoveCommandOrBuilder.class
 com/triton/search/implementation/PathfindGrid.class
+proto/triton/ObjectWithMetadata$FilteredWrapperPacket$FoesDefaultEntryHolder.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedRobot$Builder.class
 com/triton/search/implementation/PathfindGridGroup.class
 proto/vision/MessagesRobocupSslGeometry$SSL_GeometryModels.class
@@ -173,6 +175,7 @@ proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrameOrBuilder.class
 proto/simulation/SslVisionDetection.class
 proto/simulation/SslVisionGeometry$Vector2f$1.class
 com/triton/networking/UDP_Server.class
+proto/triton/ObjectWithMetadata$FilteredWrapperPacket$1.class
 proto/simulation/SslVisionDetection$SSL_DetectionBallOrBuilder.class
 proto/simulation/SslSimulationRobotControl$RobotMoveCommand$CommandCase.class
 proto/simulation/SslSimulationSynchronous.class
@@ -276,10 +279,12 @@ proto/vision/MessagesRobocupSslRefboxLog$Refbox_Log$Builder.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionRobot$1.class
 proto/simulation/SslSimulationConfig$RobotLimits$Builder.class
 proto/vision/MessagesRobocupSslDetectionTracked$Vector2$1.class
+proto/triton/ObjectWithMetadata$FilteredWrapperPacket$Builder.class
 proto/vision/MessagesRobocupSslGeometry$1.class
 proto/vision/MessagesRobocupSslRefboxLog$Log_Frame.class
 proto/simulation/SslSimulationControl$TeleportRobot.class
 proto/vision/MessagesRobocupSslGeometry$SSL_FieldShapeType.class
+proto/triton/ObjectWithMetadata$FilteredWrapperPacketOrBuilder.class
 com/triton/skill/basic_skill/Dribble.class
 proto/simulation/SslSimulationRobotFeedback$RobotControlResponse$1.class
 proto/simulation/SslVisionGeometry$SSL_GeometryModels$Builder.class
@@ -323,6 +328,7 @@ proto/vision/MessagesRobocupSslDetectionTracked$TrackedFrame$Builder.class
 proto/simulation/SslSimulationSynchronous$SimulationSyncResponse$1.class
 proto/simulation/SslSimulationConfig$RobotWheelAngles.class
 proto/simulation/SslSimulationControl$SimulatorCommandOrBuilder.class
+proto/triton/ObjectWithMetadata$FilteredWrapperPacket$AlliesDefaultEntryHolder.class
 proto/vision/MessagesRobocupSslDetectionTracked$TrackedRobot$1.class
 proto/simulation/SslVisionGeometry$SSL_GeometryModels.class
 proto/vision/MessagesRobocupSslDetection$SSL_DetectionBall$Builder.class

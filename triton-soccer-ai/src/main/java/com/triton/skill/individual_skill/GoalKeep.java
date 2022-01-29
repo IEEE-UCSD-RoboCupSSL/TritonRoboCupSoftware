@@ -11,9 +11,7 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.util.ObjectHelper.getNearest;
-import static com.triton.util.ObjectHelper.predictPos;
 import static com.triton.util.ProtobufUtils.getPos;
-import static com.triton.util.ProtobufUtils.getVel;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;

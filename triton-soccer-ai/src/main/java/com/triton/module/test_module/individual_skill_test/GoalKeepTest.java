@@ -5,7 +5,6 @@ import com.triton.constant.ProgramConstants;
 import com.triton.module.TestRunner;
 import com.triton.skill.individual_skill.GoalKeep;
 import proto.simulation.SslSimulationControl;
-import proto.vision.MessagesRobocupSslGeometry;
 
 import java.io.IOException;
 import java.util.Map;
@@ -19,15 +18,13 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.util.ProtobufUtils.createTeleportBall;
 import static com.triton.util.ProtobufUtils.createTeleportRobot;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
+import static proto.triton.ObjectWithMetadata.*;
 import static proto.triton.ObjectWithMetadata.Ball;
 import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.vision.MessagesRobocupSslGeometry.*;
 
 public class GoalKeepTest extends TestRunner {
-    private MessagesRobocupSslGeometry.SSL_GeometryFieldSize field;
-    private Ball ball;
-    private Map<Integer, Robot> allies;
-    private Map<Integer, Robot> foes;
-    private Map<Integer, RobotFeedback> feedbacks;
+    private FilteredWrapperPacket wrapper;
 
     public GoalKeepTest(ScheduledThreadPoolExecutor executor) {
         super(executor);
@@ -36,12 +33,16 @@ public class GoalKeepTest extends TestRunner {
 
     @Override
     protected void execute() {
-        if (field == null || ball == null || allies == null || feedbacks == null) return;
+        if (wrapper == null) return;
+        SSL_GeometryFieldSize field = wrapper.getField();
+        Ball ball = wrapper.getBall();
+        Map<Integer, Robot> allies = wrapper.getAlliesMap();
+        Map<Integer, Robot> foes = wrapper.getFoesMap();
 
         GoalKeep goalKeep = new GoalKeep(this, allies.get(1), field, ball, foes);
         submitSkill(goalKeep);
 
-        if (feedbacks.get(1).getDribblerBallContact())
+        if (allies.get(1).getHasBall())
             System.out.println("CONTACT");
     }
 
@@ -56,37 +57,19 @@ public class GoalKeepTest extends TestRunner {
 
     @Override
     protected void declareConsumes() throws IOException, TimeoutException {
-        declareConsume(AI_BIASED_FIELD, this::callbackField);
-        declareConsume(AI_FILTERED_BALL, this::callbackBalls);
-        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
-        declareConsume(AI_FILTERED_FOES, this::callbackFoes);
-        declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
+        declareConsume(AI_FILTERED_VISION_WRAPPER, this::callbackWrapper);
     }
 
-    private void callbackField(String s, Delivery delivery) {
-        field = (MessagesRobocupSslGeometry.SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackBalls(String s, Delivery delivery) {
-        ball = (Ball) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackAllies(String s, Delivery delivery) {
-        allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackFoes(String s, Delivery delivery) {
-        foes = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackFeedbacks(String s, Delivery delivery) {
-        this.feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
+    private void callbackWrapper(String s, Delivery delivery) {
+        wrapper = (FilteredWrapperPacket) simpleDeserialize(delivery.getBody());
     }
 
     @Override
     protected void setupTest() {
-        Random random = new Random();
+        if (wrapper == null) return;
+        SSL_GeometryFieldSize field = wrapper.getField();
 
+        Random random = new Random();
         SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
         simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.team, 1, 0, -4000f, (float) (Math.PI / 2)));
         simulatorControl.setTeleportBall(createTeleportBall(random.nextFloat(-field.getGoalWidth() / 2f,

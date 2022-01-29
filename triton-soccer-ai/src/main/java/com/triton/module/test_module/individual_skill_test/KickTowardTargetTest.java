@@ -21,17 +21,13 @@ import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.util.ProtobufUtils.createTeleportBall;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.ObjectWithMetadata.*;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class KickTowardTargetTest extends TestRunner {
     private PathfindGridGroup pathfindGridGroup;
 
-    private SSL_GeometryFieldSize field;
-    private Ball ball;
-    private Map<Integer, Robot> allies;
-    private Map<Integer, Robot> foes;
+    private FilteredWrapperPacket wrapper;
     private Map<Integer, RobotFeedback> feedbacks;
 
     public KickTowardTargetTest(ScheduledThreadPoolExecutor executor) {
@@ -48,7 +44,11 @@ public class KickTowardTargetTest extends TestRunner {
 
     @Override
     protected void execute() {
-        if (field == null || ball == null || allies == null || foes == null || feedbacks == null) return;
+        if (wrapper == null) return;
+        SSL_GeometryFieldSize field = wrapper.getField();
+        Ball ball = wrapper.getBall();
+        Map<Integer, Robot> allies = wrapper.getAlliesMap();
+        Map<Integer, Robot> foes = wrapper.getFoesMap();
 
         int id = 1;
         Robot ally = allies.get(1);
@@ -90,27 +90,12 @@ public class KickTowardTargetTest extends TestRunner {
 
     @Override
     protected void declareConsumes() throws IOException, TimeoutException {
-        declareConsume(AI_BIASED_FIELD, this::callbackField);
-        declareConsume(AI_FILTERED_BALL, this::callbackBalls);
-        declareConsume(AI_FILTERED_ALLIES, this::callbackAllies);
-        declareConsume(AI_FILTERED_FOES, this::callbackFoes);
+        declareConsume(AI_FILTERED_VISION_WRAPPER, this::callbackWrapper);
         declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);
     }
 
-    private void callbackField(String s, Delivery delivery) {
-        field = (SSL_GeometryFieldSize) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackBalls(String s, Delivery delivery) {
-        ball = (Ball) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackAllies(String s, Delivery delivery) {
-        allies = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
-    }
-
-    private void callbackFoes(String s, Delivery delivery) {
-        foes = (Map<Integer, Robot>) simpleDeserialize(delivery.getBody());
+    private void callbackWrapper(String s, Delivery delivery) {
+        wrapper = (FilteredWrapperPacket) simpleDeserialize(delivery.getBody());
     }
 
     private void callbackFeedbacks(String s, Delivery delivery) {

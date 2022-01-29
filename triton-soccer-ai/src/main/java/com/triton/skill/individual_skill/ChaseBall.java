@@ -4,6 +4,7 @@ import com.triton.module.Module;
 import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.Skill;
 import com.triton.skill.basic_skill.Dribble;
+import com.triton.util.ObjectHelper;
 import com.triton.util.Vector2d;
 
 import java.io.IOException;
@@ -32,10 +33,9 @@ public class ChaseBall extends Skill {
     @Override
     protected void execute() {
         Vector2d ballPos = getPos(ball);
-        Vector2d ballVel = getVel(ball);
-        Vector2d targetPos = ballPos.add(ballVel.scale(0.1f));
+        Vector2d predictPos = ObjectHelper.predictPos(ball, 0.25f);
 
-        PathToTarget pathToTarget = new PathToTarget(module, actor, targetPos, ballPos, pathfindGridGroup);
+        PathToTarget pathToTarget = new PathToTarget(module, actor, predictPos, ballPos, pathfindGridGroup);
         submitSkill(pathToTarget);
 
         Dribble dribble = new Dribble(module, actor, true);

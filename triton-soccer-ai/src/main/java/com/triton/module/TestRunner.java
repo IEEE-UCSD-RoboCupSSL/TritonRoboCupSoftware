@@ -21,6 +21,11 @@ public abstract class TestRunner extends SkillRunner {
             setupTestFuture.cancel(false);
     }
 
+    protected void reset() {
+        setupTestFuture.cancel(false);
+        scheduleSetupTest(delay, period, timeUnit);
+    }
+
     protected void scheduleSetupTest(long delay, long period, TimeUnit timeUnit) {
         this.delay = delay;
         this.period = period;
@@ -29,9 +34,4 @@ public abstract class TestRunner extends SkillRunner {
     }
 
     protected abstract void setupTest();
-
-    protected void reset() {
-        setupTestFuture.cancel(false);
-        scheduleSetupTest(delay, period, timeUnit);
-    }
 }

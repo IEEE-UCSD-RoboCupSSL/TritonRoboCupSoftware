@@ -1,6 +1,8 @@
 syntax = "proto3";
 package proto.triton;
 
+import "messages_robocup_ssl_geometry.proto";
+
 message Ball {
   int64 timestamp = 1;
   float confidence = 2;
@@ -28,4 +30,12 @@ message Robot {
   float accX = 10;
   float accY = 11;
   float accAngular = 12;
+}
+
+message FilteredWrapperPacket {
+  int64 timestamp = 1;
+  proto.vision.SSL_GeometryFieldSize field = 2;
+  Ball ball = 3;
+  map<int32, Robot> allies = 4;
+  map<int32, Robot>  foes = 5;
 }

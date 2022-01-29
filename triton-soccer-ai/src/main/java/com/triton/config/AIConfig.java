@@ -22,6 +22,7 @@ public class AIConfig {
     public float goalDistToShooterScoreFactor;
     public float goalDistToObstaclesScoreFactor;
 
+    public float passKickReceiverDistThreshold;
     public float passCatchBallSpeedThreshold;
     public float passCatchBallAngleTolerance;
 
