@@ -67,13 +67,13 @@ public class GoalShootTest extends TestRunner {
 
         if (allies.get(id).getHasBall()) {
             Vector2d kickFrom = new Vector2d(0, 2000);
-            GoalShoot goalShoot = new GoalShoot(this, actor, kickFrom, pathfindGridGroup, field, ball, allies, foes);
+            GoalShoot goalShoot = new GoalShoot(this, actor, kickFrom, pathfindGridGroup, wrapper);
             submitSkill(goalShoot);
         } else if (!isMovingTowardTarget(ball, goalPos, 1000, (float) Math.toRadians(10))) {
             ChaseBall chaseBall = new ChaseBall(this,
                     allies.get(id),
                     pathfindGridGroup,
-                    ball);
+                    wrapper);
             submitSkill(chaseBall);
         }
     }

@@ -4,6 +4,7 @@ import com.triton.module.Module;
 import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.Skill;
 import com.triton.util.Vector2d;
+import proto.triton.FilteredObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.constant.ProgramConstants.aiConfig;
 import static com.triton.util.ObjectHelper.distToPath;
 import static com.triton.util.ProtobufUtils.getPos;
+import static proto.triton.FilteredObject.*;
 import static proto.triton.FilteredObject.Ball;
 import static proto.triton.FilteredObject.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
@@ -22,31 +24,27 @@ public class GoalShoot extends Skill {
     private final Robot actor;
     private final Vector2d kickFromNear;
     private final PathfindGridGroup pathfindGridGroup;
-    private final SSL_GeometryFieldSize field;
-    private final Ball ball;
-    private final Map<Integer, Robot> allies;
-    private final Map<Integer, Robot> foes;
+    private final FilteredWrapperPacket wrapper;
 
     public GoalShoot(Module module,
                      Robot actor,
                      Vector2d kickFromNear,
                      PathfindGridGroup pathfindGridGroup,
-                     SSL_GeometryFieldSize field,
-                     Ball ball,
-                     Map<Integer, Robot> allies,
-                     Map<Integer, Robot> foes) {
+                     FilteredWrapperPacket wrapper) {
         super(module);
         this.actor = actor;
         this.kickFromNear = kickFromNear;
         this.pathfindGridGroup = pathfindGridGroup;
-        this.field = field;
-        this.ball = ball;
-        this.allies = allies;
-        this.foes = foes;
+        this.wrapper = wrapper;
     }
 
     @Override
     protected void execute() {
+        SSL_GeometryFieldSize field = wrapper.getField();
+        Ball ball = wrapper.getBall();
+        Map<Integer, Robot> allies = wrapper.getAlliesMap();
+        Map<Integer, Robot> foes = wrapper.getFoesMap();
+
         List<Robot> obstacles = new ArrayList<>();
         allies.forEach((id, ally) -> {
             if (ally.getId() != actor.getId())
@@ -82,8 +80,7 @@ public class GoalShoot extends Skill {
             }
         }
 
-        KickFromPosition kickFromPosition = new KickFromPosition(module, actor, bestKickFrom, bestKickTo, pathfindGridGroup,
-                ball);
+        KickFromPosition kickFromPosition = new KickFromPosition(module, actor, bestKickFrom, bestKickTo, pathfindGridGroup);
         submitSkill(kickFromPosition);
     }
 

@@ -84,14 +84,16 @@ public class KickFromPositionTest extends TestRunner {
             System.out.println("SUCCESSFUL PASS");
         } else {
             if (allies.get(passerId).getHasBall()) {
-                KickFromPosition kickFromPosition = new KickFromPosition(this, passer, kickFrom, kickTo, pathfindGridGroup, ball);
+                KickFromPosition kickFromPosition = new KickFromPosition(this, passer, kickFrom, kickTo,
+                        pathfindGridGroup);
                 submitSkill(kickFromPosition);
             } else {
                 if (isMovingTowardTarget(ball, kickTo, 100, (float) Math.toRadians(30))) {
-                    KickFromPosition kickFromPosition = new KickFromPosition(this, passer, kickFrom, kickTo, pathfindGridGroup, ball);
+                    KickFromPosition kickFromPosition = new KickFromPosition(this, passer, kickFrom, kickTo,
+                            pathfindGridGroup);
                     submitSkill(kickFromPosition);
                 } else {
-                    ChaseBall chaseBall = new ChaseBall(this, passer, pathfindGridGroup, ball);
+                    ChaseBall chaseBall = new ChaseBall(this, passer, pathfindGridGroup, wrapper);
                     submitSkill(chaseBall);
                 }
             }

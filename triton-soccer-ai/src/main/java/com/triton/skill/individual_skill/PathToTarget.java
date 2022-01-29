@@ -19,9 +19,9 @@ import static proto.triton.FilteredObject.Robot;
 public class PathToTarget extends Skill {
     private final Robot actor;
     private final Vector2d target;
-    private final PathfindGridGroup pathfindGridGroup;
     private final float orientation;
     private final Vector2d facePos;
+    private final PathfindGridGroup pathfindGridGroup;
 
     public PathToTarget(Module module,
                         Robot actor,

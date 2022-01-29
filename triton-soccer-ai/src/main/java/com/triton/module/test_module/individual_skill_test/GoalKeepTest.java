@@ -37,7 +37,7 @@ public class GoalKeepTest extends TestRunner {
         Map<Integer, Robot> allies = wrapper.getAlliesMap();
         Map<Integer, Robot> foes = wrapper.getFoesMap();
 
-        GoalKeep goalKeep = new GoalKeep(this, allies.get(1), field, ball, foes);
+        GoalKeep goalKeep = new GoalKeep(this, allies.get(1), wrapper);
         submitSkill(goalKeep);
 
         if (allies.get(1).getHasBall())

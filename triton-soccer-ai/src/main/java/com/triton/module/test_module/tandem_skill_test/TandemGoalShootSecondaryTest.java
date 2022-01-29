@@ -37,7 +37,7 @@ public class TandemGoalShootSecondaryTest extends TestRunner {
         int id = 1;
         Robot keeper = allies.get(id);
 
-        GoalKeep goalKeep = new GoalKeep(this, keeper, field, ball, foes);
+        GoalKeep goalKeep = new GoalKeep(this, keeper, wrapper);
         submitSkill(goalKeep);
     }
 

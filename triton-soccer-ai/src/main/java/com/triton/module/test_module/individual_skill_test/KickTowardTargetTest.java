@@ -74,7 +74,7 @@ public class KickTowardTargetTest extends TestRunner {
             ChaseBall chaseBall = new ChaseBall(this,
                     allies.get(id),
                     pathfindGridGroup,
-                    ball);
+                    wrapper);
             submitSkill(chaseBall);
         }
     }

@@ -69,7 +69,7 @@ public class CatchBallTest extends TestRunner {
             pathfindGridGroup = new PathfindGridGroup(ProgramConstants.gameConfig.numBots, field);
         pathfindGridGroup.updateObstacles(allies, foes);
 
-        CatchBall catchBall = new CatchBall(this, allies.get(1), pathfindGridGroup, ball);
+        CatchBall catchBall = new CatchBall(this, allies.get(1), pathfindGridGroup, wrapper);
         submitSkill(catchBall);
     }
 }

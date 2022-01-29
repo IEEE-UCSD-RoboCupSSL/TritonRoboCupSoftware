@@ -55,8 +55,7 @@ public class Pass extends Skill {
                         passer,
                         passFrom,
                         passTo,
-                        pathfindGridGroup,
-                        ball);
+                        pathfindGridGroup);
                 submitSkill(kickFromPosition);
 
                 PathToTarget pathToTarget = new PathToTarget(module, receiver, passTo, passFrom,
@@ -73,20 +72,20 @@ public class Pass extends Skill {
         } else {
             if (isMovingTowardTarget(ball, getPos(receiver), aiConfig.passCatchBallSpeedThreshold,
                     aiConfig.passCatchBallAngleTolerance)) {
-                CatchBall catchBall = new CatchBall(module, receiver, pathfindGridGroup, ball);
+                CatchBall catchBall = new CatchBall(module, receiver, pathfindGridGroup, wrapper);
                 submitSkill(catchBall);
             } else {
                 Vector2d passerPos = getPos(passer);
                 Vector2d receiverPos = getPos(receiver);
                 Vector2d predictBallPos = predictPos(ball, 0.25f);
                 if (receiverPos.dist(predictBallPos) < passerPos.dist(predictBallPos)) {
-                    ChaseBall chaseBall = new ChaseBall(module, receiver, pathfindGridGroup, ball);
+                    ChaseBall chaseBall = new ChaseBall(module, receiver, pathfindGridGroup, wrapper);
                     submitSkill(chaseBall);
 
                     PathToTarget pathToTarget = new PathToTarget(module, passer, passFrom, passTo, pathfindGridGroup);
                     submitSkill(pathToTarget);
                 } else {
-                    ChaseBall chaseBall = new ChaseBall(module, passer, pathfindGridGroup, ball);
+                    ChaseBall chaseBall = new ChaseBall(module, passer, pathfindGridGroup, wrapper);
                     submitSkill(chaseBall);
 
                     PathToTarget pathToTarget = new PathToTarget(module, receiver, passTo, passFrom, pathfindGridGroup);

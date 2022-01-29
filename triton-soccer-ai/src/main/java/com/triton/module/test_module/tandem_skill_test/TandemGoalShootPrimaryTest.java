@@ -67,13 +67,13 @@ public class TandemGoalShootPrimaryTest extends TestRunner {
 
         if (allies.get(id).getHasBall()) {
             Vector2d kickFrom = new Vector2d(0, 3500);
-            GoalShoot goalShoot = new GoalShoot(this, shooter, kickFrom, pathfindGridGroup, field, ball, allies, foes);
+            GoalShoot goalShoot = new GoalShoot(this, shooter, kickFrom, pathfindGridGroup, wrapper);
             submitSkill(goalShoot);
         } else if (!isMovingTowardTarget(ball, goalPos, 1000, (float) Math.toRadians(10))) {
             ChaseBall chaseBall = new ChaseBall(this,
                     allies.get(id),
                     pathfindGridGroup,
-                    ball);
+                    wrapper);
             submitSkill(chaseBall);
         }
     }

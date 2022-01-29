@@ -6,38 +6,37 @@ import com.triton.skill.basic_skill.Dribble;
 import com.triton.util.Vector2d;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.util.ObjectHelper.getNearest;
 import static com.triton.util.ProtobufUtils.getPos;
-import static proto.triton.FilteredObject.Ball;
-import static proto.triton.FilteredObject.Robot;
+import static proto.triton.FilteredObject.*;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class GoalKeep extends Skill {
     private final Robot actor;
-    private final SSL_GeometryFieldSize field;
-    private final Ball ball;
-    private final Map<Integer, Robot> foes;
+    private final FilteredWrapperPacket wrapper;
 
-    public GoalKeep(Module module, Robot actor, SSL_GeometryFieldSize field, Ball ball, Map<Integer, Robot> foes) {
+    public GoalKeep(Module module, Robot actor, FilteredWrapperPacket wrapper) {
         super(module);
         this.actor = actor;
-        this.field = field;
-        this.ball = ball;
-        this.foes = foes;
+        this.wrapper = wrapper;
     }
 
     @Override
     protected void execute() {
+        SSL_GeometryFieldSize field = wrapper.getField();
+        Ball ball = wrapper.getBall();
+        Map<Integer, Robot> allies = wrapper.getAlliesMap();
+        Map<Integer, Robot> foes = wrapper.getFoesMap();
+
         float xMin = -field.getGoalWidth() / 2f;
         float xMax = field.getGoalWidth() / 2f;
         float y = -field.getFieldLength() / 2f + 250f;
 
-        Vector2d pos = null;
-        Vector2d ballPos = null;
+        Vector2d pos;
+        Vector2d ballPos;
 
         if (ball.getConfidence() == 1f) {
             float x = Math.min(Math.max(ball.getX(), xMin), xMax);

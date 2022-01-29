@@ -4,12 +4,14 @@ import com.triton.module.Module;
 import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.Skill;
 import com.triton.util.Vector2d;
+import proto.triton.FilteredObject;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.ProgramConstants.aiConfig;
 import static com.triton.util.ObjectHelper.hasPos;
+import static proto.triton.FilteredObject.*;
 import static proto.triton.FilteredObject.Ball;
 import static proto.triton.FilteredObject.Robot;
 
@@ -18,20 +20,17 @@ public class KickFromPosition extends Skill {
     private final Vector2d kickFrom;
     private final Vector2d target;
     private final PathfindGridGroup pathfindGridGroup;
-    private final Ball ball;
 
     public KickFromPosition(Module module,
                             Robot actor,
                             Vector2d kickFrom,
                             Vector2d target,
-                            PathfindGridGroup pathfindGridGroup,
-                            Ball ball) {
+                            PathfindGridGroup pathfindGridGroup) {
         super(module);
         this.actor = actor;
         this.kickFrom = kickFrom;
         this.target = target;
         this.pathfindGridGroup = pathfindGridGroup;
-        this.ball = ball;
     }
 
     @Override
