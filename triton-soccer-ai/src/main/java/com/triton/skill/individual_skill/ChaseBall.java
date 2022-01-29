@@ -11,9 +11,8 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.util.ProtobufUtils.getPos;
-import static com.triton.util.ProtobufUtils.getVel;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.Ball;
+import static proto.triton.FilteredObject.Robot;
 
 public class ChaseBall extends Skill {
     private final Robot actor;

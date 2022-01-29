@@ -1,5 +1,5 @@
 # MoveToPoint
-kpPos: 0.003
+kpPos: 0.002
 kiPos: 0.000000
 kdPos: 0.0000
 kpOrientation: 4
@@ -26,7 +26,7 @@ goalKickFromSearchDist: 1000
 goalKickFromSearchSpacing: 100
 goalKickToSearchSpacing: 100
 goalDistToShooterScoreFactor: 1
-goalDistToObstaclesScoreFactor: 20
+goalDistToObstaclesScoreFactor: 3
 
 # Pass
 passKickReceiverDistThreshold: 200

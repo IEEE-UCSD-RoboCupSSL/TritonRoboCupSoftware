@@ -12,8 +12,8 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.util.ObjectHelper.getNearest;
 import static com.triton.util.ProtobufUtils.getPos;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.Ball;
+import static proto.triton.FilteredObject.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class GoalKeep extends Skill {
@@ -44,17 +44,23 @@ public class GoalKeep extends Skill {
             pos = new Vector2d(x, y);
             ballPos = getPos(ball);
         } else {
-            float goalX = 0;
-            float goalY = -field.getFieldLength() / 2f;
-            Vector2d goalPos = new Vector2d(goalX, goalY);
+            Robot foe;
+            if (ball.hasFoeCapture()) {
+                int foeId = ball.getFoeCapture().getId();
+                foe = foes.get(foeId);
+            } else {
+                float goalX = 0;
+                float goalY = -field.getFieldLength() / 2f;
+                Vector2d goalPos = new Vector2d(goalX, goalY);
+                foe = getNearest(goalPos, foes.values().stream().toList());
+            }
 
-            Robot nearestFoe = getNearest(goalPos, new ArrayList<>(foes.values()));
-            Vector2d nearestFoeFaceDir = new Vector2d(nearestFoe.getOrientation());
-            Vector2d predictNearestFoe = getPos(nearestFoe).add(nearestFoeFaceDir.scale(1000));
+            Vector2d nearestFoeFaceDir = new Vector2d(foe.getOrientation());
+            Vector2d predictNearestFoe = getPos(foe).add(nearestFoeFaceDir.scale(1000));
 
             float x = Math.min(Math.max(predictNearestFoe.x, xMin), xMax);
             pos = new Vector2d(x, y);
-            ballPos = getPos(nearestFoe);
+            ballPos = getPos(foe);
         }
 
         MoveToTarget moveToTarget = new MoveToTarget(module, actor, pos, ballPos);

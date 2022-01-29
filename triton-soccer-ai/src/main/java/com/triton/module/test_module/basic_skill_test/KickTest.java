@@ -17,8 +17,8 @@ import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.util.ProtobufUtils.createTeleportBall;
 import static com.triton.util.ProtobufUtils.createTeleportRobot;
 import static proto.simulation.SslSimulationControl.SimulatorControl;
-import static proto.triton.ObjectWithMetadata.FilteredWrapperPacket;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.FilteredWrapperPacket;
+import static proto.triton.FilteredObject.Robot;
 
 public class KickTest extends TestRunner {
     private FilteredWrapperPacket wrapper;

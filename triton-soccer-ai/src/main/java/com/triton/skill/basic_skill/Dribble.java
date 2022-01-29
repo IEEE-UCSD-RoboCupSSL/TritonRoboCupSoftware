@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.Robot;
 
 public class Dribble extends Skill {
     private final Robot actor;

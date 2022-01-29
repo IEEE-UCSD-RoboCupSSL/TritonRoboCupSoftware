@@ -2,7 +2,6 @@ package com.triton.module.test_module.tandem_skill_test;
 
 import com.rabbitmq.client.Delivery;
 import com.triton.module.TestRunner;
-import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.individual_skill.GoalKeep;
 
 import java.io.IOException;
@@ -10,12 +9,10 @@ import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.messaging.Exchange.*;
+import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
+import static com.triton.messaging.Exchange.AI_FILTERED_VISION_WRAPPER;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
-import static proto.triton.ObjectWithMetadata.*;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.*;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class TandemGoalShootSecondaryTest extends TestRunner {

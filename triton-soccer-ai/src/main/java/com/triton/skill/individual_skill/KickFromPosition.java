@@ -10,8 +10,8 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.ProgramConstants.aiConfig;
 import static com.triton.util.ObjectHelper.hasPos;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.Ball;
+import static proto.triton.FilteredObject.Robot;
 
 public class KickFromPosition extends Skill {
     private final Robot actor;

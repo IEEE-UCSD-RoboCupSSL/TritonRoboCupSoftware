@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.triton.util.ProtobufUtils.*;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.Ball;
+import static proto.triton.FilteredObject.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class ObjectHelper {

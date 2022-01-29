@@ -21,7 +21,7 @@ import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.util.ProtobufUtils.createTeleportBall;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
-import static proto.triton.ObjectWithMetadata.*;
+import static proto.triton.FilteredObject.*;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class KickTowardTargetTest extends TestRunner {

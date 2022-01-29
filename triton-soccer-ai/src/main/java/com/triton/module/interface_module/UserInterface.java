@@ -6,7 +6,7 @@ import com.triton.search.implementation.PathfindGrid;
 import com.triton.search.node2d.Node2d;
 import com.triton.util.Vector2d;
 import org.apache.commons.math3.analysis.function.Sigmoid;
-import proto.triton.ObjectWithMetadata;
+import proto.triton.FilteredObject;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldCircularArc;
 import proto.vision.MessagesRobocupSslGeometry.SSL_FieldLineSegment;
 import proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
@@ -36,8 +36,8 @@ import static java.awt.Color.*;
 import static javax.swing.BoxLayout.Y_AXIS;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import static proto.triton.AiDebugInfo.*;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.FilteredWrapperPacket;
+import static proto.triton.FilteredObject.Ball;
+import static proto.triton.FilteredObject.FilteredWrapperPacket;
 
 public class UserInterface extends Module {
     private static final String MAIN_FRAME_TITLE = "Triton Soccer AI";
@@ -269,9 +269,9 @@ public class UserInterface extends Module {
         }
 
         private void paintAllies(Graphics2D graphics2D) {
-            Map<Integer, ObjectWithMetadata.Robot> allies = wrapper.getAlliesMap();
+            Map<Integer, FilteredObject.Robot> allies = wrapper.getAlliesMap();
 
-            for (ObjectWithMetadata.Robot ally : allies.values()) {
+            for (FilteredObject.Robot ally : allies.values()) {
                 Color fillColor;
                 switch (team) {
                     case YELLOW -> fillColor = ORANGE;
@@ -283,9 +283,9 @@ public class UserInterface extends Module {
         }
 
         private void paintFoes(Graphics2D graphics2D) {
-            Map<Integer, ObjectWithMetadata.Robot> foes = wrapper.getFoesMap();
+            Map<Integer, FilteredObject.Robot> foes = wrapper.getFoesMap();
 
-            for (ObjectWithMetadata.Robot foe : foes.values()) {
+            for (FilteredObject.Robot foe : foes.values()) {
                 Color fillColor;
                 switch (team) {
                     case YELLOW -> fillColor = BLUE;
@@ -299,8 +299,8 @@ public class UserInterface extends Module {
         private void paintDebug(Graphics2D graphics2D) {
             SSL_GeometryFieldSize field = wrapper.getField();
             Ball ball = wrapper.getBall();
-            Map<Integer, ObjectWithMetadata.Robot> allies = wrapper.getAlliesMap();
-            Map<Integer, ObjectWithMetadata.Robot> foes = wrapper.getFoesMap();
+            Map<Integer, FilteredObject.Robot> allies = wrapper.getAlliesMap();
+            Map<Integer, FilteredObject.Robot> foes = wrapper.getFoesMap();
 
             if (pathfindGrid == null)
                 pathfindGrid = new PathfindGrid(field);
@@ -357,7 +357,7 @@ public class UserInterface extends Module {
             });
         }
 
-        private void paintRobot(Graphics2D graphics2D, ObjectWithMetadata.Robot robot, Color fillColor, Color outlineColor) {
+        private void paintRobot(Graphics2D graphics2D, FilteredObject.Robot robot, Color fillColor, Color outlineColor) {
             float radius = objectConfig.objectToCameraFactor * objectConfig.robotRadius;
 
             graphics2D.setColor(fillColor);

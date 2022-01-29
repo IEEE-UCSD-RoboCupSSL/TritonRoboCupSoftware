@@ -18,8 +18,13 @@ import java.util.concurrent.TimeoutException;
 
 import static com.triton.messaging.Exchange.*;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
+import static com.triton.util.ObjectHelper.getNearest;
+import static com.triton.util.ProtobufUtils.getPos;
 import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
-import static proto.triton.ObjectWithMetadata.*;
+import static proto.triton.FilteredObject.*;
+import static proto.triton.FilteredObject.Ball.CaptureStateCase;
+import static proto.triton.FilteredObject.Ball.CaptureStateCase.*;
+import static proto.triton.FilteredObject.Ball.newBuilder;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionBall;
 import static proto.vision.MessagesRobocupSslDetection.SSL_DetectionRobot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
@@ -69,18 +74,8 @@ public class FilterModule extends Module {
     }
 
     private Ball initDefaultBall(long timestamp) {
-        Ball.Builder defaultBall = Ball.newBuilder();
+        Ball.Builder defaultBall = newBuilder();
         defaultBall.setTimestamp(timestamp);
-        defaultBall.setConfidence(0);
-        defaultBall.setX(0);
-        defaultBall.setY(0);
-        defaultBall.setZ(0);
-        defaultBall.setVx(0);
-        defaultBall.setVy(0);
-        defaultBall.setVz(0);
-        defaultBall.setAccX(0);
-        defaultBall.setAccY(0);
-        defaultBall.setAccZ(0);
         return defaultBall.build();
     }
 
@@ -89,16 +84,6 @@ public class FilterModule extends Module {
         for (int id = 0; id < ProgramConstants.gameConfig.numBots; id++) {
             Robot.Builder defaultFilteredAlly = Robot.newBuilder();
             defaultFilteredAlly.setTimestamp(timestamp);
-            defaultFilteredAlly.setId(id);
-            defaultFilteredAlly.setX(0);
-            defaultFilteredAlly.setY(0);
-            defaultFilteredAlly.setOrientation(0);
-            defaultFilteredAlly.setVx(0);
-            defaultFilteredAlly.setVy(0);
-            defaultFilteredAlly.setAngular(0);
-            defaultFilteredAlly.setAccX(0);
-            defaultFilteredAlly.setAccY(0);
-            defaultFilteredAlly.setAccAngular(0);
             defaultFilteredAllies.put(id, defaultFilteredAlly.build());
         }
         return defaultFilteredAllies;
@@ -110,15 +95,6 @@ public class FilterModule extends Module {
             Robot.Builder defaultFilteredFoe = Robot.newBuilder();
             defaultFilteredFoe.setTimestamp(timestamp);
             defaultFilteredFoe.setId(id);
-            defaultFilteredFoe.setX(0);
-            defaultFilteredFoe.setY(0);
-            defaultFilteredFoe.setOrientation(0);
-            defaultFilteredFoe.setVx(0);
-            defaultFilteredFoe.setVy(0);
-            defaultFilteredFoe.setAngular(0);
-            defaultFilteredFoe.setAccX(0);
-            defaultFilteredFoe.setAccY(0);
-            defaultFilteredFoe.setAccAngular(0);
             defaultFilteredFoes.put(id, defaultFilteredFoe.build());
         }
         return defaultFilteredFoes;
@@ -147,7 +123,8 @@ public class FilterModule extends Module {
 
         FilteredWrapperPacket.Builder filteredWrapper = this.filteredWrapper.toBuilder();
         filteredWrapper.setField(wrapper.getGeometry().getField());
-        filteredWrapper.setBall(filterBalls(wrapper.getDetection().getBallsList(), this.filteredWrapper.getBall(), timestamp));
+        filteredWrapper.setBall(filterBalls(wrapper.getDetection().getBallsList(), this.filteredWrapper.getBall(),
+                feedbacks, this.filteredWrapper.getFoesMap(), timestamp));
 
         List<SSL_DetectionRobot> allies;
         List<SSL_DetectionRobot> foes;
@@ -168,11 +145,38 @@ public class FilterModule extends Module {
         feedbacks = (Map<Integer, RobotFeedback>) simpleDeserialize(delivery.getBody());
     }
 
-    private Ball filterBalls(List<SSL_DetectionBall> balls, Ball lastBall, long timestamp) {
+    private Ball filterBalls(List<SSL_DetectionBall> balls, Ball lastBall, Map<Integer, RobotFeedback> feedbacks,
+                             Map<Integer, Robot> lastFoes, long timestamp) {
+
+        CaptureStateCase captureStateCase = FREE;
+        int captureId = 0;
+        if (feedbacks != null) {
+            for (Map.Entry<Integer, RobotFeedback> entry : feedbacks.entrySet()) {
+                Integer id = entry.getKey();
+                RobotFeedback feedback = entry.getValue();
+                if (feedback.getDribblerBallContact()) {
+                    captureStateCase = ALLY_CAPTURE;
+                    captureId = id;
+                }
+            }
+        }
+
         if (balls.size() == 0) {
             Ball.Builder lastKnownBall = lastBall.toBuilder();
             lastKnownBall.setTimestamp(timestamp);
             lastKnownBall.setConfidence(0f);
+
+            if (captureStateCase != ALLY_CAPTURE) {
+                captureStateCase = FOE_CAPTURE;
+                Robot nearestFoe = getNearest(getPos(lastBall), lastFoes.values().stream().toList());
+                captureId = nearestFoe.getId();
+            }
+
+            switch (captureStateCase) {
+                case FREE -> lastKnownBall.setFree(Free.newBuilder().build());
+                case ALLY_CAPTURE -> lastKnownBall.setAllyCapture(AllyCapture.newBuilder().setId(captureId).build());
+                case FOE_CAPTURE -> lastKnownBall.setFoeCapture(FoeCapture.newBuilder().setId(captureId).build());
+            }
             return lastKnownBall.build();
         }
 
@@ -196,7 +200,7 @@ public class FilterModule extends Module {
         float accY = (vy - lastBall.getVy()) / deltaSeconds;
         float accZ = (vz - lastBall.getAccZ()) / deltaSeconds;
 
-        Ball.Builder filteredBall = Ball.newBuilder();
+        Ball.Builder filteredBall = newBuilder();
         filteredBall.setTimestamp(timestamp);
         filteredBall.setConfidence(1f);
         filteredBall.setX(x);
@@ -208,6 +212,12 @@ public class FilterModule extends Module {
         filteredBall.setAccX(accX);
         filteredBall.setAccY(accY);
         filteredBall.setAccZ(accZ);
+
+        switch (captureStateCase) {
+            case FREE -> filteredBall.setFree(Free.newBuilder().build());
+            case ALLY_CAPTURE -> filteredBall.setAllyCapture(AllyCapture.newBuilder().setId(captureId).build());
+            case FOE_CAPTURE -> filteredBall.setFoeCapture(FoeCapture.newBuilder().setId(captureId).build());
+        }
 
         return filteredBall.build();
     }

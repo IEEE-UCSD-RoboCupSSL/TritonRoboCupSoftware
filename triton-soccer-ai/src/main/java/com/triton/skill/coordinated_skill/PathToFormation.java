@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.util.ProtobufUtils.getPos;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.Robot;
 
 public class PathToFormation extends Skill {
     private final HashMap<Vector2d, Float> positions;

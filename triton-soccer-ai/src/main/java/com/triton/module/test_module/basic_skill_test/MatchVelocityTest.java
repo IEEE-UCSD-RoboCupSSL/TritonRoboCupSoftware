@@ -17,8 +17,8 @@ import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
 import static com.triton.messaging.Exchange.AI_FILTERED_VISION_WRAPPER;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.util.ProtobufUtils.createTeleportRobot;
-import static proto.triton.ObjectWithMetadata.FilteredWrapperPacket;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.FilteredWrapperPacket;
+import static proto.triton.FilteredObject.Robot;
 
 public class MatchVelocityTest extends TestRunner {
     private FilteredWrapperPacket wrapper;

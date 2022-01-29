@@ -13,7 +13,7 @@ import java.util.*;
 import static com.triton.constant.ProgramConstants.aiConfig;
 import static com.triton.util.ObjectHelper.predictPos;
 import static com.triton.util.ProtobufUtils.getVel;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class PathfindGrid {

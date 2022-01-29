@@ -8,7 +8,6 @@ import com.triton.skill.individual_skill.ChaseBall;
 import com.triton.skill.individual_skill.GoalShoot;
 import com.triton.util.Vector2d;
 import proto.simulation.SslSimulationControl;
-import proto.triton.ObjectWithMetadata;
 
 import java.io.IOException;
 import java.util.Map;
@@ -17,15 +16,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.ProgramConstants.gameConfig;
-import static com.triton.messaging.Exchange.*;
+import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
+import static com.triton.messaging.Exchange.AI_FILTERED_VISION_WRAPPER;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.util.ObjectHelper.*;
 import static com.triton.util.ProtobufUtils.createTeleportBall;
 import static com.triton.util.ProtobufUtils.createTeleportRobot;
-import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
-import static proto.triton.ObjectWithMetadata.*;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.*;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class TandemGoalShootPrimaryTest extends TestRunner {
@@ -40,7 +37,7 @@ public class TandemGoalShootPrimaryTest extends TestRunner {
     @Override
     protected void setupTest() {
         SslSimulationControl.SimulatorControl.Builder simulatorControl = SslSimulationControl.SimulatorControl.newBuilder();
-        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.team, 1, 0, 2000, 0));
+        simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.team, 1, 0, 3500, 0));
         simulatorControl.addTeleportRobot(createTeleportRobot(ProgramConstants.foeTeam, 1, 0, 4000, 0));
         simulatorControl.setTeleportBall(createTeleportBall(0, 3000, 0));
         publish(AI_BIASED_SIMULATOR_CONTROL, simulatorControl.build());
@@ -69,7 +66,7 @@ public class TandemGoalShootPrimaryTest extends TestRunner {
         pathfindGridGroup.updateObstacles(allies, foes);
 
         if (allies.get(id).getHasBall()) {
-            Vector2d kickFrom = new Vector2d(0, 3000);
+            Vector2d kickFrom = new Vector2d(0, 3500);
             GoalShoot goalShoot = new GoalShoot(this, shooter, kickFrom, pathfindGridGroup, field, ball, allies, foes);
             submitSkill(goalShoot);
         } else if (!isMovingTowardTarget(ball, goalPos, 1000, (float) Math.toRadians(10))) {

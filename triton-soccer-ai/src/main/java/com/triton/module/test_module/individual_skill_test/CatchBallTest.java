@@ -6,7 +6,6 @@ import com.triton.module.TestRunner;
 import com.triton.search.implementation.PathfindGridGroup;
 import com.triton.skill.individual_skill.CatchBall;
 import proto.simulation.SslSimulationControl;
-import proto.triton.ObjectWithMetadata;
 
 import java.io.IOException;
 import java.util.Map;
@@ -19,9 +18,7 @@ import static com.triton.messaging.Exchange.AI_FILTERED_VISION_WRAPPER;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.util.ProtobufUtils.createTeleportBall;
 import static com.triton.util.ProtobufUtils.createTeleportRobot;
-import static proto.triton.ObjectWithMetadata.*;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.*;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class CatchBallTest extends TestRunner {

@@ -8,7 +8,6 @@ import com.triton.skill.individual_skill.ChaseBall;
 import com.triton.skill.individual_skill.KickFromPosition;
 import com.triton.skill.individual_skill.PathToTarget;
 import com.triton.util.Vector2d;
-import proto.triton.ObjectWithMetadata;
 
 import java.io.IOException;
 import java.util.Map;
@@ -17,10 +16,7 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.constant.ProgramConstants.aiConfig;
 import static com.triton.util.ObjectHelper.*;
 import static com.triton.util.ProtobufUtils.getPos;
-import static proto.simulation.SslSimulationRobotFeedback.RobotFeedback;
-import static proto.triton.ObjectWithMetadata.*;
-import static proto.triton.ObjectWithMetadata.Ball;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.*;
 
 public class Pass extends Skill {
     private final Robot passer;

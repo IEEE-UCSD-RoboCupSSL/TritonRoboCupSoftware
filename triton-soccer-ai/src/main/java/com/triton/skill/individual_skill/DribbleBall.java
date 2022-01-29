@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import static com.triton.constant.ProgramConstants.objectConfig;
-import static proto.triton.ObjectWithMetadata.Robot;
+import static proto.triton.FilteredObject.Robot;
 
 public class DribbleBall extends Skill {
     private final Robot actor;
