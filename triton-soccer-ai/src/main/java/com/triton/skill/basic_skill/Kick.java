@@ -1,6 +1,5 @@
 package com.triton.skill.basic_skill;
 
-import com.triton.constant.ProgramConstants;
 import com.triton.module.Module;
 import com.triton.skill.Skill;
 import proto.simulation.SslSimulationRobotControl;
@@ -8,7 +7,7 @@ import proto.simulation.SslSimulationRobotControl;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.constant.ProgramConstants.*;
+import static com.triton.constant.ProgramConstants.objectConfig;
 import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
 import static proto.triton.FilteredObject.Robot;
 

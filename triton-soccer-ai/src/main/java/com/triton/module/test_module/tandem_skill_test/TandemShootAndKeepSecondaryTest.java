@@ -13,8 +13,8 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
 import static com.triton.messaging.Exchange.AI_FILTERED_VISION_WRAPPER;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
-import static proto.triton.FilteredObject.*;
-import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
+import static proto.triton.FilteredObject.FilteredWrapperPacket;
+import static proto.triton.FilteredObject.Robot;
 
 public class TandemShootAndKeepSecondaryTest extends TestRunner {
     private FilteredWrapperPacket wrapper;

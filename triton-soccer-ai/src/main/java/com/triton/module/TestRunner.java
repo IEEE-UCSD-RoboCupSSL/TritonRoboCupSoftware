@@ -18,6 +18,15 @@ public abstract class TestRunner extends SkillRunner {
         scheduleSetupTest(delay, period, timeUnit);
     }
 
+    private void scheduleSetupTest(long delay, long period, TimeUnit timeUnit) {
+        this.delay = delay;
+        this.period = period;
+        this.timeUnit = timeUnit;
+        setupTestFuture = executor.scheduleAtFixedRate(this::setupTest, delay, period, timeUnit);
+    }
+
+    protected abstract void setupTest();
+
     @Override
     public void interrupt() {
         super.interrupt();
@@ -30,13 +39,4 @@ public abstract class TestRunner extends SkillRunner {
             setupTestFuture.cancel(false);
         scheduleSetupTest(delay, period, timeUnit);
     }
-
-    private void scheduleSetupTest(long delay, long period, TimeUnit timeUnit) {
-        this.delay = delay;
-        this.period = period;
-        this.timeUnit = timeUnit;
-        setupTestFuture = executor.scheduleAtFixedRate(this::setupTest, delay, period, timeUnit);
-    }
-
-    protected abstract void setupTest();
 }

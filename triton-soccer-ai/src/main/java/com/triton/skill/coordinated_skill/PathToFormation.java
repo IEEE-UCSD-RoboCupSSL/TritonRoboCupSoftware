@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.constant.ProgramConstants.*;
-import static com.triton.util.ObjectHelper.*;
+import static com.triton.constant.ProgramConstants.aiConfig;
+import static com.triton.util.ObjectHelper.isWithinDist;
 import static com.triton.util.ProtobufUtils.getPos;
-import static proto.triton.FilteredObject.*;
+import static proto.triton.FilteredObject.FilteredWrapperPacket;
 import static proto.triton.FilteredObject.Robot;
 
 public class PathToFormation extends Skill {

@@ -19,7 +19,8 @@ import static com.triton.messaging.Exchange.AI_FILTERED_VISION_WRAPPER;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.util.ProtobufUtils.createTeleportRobot;
 import static proto.simulation.SslSimulationControl.SimulatorControl;
-import static proto.triton.FilteredObject.*;
+import static proto.triton.FilteredObject.FilteredWrapperPacket;
+import static proto.triton.FilteredObject.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class PathToTargetTest extends TestRunner {

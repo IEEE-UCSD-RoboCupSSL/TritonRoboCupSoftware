@@ -3,7 +3,7 @@ package com.triton.search.implementation;
 import com.triton.search.base.Graph;
 import com.triton.search.base.RouteFinder;
 import com.triton.search.base.Scorer;
-import com.triton.search.node2d.Euclidean2dScorer;
+import com.triton.search.node2d.Euclidean2dWithPenaltyScorer;
 import com.triton.search.node2d.Node2d;
 import com.triton.util.Vector2d;
 import org.apache.commons.collections4.iterators.ReverseListIterator;
@@ -279,8 +279,8 @@ public class PathfindGrid {
      */
     public LinkedList<Node2d> findRoute(Vector2d fromPos, Vector2d toPos) {
         Graph<Node2d> graph = new Graph<>(new HashSet<>(nodeMap.values()), connections);
-        Scorer<Node2d> nextNodeScorer = new Euclidean2dScorer();
-        Scorer<Node2d> targetScorer = new Euclidean2dScorer();
+        Scorer<Node2d> nextNodeScorer = new Euclidean2dWithPenaltyScorer();
+        Scorer<Node2d> targetScorer = new Euclidean2dWithPenaltyScorer();
         RouteFinder<Node2d> routeFinder = new RouteFinder<>(graph, nextNodeScorer, targetScorer);
 
         Node2d from = getNearestNode(fromPos);

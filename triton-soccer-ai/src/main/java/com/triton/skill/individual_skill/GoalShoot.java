@@ -14,8 +14,7 @@ import java.util.concurrent.TimeoutException;
 import static com.triton.constant.ProgramConstants.aiConfig;
 import static com.triton.util.ObjectHelper.distToPath;
 import static com.triton.util.ProtobufUtils.getPos;
-import static proto.triton.FilteredObject.*;
-import static proto.triton.FilteredObject.Ball;
+import static proto.triton.FilteredObject.FilteredWrapperPacket;
 import static proto.triton.FilteredObject.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 

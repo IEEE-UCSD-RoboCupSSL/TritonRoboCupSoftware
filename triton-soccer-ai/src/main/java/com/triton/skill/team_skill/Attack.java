@@ -19,16 +19,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import static com.triton.constant.ProgramConstants.*;
-import static com.triton.constant.ProgramConstants.gameConfig;
+import static com.triton.constant.ProgramConstants.aiConfig;
 import static com.triton.util.ObjectHelper.*;
 import static com.triton.util.ProtobufUtils.getDribbleStartPos;
 import static com.triton.util.ProtobufUtils.getPos;
 import static proto.triton.FilteredObject.*;
 
 public class Attack extends Skill {
-    private PathfindGridGroup pathfindGridGroup;
-    private FilteredWrapperPacket wrapper;
+    private final PathfindGridGroup pathfindGridGroup;
+    private final FilteredWrapperPacket wrapper;
 
     public Attack(Module module, PathfindGridGroup pathfindGridGroup, FilteredWrapperPacket wrapper) {
         super(module);

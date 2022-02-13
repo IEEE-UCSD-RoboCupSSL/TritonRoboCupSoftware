@@ -19,7 +19,8 @@ import static com.triton.messaging.Exchange.AI_BIASED_SIMULATOR_CONTROL;
 import static com.triton.messaging.Exchange.AI_FILTERED_VISION_WRAPPER;
 import static com.triton.messaging.SimpleSerialize.simpleDeserialize;
 import static com.triton.util.ProtobufUtils.createTeleportBall;
-import static proto.triton.FilteredObject.*;
+import static proto.triton.FilteredObject.FilteredWrapperPacket;
+import static proto.triton.FilteredObject.Robot;
 import static proto.vision.MessagesRobocupSslGeometry.SSL_GeometryFieldSize;
 
 public class ChaseBallTest extends TestRunner {
