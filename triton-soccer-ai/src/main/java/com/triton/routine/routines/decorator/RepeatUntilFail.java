@@ -1,8 +1,8 @@
 package com.triton.routine.routines.decorator;
 
-import com.triton.module.ally_module.AllyModule;
 import com.triton.routine.base.Routine;
 import com.triton.routine.base.Context;
+import com.triton.routine.base.Runner;
 
 public class RepeatUntilFail extends Decorator {
     private int times;
@@ -23,7 +23,7 @@ public class RepeatUntilFail extends Decorator {
     }
 
     @Override
-    public void act(AllyModule allyModule, Context context) {
+    public void act(Runner runner, Context context) {
         if (routine.isFailure()) {
             succeed();
             return;
@@ -39,6 +39,6 @@ public class RepeatUntilFail extends Decorator {
             }
         }
         if (routine.isRunning())
-            routine.act(allyModule, context);
+            routine.act(runner, context);
     }
 }

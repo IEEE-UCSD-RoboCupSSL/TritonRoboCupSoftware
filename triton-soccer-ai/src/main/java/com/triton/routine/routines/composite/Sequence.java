@@ -1,8 +1,8 @@
 package com.triton.routine.routines.composite;
 
-import com.triton.module.ally_module.AllyModule;
-import com.triton.routine.base.Routine;
 import com.triton.routine.base.Context;
+import com.triton.routine.base.Routine;
+import com.triton.routine.base.Runner;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ public class Sequence extends Composite {
     }
 
     @Override
-    public void act(AllyModule allyModule, Context context) {
+    public void act(Runner runner, Context context) {
         for (Routine routine : routines) {
-            routine.act(allyModule, context);
+            routine.act(runner, context);
             if (routine.isFailure()) {
                 fail();
                 return;

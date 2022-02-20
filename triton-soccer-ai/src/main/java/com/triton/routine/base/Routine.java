@@ -1,7 +1,5 @@
 package com.triton.routine.base;
 
-import com.triton.module.ally_module.AllyModule;
-
 public abstract class Routine {
     protected RoutineState state;
 
@@ -14,7 +12,7 @@ public abstract class Routine {
 
     public abstract void reset();
 
-    public abstract void act(AllyModule allyModule, Context context);
+    public abstract void act(Runner runner, Context context);
 
     protected void succeed() {
         this.state = RoutineState.Success;
