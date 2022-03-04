@@ -7,7 +7,7 @@ import java.util.Stack;
 public class Context {
     private static final int SHARED = -1;
 
-    private Map<Integer, Map<StackId, Stack<Object>>> stacksMap;
+    private final Map<Integer, Map<StackId, Stack<Object>>> stacksMap;
 
     public Context() {
         stacksMap = new HashMap<>();

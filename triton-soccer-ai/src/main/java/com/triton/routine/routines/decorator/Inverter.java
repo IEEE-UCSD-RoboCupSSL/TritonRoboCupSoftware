@@ -11,6 +11,9 @@ public class Inverter extends Decorator {
 
     @Override
     public void act(Runner runner, Context context) {
+        if (routine.getState() == null)
+            routine.start();
+
         routine.act(runner, context);
         if (routine.isFailure())
             succeed();

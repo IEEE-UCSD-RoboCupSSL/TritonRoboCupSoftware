@@ -6,7 +6,7 @@ import com.triton.routine.base.Runner;
 import com.triton.routine.base.StackId;
 
 public class IsSharedEmpty extends Routine {
-    private StackId stackId;
+    private final StackId stackId;
 
     public IsSharedEmpty(StackId stackId) {
         super();

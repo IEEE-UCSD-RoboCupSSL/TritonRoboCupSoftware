@@ -1,13 +1,13 @@
 package com.triton.routine.routines.leaf.context_manipulation;
 
 import com.triton.routine.base.Context;
-import com.triton.routine.base.StackId;
 import com.triton.routine.base.Routine;
 import com.triton.routine.base.Runner;
+import com.triton.routine.base.StackId;
 
 public class PopFromStack extends Routine {
-    private StackId fromStack;
-    private StackId toVariable;
+    private final StackId fromStack;
+    private final StackId toVariable;
 
     public PopFromStack(StackId fromStack, StackId toVariable) {
         super();

@@ -6,7 +6,7 @@ import com.triton.routine.base.Runner;
 import com.triton.routine.base.StackId;
 
 public class IsEmpty extends Routine {
-    private StackId stackId;
+    private final StackId stackId;
 
     public IsEmpty(StackId stackId) {
         super();

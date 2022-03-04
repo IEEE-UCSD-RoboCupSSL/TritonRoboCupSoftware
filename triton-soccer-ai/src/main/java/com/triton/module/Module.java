@@ -28,7 +28,6 @@ public abstract class Module extends Thread {
         try {
             setupChannel();
             prepare();
-            declarePublishes();
             declareConsumes();
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
@@ -48,19 +47,7 @@ public abstract class Module extends Thread {
 
     protected abstract void prepare();
 
-    protected abstract void declarePublishes() throws IOException, TimeoutException;
-
     protected abstract void declareConsumes() throws IOException, TimeoutException;
-
-    /**
-     * Declares an exchange to publish to
-     *
-     * @param exchange the exchange
-     * @throws IOException
-     */
-    public void declarePublish(Exchange exchange) throws IOException, TimeoutException {
-        publish_channel.exchangeDeclare(exchange.name() + ProgramConstants.team.name(), FANOUT);
-    }
 
     /**
      * Declares an exchange to consume from. The messageConsumer function will be called when an message is received
@@ -114,12 +101,21 @@ public abstract class Module extends Thread {
         AMQP.BasicProperties properties = new AMQP.BasicProperties.Builder().timestamp(date).build();
         if (publish_channel.isOpen()) {
             try {
+                declarePublish(exchange);
                 publish_channel.basicPublish(exchange.name() + ProgramConstants.team.name(), "", properties, simpleSerialize(object));
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (AlreadyClosedException ignored) {
+            } catch (IOException | AlreadyClosedException ignored) {
             }
         }
+    }
+
+    /**
+     * Declares an exchange to publish to
+     *
+     * @param exchange the exchange
+     * @throws IOException
+     */
+    public void declarePublish(Exchange exchange) throws IOException {
+        publish_channel.exchangeDeclare(exchange.name() + ProgramConstants.team.name(), FANOUT);
     }
 
     @Override

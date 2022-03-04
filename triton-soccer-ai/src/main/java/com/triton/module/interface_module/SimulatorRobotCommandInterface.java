@@ -42,10 +42,6 @@ public class SimulatorRobotCommandInterface extends Module {
     }
 
     @Override
-    protected void declarePublishes() throws IOException, TimeoutException {
-    }
-
-    @Override
     protected void declareConsumes() throws IOException, TimeoutException {
         declareConsume(AI_ROBOT_COMMAND, this::callbackRobotCommand);
     }

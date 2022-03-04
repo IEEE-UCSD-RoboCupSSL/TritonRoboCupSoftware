@@ -95,10 +95,6 @@ public class UserInterface extends Module {
     }
 
     @Override
-    protected void declarePublishes() throws IOException, TimeoutException {
-    }
-
-    @Override
     protected void declareConsumes() throws IOException, TimeoutException {
         declareConsume(AI_FILTERED_VISION_WRAPPER, this::callbackWrapper);
         declareConsume(AI_DEBUG, this::callbackDebug);

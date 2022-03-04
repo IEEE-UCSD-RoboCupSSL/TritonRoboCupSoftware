@@ -1,12 +1,12 @@
 package com.triton.routine.routines.decorator;
 
-import com.triton.routine.base.Routine;
 import com.triton.routine.base.Context;
+import com.triton.routine.base.Routine;
 import com.triton.routine.base.Runner;
 
 public class RepeatUntilFail extends Decorator {
+    private final int originalTimes;
     private int times;
-    private int originalTimes;
 
     public RepeatUntilFail(Routine routine) {
         super(routine);
@@ -24,6 +24,9 @@ public class RepeatUntilFail extends Decorator {
 
     @Override
     public void act(Runner runner, Context context) {
+        if (routine.getState() == null)
+            routine.start();
+
         if (routine.isFailure()) {
             succeed();
             return;

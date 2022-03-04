@@ -1,13 +1,14 @@
 package com.triton.routine.routines.leaf.action;
 
-import com.triton.routine.base.Routine;
 import com.triton.routine.base.Context;
+import com.triton.routine.base.Routine;
 import com.triton.routine.base.Runner;
 import com.triton.util.Vector2d;
 import proto.simulation.SslSimulationRobotControl;
 
 import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
-import static com.triton.routine.base.StackId.*;
+import static com.triton.routine.base.StackId.TARGET_ANGULAR;
+import static com.triton.routine.base.StackId.TARGET_VEL;
 
 public class MatchVelocity extends Routine {
     public MatchVelocity() {
@@ -34,6 +35,7 @@ public class MatchVelocity extends Routine {
 
         moveCommand.setGlobalVelocity(globalVelocity);
         robotCommand.setMoveCommand(moveCommand);
+
         runner.publish(AI_BIASED_ROBOT_COMMAND, robotCommand.build());
     }
 }

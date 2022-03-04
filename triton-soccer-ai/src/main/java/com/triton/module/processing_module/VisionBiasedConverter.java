@@ -32,11 +32,6 @@ public class VisionBiasedConverter extends Module {
     }
 
     @Override
-    protected void declarePublishes() throws IOException, TimeoutException {
-        declarePublish(AI_BIASED_VISION_WRAPPER);
-    }
-
-    @Override
     protected void declareConsumes() throws IOException, TimeoutException {
         declareConsume(AI_VISION_WRAPPER, this::callbackWrapper);
     }

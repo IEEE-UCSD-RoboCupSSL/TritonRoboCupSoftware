@@ -6,8 +6,8 @@ import com.triton.routine.base.Runner;
 import com.triton.routine.base.StackId;
 
 public class PopFromSharedStack extends Routine {
-    private StackId fromStack;
-    private StackId toVariable;
+    private final StackId fromStack;
+    private final StackId toVariable;
 
     public PopFromSharedStack(StackId fromStack, StackId toVariable) {
         super();

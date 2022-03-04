@@ -45,11 +45,6 @@ public class TritonBotMessageInterface extends Module {
     }
 
     @Override
-    protected void declarePublishes() throws IOException, TimeoutException {
-        declarePublish(AI_ROBOT_FEEDBACKS);
-    }
-
-    @Override
     protected void declareConsumes() throws IOException, TimeoutException {
         declareConsume(AI_TRITON_BOT_MESSAGE, this::callbackTritonBotMessage);
     }

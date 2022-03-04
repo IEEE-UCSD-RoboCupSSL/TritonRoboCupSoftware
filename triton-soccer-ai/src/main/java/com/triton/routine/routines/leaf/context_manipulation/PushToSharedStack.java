@@ -6,8 +6,8 @@ import com.triton.routine.base.Runner;
 import com.triton.routine.base.StackId;
 
 public class PushToSharedStack extends Routine {
-    private StackId fromVariable;
-    private StackId toStack;
+    private final StackId fromVariable;
+    private final StackId toStack;
 
     public PushToSharedStack(StackId fromVariable, StackId toStack) {
         super();

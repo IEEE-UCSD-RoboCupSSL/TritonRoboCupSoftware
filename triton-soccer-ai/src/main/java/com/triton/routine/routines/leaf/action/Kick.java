@@ -7,7 +7,7 @@ import proto.simulation.SslSimulationRobotControl;
 
 import static com.triton.constant.ProgramConstants.objectConfig;
 import static com.triton.messaging.Exchange.AI_BIASED_ROBOT_COMMAND;
-import static com.triton.routine.base.StackId.*;
+import static com.triton.routine.base.StackId.KICK_SPEED;
 
 public class Kick extends Routine {
     public Kick() {

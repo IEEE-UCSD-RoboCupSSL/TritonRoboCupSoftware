@@ -1,15 +1,15 @@
 package com.triton.constant;
 
 import com.triton.module.TestRunner;
-import com.triton.module.test_module.basic_skill_test.DribbleTest;
-import com.triton.module.test_module.basic_skill_test.KickTest;
-import com.triton.module.test_module.basic_skill_test.MatchVelocityTest;
-import com.triton.module.test_module.coordinated_skill_test.PassTest;
-import com.triton.module.test_module.coordinated_skill_test.PathToFormationTest;
-import com.triton.module.test_module.individual_skill_test.*;
-import com.triton.module.test_module.tandem_skill_test.TandemAttackAndDefendPrimaryTest;
-import com.triton.module.test_module.tandem_skill_test.TandemShootAndKeepPrimaryTest;
-import com.triton.module.test_module.tandem_skill_test.TandemShootAndKeepSecondaryTest;
+import com.triton.module.old_test_module.basic_skill_test.DribbleTest;
+import com.triton.module.old_test_module.basic_skill_test.KickTest;
+import com.triton.module.old_test_module.basic_skill_test.MatchVelocityTest;
+import com.triton.module.old_test_module.coordinated_skill_test.PassTest;
+import com.triton.module.old_test_module.coordinated_skill_test.PathToFormationTest;
+import com.triton.module.old_test_module.individual_skill_test.*;
+import com.triton.module.old_test_module.tandem_skill_test.TandemAttackAndDefendPrimaryTest;
+import com.triton.module.old_test_module.tandem_skill_test.TandemShootAndKeepPrimaryTest;
+import com.triton.module.old_test_module.tandem_skill_test.TandemShootAndKeepSecondaryTest;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ScheduledThreadPoolExecutor;

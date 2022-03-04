@@ -6,8 +6,8 @@ import com.triton.routine.base.Runner;
 import com.triton.routine.base.StackId;
 
 public class SetSharedVariable extends Routine {
-    private StackId stackId;
-    private Object object;
+    private final StackId stackId;
+    private final Object object;
 
     public SetSharedVariable(StackId stackId, Object object) {
         super();

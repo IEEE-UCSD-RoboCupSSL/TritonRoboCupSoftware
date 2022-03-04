@@ -5,8 +5,8 @@ import com.triton.routine.base.Routine;
 import com.triton.routine.base.Runner;
 
 public class Repeater extends Decorator {
+    private final int originalTimes;
     private int times;
-    private int originalTimes;
 
     public Repeater(Routine routine) {
         super(routine);
@@ -29,6 +29,9 @@ public class Repeater extends Decorator {
 
     @Override
     public void act(Runner runner, Context context) {
+        if (routine.getState() == null)
+            routine.start();
+
         if (routine.isFailure()) {
             fail();
         } else if (routine.isSuccess()) {

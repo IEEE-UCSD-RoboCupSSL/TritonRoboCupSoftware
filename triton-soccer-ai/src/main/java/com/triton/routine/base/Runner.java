@@ -4,8 +4,8 @@ import com.triton.messaging.Exchange;
 import com.triton.module.Module;
 
 public class Runner extends Thread {
-    private Module module;
-    private int id;
+    private final Module module;
+    private final int id;
 
     private Routine routine;
     private Context context;
@@ -22,7 +22,13 @@ public class Runner extends Thread {
         super.run();
         if (routine.getState() == null)
             routine.start();
-        routine.act(this, context);
+        while (!isInterrupted()) {
+            try {
+                routine.act(this, context);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public int getAllyId() {

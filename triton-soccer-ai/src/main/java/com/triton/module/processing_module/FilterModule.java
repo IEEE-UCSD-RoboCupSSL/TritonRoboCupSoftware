@@ -106,11 +106,6 @@ public class FilterModule extends Module {
     }
 
     @Override
-    protected void declarePublishes() throws IOException, TimeoutException {
-        declarePublish(AI_FILTERED_VISION_WRAPPER);
-    }
-
-    @Override
     protected void declareConsumes() throws IOException, TimeoutException {
         declareConsume(AI_BIASED_VISION_WRAPPER, this::callbackWrapper);
         declareConsume(AI_ROBOT_FEEDBACKS, this::callbackFeedbacks);

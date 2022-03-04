@@ -30,11 +30,6 @@ public class CameraInterface extends Module {
     }
 
     @Override
-    protected void declarePublishes() throws IOException, TimeoutException {
-        declarePublish(AI_VISION_WRAPPER);
-    }
-
-    @Override
     protected void declareConsumes() throws IOException, TimeoutException {
     }
 

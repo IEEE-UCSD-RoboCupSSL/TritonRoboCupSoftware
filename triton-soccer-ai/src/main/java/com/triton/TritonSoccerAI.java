@@ -1,11 +1,11 @@
 package com.triton;
 
 import com.triton.config.*;
+import com.triton.constant.AITest;
 import com.triton.constant.ProgramConstants;
 import com.triton.constant.Team;
-import com.triton.constant.Test;
 import com.triton.module.Module;
-import com.triton.module.TestRunner;
+import com.triton.module.TestModule;
 import com.triton.module.ai_module.AIModule;
 import com.triton.module.interface_module.CameraInterface;
 import com.triton.module.interface_module.SimulatorCommandInterface;
@@ -42,9 +42,12 @@ public class TritonSoccerAI {
         loadConfigs();
 
         TritonSoccerAI tritonSoccerAI = new TritonSoccerAI();
-        tritonSoccerAI.startModules();
-        if (ProgramConstants.test)
+        tritonSoccerAI.startSupportModules();
+        if (ProgramConstants.test) {
             tritonSoccerAI.runTests();
+        } else {
+            tritonSoccerAI.startAI();
+        }
     }
 
     private static boolean parseArgs(String[] args) {
@@ -97,43 +100,47 @@ public class TritonSoccerAI {
         ProgramConstants.objectConfig = (ObjectConfig) readConfig(OBJECT_CONFIG);
     }
 
-    public void startModules() {
+    public void startSupportModules() {
         startProcessingModules();
-        startAI();
         startInterfaceModules();
     }
 
     private void runTests() {
-        List<Module> testRunners = new ArrayList<>();
+        List<Module> testModules = new ArrayList<>();
         List<Future<?>> testFutures = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.println("Available tests:");
-            for (Test test : Test.values())
+            for (AITest test : AITest.values())
                 System.out.println("- " + test.ordinal() + ". " + test.name() + ":\n\t" + test.getDesc());
 
             System.out.print("Choose a test:\t");
-            Test test = parseTest(scanner.nextLine());
+            AITest test = parseTest(scanner.nextLine());
 
             if (test == null) {
                 System.out.println("Test not found. Try again.");
                 continue;
             }
 
-            TestRunner testRunner = test.createNewTestRunner(executor);
-            startModule(testRunner, testRunners, testFutures);
+            TestModule testModule = test.createNewTestModule(executor);
+            startModule(testModule, testModules, testFutures);
 
-            while (!testRunners.isEmpty()) {
+            while (!testModules.isEmpty()) {
                 System.out.print("Running test, type 'q' to stop:\t");
                 if (scanner.nextLine().equals("q")) {
                     testFutures.forEach(testFuture -> testFuture.cancel(false));
-                    testRunners.forEach(Module::interrupt);
-                    testRunners.clear();
+                    testModules.forEach(Module::interrupt);
+                    testModules.clear();
                     testFutures.clear();
                 }
             }
         }
+    }
+
+    public void startAI() {
+        // core ai modules
+        startModule(new AIModule(executor), modules, futures);
     }
 
     public void startProcessingModules() {
@@ -144,11 +151,6 @@ public class TritonSoccerAI {
         startModule(new TritonBotMessageBuilder(executor), modules, futures);
     }
 
-    public void startAI() {
-        // core ai modules
-        startModule(new AIModule(executor), modules, futures);
-    }
-
     public void startInterfaceModules() {
         startModule(new CameraInterface(executor), modules, futures);
         startModule(new SimulatorCommandInterface(executor), modules, futures);
@@ -157,8 +159,8 @@ public class TritonSoccerAI {
         startModule(new UserInterface(executor), modules, futures);
     }
 
-    private Test parseTest(String line) {
-        for (Test test : Test.values())
+    private AITest parseTest(String line) {
+        for (AITest test : AITest.values())
             if (line.equals(test.name()) || line.equals(String.valueOf(test.ordinal())))
                 return test;
         return null;

@@ -1,13 +1,13 @@
 package com.triton.routine.routines.leaf.context_manipulation;
 
 import com.triton.routine.base.Context;
-import com.triton.routine.base.StackId;
 import com.triton.routine.base.Routine;
 import com.triton.routine.base.Runner;
+import com.triton.routine.base.StackId;
 
 public class PushToStack extends Routine {
-    private StackId fromVariable;
-    private StackId toStack;
+    private final StackId fromVariable;
+    private final StackId toStack;
 
     public PushToStack(StackId fromVariable, StackId toStack) {
         super();
